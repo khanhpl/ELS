@@ -1,0 +1,1 @@
+class ManageWorkNews1Model {}
