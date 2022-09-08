@@ -1,1 +1,0 @@
-class Bookings2Model {}

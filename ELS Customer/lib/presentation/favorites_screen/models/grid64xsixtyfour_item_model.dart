@@ -1,1 +1,0 @@
-class Grid64xsixtyfourItemModel {}
