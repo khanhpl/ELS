@@ -1,1 +1,0 @@
-class List45xfortyfiveItemModel {}

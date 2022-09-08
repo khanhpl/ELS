@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/els_cus/els_cus.iml" filepath="$PROJECT_DIR$/els_cus/els_cus.iml" />
+      <module fileurl="file://$PROJECT_DIR$/els_cus/android/els_cus_android.iml" filepath="$PROJECT_DIR$/els_cus/android/els_cus_android.iml" />
+    </modules>
+  </component>
+</project>

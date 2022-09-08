@@ -1,1 +1,0 @@
-class Banner01ItemModel {}
