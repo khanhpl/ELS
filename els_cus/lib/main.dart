@@ -1,8 +1,5 @@
 import 'package:els_cus/resources/screens/login_screen/login_screen.dart';
-import 'package:els_cus/resources/screens/onboarding_screen/widgets/onboarding_bottomsheet.dart';
-import 'package:els_cus/resources/screens/onboarding_screen/onboarding_screen.dart';
 import 'package:els_cus/resources/screens/splash_screen/navigation_screen.dart';
-import 'package:els_cus/resources/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
