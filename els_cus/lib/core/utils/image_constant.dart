@@ -29,7 +29,7 @@ class ImageConstant {
 
   static String imgClose = 'assets/images/img_close.svg';
 
-  static String imgLock = 'assets/images/img_lock.svg';
+  static String imgLock = 'assets/images/img_lock.png';
 
   static String imgLogovisaGray700 = 'assets/images/img_logovisa_gray_700.svg';
 
@@ -41,6 +41,8 @@ class ImageConstant {
 
   static String imgFacebook = 'assets/images/img_facebook.svg';
 
+  static String imgGoogle = 'assets/images/ggicon2.png';
+
   static String imgReply = 'assets/images/img_reply.svg';
 
   static String imgRoute = 'assets/images/img_route.svg';
@@ -51,7 +53,7 @@ class ImageConstant {
 
   static String imgPlus24X24 = 'assets/images/img_plus_24X24.svg';
 
-  static String imgUser = 'assets/images/img_user.svg';
+  static String imgUser = 'assets/images/img_user.png';
 
   static String imgIconyoutube = 'assets/images/img_iconyoutube.svg';
 
@@ -110,7 +112,7 @@ class ImageConstant {
 
   static String imgCall = 'assets/images/img_call.svg';
 
-  static String imgLocation = 'assets/images/img_location.svg';
+  static String imgLocation = 'assets/images/img_location.png';
 
   static String imgCamera = 'assets/images/img_camera.svg';
 
@@ -128,7 +130,6 @@ class ImageConstant {
 
   static String imgCall40X40 = 'assets/images/img_call_40X40.svg';
 
-  static String imgGoogle = 'assets/images/img_google.svg';
 
   static String imgTicket = 'assets/images/img_ticket.svg';
 

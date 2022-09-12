@@ -1,6 +1,6 @@
-import 'package:els_cus/core/utils/math_utils.dart';
-import 'package:els_cus/resources/screens/onboarding_screen/widgets/onboarding_bottomsheet.dart';
-import 'package:els_cus/resources/screens/onboarding_screen/widgets/render_boarding_button.dart';
+
+import 'package:els_cus_mobile/presentation/onboarding_screen/widgets/onboarding_bottomsheet.dart';
+import 'package:els_cus_mobile/presentation/onboarding_screen/widgets/render_boarding_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';

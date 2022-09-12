@@ -1,5 +1,7 @@
-import 'package:els_cus/resources/screens/login_screen/login_screen.dart';
-import 'package:els_cus/resources/screens/splash_screen/navigation_screen.dart';
+
+import 'package:els_cus_mobile/presentation/login_screen/login_screen.dart';
+import 'package:els_cus_mobile/presentation/onboarding_screen/onboarding_screen.dart';
+import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        // '/': (context) => OnboardingScreen(),
-        '/': (context) => NavigationScreen(),
+        '/': (context) =>  OnboardingScreen(),
+        '/splashScreen': (context) => const SplashScreen(),
         '/loginScreen': (context) => LoginScreen(),
       },
     );

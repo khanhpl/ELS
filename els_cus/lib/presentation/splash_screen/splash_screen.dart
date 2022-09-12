@@ -1,13 +1,13 @@
 
-import 'package:els_cus/core/utils/color_constant.dart';
-import 'package:els_cus/core/utils/image_constant.dart';
-import 'package:els_cus/core/utils/math_utils.dart';
-import 'package:els_cus/resources/widgets/common_image_view.dart';
+import 'package:els_cus_mobile/core/utils/color_constant.dart';
+import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatelessWidget {
+  const SplashScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
@@ -23,13 +23,7 @@ class SplashScreen extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      // height: getVerticalSize(
-                      //   812.00,
-                      // ),
                       height: size.height,
-                      // width: getHorizontalSize(
-                      //   375.00,
-                      // ),
                       width: size.width,
                       decoration: BoxDecoration(
                         color: ColorConstant.purple900,
@@ -40,11 +34,11 @@ class SplashScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.centerRight,
                             child: Padding(
-                              padding: getPadding(
-                                left: 61,
-                                top: 20,
-                                right: 61,
-                                bottom: 20,
+                              padding:const EdgeInsets.fromLTRB(
+                                61.0,
+                                20.0,
+                                61.0,
+                                20.0,
                               ),
                               child: Text(
                                 "ElderlySitter",
@@ -52,9 +46,7 @@ class SplashScreen extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: ColorConstant.whiteA700,
-                                  fontSize: getFontSize(
-                                    36,
-                                  ),
+                                  fontSize: 30,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w700,
                                   height: 1.00,
@@ -65,20 +57,15 @@ class SplashScreen extends StatelessWidget {
                           Align(
                             alignment: Alignment.topLeft,
                             child: Padding(
-                              padding: getPadding(
-                                left: 50,
-                                top: 328,
-                                right: 50,
-                                bottom: 328,
+                              padding: const EdgeInsets.fromLTRB(
+                                50,
+                                328,
+                                50,
+                                328,
                               ),
-                              child: CommonImageView(
-                                svgPath: ImageConstant.imgLocation,
-                                height: getVerticalSize(
-                                  82.00,
-                                ),
-                                width: getHorizontalSize(
-                                  76.00,
-                                ),
+                              child: Image.asset(ImageConstant.imgLocation,
+                                width: size.width*0.25,
+                                height: size.height*0.11,
                               ),
                             ),
                           ),
