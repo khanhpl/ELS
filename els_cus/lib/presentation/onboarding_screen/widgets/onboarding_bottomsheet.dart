@@ -1,7 +1,5 @@
-import 'package:els_cus/core/utils/color_constant.dart';
-import 'package:els_cus/core/utils/image_constant.dart';
-import 'package:els_cus/core/utils/math_utils.dart';
-import 'package:els_cus/resources/widgets/common_image_view.dart';
+import 'package:els_cus_mobile/core/utils/color_constant.dart';
+import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
@@ -11,6 +9,7 @@ class OnboardingBottomsheet extends StatelessWidget {
   OnboardingBottomsheet({required this.title, required this.description});
   @override
   Widget build(BuildContext context) {
+    var _size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -22,7 +21,7 @@ class OnboardingBottomsheet extends StatelessWidget {
               alignment: Alignment.centerLeft,
               child: Container(
                 width: double.infinity,
-                height: size.height,
+                height: _size.height,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment(
@@ -56,10 +55,9 @@ class OnboardingBottomsheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CommonImageView(
-                          svgPath: ImageConstant.imgLocation,
-                          height: 50,
+                        Image.asset(ImageConstant.imgLocation,
                           width: 50,
+                          height: 50,
                         ),
                         Text(
                           "ElderlySitter",
@@ -67,9 +65,7 @@ class OnboardingBottomsheet extends StatelessWidget {
                           textAlign: TextAlign.end,
                           style: TextStyle(
                             color: ColorConstant.whiteA700,
-                            fontSize: getFontSize(
-                              30,
-                            ),
+                            fontSize: 30,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w700,
                             height: 1.00,
@@ -77,20 +73,16 @@ class OnboardingBottomsheet extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: size.height*0.1),
+                    SizedBox(height: _size.height*0.1),
                     Container(
-                      width: getHorizontalSize(
-                        296.00,
-                      ),
+                      width: _size.width,
                       child: Text(
                         title,
                         maxLines: null,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: ColorConstant.whiteA700,
-                          fontSize: getFontSize(
-                            40,
-                          ),
+                          fontSize: 30,
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w700,
                         ),
@@ -99,23 +91,15 @@ class OnboardingBottomsheet extends StatelessWidget {
                     Align(
                       alignment: Alignment.center,
                       child: Container(
-                        width: getHorizontalSize(
-                          292.00,
-                        ),
-                        margin: getMargin(
-                          left: 3,
-                          top: 21,
-                          right: 1,
-                        ),
+                        width: _size.width,
+                        margin: EdgeInsets.fromLTRB(3, 21, 1, 0),
                         child: Text(
                           description,
                           maxLines: null,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: ColorConstant.whiteA700,
-                            fontSize: getFontSize(
-                              17,
-                            ),
+                            fontSize: 17,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w400,
                             height: 1.29,
@@ -123,16 +107,14 @@ class OnboardingBottomsheet extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: size.height*0.3),
+                    SizedBox(height: _size.height*0.3),
                     Text(
                       "Bằng cách tham gia, bạn đã đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư của chúng tôi",
                       maxLines: null,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: ColorConstant.gray400,
-                        fontSize: getFontSize(
-                          13,
-                        ),
+                        fontSize: 13,
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w400,
                         height: 1.38,

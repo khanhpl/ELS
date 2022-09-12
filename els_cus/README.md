@@ -1,4 +1,4 @@
-# els_cus
+# els_cus_mobile
 
 A new Flutter project.
 
