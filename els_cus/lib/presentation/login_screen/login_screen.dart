@@ -124,7 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextField(
                           style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                           decoration: InputDecoration(
-                              hintText: "Số điện thoại/Email",
+                              hintText: "Email",
                               prefixIcon: SizedBox(
                                   width: size.width * 0.05,
                                   child: Image.asset(ImageConstant.imgUser)),
@@ -203,16 +203,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             top: size.height * 0.03,
                             right: size.width * 0.05,
                           ),
-                          child: Text(
-                            "Quên mật khẩu?",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: size.width * 0.045,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.pushNamed(context, '/forgotPasswordScreen');
+                            },
+                            child: Text(
+                              "Quên mật khẩu?",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: ColorConstant.black900,
+                                fontSize: size.width * 0.045,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),
@@ -293,11 +297,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           top: size.height*0.03,
                           right: size.width*0.05,
                         ),
-                        child: RichText(
-                          text: TextSpan(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextSpan(
-                                text: 'Không có tài khoản? ',
+                              Text(
+                                'Không có tài khoản? ',
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
                                   fontSize: size.width*0.045,
@@ -305,28 +309,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              TextSpan(
-                                text: 'Đăng ký',
-                                style: TextStyle(
-                                  color: ColorConstant.gray700,
-                                  fontSize: size.width*0.045,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextSpan(
-                                text: ' ',
-                                style: TextStyle(
-                                  color: ColorConstant.gray700,
-                                  fontSize: size.width*0.045,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.00,
+                              GestureDetector(
+                                onTap: (){
+                                  Navigator.pushNamed(context, '/signUpScreen');
+                              },
+                                child: Text(
+                                  'Đăng ký',
+                                  style: TextStyle(
+                                    color: ColorConstant.gray700,
+                                    fontSize: size.width*0.045,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ],
-                          ),
-                          textAlign: TextAlign.left,
+
                         ),
                       ),
                     ],
