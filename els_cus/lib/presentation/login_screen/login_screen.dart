@@ -69,10 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 32,
-                                          top: 77,
-                                          right: 32,
+                                        padding: EdgeInsets.only(
+                                          left: size.width * 0.08,
+                                          top: size.height*0.1,
+                                          right: size.width *0.08,
                                         ),
                                         child: Text(
                                           "Chào mừng",
@@ -80,18 +80,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: ColorConstant.whiteA700,
-                                            fontSize: 40,
+                                            fontSize: size.width * 0.1,
                                             fontFamily: 'Roboto',
                                             fontWeight: FontWeight.w700,
                                           ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.only(
-                                          left: 32,
-                                          top: 65,
-                                          right: 32,
-                                          bottom: 37,
+                                        padding: EdgeInsets.only(
+                                          left: size.width * 0.08,
+                                          top: size.height*0.05,
+                                          right: size.width * 0.08,
+                                          bottom: size.height*0.05,
                                         ),
                                         child: Text(
                                           "Đăng nhập để tiếp tục",
@@ -99,10 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: ColorConstant.whiteA700,
-                                            fontSize: 17,
+                                            fontSize: size.width * 0.045,
                                             fontFamily: 'Roboto',
                                             fontWeight: FontWeight.w400,
-                                            height: 1.00,
                                           ),
                                         ),
                                       ),
@@ -123,11 +122,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           right: size.width * 0.05,
                         ),
                         child: TextField(
-                          style: const TextStyle(fontSize: 16, color: Colors.black),
+                          style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                           decoration: InputDecoration(
                               hintText: "Số điện thoại/Email",
                               prefixIcon: SizedBox(
-                                  width: 50,
+                                  width: size.width * 0.05,
                                   child: Image.asset(ImageConstant.imgUser)),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -145,8 +144,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           alignment: AlignmentDirectional.centerEnd,
                           children: [
                             TextField(
-                              style: const TextStyle(
-                                fontSize: 16,
+                              style: TextStyle(
+                                fontSize: size.width * 0.04,
                                 color: Colors.black,
                               ),
                               obscureText: !_showPass,
@@ -154,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   errorText: null,
                                   hintText: "Mật Khẩu",
                                   prefixIcon: SizedBox(
-                                      width: 50,
+                                      width: size.width * 0.05,
                                       child: Image.asset(ImageConstant.imgLock)),
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -172,9 +171,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 },
                                 child: Text(
                                   _showPass ? "Ẩn" : "Hiện",
-                                  style: const TextStyle(
-                                    color: Color(0xff512678),
-                                    fontSize: 15,
+                                  style: TextStyle(
+                                    color: const Color(0xff512678),
+                                    fontSize: size.width * 0.04,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -187,10 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         height: 1,
                         width: size.width,
-                        margin: const EdgeInsets.only(
-                          left: 28,
+                        margin: EdgeInsets.only(
+                          left: size.width * 0.04,
                           top: 0,
-                          right: 28,
+                          right: size.width * 0.04,
                         ),
                         decoration: BoxDecoration(
                           color: ColorConstant.bluegray50,
@@ -199,10 +198,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 42,
-                            top: 24,
-                            right: 42,
+                          padding: EdgeInsets.only(
+                            left: size.width * 0.05,
+                            top: size.height * 0.03,
+                            right: size.width * 0.05,
                           ),
                           child: Text(
                             "Quên mật khẩu?",
@@ -210,7 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: ColorConstant.black900,
-                              fontSize: 17,
+                              fontSize: size.width * 0.045,
                               fontFamily: 'Roboto',
                               fontWeight: FontWeight.w400,
                               height: 1.00,
@@ -219,19 +218,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(
-                          left: 28,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.05,
                           top: 29,
-                          right: 28,
+                          right: size.width * 0.05,
                         ),
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/splashScreen');
+                            },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
-                              textStyle: const TextStyle(
-                                fontSize: 17,
+                              textStyle: TextStyle(
+                                fontSize: size.width * 0.045,
                               ),
                             ),
                             child: const Text("Đăng nhập"),
@@ -241,9 +242,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          left: 28,
-                          top: 27,
-                          right: 28,
+                          left: size.width * 0.05,
+                          top: size.height*0.03,
+                          right: size.width * 0.05,
                           bottom: size.height*0.03,
                         ),
                         child: Text(
@@ -252,10 +253,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: ColorConstant.gray700,
-                            fontSize: 17,
+                            fontSize: size.width * 0.045,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w400,
-                            height: 1.00,
                           ),
                         ),
                       ),
@@ -283,14 +283,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           onPressed: () {
+
                           },
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(
-                          left: 28,
+                          left: size.width*0.05,
                           top: size.height*0.03,
-                          right: 28,
+                          right: size.width*0.05,
                         ),
                         child: RichText(
                           text: TextSpan(
@@ -299,27 +300,25 @@ class _LoginScreenState extends State<LoginScreen> {
                                 text: 'Không có tài khoản? ',
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
-                                  fontSize: 17,
+                                  fontSize: size.width*0.045,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w400,
-                                  height: 1.00,
                                 ),
                               ),
                               TextSpan(
                                 text: 'Đăng ký',
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
-                                  fontSize: 17,
+                                  fontSize: size.width*0.045,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w700,
-                                  height: 1.00,
                                 ),
                               ),
                               TextSpan(
                                 text: ' ',
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
-                                  fontSize: 17,
+                                  fontSize: size.width*0.045,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w400,
                                   height: 1.00,
