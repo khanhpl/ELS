@@ -11,70 +11,67 @@ class SplashScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
-        body: Container(
+        body: SizedBox(
           width: size.width,
           child: SingleChildScrollView(
-            child: Container(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      height: size.height,
-                      width: size.width,
-                      decoration: BoxDecoration(
-                        color: ColorConstant.purple900,
-                      ),
-                      child: Stack(
-                        alignment: Alignment.topLeft,
-                        children: [
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding:const EdgeInsets.fromLTRB(
-                                61.0,
-                                20.0,
-                                61.0,
-                                20.0,
-                              ),
-                              child: Text(
-                                "ElderlySitter",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: ColorConstant.whiteA700,
-                                  fontSize: 30,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.00,
-                                ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    height: size.height,
+                    width: size.width,
+                    decoration: BoxDecoration(
+                      color: ColorConstant.purple900,
+                    ),
+                    child: Stack(
+                      alignment: Alignment.topLeft,
+                      children: [
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding:EdgeInsets.fromLTRB(
+                              0,
+                              size.height*0.003,
+                              size.width*0.18,
+                              size.width*0.035,
+                            ),
+                            child: Text(
+                              "ElderlySitter",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: ColorConstant.whiteA700,
+                                fontSize: size.width*0.08,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                50,
-                                328,
-                                50,
-                                328,
-                              ),
-                              child: Image.asset(ImageConstant.imgLocation,
-                                width: size.width*0.25,
-                                height: size.height*0.11,
-                              ),
+                        ),
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              size.width*0.2,
+                              size.height*0.4,
+                              0,
+                              size.height*0.2,
+                            ),
+                            child: Image.asset(ImageConstant.imgLocation,
+                              width: size.width*0.25,
+                              height: size.height*0.11,
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
