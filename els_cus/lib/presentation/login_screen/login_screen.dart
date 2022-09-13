@@ -203,16 +203,20 @@ class _LoginScreenState extends State<LoginScreen> {
                             top: size.height * 0.03,
                             right: size.width * 0.05,
                           ),
-                          child: Text(
-                            "Quên mật khẩu?",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: size.width * 0.045,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.pushNamed(context, '/forgotPasswordScreen');
+                            },
+                            child: Text(
+                              "Quên mật khẩu?",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: ColorConstant.black900,
+                                fontSize: size.width * 0.045,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),

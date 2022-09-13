@@ -1,4 +1,6 @@
 
+import 'package:els_cus_mobile/presentation/forgot_password_screen/change_password_screen.dart';
+import 'package:els_cus_mobile/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:els_cus_mobile/presentation/login_screen/login_screen.dart';
 import 'package:els_cus_mobile/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:els_cus_mobile/presentation/sign_up_screen/sign_up_screen.dart';
@@ -17,11 +19,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
+        // '/': (context) =>  const SplashScreen(),
         '/': (context) =>  OnboardingScreen(),
         '/splashScreen': (context) => const SplashScreen(),
         '/loginScreen': (context) => LoginScreen(),
         '/signUpScreen': (context) => const SignUpScreen(),
-        '/verificationCodeScreen': (context) => const VerificationCodeScreen(),
+        '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
+        '/changePasswordScreen': (context) => ChangePasswordScreen(),
       },
     );
   }

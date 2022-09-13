@@ -1,3 +1,4 @@
+import 'package:els_cus_mobile/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
@@ -280,7 +281,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, '/verificationCodeScreen');
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const VerificationCodeScreen(functionKey: "signUpScreen")));
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: ColorConstant.purple900,
@@ -380,7 +381,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ],
             ),
           ),
-
       ),
     );
   }

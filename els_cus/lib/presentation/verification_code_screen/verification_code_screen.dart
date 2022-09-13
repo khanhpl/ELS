@@ -2,9 +2,18 @@ import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 
-class VerificationCodeScreen extends StatelessWidget {
-  const VerificationCodeScreen({super.key});
+class VerificationCodeScreen extends StatefulWidget {
 
+  final String functionKey;
+  const VerificationCodeScreen({super.key, required this.functionKey});
+
+  @override
+  State<VerificationCodeScreen> createState() => _VerificationCodeScreenState(functionKey: this.functionKey);
+}
+
+class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
+  final String functionKey;
+  _VerificationCodeScreenState({required this.functionKey});
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -47,14 +56,19 @@ class VerificationCodeScreen extends StatelessWidget {
                             top: 11,
                             bottom: 12,
                           ),
-                          child: Image.asset(
-                            ImageConstant.imgArrowleftBlack900,
-                            width: size.width * 0.03,
+                          child: GestureDetector(
+                            onTap: (){
+                              Navigator.pop(context);
+                            },
+                            child: Image.asset(
+                              ImageConstant.imgArrowleftBlack900,
+                              width: size.width * 0.03,
+                            ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 112,
+                          padding: EdgeInsets.only(
+                            left: size.width*0.25,
                             top: 12,
                             bottom: 12,
                           ),
@@ -76,10 +90,11 @@ class VerificationCodeScreen extends StatelessWidget {
                 ),
                 Container(
                   width: size.width,
-                  margin: const EdgeInsets.only(
-                    left: 16,
-                    top: 43,
-                    right: 16,
+                  margin: EdgeInsets.only(
+                    top: size.height * 0.03,
+                    bottom: size.height * 0.03,
+                    left: size.width * 0.05,
+                    right: size.width * 0.05,
                   ),
                   child: Text(
                     "Chúng tôi đã gửi mã xác minh của bạn tới (+84)123456789",
@@ -93,84 +108,37 @@ class VerificationCodeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    margin: const EdgeInsets.only(
-                      top: 40,
-                    ),
-                    decoration: BoxDecoration(
-                      color: ColorConstant.whiteA700,
-                      boxShadow: [
-                        BoxShadow(
-                          color: ColorConstant.bluegray50,
-                          spreadRadius: 2,
-                          blurRadius: 4,
-                          offset: const Offset(
-                            0,
-                            -1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            left: 18,
-                            top: 20,
-                            bottom: 6,
-                          ),
-                          child: Text(
-                            "Mã xác thực",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize:
-                              size.width *0.045,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: 26,
-                            top: 21,
-                            bottom: 5,
-                          ),
-                          child: Text(
-                            "Nhập mã ",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.gray400,
-                              fontSize: size.width*0.045,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    bottom: size.height * 0.03,
+                    left: size.width * 0.05,
+                    right: size.width * 0.05,
+                  ),
+                  child: TextField(
+                    style: TextStyle(
+                        fontSize: size.width * 0.04, color: Colors.black),
+                    decoration: const InputDecoration(
+                        hintText: "Nhập mã xác thực",
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color(0xffCED0D2), width: 1),
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(6)))),
                   ),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
                     left: size.width * 0.05,
-                    top: 29,
                     right: size.width * 0.05,
                   ),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          onConfirmClick();
+                        });
+                      },
                       style: ElevatedButton.styleFrom(
                         primary: ColorConstant.purple900,
                         textStyle: TextStyle(
@@ -182,11 +150,11 @@ class VerificationCodeScreen extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16,
-                    top: 27,
-                    right: 16,
-                    bottom: 436,
+                  padding: EdgeInsets.only(
+                    left: size.width * 0.03,
+                    top: size.height * 0.03,
+                    right: size.width * 0.03,
+                    bottom: size.height * 0.5,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,7 +174,6 @@ class VerificationCodeScreen extends StatelessWidget {
                             fontSize: size.width*0.045,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w400,
-                            height: 1.00,
                           ),
                         ),
                       ),
@@ -236,5 +203,15 @@ class VerificationCodeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onConfirmClick() {
+    setState(() {
+      if(!(functionKey.trim() == "")){
+        if(functionKey == "forgotPasswordScreen"){
+          Navigator.pushNamed(context, '/changePasswordScreen');
+        }
+      }
+    });
   }
 }
