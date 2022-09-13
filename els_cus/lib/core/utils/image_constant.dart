@@ -96,7 +96,7 @@ class ImageConstant {
   static String imgIcon = 'assets/images/img_icon.svg';
 
   static String imgArrowleftBlack900 =
-      'assets/images/img_arrowleft_black_900.svg';
+      'assets/images/img_arrowleft_black_900.png';
 
   static String imgNotification = 'assets/images/img_notification.svg';
 
@@ -110,7 +110,7 @@ class ImageConstant {
 
   static String imgEdit = 'assets/images/img_edit.svg';
 
-  static String imgCall = 'assets/images/img_call.svg';
+  static String imgCall = 'assets/images/img_call.png';
 
   static String imgLocation = 'assets/images/img_location.png';
 
