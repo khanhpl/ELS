@@ -7,37 +7,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @Getter
 @Setter
-@Table(name = "elder")
-public class Elder {
+@Table(name = "certificate_sitter")
+public class CertificateSitter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String url;
 
-    private Boolean gender;
+    @Column(name = "is_required")
+    private Boolean isRequired;
 
-    private LocalDate dob;
-
-    @Column(name = "health_status")
-    private String healthStatus;
-
-    private String note;
-
-    @Column(name = "is_allergy")
-    private Boolean isAllergy;
+    private String exp;
 
     @JsonIgnore
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "sitter_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-
-
 }
