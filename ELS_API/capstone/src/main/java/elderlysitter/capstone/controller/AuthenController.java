@@ -27,7 +27,7 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("user")
+@RequestMapping("auth")
 public class AuthenController {
     private AuthenticationManager authenticationManager;
     private UserServices userServices;
@@ -43,7 +43,7 @@ public class AuthenController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/auth")
+    @PostMapping()
     @PermitAll
     public ResponseEntity<ResponseDTO> login(@Validated @RequestBody LoginDTO user){
         ResponseDTO responseDTO = new ResponseDTO();
