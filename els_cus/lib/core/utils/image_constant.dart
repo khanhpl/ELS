@@ -2,7 +2,7 @@ class ImageConstant {
   static String imgNotification29X29 =
       'assets/images/img_notification_29X29.svg';
 
-  static String imgCar = 'assets/images/img_car.svg';
+  static String imgCar = 'assets/images/img_car.png';
 
   static String imgLock29X29 = 'assets/images/img_lock_29X29.svg';
 
@@ -21,11 +21,11 @@ class ImageConstant {
 
   static String imgArrowdown = 'assets/images/img_arrowdown.svg';
 
-  static String imgContrast = 'assets/images/img_contrast.svg';
+  static String imgContrast = 'assets/images/img_contrast.png';
 
   static String imgFilter = 'assets/images/img_filter.svg';
 
-  static String imgCheckmark32X32 = 'assets/images/img_checkmark_32X32.svg';
+  static String imgCheckmark32X32 = 'assets/images/img_checkmark_32X32.png';
 
   static String imgClose = 'assets/images/img_close.svg';
 
@@ -49,7 +49,7 @@ class ImageConstant {
 
   static String imgSearchBlack900 = 'assets/images/img_search_black_900.svg';
 
-  static String imgArrowright = 'assets/images/img_arrowright.svg';
+  static String imgArrowright = 'assets/images/img_arrowright.png';
 
   static String imgPlus24X24 = 'assets/images/img_plus_24X24.svg';
 
@@ -91,20 +91,20 @@ class ImageConstant {
   static String imgNavbarsWhiteA700 =
       'assets/images/img_navbars_white_A700.svg';
 
-  static String imgFilter12X14 = 'assets/images/img_filter_12X14.svg';
+  static String imgFilter12X14 = 'assets/images/img_filter_12X14.png';
 
   static String imgIcon = 'assets/images/img_icon.svg';
 
   static String imgArrowleftBlack900 =
       'assets/images/img_arrowleft_black_900.png';
 
-  static String imgNotification = 'assets/images/img_notification.svg';
+  static String imgNotification = 'assets/images/img_notification.png';
 
   static String imgGlobe55X55 = 'assets/images/img_globe_55X55.svg';
 
   static String imgPlus = 'assets/images/img_plus.svg';
 
-  static String imgSearch = 'assets/images/img_search.svg';
+  static String imgSearch = 'assets/images/img_search.png';
 
   static String imgTicket24X23 = 'assets/images/img_ticket_24X23.svg';
 
@@ -122,7 +122,7 @@ class ImageConstant {
 
   static String imgStar = 'assets/images/img_star.svg';
 
-  static String imgCheckmark = 'assets/images/img_checkmark.svg';
+  static String imgCheckmark = 'assets/images/img_checkmark.png';
 
   static String imgTwitter = 'assets/images/img_twitter.svg';
 
@@ -131,11 +131,11 @@ class ImageConstant {
   static String imgCall40X40 = 'assets/images/img_call_40X40.svg';
 
 
-  static String imgTicket = 'assets/images/img_ticket.svg';
+  static String imgTicket = 'assets/images/img_ticket.png';
 
-  static String imgHome24X20 = 'assets/images/img_home_24X20.svg';
+  static String imgHome24X20 = 'assets/images/img_home_24X20.png';
 
-  static String imgLocation16X13 = 'assets/images/img_location_16X13.svg';
+  static String imgLocation16X13 = 'assets/images/img_location_16X13.png';
 
   static String imgGraphic = 'assets/images/img_graphic.svg';
 
@@ -159,7 +159,7 @@ class ImageConstant {
 
   static String imgLightbulb23X24 = 'assets/images/img_lightbulb_23X24.svg';
 
-  static String imgMinimize = 'assets/images/img_minimize.svg';
+  static String imgMinimize = 'assets/images/img_minimize.png';
 
   static String imgHome = 'assets/images/img_home.svg';
 
@@ -168,7 +168,7 @@ class ImageConstant {
 
   static String imgBackground = 'assets/images/img_background.png';
 
-  static String imgStar1 = 'assets/images/img_star1.svg';
+  static String imgStar1 = 'assets/images/img_star1.png';
 
   static String imgBubble = 'assets/images/img_bubble.svg';
 
