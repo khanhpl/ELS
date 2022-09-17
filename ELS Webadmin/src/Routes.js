@@ -1,41 +1,53 @@
-import React from "react";
-import TlchChitit from "pages/TlchChitit";
-import Tlch from "pages/Tlch";
-import KhachHangChitit from "pages/KhachHangChitit";
-import Khachhang from "pages/Khachhang";
-import Citchungtab1 from "pages/Citchungtab1";
-import NngkChitit from "pages/NngkChitit";
-import Nngk from "pages/Nngk";
-import NhnvinChitit from "pages/NhnvinChitit";
-import Nhnvin from "pages/Nhnvin";
-import Dichvu from "pages/Dichvu";
-import Tngquan from "pages/Tngquan";
-import Ngnhpadmin from "pages/Ngnhpadmin";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "pages/Home";
-import NotFound from "pages/NotFound";
+import { Navigate, useRoutes } from 'react-router-dom';
+// layouts
+import DashboardLayout from './layouts/dashboard';
+import LogoOnlyLayout from './layouts/LogoOnlyLayout';
+//
+import Blog from './pages/Blog';
+import User from './pages/User';
+import Login from './pages/Login';
+import NotFound from './pages/Page404';
+import Register from './pages/Register';
+import Products from './pages/Products';
+import DashboardApp from './pages/DashboardApp';
+import Sitter from './pages/Sitter';
 
-const ProjectRoutes = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="*" element={<NotFound />} />
-        <Route path="/ngnhpadmin" element={<Ngnhpadmin />} />
-        <Route path="/tngquan" element={<Tngquan />} />
-        <Route path="/dichvu" element={<Dichvu />} />
-        <Route path="/nhnvin" element={<Nhnvin />} />
-        <Route path="/nhnvinchitit" element={<NhnvinChitit />} />
-        <Route path="/nngk" element={<Nngk />} />
-        <Route path="/nngkchitit" element={<NngkChitit />} />
-        <Route path="/citchungtab1" element={<Citchungtab1 />} />
-        <Route path="/khachhang" element={<Khachhang />} />
-        <Route path="/khachhangchitit" element={<KhachHangChitit />} />
-        <Route path="/tlch" element={<Tlch />} />
-        <Route path="/tlchchitit" element={<TlchChitit />} />
-      </Routes>
-    </Router>
-  );
-};
+// ----------------------------------------------------------------------
 
-export default ProjectRoutes;
+export default function Router() {
+  return useRoutes([
+    {
+      path: '/dashboard',
+      element: <DashboardLayout />,
+      children: [
+        { path: 'app', element: <DashboardApp /> },
+        { path: 'user', element: <User /> },
+        { path: 'products', element: <Products /> },
+        { path: 'blog', element: <Blog /> },
+        { path: 'sitlist', element: <Sitter />}
+      ],
+    },
+    {
+      path: 'login',
+      element: <Login />,
+    },
+    {
+      path: 'register',
+      element: <Register />,
+    },
+    {
+      path: '/',
+      element: <LogoOnlyLayout />,
+      children: [
+        { path: '/', element: <Navigate to="/login" /> },
+        { path: '/home', element: <Navigate to="/dashboard/app" />},
+        { path: '404', element: <NotFound /> },
+        { path: '*', element: <Navigate to="/404" /> },
+      ],
+    },
+    {
+      path: '*',
+      element: <Navigate to="/404" replace />,
+    },
+  ]);
+}
