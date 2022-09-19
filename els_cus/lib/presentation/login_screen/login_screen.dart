@@ -1,8 +1,12 @@
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
 import 'package:flutter/material.dart';
+import "package:provider/provider.dart";
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -231,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              Navigator.pushNamed(context, '/homeScreen');
+                              Navigator.pushNamed(context, "/homeScreen");
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -287,7 +291,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             ],
                           ),
                           onPressed: () {
-
+                            setState(() {
+                              final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                              provider.googleLogin();
+                            });
                           },
                         ),
                       ),
