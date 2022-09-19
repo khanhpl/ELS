@@ -26,14 +26,15 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         // '/': (context) =>  const SplashScreen(),
-        // '/': (context) =>  OnboardingScreen(),
-        '/': (context) =>  LoginWithGoogleNav(),
+        '/': (context) =>  OnboardingScreen(),
+        // '/': (context) =>  LoginWithGoogleNav(),
         '/splashScreen': (context) => const SplashScreen(),
         '/loginScreen': (context) => LoginScreen(),
         '/signUpScreen': (context) => const SignUpScreen(),
         '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
         '/changePasswordScreen': (context) => ChangePasswordScreen(),
         '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
+        '/loginWithGoogleNav': (context) => LoginWithGoogleNav(),
       },
     ),
   );

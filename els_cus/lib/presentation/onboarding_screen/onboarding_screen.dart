@@ -6,11 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 
 class OnboardingScreen extends StatelessWidget {
-
   List<Slide> slides = [];
-
   OnboardingScreen({super.key});
-
   Widget inputContent(index) {
     if (index == 0) {
       return OnboardingBottomsheet(
@@ -31,7 +28,7 @@ class OnboardingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void onDonePress() {
-      Navigator.pushNamed(context, '/loginScreen');
+      Navigator.pushNamed(context, '/loginWithGoogleNav');
     }
     return Container(
       margin: EdgeInsets.all(0),
