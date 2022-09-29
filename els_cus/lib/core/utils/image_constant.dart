@@ -23,7 +23,7 @@ class ImageConstant {
 
   static String imgContrast = 'assets/images/img_contrast.png';
 
-  static String imgFilter = 'assets/images/img_filter.svg';
+  static String imgFilter = 'assets/images/img_filter.png';
 
   static String imgCheckmark32X32 = 'assets/images/img_checkmark_32X32.png';
 
@@ -37,7 +37,7 @@ class ImageConstant {
 
   static String imgShape = 'assets/images/img_shape.png';
 
-  static String imgClock = 'assets/images/img_clock.svg';
+  static String imgClock = 'assets/images/img_clock.png';
 
   static String imgFacebook = 'assets/images/img_facebook.svg';
 
@@ -72,7 +72,7 @@ class ImageConstant {
 
   static String imgLightbulb = 'assets/images/img_lightbulb.svg';
 
-  static String imgIconmore = 'assets/images/img_iconmore.svg';
+  static String imgIconmore = 'assets/images/img_iconmore.png';
 
   static String imgStarcount = 'assets/images/img_starcount.svg';
 

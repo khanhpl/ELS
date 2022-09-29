@@ -10,7 +10,19 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  String str = "Hello Khanh";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      if(FirebaseAuth.instance.currentUser != null){
+        str = FirebaseAuth.instance.currentUser!.displayName.toString();
+      }
 
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -26,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
           child: Column(
             children: [
               Text(
-                  FirebaseAuth.instance.currentUser!.displayName.toString(),
+              str,
               ),
               const SizedBox(height: 50),
               Container(
