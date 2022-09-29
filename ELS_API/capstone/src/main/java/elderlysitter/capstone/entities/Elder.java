@@ -35,6 +35,7 @@ public class Elder {
     private Boolean isAllergy;
 
     @JsonIgnore
+    @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
