@@ -370,10 +370,8 @@ class _LoginScreenState extends State<LoginScreen> {
     bool isTrueAcc = false;
     isTrueAcc = await bloc.checkCurUser(email, pass);
     if(isTrueAcc){
-      print("dung ne");
       Navigator.pushNamed(context, '/homeScreen');
     }else{
-      print("sai roi");
     }
   }
 }
