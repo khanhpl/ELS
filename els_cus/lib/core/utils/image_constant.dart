@@ -17,7 +17,7 @@ class ImageConstant {
 
   static String imgArrowleft = 'assets/images/img_arrowleft.svg';
 
-  static String imgPlus55X55 = 'assets/images/img_plus_55X55.svg';
+  static String imgPlus55X55 = 'assets/images/img_plus_55X55.png';
 
   static String imgArrowdown = 'assets/images/img_arrowdown.svg';
 
@@ -68,7 +68,7 @@ class ImageConstant {
   static String imgPoint = 'assets/images/img_point.svg';
 
   static String imgArrowrightGray400 =
-      'assets/images/img_arrowright_gray_400.svg';
+      'assets/images/img_arrowright_gray_400.png';
 
   static String imgLightbulb = 'assets/images/img_lightbulb.svg';
 
@@ -82,7 +82,7 @@ class ImageConstant {
 
   static String imgBubblePurple900 = 'assets/images/img_bubble_purple_900.svg';
 
-  static String imgSettings = 'assets/images/img_settings.svg';
+  static String imgSettings = 'assets/images/img_settings.png';
 
   static String imgStar10X10 = 'assets/images/img_star_10X10.svg';
 
@@ -140,7 +140,7 @@ class ImageConstant {
   static String imgGraphic = 'assets/images/img_graphic.svg';
 
   static String imgArrowrightGray600 =
-      'assets/images/img_arrowright_gray_600.svg';
+      'assets/images/img_arrowright_gray_600.png';
 
   static String imgTrash = 'assets/images/img_trash.svg';
 
@@ -152,7 +152,7 @@ class ImageConstant {
 
   static String imgStar12X12 = 'assets/images/img_star_12X12.svg';
 
-  static String imgTicket14X14 = 'assets/images/img_ticket_14X14.svg';
+  static String imgTicket14X14 = 'assets/images/img_ticket_14X14.png';
 
   static String imgBubblePurple90076X269 =
       'assets/images/img_bubble_purple_900_76X269.svg';
