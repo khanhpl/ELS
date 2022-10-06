@@ -12,6 +12,7 @@ import Products from './pages/Products';
 import DashboardApp from './pages/DashboardApp';
 import Sitter from './pages/Sitter';
 import Booking from './pages/Booking';
+import Customer from './pages/Customer';
 
 // ----------------------------------------------------------------------
 
@@ -27,6 +28,7 @@ export default function Router() {
         { path: 'blog', element: <Blog /> },
         { path: 'sitlist', element: <Sitter />},
         { path: 'schedulelist', element: <Booking />},
+        { path: 'customer', element: <Customer />},
       ],
     },
     {

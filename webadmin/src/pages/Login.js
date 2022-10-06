@@ -13,7 +13,7 @@ import { LoginForm } from '../sections/auth/login';
 import AuthSocial from '../sections/auth/AuthSocial';
 
 // ----------------------------------------------------------------------
-const loginInUser = useSelector(state => state.user.current)
+// const loginInUser = useSelector(state => state.user.current)
 
 const RootStyle = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {

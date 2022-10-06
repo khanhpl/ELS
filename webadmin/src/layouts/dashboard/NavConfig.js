@@ -23,6 +23,11 @@ const navConfig = [
     icon: getIcon('icon-park-twotone:view-grid-detail')
   },
   {
+    title: 'Khách hàng',
+    path: '/dashboard/customer',
+    icon: getIcon('fluent:guest-28-filled')
+  },
+  {
     title: 'Quản lý đặt lịch',
     path: '/dashboard/schedulelist',
     icon: getIcon('healthicons:i-schedule-school-date-time')
