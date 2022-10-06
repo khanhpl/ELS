@@ -14,15 +14,11 @@ class LoginWithGoogleNav extends StatelessWidget{
       child: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
-          print('Snapshot: '+ snapshot.toString());
           if (snapshot.connectionState == ConnectionState.waiting) {
-            print('Waiting');
             return const Center(child: SplashScreen());
           } else if (snapshot.hasData) {
-            print('Has Data');
             return BottomBarNavigation(selectedIndex: 0, isBottomNav: true);
           } else if (snapshot.hasError) {
-            print('Error');
             return const Center(child: Text('Something went wrong!'));
           } else {
             // return OnboardingScreen();

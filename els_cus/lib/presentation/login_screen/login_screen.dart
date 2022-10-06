@@ -1,3 +1,4 @@
+import 'package:els_cus_mobile/blocs/login_bloc.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
@@ -13,14 +14,16 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _showPass = false;
-
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passController = TextEditingController();
+  LoginBloc bloc = LoginBloc();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     // TODO: implement build
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
-      body: Container(
+      body: SizedBox(
         width: size.width,
         child: SingleChildScrollView(
 
@@ -125,8 +128,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           left: size.width * 0.05,
                           right: size.width * 0.05,
                         ),
-                        child: TextField(
+                        child: StreamBuilder(
+                            stream: bloc.emailStream,
+                            builder: (context, snapshot) => TextField(
                           style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                          controller: _emailController,
                           decoration: InputDecoration(
                               hintText: "Email",
                               prefixIcon: SizedBox(
@@ -136,8 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderSide: BorderSide(
                                       color: Color(0xffCED0D2), width: 1),
                                   borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                        ),
+                                  BorderRadius.all(Radius.circular(6)))),
+                        )),
                       ),
 
                       //mk
@@ -147,12 +153,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Stack(
                           alignment: AlignmentDirectional.centerEnd,
                           children: [
-                            TextField(
+                            StreamBuilder(
+                                stream: bloc.passStream,
+                                builder: ((context, snapshot) => TextField(
                               style: TextStyle(
                                 fontSize: size.width * 0.04,
                                 color: Colors.black,
                               ),
                               obscureText: !_showPass,
+                              controller: _passController,
                               decoration:  InputDecoration(
                                   errorText: null,
                                   hintText: "Mật Khẩu",
@@ -164,7 +173,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                           color: Color(0xffCED0D2), width: 1),
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(6)))),
-                            ),
+                            ))),
+
+
                             Padding(
                               padding: EdgeInsets.only(right: size.height*0.02),
                               child: GestureDetector(
@@ -233,9 +244,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: SizedBox(
                           width: double.infinity,
-                          child: ElevatedButton(
+                          child:ElevatedButton(
+
                             onPressed: () {
-                              Navigator.pushNamed(context, "/homeScreen");
+                              onLoginClick();
+                              // Navigator.pushNamed(context, "/homeScreen");
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -350,4 +363,17 @@ class _LoginScreenState extends State<LoginScreen> {
       _showPass = !_showPass;
     });
   }
+
+    onLoginClick() async {
+    String email = _emailController.text.trim();
+    String pass = _passController.text.trim();
+    bool isTrueAcc = false;
+    isTrueAcc = await bloc.checkCurUser(email, pass);
+    if(isTrueAcc){
+      Navigator.pushNamed(context, '/homeScreen');
+    }else{
+    }
+  }
 }
+
+
