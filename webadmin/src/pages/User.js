@@ -32,13 +32,13 @@ import USERLIST from '../_mock/service';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    { id: 'id', label: 'Mã dịch vụ', alignRight: false },
-    { id: 'name', label: 'Tên dịch vụ', alignRight: false },
-    { id: 'company', label: 'Giá dịch vụ', alignRight: false },
-    { id: 'role', label: 'Thời gian', alignRight: false },
-    // { id: 'isVerified', label: 'Verified', alignRight: false },
-    { id: 'status', label: 'Tình trạng', alignRight: false },
-    { id: '' },
+  { id: 'id', label: 'Mã dịch vụ', alignRight: false },
+  { id: 'name', label: 'Tên dịch vụ', alignRight: false },
+  { id: 'company', label: 'Giá dịch vụ', alignRight: false },
+  { id: 'role', label: 'Thời gian', alignRight: false },
+  // { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'status', label: 'Tình trạng', alignRight: false },
+  { id: '' },
 ];
 
 // ----------------------------------------------------------------------
@@ -147,7 +147,7 @@ export default function User() {
             </Typography>
           </Box>
           <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="eva:plus-fill" />}>
-              Đây là tất cả dịch vụ có trong
+            Thêm dịch vụ
           </Button>
         </Stack>
 

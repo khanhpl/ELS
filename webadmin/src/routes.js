@@ -13,6 +13,7 @@ import DashboardApp from './pages/DashboardApp';
 import Sitter from './pages/Sitter';
 import Booking from './pages/Booking';
 import Customer from './pages/Customer';
+import BookingDetail from './pages/BookingDetail';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +27,15 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'sitlist', element: <Sitter />},
-        { path: 'schedule', element: <Booking />},
-        { path: 'customer', element: <Customer />},
+        { path: 'sitlist', element: <Sitter /> },
+        {
+          path: 'schedule',
+          children: [
+            { index: true, element: <Booking /> },
+            { path: ':bookingId', element: <BookingDetail /> },
+          ],
+        },
+        { path: 'customer', element: <Customer /> },
       ],
     },
     {
@@ -44,7 +51,7 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/login" /> },
-        { path: '/home', element: <Navigate to="/dashboard/app" />},
+        { path: '/home', element: <Navigate to="/dashboard/app" /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],
