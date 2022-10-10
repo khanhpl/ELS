@@ -5,20 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 
-class OnboardingScreen extends StatefulWidget {
-
-  @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class OnboardingScreen extends StatelessWidget {
   List<Slide> slides = [];
-
-  @override
-  void initState() {
-    // TODO: implement initState
-  }
-
+  OnboardingScreen({super.key});
   Widget inputContent(index) {
     if (index == 0) {
       return OnboardingBottomsheet(
@@ -35,8 +24,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return List.generate(3, (index) => inputContent(index));
   }
 
+
   @override
   Widget build(BuildContext context) {
+    void onDonePress() {
+      Navigator.pushNamed(context, '/loginWithGoogleNav');
+    }
     return Container(
       margin: EdgeInsets.all(0),
       child: IntroSlider(
@@ -49,9 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     );
   }
 
-  void onDonePress() {
-    Navigator.pushNamed(context, '/loginScreen');
-  }
+
 }
 
 

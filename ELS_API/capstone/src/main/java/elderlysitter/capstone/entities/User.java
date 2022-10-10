@@ -45,15 +45,21 @@ public class User {
     private String skill;
 
     @JsonIgnore
-    @Column(name = "role_id")
+    @JoinColumn (name = "role_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private Role role;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Certificate> certificates;
+    private List<CertificateSitter> certificateSitters;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Elder> elders;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserImg> userImgs;
+
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings;
 }

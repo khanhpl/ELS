@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -46,8 +47,15 @@ public class Candidate {
     private String certificate;
 
     @JsonIgnore
-    @Column(name = "admin_id")
+    @JoinColumn(name = "admin_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "candidate")
+    private List<CertificateCandidate> certificateCandidates;
+
+    @OneToMany(mappedBy = "candidate")
+    private List<CandidateImg> candidateImgs;
 
 }

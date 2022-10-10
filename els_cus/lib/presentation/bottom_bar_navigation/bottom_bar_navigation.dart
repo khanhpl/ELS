@@ -1,6 +1,9 @@
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/presentation/account_screen/account_screen.dart';
+import 'package:els_cus_mobile/presentation/add_work_screen/add_work_screen.dart';
 import 'package:els_cus_mobile/presentation/home_screen/home_screen.dart';
+import 'package:els_cus_mobile/presentation/notifications_screen/notifications_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -31,11 +34,11 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
       case 1:
         return const SplashScreen();
       case 2:
-        return const SplashScreen();
+        return AddWorkScreen();
       case 3:
-        return const SplashScreen();
+        return NotificationsScreen();
       case 4:
-        return const SplashScreen();
+        return const AccountScreen();
 
       default:
         return const SplashScreen();
