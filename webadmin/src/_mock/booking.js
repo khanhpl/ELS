@@ -10,7 +10,7 @@ const users = [...Array(24)].map((_, index) => ({
   sitName: faker.vehicle.vehicle(),
   cusName: faker.name.findName(),
   serName: faker.commerce.price(),
-  status: sample(['Working', 'Done']),
+  status: sample(['done', 'working']),
   // role: faker.datatype.datetime({ min: 1663256841000, max: 1694792841000 }).toLocaleDateString(),
 }));
 

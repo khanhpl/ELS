@@ -24,7 +24,7 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, ScheduleMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/booking';
 
@@ -194,19 +194,19 @@ export default function User() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={serName} />
+                            {/* <Avatar alt={serName} /> */}
                             <Typography variant="subtitle2" noWrap>
                               {serName}
                             </Typography>
                           </Stack>
                         </TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'Working' && 'Done') || 'success'}>
+                          <Label variant="ghost" color={(status === 'working' && 'error') || 'success'}>
                             {sentenceCase(status)}
                           </Label>
                         </TableCell>
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <ScheduleMoreMenu />
                         </TableCell>
                       </TableRow>
                     );

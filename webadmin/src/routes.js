@@ -27,7 +27,7 @@ export default function Router() {
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
         { path: 'sitlist', element: <Sitter />},
-        { path: 'schedulelist', element: <Booking />},
+        { path: 'schedule', element: <Booking />},
         { path: 'customer', element: <Customer />},
       ],
     },

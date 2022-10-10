@@ -18,19 +18,24 @@ const navConfig = [
     icon: getIcon('material-symbols:home-repair-service-rounded'),
   },
   {
+    title: 'Quản lý đặt lịch',
+    path: '/dashboard/schedule',
+    icon: getIcon('healthicons:i-schedule-school-date-time')
+  },
+  {
     title: 'Chăm sóc viên',
     path: '/dashboard/sitlist',
-    icon: getIcon('icon-park-twotone:view-grid-detail')
+    icon: getIcon('healthicons:nurse')
   },
   {
     title: 'Khách hàng',
     path: '/dashboard/customer',
-    icon: getIcon('fluent:guest-28-filled')
+    icon: getIcon('carbon:user-profile')
   },
   {
-    title: 'Quản lý đặt lịch',
-    path: '/dashboard/schedulelist',
-    icon: getIcon('healthicons:i-schedule-school-date-time')
+    title: 'Đơn đăng ký',
+    path: '/dashboard/404',
+    icon: getIcon('clarity:form-line')
   },
   {
     title: 'Test',

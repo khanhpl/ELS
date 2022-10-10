@@ -25,14 +25,14 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, ServiceMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/service';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-    { id: 'id', label: 'STT', alignRight: false },
+    { id: 'id', label: 'Mã dịch vụ', alignRight: false },
     { id: 'name', label: 'Tên dịch vụ', alignRight: false },
     { id: 'company', label: 'Giá dịch vụ', alignRight: false },
     { id: 'role', label: 'Thời gian', alignRight: false },
@@ -140,7 +140,7 @@ export default function User() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Box>
             <Typography variant="h4" gutterBottom>
-              Dịch vụ
+              Danh sách dịch vụ
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
               Đây là tất cả dịch vụ có trong <b>ElderlySister</b>
@@ -201,7 +201,7 @@ export default function User() {
                         </TableCell>
 
                         <TableCell align="right">
-                          <UserMoreMenu />
+                          <ServiceMoreMenu />
                         </TableCell>
                       </TableRow>
                     );
