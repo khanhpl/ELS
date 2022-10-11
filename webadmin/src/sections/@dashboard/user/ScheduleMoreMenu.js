@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/material';
 // component
@@ -10,7 +10,7 @@ import Iconify from '../../../components/Iconify';
 export default function ScheduleMoreMenu() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
-
+  const navigate = useNavigate();
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -31,7 +31,11 @@ export default function ScheduleMoreMenu() {
           <ListItemIcon>
             <Iconify icon="fluent:content-view-28-filled" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Xem chi tiết" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="Xem chi tiết"
+            primaryTypographyProps={{ variant: 'body2' }}
+            onClick={() => navigate('/dashboard/schedule/ABC123')}
+          />
         </MenuItem>
 
         {/* <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>

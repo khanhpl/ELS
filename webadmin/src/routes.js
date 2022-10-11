@@ -13,6 +13,9 @@ import DashboardApp from './pages/DashboardApp';
 import Sitter from './pages/Sitter';
 import Booking from './pages/Booking';
 import Customer from './pages/Customer';
+import BookingDetail from './pages/BookingDetail';
+import SitterDetail from './pages/SitterDetail';
+import CustomerDetail from './pages/CustomerDetail';
 
 // ----------------------------------------------------------------------
 
@@ -26,9 +29,27 @@ export default function Router() {
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'sitlist', element: <Sitter />},
-        { path: 'schedule', element: <Booking />},
-        { path: 'customer', element: <Customer />},
+        { 
+          path: 'sitlist', 
+          children: [
+            { index: true, element: <Sitter /> },
+            { path: ':sitterId', element: <SitterDetail /> },
+          ],
+        },
+        {
+          path: 'schedule',
+          children: [
+            { index: true, element: <Booking /> },
+            { path: ':bookingId', element: <BookingDetail /> },
+          ],
+        },
+        { 
+          path: 'customer',
+          children: [
+            { index: true, element: <Customer /> },
+            { path: ':customerId', element: <CustomerDetail /> },
+          ],
+        },
       ],
     },
     {
@@ -44,7 +65,7 @@ export default function Router() {
       element: <LogoOnlyLayout />,
       children: [
         { path: '/', element: <Navigate to="/login" /> },
-        { path: '/home', element: <Navigate to="/dashboard/app" />},
+        { path: '/home', element: <Navigate to="/dashboard/app" /> },
         { path: '404', element: <NotFound /> },
         { path: '*', element: <Navigate to="/404" /> },
       ],

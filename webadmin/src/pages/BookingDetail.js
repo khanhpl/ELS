@@ -31,8 +31,8 @@ import Page from '../components/Page';
 const steps = ['Đặt lịch', 'Đang thực hiện', 'Hoàn thành'];
 
 export default function BookingDetail() {
-  const { sitterId } = useParams();
-  useEffect(() => {}, [sitterId]);
+  const { bookingId } = useParams();
+  useEffect(() => {}, [bookingId]);
 
   const [checked, setChecked] = useState([0, 2]);
 
@@ -54,14 +54,14 @@ export default function BookingDetail() {
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Box>
             <Typography variant="h4" gutterBottom>
-              Thông tin chi tiết của {sitterId}
+              Booking of {bookingId}
             </Typography>
             <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              Thông tin chi tiết chăm sóc viên
+              Thông tin chi tiết đặt lịch
             </Typography>
           </Box>
         </Stack>
-        {/* <Stack mb={2}>
+        <Stack mb={2}>
           <Box sx={{ width: '100%' }}>
             <Stepper activeStep={3} alternativeLabel>
               {steps.map((label) => (
@@ -71,9 +71,9 @@ export default function BookingDetail() {
               ))}
             </Stepper>
           </Box>
-        </Stack> */}
+        </Stack>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          {/* <Card sx={{ width: '30%', p: 2 }}>
+          <Card sx={{ width: '30%', p: 2 }}>
             <CardMedia sx={{ width: '100%' }}>
               <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
                 <Avatar sx={{ width: 80, height: 80 }}>N</Avatar>
@@ -85,8 +85,8 @@ export default function BookingDetail() {
                 </Stack>
               </Stack>
             </CardMedia>
-          </Card> */}
-          <Card sx={{ width: '50%', p: 2 }}>
+          </Card>
+          <Card sx={{ width: '30%', p: 2 }}>
             <CardMedia sx={{ width: '100%' }}>
               <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
                 <Avatar sx={{ width: 80, height: 80 }}>N</Avatar>
@@ -100,7 +100,7 @@ export default function BookingDetail() {
               </Stack>
             </CardMedia>
           </Card>
-          {/* <Card sx={{ width: '30%', p: 2 }}>
+          <Card sx={{ width: '30%', p: 2 }}>
             <CardMedia sx={{ width: '100%' }}>
               <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
                 <Stack>
@@ -113,47 +113,13 @@ export default function BookingDetail() {
                 </Stack>
               </Stack>
             </CardMedia>
-          </Card> */}
+          </Card>
         </Stack>
         <Stack direction="row" justifyContent="space-between" spacing={2} mb={2}>
           <Stack direction="column" spacing={4}>
             <TextField
-              label="Họ và Tên"
-              defaultValue="Nguyen Van A"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-            <TextField
-              label="Ngày sinh"
-              defaultValue="10/10/1992"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-            <TextField
-              label="Ngày đặt lịch"
-              defaultValue="T2, 10/10/2022"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-          </Stack>
-          <Stack direction="column" spacing={4}>
-            <TextField
-              label="Số điện thoại"
-              defaultValue="+84 909123456"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-            <TextField
-              label="Ngày đặt lịch"
-              defaultValue="T2, 10/10/2022"
+              label="Người được chăm sóc"
+              defaultValue="Nguyen Van B"
               InputProps={{
                 readOnly: true,
               }}

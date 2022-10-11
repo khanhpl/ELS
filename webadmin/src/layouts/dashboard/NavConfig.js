@@ -37,11 +37,6 @@ const navConfig = [
     path: '/dashboard/404',
     icon: getIcon('clarity:form-line')
   },
-  {
-    title: 'Test',
-    path: '/dashboard/products',
-    icon: getIcon('healthicons:i-schedule-school-date-time')
-  },
 ];
 
 export default navConfig;

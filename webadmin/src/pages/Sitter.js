@@ -34,8 +34,8 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Họ & Tên', alignRight: false },
   { id: 'company', label: 'Bằng cấp', alignRight: false },
   { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'isVerified', label: 'Đánh giá', alignRight: false },
+  { id: 'status', label: 'Trạng thái', alignRight: false },
   { id: '' },
 ];
 
