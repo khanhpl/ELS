@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -17,7 +17,6 @@ import {
   Typography,
   TableContainer,
   TablePagination,
-  Box,
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -25,18 +24,18 @@ import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, ServiceMoreMenu } from '../sections/@dashboard/user';
+import { UserListHead, UserListToolbar, FormMoreMenu } from '../sections/@dashboard/user';
 // mock
-import USERLIST from '../_mock/service';
+import USERLIST from '../_mock/booking';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'Mã dịch vụ', alignRight: false },
-  { id: 'name', label: 'Tên dịch vụ', alignRight: false },
-  { id: 'company', label: 'Giá dịch vụ', alignRight: false },
-  { id: 'role', label: 'Thời gian', alignRight: false },
-  // { id: 'isVerified', label: 'Verified', alignRight: false },
+  { id: 'num', label: 'STT', alignRight: false },
+  { id: 'id', label: 'Mã đơn', alignRight: false },
+  { id: 'sitName', label: 'Họ & Tên', alignRight: false },
+  { id: 'cusName', label: 'Bằng cấp', alignRight: false },
+  { id: 'serName', label: 'Dịch vụ', alignRight: false },
   { id: 'status', label: 'Tình trạng', alignRight: false },
   { id: '' },
 ];
@@ -83,7 +82,7 @@ export default function User() {
 
   const [filterName, setFilterName] = useState('');
 
-  const [rowsPerPage, setRowsPerPage] = useState(3);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -138,17 +137,9 @@ export default function User() {
     <Page title="User">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Box>
-            <Typography variant="h4" gutterBottom>
-              Danh sách dịch vụ
-            </Typography>
-            <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              Đây là tất cả dịch vụ có trong <b>ElderlySister</b>
-            </Typography>
-          </Box>
-          <Button variant="contained" component={RouterLink} to="/dashboard/user/newsv" startIcon={<Iconify icon="eva:plus-fill" />}>
-            Thêm dịch vụ
-          </Button>
+          <Typography variant="h4" gutterBottom>
+            Danh sách đơn đặt lịch
+          </Typography>
         </Stack>
 
         <Card>
@@ -168,8 +159,8 @@ export default function User() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const { num, id, sitName, cusName, serName, status } = row;
+                    const isItemSelected = selected.indexOf(id) !== -1;
 
                     return (
                       <TableRow
@@ -181,27 +172,41 @@ export default function User() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} />
                         </TableCell>
+                        <TableCell align="left">{num}</TableCell>
                         <TableCell align="left">{id}</TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={sitName} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {sitName}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            {/* <Avatar alt={cusName} /> */}
+                            <Typography variant="subtitle2" noWrap>
+                              {cusName}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
+                        <TableCell component="th" scope="row" padding="none">
+                          <Stack direction="row" alignItems="center" spacing={2}>
+                            {/* <Avatar alt={serName} /> */}
+                            <Typography variant="subtitle2" noWrap>
+                              {serName}
+                            </Typography>
+                          </Stack>
+                        </TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'deny' && 'error') || 'success'}>
+                          <Label variant="ghost" color={(status === 'working' && 'error') || 'success'}>
                             {sentenceCase(status)}
                           </Label>
                         </TableCell>
-
                         <TableCell align="right">
-                          <ServiceMoreMenu />
+                          <FormMoreMenu />
                         </TableCell>
                       </TableRow>
                     );

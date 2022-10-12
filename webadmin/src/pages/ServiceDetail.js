@@ -32,8 +32,8 @@ import Iconify from '../components/Iconify';
 const steps = ['Đặt lịch', 'Đang thực hiện', 'Hoàn thành'];
 
 export default function BookingDetail() {
-    const { customerId } = useParams();
-    useEffect(() => { }, [customerId]);
+    const { serviceId } = useParams();
+    useEffect(() => { }, [serviceId]);
 
     const [checked, setChecked] = useState([0, 2]);
 
@@ -55,14 +55,14 @@ export default function BookingDetail() {
                 <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Box>
                         <Typography variant="h4" gutterBottom>
-                            Thông tin chi tiết của khách hàng {customerId}
+                            Thông tin chi tiết dịch vụ {serviceId}
                         </Typography>
-                        <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+                        {/* <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
                             Thông tin chi tiết khách hàng
-                        </Typography>
+                        </Typography> */}
                     </Box>
                 </Stack>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
+                {/* <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
                     <Card sx={{ width: '50%', p: 2 }}>
                         <CardMedia sx={{ width: '100%' }}>
                             <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
@@ -70,102 +70,102 @@ export default function BookingDetail() {
                                 <Stack>
                                     <Typography variant="h5">Lê Nguyễn Minh Tinh</Typography>
                                     <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                                        xxx568
+                                        Mã đơn: xxx568
                                     </Typography>
                                 </Stack>
                             </Stack>
                         </CardMedia>
                     </Card>
-                    {/* <Card sx={{ width: '30%', p: 2 }}>
-            <CardMedia sx={{ width: '100%' }}>
-              <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
-                <Avatar sx={{ width: 80, height: 80 }}>N</Avatar>
-                <Stack>
-                  <Typography variant="h5">Nhat Thi (SE62321)</Typography>
-                  <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                    Nhân viên chăm sóc
-                  </Typography>
-                  <Rating name="read-only" value={4} readOnly />
-                </Stack>
-              </Stack>
-            </CardMedia>
-          </Card> */}
-                    {/* <Card sx={{ width: '30%', p: 2 }}>
-            <CardMedia sx={{ width: '100%' }}>
-              <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
-                <Stack>
-                  <Typography variant="h4" color="green">
-                    Tổng tiền: +400.000đ
-                  </Typography>
-                  <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-                    Đã bao gồm VAT và phụ phí
-                  </Typography>
-                </Stack>
-              </Stack>
-            </CardMedia>
-          </Card> */}
-                </Stack>
+                    <Card sx={{ width: '30%', p: 2 }}>
+                        <CardMedia sx={{ width: '100%' }}>
+                            <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
+                                <Avatar sx={{ width: 80, height: 80 }}>N</Avatar>
+                                <Stack>
+                                    <Typography variant="h5">Nhat Thi (SE62321)</Typography>
+                                    <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+                                        Nhân viên chăm sóc
+                                    </Typography>
+                                    <Rating name="read-only" value={4} readOnly />
+                                </Stack>
+                            </Stack>
+                        </CardMedia>
+                    </Card>
+                    <Card sx={{ width: '30%', p: 2 }}>
+                        <CardMedia sx={{ width: '100%' }}>
+                            <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
+                                <Stack>
+                                    <Typography variant="h4" color="green">
+                                        Tổng tiền: +400.000đ
+                                    </Typography>
+                                    <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
+                                        Đã bao gồm VAT và phụ phí
+                                    </Typography>
+                                </Stack>
+                            </Stack>
+                        </CardMedia>
+                    </Card>
+                </Stack> */}
                 <Stack direction="row" justifyContent="space-between" spacing={2} mb={2}>
                     <Stack direction="column" spacing={4}>
                         <TextField
-                            label="Họ và Tên"
-                            defaultValue="Nguyen Van B"
+                            label="Tên dịch vụ"
+                            defaultValue="Nguyen Van A"
                             InputProps={{
-                                readOnly: true,
+                                readOnly: false,
                             }}
                             variant="outlined"
                         />
                         <TextField
-                            label="Tên người được chăm sóc"
-                            defaultValue="T2, 10/10/2022"
+                            label="Ngày sinh"
+                            defaultValue="10/10/1992"
                             InputProps={{
-                                readOnly: true,
+                                readOnly: false,
                             }}
                             variant="outlined"
                         />
                     </Stack>
                     <Stack direction="column" spacing={4}>
                         <TextField
-                            label="Số điện thoại"
-                            defaultValue="Viet Nam"
+                            label="Mã dịch vụ"
+                            defaultValue="+84 9091234562"
                             InputProps={{
-                                readOnly: true,
+                                readOnly: false,
                             }}
                             variant="outlined"
                         />
-                        <TextField
-                            label="Số điện thoại khẩn cấp"
-                            defaultValue="T5, 13/10/2022"
-                            InputProps={{
-                                readOnly: true,
-                            }}
-                            variant="outlined"
-                        />
-                    </Stack>
-                    <Stack direction="column" spacing={4}>
                         <TextField
                             label="Email"
-                            defaultValue="Viet Nam"
+                            defaultValue="acb@gmail.com"
                             InputProps={{
-                                readOnly: true,
-                            }}
-                            variant="outlined"
-                        />
-                        <TextField
-                            label="Địa chỉ"
-                            defaultValue="T5, 13/10/2022"
-                            InputProps={{
-                                readOnly: true,
+                                readOnly: false,
                             }}
                             variant="outlined"
                         />
                     </Stack>
                     <Stack direction="column" spacing={4}>
                         <TextField
-                            label="Mã khách hàng"
+                            label="Địa chỉ"
                             defaultValue="Viet Nam"
                             InputProps={{
-                                readOnly: true,
+                                readOnly: false,
+                            }}
+                            variant="outlined"
+                        />
+                        <TextField
+                            label="Mã căn cước công dân"
+                            defaultValue="123456789123"
+                            InputProps={{
+                                readOnly: false,
+                            }}
+                            variant="outlined"
+                        />
+                    </Stack>
+                    <Stack direction="column" spacing={4}>
+                        <TextField
+                            label="Bằng cấp"
+                            defaultValue="Trung cấp ..."
+                            InputProps={{
+                                readOnly: false,
                             }}
                             variant="outlined"
                         />
@@ -208,10 +208,13 @@ export default function BookingDetail() {
                     />
                 </Stack>
                 <Stack sx={{ width: '20%', p: 2 }}>
-                    <Button variant="contained" component={RouterLink} to="/dashboard/customer" startIcon={<Iconify icon="akar-icons:arrow-back-thick" />}>
-                        Trở về
+                    <Button variant="contained" component={RouterLink} to="#" startIcon={<Iconify icon="fluent:save-24-filled" />}>
+                        Lưu
                     </Button>
                     <Stack mb={2} />
+                    <Button variant="contained" component={RouterLink} to="/dashboard/user" startIcon={<Iconify icon="mdi:marker-cancel" />} color="error">
+                        Hủy
+                    </Button>
                 </Stack>
             </Container>
         </Page>

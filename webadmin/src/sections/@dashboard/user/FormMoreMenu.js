@@ -7,7 +7,7 @@ import Iconify from '../../../components/Iconify';
 
 // ----------------------------------------------------------------------
 
-export default function ServiceMoreMenu() {
+export default function UserMoreMenu() {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -27,18 +27,25 @@ export default function ServiceMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="/dashboard/user/ABC123" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to="/dashboard/registerlist/ABC123" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <Iconify icon="eva:edit-fill" width={24} height={24} />
+            <Iconify icon="fluent:content-view-24-regular" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Chỉnh sửa" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Xem chi tiết" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
 
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+            <Iconify icon="akar-icons:circle-check" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Xóa" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Phê duyệt" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="akar-icons:circle-x" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Từ chối" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

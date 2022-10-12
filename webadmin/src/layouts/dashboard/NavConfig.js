@@ -34,7 +34,7 @@ const navConfig = [
   },
   {
     title: 'Đơn đăng ký',
-    path: '/dashboard/404',
+    path: '/dashboard/registerlist',
     icon: getIcon('clarity:form-line')
   },
 ];

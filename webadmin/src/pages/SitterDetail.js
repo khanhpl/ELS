@@ -27,12 +27,13 @@ import {
 } from '@mui/material';
 // components
 import Page from '../components/Page';
+import Iconify from '../components/Iconify';
 
 const steps = ['Đặt lịch', 'Đang thực hiện', 'Hoàn thành'];
 
 export default function BookingDetail() {
   const { sitterId } = useParams();
-  useEffect(() => {}, [sitterId]);
+  useEffect(() => { }, [sitterId]);
 
   const [checked, setChecked] = useState([0, 2]);
 
@@ -91,7 +92,7 @@ export default function BookingDetail() {
               <Stack direction="row" justifyContent="space-around" sx={{ width: '100%' }}>
                 <Avatar sx={{ width: 80, height: 80 }}>N</Avatar>
                 <Stack>
-                  <Typography variant="h5">Nhat Thi (SE62321)</Typography>
+                  <Typography variant="h5">Nguyễn Văn A</Typography>
                   <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
                     Nhân viên chăm sóc
                   </Typography>
@@ -134,8 +135,8 @@ export default function BookingDetail() {
               variant="outlined"
             />
             <TextField
-              label="Ngày đặt lịch"
-              defaultValue="T2, 10/10/2022"
+              label="Bằng cấp"
+              defaultValue="Trung cấp ..."
               InputProps={{
                 readOnly: true,
               }}
@@ -144,24 +145,24 @@ export default function BookingDetail() {
           </Stack>
           <Stack direction="column" spacing={4}>
             <TextField
+              label="Mã Nhân Viên"
+              defaultValue="213124"
+              InputProps={{
+                readOnly: true,
+              }}
+              variant="outlined"
+            />
+            <TextField
               label="Số điện thoại"
-              defaultValue="+84 909123456"
+              defaultValue="+84 9091234562"
               InputProps={{
                 readOnly: true,
               }}
               variant="outlined"
             />
             <TextField
-              label="Ngày đặt lịch"
-              defaultValue="T2, 10/10/2022"
-              InputProps={{
-                readOnly: true,
-              }}
-              variant="outlined"
-            />
-            <TextField
-              label="Ngày đặt lịch"
-              defaultValue="T2, 10/10/2022"
+              label="Email"
+              defaultValue="acb@gmail.com"
               InputProps={{
                 readOnly: true,
               }}
@@ -178,8 +179,8 @@ export default function BookingDetail() {
               variant="outlined"
             />
             <TextField
-              label="Ngày hoàn thành"
-              defaultValue="T5, 13/10/2022"
+              label="Mã căn cước công dân"
+              defaultValue="123456789123"
               InputProps={{
                 readOnly: true,
               }}
@@ -189,7 +190,7 @@ export default function BookingDetail() {
 
           <Box>
             <Typography variant="subtitle1" sx={{ color: 'text.secondary' }}>
-              Dịch vụ sử dụng
+              Loại dịch vụ
             </Typography>
             <List sx={{ width: '100%', maxWidth: 480, bgcolor: 'background.paper' }}>
               {[0, 1, 2, 3].map((value) => {
@@ -223,6 +224,12 @@ export default function BookingDetail() {
             rows={4}
             variant="outlined"
           />
+        </Stack>
+        <Stack sx={{ width: '20%', p: 2 }}>
+          <Button variant="contained" component={RouterLink} to="/dashboard/sitlist" startIcon={<Iconify icon="akar-icons:arrow-back-thick" />}>
+            Trở về
+          </Button>
+          <Stack mb={2} />
         </Stack>
       </Container>
     </Page>

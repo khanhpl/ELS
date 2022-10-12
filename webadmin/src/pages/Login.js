@@ -82,7 +82,7 @@ export default function Login() {
         <Container maxWidth="sm">
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
-              Đăng nhập vào Elderly Sitting
+              Đăng nhập vào Elderly Sitter
             </Typography>
 
             <Typography sx={{ color: 'text.secondary', mb: 5 }}>Điền tên đăng nhập và mật khẩu.</Typography>
