@@ -27,6 +27,7 @@ import {
 } from '@mui/material';
 // components
 import Page from '../components/Page';
+import Iconify from '../components/Iconify';
 
 const steps = ['Đặt lịch', 'Đang thực hiện', 'Hoàn thành'];
 
@@ -189,6 +190,17 @@ export default function BookingDetail() {
             rows={4}
             variant="outlined"
           />
+        </Stack>
+        <Stack sx={{ width: '20%', p: 2 }}>
+          <Button
+            variant="contained"
+            component={RouterLink}
+            to="/dashboard/schedule"
+            startIcon={<Iconify icon="akar-icons:arrow-back-thick" />}
+          >
+            Trở về
+          </Button>
+          <Stack mb={2} />
         </Stack>
       </Container>
     </Page>

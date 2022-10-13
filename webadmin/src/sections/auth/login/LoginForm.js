@@ -17,8 +17,8 @@ const LOGIN_URL = '/auth';
 export default function LoginForm() {
   const userRef = useRef();
   const errRef = useRef();
-  const [user, setUser] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [username, setUser] = useState('');
+  const [password, setPwd] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -55,7 +55,7 @@ export default function LoginForm() {
 
     try {
       const response = await axios.post(LOGIN_URL,
-        JSON.stringify({ user, pwd }),
+        JSON.stringify({ username, password }),
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: true
@@ -63,11 +63,12 @@ export default function LoginForm() {
       );
       console.log(JSON.stringify(response?.data));
       // console.log(JSON.stringify(response));
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data?.roles;
+      const token = response?.data?.token;
+      const role = response?.data?.role;
       setUser('');
       setPwd('');
-      setSuccess(true);
+      setSuccess(true); 
+      onSubmit();
     } catch (err) {
       if (!err?.response) {
         setErrMsg('No Server Response');

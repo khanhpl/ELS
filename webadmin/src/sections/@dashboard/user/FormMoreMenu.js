@@ -27,7 +27,7 @@ export default function UserMoreMenu() {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem component={RouterLink} to="/dashboard/sitlist/ABC123" sx={{ color: 'text.secondary' }}>
+        <MenuItem component={RouterLink} to="/dashboard/registerlist/ABC123" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Iconify icon="fluent:content-view-24-regular" width={24} height={24} />
           </ListItemIcon>
@@ -36,9 +36,16 @@ export default function UserMoreMenu() {
 
         <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
-            <Iconify icon="eva:trash-2-outline" width={24} height={24} />
+            <Iconify icon="akar-icons:circle-check" width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Xóa" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText primary="Phê duyệt" primaryTypographyProps={{ variant: 'body2' }} />
+        </MenuItem>
+
+        <MenuItem sx={{ color: 'text.secondary' }}>
+          <ListItemIcon>
+            <Iconify icon="akar-icons:circle-x" width={24} height={24} />
+          </ListItemIcon>
+          <ListItemText primary="Từ chối" primaryTypographyProps={{ variant: 'body2' }} />
         </MenuItem>
       </Menu>
     </>

@@ -13,7 +13,13 @@ import DashboardApp from './pages/DashboardApp';
 import Sitter from './pages/Sitter';
 import Booking from './pages/Booking';
 import Customer from './pages/Customer';
+import RegisterForm from './pages/RegisterForm';
 import BookingDetail from './pages/BookingDetail';
+import SitterDetail from './pages/SitterDetail';
+import CustomerDetail from './pages/CustomerDetail';
+import RegisterFormDetail from './pages/FormDetail';
+import ServiceDetail from './pages/ServiceDetail';
+import NewService from './pages/NewService';
 
 // ----------------------------------------------------------------------
 
@@ -24,10 +30,23 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <DashboardApp /> },
-        { path: 'user', element: <User /> },
+        {
+          path: 'user',
+          children: [
+            { index: true, element: <User /> },
+            { path: ':serviceId', element: <ServiceDetail /> },
+            { path: 'newsv', element: <NewService /> },
+          ],
+        },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> },
-        { path: 'sitlist', element: <Sitter /> },
+        {
+          path: 'sitlist',
+          children: [
+            { index: true, element: <Sitter /> },
+            { path: ':sitterId', element: <SitterDetail /> },
+          ],
+        },
         {
           path: 'schedule',
           children: [
@@ -35,7 +54,20 @@ export default function Router() {
             { path: ':bookingId', element: <BookingDetail /> },
           ],
         },
-        { path: 'customer', element: <Customer /> },
+        {
+          path: 'customer',
+          children: [
+            { index: true, element: <Customer /> },
+            { path: ':customerId', element: <CustomerDetail /> },
+          ],
+        },
+        {
+          path: 'registerlist',
+          children: [
+            { index: true, element: <RegisterForm /> },
+            { path: ':registerId', element: <RegisterFormDetail /> },
+          ],
+        },
       ],
     },
     {
