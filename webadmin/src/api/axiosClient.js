@@ -7,13 +7,17 @@ const axiosClient = axios.create({
   baseURL: 'https://els12.herokuapp.com/',
   headers: {
     'content-type': 'application/json; charset=UTF-8',
-    'Access-Control-Allow-Origin':'http://localhost:3000',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'access-control-allow-origin'
   },
   paramsSerializer: params => queryString.stringify(params),
 });
 
 axiosClient.interceptors.request.use(async (config) => {
-  // Handle token here ...
+  const data = JSON.parse(localStorage.getItem("data"));
+  if (data) {
+    config.headers.Authorization = `Bearer ${data?.token}`;
+  }
   return config;
 });
 

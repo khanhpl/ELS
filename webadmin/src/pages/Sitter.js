@@ -1,6 +1,6 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import {
@@ -27,6 +27,9 @@ import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
+// api
+import sitterApi from '../api/sitterApi'
+
 
 // ----------------------------------------------------------------------
 
@@ -131,6 +134,22 @@ export default function User() {
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
+
+  // ----------------------------------------------------------------------
+
+const [sitterList, setSitterList] = useState([]);
+
+React.useEffect(() => {
+  const fetchSitterList = async () => {
+    try {
+      const response = await sitterApi.getAll();
+      console.log(response);
+    } catch (error) {
+      console.log('Failed to fetch sitter list: ', error);
+    }
+  }
+  fetchSitterList();
+}, []);
 
   return (
     <Page title="User">
