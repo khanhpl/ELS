@@ -6,6 +6,7 @@ import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../core/utils/globals.dart' as Globals;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -25,6 +26,8 @@ class _AccountScreenState extends State<AccountScreen> {
       if(FirebaseAuth.instance.currentUser != null){
         fullname = FirebaseAuth.instance.currentUser!.displayName.toString();
         email = FirebaseAuth.instance.currentUser!.email.toString();
+      }else{
+        fullname = Globals.curUser!.data.username;
       }
 
     });
