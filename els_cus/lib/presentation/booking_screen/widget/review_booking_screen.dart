@@ -5,6 +5,52 @@ import 'package:flutter/material.dart';
 class ReviewBookingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void showAlertDialog(BuildContext context) {
+      // set up the buttons
+      Widget cancelButton = TextButton(
+        child: Text(
+          "Hủy",
+          style: TextStyle(
+            color: ColorConstant.purple900,
+          ),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+      Widget continueButton = TextButton(
+        child: Text(
+          "Xác nhận",
+          style: TextStyle(
+            color: ColorConstant.purple900,
+          ),
+        ),
+        onPressed: () {},
+      );
+
+      // set up the AlertDialog
+      AlertDialog alert = AlertDialog(
+        title: const Text(
+          "Xác Nhận Đặt Lịch",
+        ),
+        content: const Text(
+          "Bạn xác nhận muốn đặt lịch chăm sóc này",
+        ),
+        actions: [
+          cancelButton,
+          continueButton,
+        ],
+      );
+
+      // show the dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        },
+      );
+    }
+
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -136,12 +182,12 @@ class ReviewBookingScreen extends StatelessWidget {
                         ),
                         Expanded(
                           child: Align(
-                            alignment: Alignment.centerRight,
+                              alignment: Alignment.centerRight,
                               child: Image.asset(
-                            ImageConstant.imgArrowrightGray400,
-                            height: size.width * 0.03,
-                            width: size.width * 0.03,
-                          )),
+                                ImageConstant.imgArrowrightGray400,
+                                height: size.width * 0.03,
+                                width: size.width * 0.03,
+                              )),
                         ),
                       ],
                     ),
@@ -601,7 +647,9 @@ class ReviewBookingScreen extends StatelessWidget {
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showAlertDialog(context);
+                          },
                           style: ElevatedButton.styleFrom(
                             primary: ColorConstant.purple900,
                             textStyle: TextStyle(

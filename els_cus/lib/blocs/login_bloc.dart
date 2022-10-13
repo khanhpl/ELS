@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:els_cus_mobile/core/models/user_data_model.dart';
 import 'package:els_cus_mobile/core/models/user_model.dart';
 import 'package:els_cus_mobile/core/validators/validations.dart';
-import 'package:jwt_decode/jwt_decode.dart';
 import '../core/utils/globals.dart' as Globals;
 import 'package:http/http.dart' as http;
 class LoginBloc {

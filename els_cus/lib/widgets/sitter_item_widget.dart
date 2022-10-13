@@ -4,6 +4,7 @@ import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/home_screen/widgets/sitter_detail.dart';
+import 'package:els_cus_mobile/widgets/sitter_detail_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -16,7 +17,7 @@ class SitterItemWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SitterDetailScreen()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context) => SitterDetailWidget(sitter: sitter)),);
       },
       child: Align(
         alignment: Alignment.centerLeft,
