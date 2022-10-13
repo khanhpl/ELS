@@ -17,16 +17,17 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   LoginBloc bloc = LoginBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     // TODO: implement build
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
       body: SizedBox(
         width: size.width,
         child: SingleChildScrollView(
-
           scrollDirection: Axis.vertical,
           child: Column(
             children: [
@@ -68,15 +69,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                                 child: Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
                                     Padding(
                                       padding: EdgeInsets.only(
                                         left: size.width * 0.08,
-                                        top: size.height*0.1,
-                                        right: size.width *0.08,
+                                        top: size.height * 0.1,
+                                        right: size.width * 0.08,
                                       ),
                                       child: Text(
                                         "Chào mừng",
@@ -93,9 +93,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     Padding(
                                       padding: EdgeInsets.only(
                                         left: size.width * 0.08,
-                                        top: size.height*0.05,
+                                        top: size.height * 0.05,
                                         right: size.width * 0.08,
-                                        bottom: size.height*0.05,
+                                        bottom: size.height * 0.05,
                                       ),
                                       child: Text(
                                         "Đăng nhập để tiếp tục",
@@ -126,22 +126,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         right: size.width * 0.05,
                       ),
                       child: StreamBuilder(
-                          stream: bloc.emailStream,
-                          builder: (context, snapshot) => TextField(
-                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                        controller: _emailController,
-                        decoration: InputDecoration(
-                            hintText: "Email",
-                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                            prefixIcon: SizedBox(
-                                width: size.width * 0.05,
-                                child: Image.asset(ImageConstant.imgUser)),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xffCED0D2), width: 1),
-                                borderRadius:
-                                BorderRadius.all(Radius.circular(6)))),
-                      )),
+                        stream: bloc.emailStream,
+                        builder: (context, snapshot) => TextField(
+                          style: TextStyle(
+                              fontSize: size.width * 0.04, color: Colors.black),
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                              hintText: "Email",
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              prefixIcon: SizedBox(
+                                  width: size.width * 0.05,
+                                  child: Image.asset(ImageConstant.imgUser)),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffCED0D2), width: 1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
+                        ),
+                      ),
                     ),
 
                     //mk
@@ -154,28 +158,30 @@ class _LoginScreenState extends State<LoginScreen> {
                           StreamBuilder(
                               stream: bloc.passStream,
                               builder: ((context, snapshot) => TextField(
-                            style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black,
-                            ),
-                            obscureText: !_showPass,
-                            controller: _passController,
-                            decoration:  InputDecoration(
-                                errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                hintText: "Mật Khẩu",
-                                prefixIcon: SizedBox(
-                                    width: size.width * 0.05,
-                                    child: Image.asset(ImageConstant.imgLock)),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffCED0D2), width: 1),
-                                    borderRadius: BorderRadius.all(
-                                        Radius.circular(6)))),
-                          ))),
-
-
+                                    style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black,
+                                    ),
+                                    obscureText: !_showPass,
+                                    controller: _passController,
+                                    decoration: InputDecoration(
+                                        errorText: snapshot.hasError
+                                            ? snapshot.error.toString()
+                                            : null,
+                                        hintText: "Mật Khẩu",
+                                        prefixIcon: SizedBox(
+                                            width: size.width * 0.05,
+                                            child: Image.asset(
+                                                ImageConstant.imgLock)),
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffCED0D2),
+                                                width: 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6)))),
+                                  ))),
                           Padding(
-                            padding: EdgeInsets.only(right: size.height*0.02),
+                            padding: EdgeInsets.only(right: size.height * 0.02),
                             child: GestureDetector(
                               onTap: () {
                                 setState(() {
@@ -217,8 +223,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           right: size.width * 0.05,
                         ),
                         child: GestureDetector(
-                          onTap: (){
-                            Navigator.pushNamed(context, '/forgotPasswordScreen');
+                          onTap: () {
+                            Navigator.pushNamed(
+                                context, '/forgotPasswordScreen');
                           },
                           child: Text(
                             "Quên mật khẩu?",
@@ -242,8 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       child: SizedBox(
                         width: double.infinity,
-                        child:ElevatedButton(
-
+                        child: ElevatedButton(
                           onPressed: () {
                             onLoginClick();
                             // Navigator.pushNamed(context, "/homeScreen");
@@ -255,16 +261,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           child: const Text("Đăng nhập"),
-
                         ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
                         left: size.width * 0.05,
-                        top: size.height*0.03,
+                        top: size.height * 0.03,
                         right: size.width * 0.05,
-                        bottom: size.height*0.03,
+                        bottom: size.height * 0.03,
                       ),
                       child: Text(
                         "hoặc sử dụng",
@@ -303,7 +308,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         onPressed: () {
                           setState(() {
-                            final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
+                            final provider = Provider.of<GoogleSignInProvider>(
+                                context,
+                                listen: false);
                             provider.googleLogin();
                           });
                         },
@@ -311,44 +318,43 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     Container(
                       margin: EdgeInsets.only(
-                        left: size.width*0.05,
-                        top: size.height*0.03,
-                        right: size.width*0.05,
+                        left: size.width * 0.05,
+                        top: size.height * 0.03,
+                        right: size.width * 0.05,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Không có tài khoản? ',
+                        children: [
+                          Text(
+                            'Không có tài khoản? ',
+                            style: TextStyle(
+                              color: ColorConstant.gray700,
+                              fontSize: size.width * 0.045,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/signUpScreen');
+                            },
+                            child: Text(
+                              'Đăng ký',
                               style: TextStyle(
                                 color: ColorConstant.gray700,
-                                fontSize: size.width*0.045,
+                                fontSize: size.width * 0.045,
                                 fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
-                            GestureDetector(
-                              onTap: (){
-                                Navigator.pushNamed(context, '/signUpScreen');
-                            },
-                              child: Text(
-                                'Đăng ký',
-                                style: TextStyle(
-                                  color: ColorConstant.gray700,
-                                  fontSize: size.width*0.045,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
               ),
-              SizedBox(height: size.height*0.1)
+              SizedBox(height: size.height * 0.1)
             ],
           ),
         ),
@@ -362,22 +368,52 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-    onLoginClick() async {
+  void showAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Tài khoản hoặc mật khẩu không chính xác vui lòng nhập lại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  onLoginClick() async {
     String email = _emailController.text.trim();
     String pass = _passController.text.trim();
     bool isTrueAcc = false;
     bool isValidAcc = false;
     isValidAcc = bloc.isValidInput(email, pass);
 
-    if(isValidAcc){
+    if (isValidAcc) {
       isTrueAcc = await bloc.checkCurUser(email, pass);
-      if(isTrueAcc){
+      if (isTrueAcc) {
         Navigator.pushNamed(context, '/homeScreen');
-      }else{
+      } else {
+        showAlertDialog(context);
       }
     }
-
   }
 }
-
-

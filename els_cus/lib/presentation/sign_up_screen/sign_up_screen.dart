@@ -432,20 +432,88 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _showPass = !_showPass;
     });
   }
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/loginWithGoogleNav');
+      },
+    );
 
-  void onSignUpClick() {
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Tài khoản thành công xác nhận để về trang chủ",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Tài khoản thất bại vui lòng nhập lại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void onSignUpClick() async{
     String fullname = _fullnameController.text.trim();
     String email = _emailController.text.trim();
     String pass = _passController.text.trim();
     String rePass = _rePassController.text.trim();
     bool isValidAcc = false;
+    bool createSuccess = false;
     isValidAcc = bloc.isValidInput(fullname, email, pass, rePass);
     if (isValidAcc) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  const VerificationCodeScreen(functionKey: "signUpScreen")));
+      // Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (context) =>
+      //             const VerificationCodeScreen(functionKey: "signUpScreen")));
+      createSuccess = await bloc.createCus(fullname, email, pass);
+      if(createSuccess){
+        showSuccessAlertDialog(context);
+      }else{
+        showFailAlertDialog(context);
+      }
     }
   }
 }

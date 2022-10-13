@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:els_cus_mobile/core/validators/validations.dart';
 import 'package:http/http.dart' as http;
@@ -51,5 +52,32 @@ class SignUpBloc{
       isValid = true;
     }
     return isValid;
+  }
+  Future<bool> createCus(String fullname, String email, String password) async {
+    try {
+      print('test fullname: '+ fullname);
+      print('test email:'+ fullname);
+      var url =
+      Uri.parse("https://els12.herokuapp.com/customer");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, String>{
+            'fullName': fullname,
+            'email': email,
+            'password': password,
+          },
+        ),
+      );
+      if (response.statusCode.toString() == '200') {
+
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
   }
 }
