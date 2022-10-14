@@ -1,4 +1,5 @@
 // scroll bar
+import { Provider } from 'react-redux';
 import 'simplebar/src/simplebar.css';
 
 import ReactDOM from 'react-dom/client';
@@ -9,6 +10,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
+import store from './store';
 
 // ----------------------------------------------------------------------
 
@@ -16,9 +18,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <HelmetProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   </HelmetProvider>
 );
 

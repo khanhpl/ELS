@@ -1,11 +1,17 @@
-import axiosClient from "./axiosClient";
+import axiosClient from './axiosClient';
 
 const sitterApi = {
-    getAll: (params) => {
-        const url = '/sitter';
-        return axiosClient.get(url, { params });
-    }
-}
+  getAll: (params) => {
+    const url = '/sitter';
+    return axiosClient.get(url, { params });
+  },
+  getAllService: (url = '/service') => {
+    return axiosClient.get(url);
+  },
+  getAllSitter: (url = '/sitter') => {
+    return axiosClient.get(url);
+  },
+};
 
 // class SitterApi {
 //     async getAllSitter() {
@@ -15,4 +21,4 @@ const sitterApi = {
 // }
 // const sitterAPI = new SitterApi();
 
-export default sitterApi
+export default sitterApi;

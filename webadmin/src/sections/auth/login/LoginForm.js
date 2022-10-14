@@ -54,20 +54,17 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post(LOGIN_URL,
-        JSON.stringify({ username, password }),
-        {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: true
-        }
-      );
+      const response = await axios.post(LOGIN_URL, JSON.stringify({ username, password }), {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      });
       console.log(JSON.stringify(response?.data));
-      // console.log(JSON.stringify(response));
+      localStorage.setItem('data', JSON.stringify(response?.data));
       const token = response?.data?.token;
       const role = response?.data?.role;
       setUser('');
       setPwd('');
-      setSuccess(true); 
+      setSuccess(true);
       onSubmit();
     } catch (err) {
       if (!err?.response) {
@@ -81,7 +78,7 @@ export default function LoginForm() {
       }
       errRef.current?.focus();
     }
-  }
+  };
 
   const onSubmit = async () => {
     navigate('/dashboard/app', { replace: true });
@@ -90,11 +87,7 @@ export default function LoginForm() {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit}>
       <Stack spacing={3}>
-        <RHFTextField 
-          name="email" 
-          label="Tên tài khoản" 
-          onChange={(e) => setUser(e.target.value)}
-        />
+        <RHFTextField name="email" label="Tên tài khoản" onChange={(e) => setUser(e.target.value)} />
 
         <RHFTextField
           name="password"
@@ -115,7 +108,6 @@ export default function LoginForm() {
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
         <RHFCheckbox name="remember" label="Nhớ mật khẩu" />
-
       </Stack>
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained">

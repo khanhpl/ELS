@@ -1,7 +1,9 @@
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+
 // material
 import {
   Card,
@@ -26,6 +28,8 @@ import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
 import { UserListHead, UserListToolbar, ServiceMoreMenu } from '../sections/@dashboard/user';
+import { getAllService } from '../store/actions';
+
 // mock
 import USERLIST from '../_mock/service';
 
@@ -35,7 +39,7 @@ const TABLE_HEAD = [
   { id: 'id', label: 'Mã dịch vụ', alignRight: false },
   { id: 'name', label: 'Tên dịch vụ', alignRight: false },
   { id: 'company', label: 'Giá dịch vụ', alignRight: false },
-  { id: 'role', label: 'Thời gian', alignRight: false },
+  { id: 'role', label: 'Hình thức', alignRight: false },
   // { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Tình trạng', alignRight: false },
   { id: '' },
@@ -73,6 +77,7 @@ function applySortFilter(array, comparator, query) {
 }
 
 export default function User() {
+  const dispatch = useDispatch();
   const [page, setPage] = useState(0);
 
   const [order, setOrder] = useState('asc');
@@ -85,6 +90,13 @@ export default function User() {
 
   const [rowsPerPage, setRowsPerPage] = useState(3);
 
+  useEffect(() => {
+    dispatch(getAllService());
+  }, []);
+
+  const { services } = useSelector((store) => store.serviceReducer);
+  console.log(services);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -93,7 +105,7 @@ export default function User() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = USERLIST.map((n) => n.name);
+      const newSelecteds = services.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -128,9 +140,9 @@ export default function User() {
     setFilterName(event.target.value);
   };
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
+  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - services.length) : 0;
 
-  const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
+  const filteredUsers = applySortFilter(services, getComparator(order, orderBy), filterName);
 
   const isUserNotFound = filteredUsers.length === 0;
 
@@ -166,14 +178,14 @@ export default function User() {
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
-                  rowCount={USERLIST.length}
+                  rowCount={services.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
+                    const { id, name, price, status, category, sitterRequirement } = row;
                     const isItemSelected = selected.indexOf(name) !== -1;
 
                     return (
@@ -191,17 +203,17 @@ export default function User() {
                         <TableCell align="left">{id}</TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
                               {name}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{price}</TableCell>
+                        <TableCell align="left">{category?.name}</TableCell>
                         <TableCell align="left">
-                          <Label variant="ghost" color={(status === 'deny' && 'error') || 'success'}>
-                            {sentenceCase(status)}
+                          <Label variant="ghost" color={(status?.statusName === 'DEACTIVE' && 'error') || 'success'}>
+                            {sentenceCase(status?.statusName)}
                           </Label>
                         </TableCell>
 
@@ -234,7 +246,7 @@ export default function User() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={USERLIST.length}
+            count={services.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}
