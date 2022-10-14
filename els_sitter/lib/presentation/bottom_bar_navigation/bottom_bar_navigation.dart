@@ -131,9 +131,15 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
                   ),
                   title: 'Lịch trình\n',
                 ),
-                const TabItem(
-                  icon: Icons.add,
-                  title: 'Tạo mới\n',
+                TabItem(
+                  icon: ImageIcon(
+                    AssetImage(ImageConstant.imgNews),
+                  ),
+                  activeIcon: ImageIcon(
+                    AssetImage(ImageConstant.imgNews),
+                    color: ColorConstant.purple900,
+                  ),
+                  title: 'Tin đăng\n',
                 ),
                 TabItem(
                   icon: ImageIcon(

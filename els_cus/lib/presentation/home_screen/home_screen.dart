@@ -1,7 +1,9 @@
+import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
+import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/home_screen/widgets/banner_item_widget.dart';
-import 'package:els_cus_mobile/presentation/home_screen/widgets/listuserpict_item_widget.dart';
+import 'package:els_cus_mobile/widgets/sitter_item_widget.dart';
 import 'package:flutter/material.dart';
 import '../../widgets/custom_search_view.dart';
 
@@ -16,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    final Future<List<SitterDataModel>> sitterList = SitterBlocs().getAllSitter();
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
       body: Container(
@@ -440,25 +443,55 @@ class _HomeScreenState extends State<HomeScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: ListView.separated(
-                                        physics: const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        separatorBuilder: (context, index) {
-                                          return Container(
-                                            height: 1,
-                                            width: size.width,
-                                            decoration: BoxDecoration(
-                                              color: ColorConstant.bluegray50,
-                                            ),
+                                    // Align(
+                                    //   alignment: Alignment.centerLeft,
+                                    //   child: ListView.separated(
+                                    //     physics: const NeverScrollableScrollPhysics(),
+                                    //     shrinkWrap: true,
+                                    //     separatorBuilder: (context, index) {
+                                    //       return Container(
+                                    //         height: 1,
+                                    //         width: size.width,
+                                    //         decoration: BoxDecoration(
+                                    //           color: ColorConstant.bluegray50,
+                                    //         ),
+                                    //       );
+                                    //     },
+                                    //     itemCount: 3,
+                                    //     itemBuilder: (context, index) {
+                                    //       return const ListuserpictItemWidget();
+                                    //     },
+                                    //   ),
+                                    // ),
+                                    FutureBuilder<List<SitterDataModel>>(
+                                      builder: (context, snapshot) {
+                                        if (snapshot.hasError) print(snapshot.error);
+                                        if (snapshot.hasData) {
+                                          return ListView.separated(
+                                            physics: NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            // itemCount: snapshot.data!.length,
+                                            itemCount: snapshot.data!.length,
+                                                separatorBuilder: (context, index) {
+                                                  return Container(
+                                                    height: 1,
+                                                    width: size.width,
+                                                    decoration: BoxDecoration(
+                                                      color: ColorConstant.bluegray50,
+                                                    ),
+                                                  );
+                                                },
+                                            itemBuilder: (BuildContext context, int index) {
+                                              return SitterItemWidget(
+                                                  sitter: snapshot.data![index]);
+                                            },
                                           );
-                                        },
-                                        itemCount: 3,
-                                        itemBuilder: (context, index) {
-                                          return const ListuserpictItemWidget();
-                                        },
-                                      ),
+                                        } else {
+                                          return const CircularProgressIndicator();
+                                        }
+                                      },
+                                      future: sitterList,
                                     ),
                                     Container(
                                       height: 1,

@@ -1,27 +1,37 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:els_sitter/core/models/user_data_model.dart';
-import 'package:els_sitter/core/models/user_model.dart';
-import 'package:els_sitter/core/validators/validations.dart';
-import '../core/utils/globals.dart' as Globals;
+
+import 'package:els_cus_mobile/core/validators/validations.dart';
 import 'package:http/http.dart' as http;
-class LoginBloc {
+class SignUpBloc{
   final StreamController _emailController = StreamController();
   final StreamController _passController = StreamController();
-
+  final StreamController _fullnameController = StreamController();
+  final StreamController _rePassController = StreamController();
+  Stream get fullnameStream => _fullnameController.stream;
+  Stream get rePassStream => _rePassController.stream;
   Stream get emailStream => _emailController.stream;
   Stream get passStream => _passController.stream;
-  bool isValidInput(String email, String pass){
+  bool isValidInput(String fullname, String email, String pass, String rePass){
     bool isValid = false;
+    bool fullnameValid = false;
     bool userValid = false;
     bool passValid = false;
+    bool rePassValid = false;
+    if(fullname.isEmpty){
+      _fullnameController.sink.addError("Họ và tên không thể để trống");
+      fullnameValid = false;
+    }else{
+      _fullnameController.sink.add("OK");
+      fullnameValid = true;
+    }
     if(!Validations.isValidEmail(email)){
 
       _emailController.sink.addError("Email không hợp lệ!");
       userValid = false;
     }else{
       _emailController.sink.add("OK");
-      isValid = true;
+      userValid = true;
     }
     if(!Validations.isValidPassword(pass)){
       _passController.sink.addError("Mật khẩu phải có tối thiểu 8 ký tự và bao gồm chữ thường, chữ in hoa và số");
@@ -30,17 +40,25 @@ class LoginBloc {
       _passController.sink.add("OK");
       passValid = true;
     }
-    if(userValid && passValid){
+
+    if(pass != rePass){
+      _rePassController.sink.addError("Mật khẩu nhập lại không trùng khớp");
+      rePassValid = false;
+    }else{
+      _rePassController.sink.add("OK");
+      rePassValid = true;
+    }
+    if(userValid && passValid && fullnameValid && rePassValid){
       isValid = true;
     }
-
-
     return isValid;
   }
-  Future<bool> checkCurUser(String email, String password) async {
+  Future<bool> createCus(String fullname, String email, String password) async {
     try {
+      print('test fullname: '+ fullname);
+      print('test email:'+ fullname);
       var url =
-      Uri.parse("https://els12.herokuapp.com/auth");
+      Uri.parse("https://els12.herokuapp.com/customer");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -48,27 +66,14 @@ class LoginBloc {
         },
         body: jsonEncode(
           <String, String>{
-            'username': email,
+            'fullName': fullname,
+            'email': email,
             'password': password,
           },
         ),
       );
       if (response.statusCode.toString() == '200') {
-        String username = json.decode(response.body)['data']['username'];
 
-        String password = '';
-        if(json.decode(response.body)['data']['password'] != null){
-          password = json.decode(response.body)['data']['password'];
-        }
-        String role = json.decode(response.body)['data']['role'];
-        String bearerToken = json.decode(response.body)['data']['token'];
-        UserDataModel data = UserDataModel(username, password, role, bearerToken);
-        String successCode = json.decode(response.body)['successCode'];
-        String errorCode = '';
-        if(json.decode(response.body)['errorCode'] != null){
-          errorCode = json.decode(response.body)['errorCode'];
-        }
-        Globals.curUser = UserModel(successCode, errorCode, data);
         return true;
       } else {
         return false;
@@ -76,4 +81,3 @@ class LoginBloc {
     } finally {}
   }
 }
-
