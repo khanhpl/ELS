@@ -1,5 +1,4 @@
 
 API LINK
-    Login API
-    https://els12.herokuapp.com/auth
+    https://els12.herokuapp.com/swagger-ui/index.html
 
