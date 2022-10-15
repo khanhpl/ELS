@@ -13,6 +13,7 @@ class ElderBlocs{
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization' : Globals.curUser!.data.bearerToken,
+          'Accept': 'application/json; charset=UTF-8',
         },
       );
       if (response.statusCode.toString() == '200') {

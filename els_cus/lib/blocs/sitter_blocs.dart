@@ -13,9 +13,11 @@ class SitterBlocs{
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization' : Globals.curUser!.data.bearerToken,
+          'Accept': 'application/json; charset=UTF-8',  'Accept': 'application/json; charset=UTF-8',
         },
       );
       if (response.statusCode.toString() == '200') {
+
         return parseAgentsSitterDataModel(json.decode(response.body)['data']);
       } else {
         throw Exception('Unable to fetch Sitter from the REST API');
