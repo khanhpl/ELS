@@ -6,6 +6,7 @@ import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import '../../core/utils/globals.dart' as Globals;
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -25,6 +26,8 @@ class _AccountScreenState extends State<AccountScreen> {
       if(FirebaseAuth.instance.currentUser != null){
         fullname = FirebaseAuth.instance.currentUser!.displayName.toString();
         email = FirebaseAuth.instance.currentUser!.email.toString();
+      }else{
+        fullname = Globals.curUser!.data.username;
       }
 
     });
@@ -233,39 +236,44 @@ class _AccountScreenState extends State<AccountScreen> {
                             color: ColorConstant.bluegray50,
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: size.width*0.03,
-                            top: size.height*0.02,
-                            right: size.width*0.03,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                "Người thân",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: ColorConstant.black900,
-                                  fontSize: 17,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.00,
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  alignment: Alignment.centerRight,
-                                  child: Image.asset(ImageConstant.imgArrowrightGray400,
-                                    width: size.width*0.02,
-                                    height: size.width*0.03,
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.pushNamed(context, '/elderScreen');
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: size.width*0.03,
+                              top: size.height*0.02,
+                              right: size.width*0.03,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Text(
+                                  "Người thân",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.black900,
+                                    fontSize: 17,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w400,
+                                    height: 1.00,
                                   ),
                                 ),
-                              ),
-                            ],
+                                Expanded(
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    child: Image.asset(ImageConstant.imgArrowrightGray400,
+                                      width: size.width*0.02,
+                                      height: size.width*0.03,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         Container(

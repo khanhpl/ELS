@@ -2,6 +2,8 @@
 import 'package:els_cus_mobile/fire_base/login_with_google_nav.dart';
 import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
 import 'package:els_cus_mobile/presentation/bottom_bar_navigation/bottom_bar_navigation.dart';
+import 'package:els_cus_mobile/presentation/elder_screen/add_new_elder_screen.dart';
+import 'package:els_cus_mobile/presentation/elder_screen/elder_screen.dart';
 import 'package:els_cus_mobile/presentation/forgot_password_screen/change_password_screen.dart';
 import 'package:els_cus_mobile/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:els_cus_mobile/presentation/login_screen/login_screen.dart';
@@ -29,12 +31,14 @@ class MyApp extends StatelessWidget {
         '/': (context) =>  OnboardingScreen(),
         // '/': (context) =>  LoginWithGoogleNav(),
         '/splashScreen': (context) => const SplashScreen(),
-        '/loginScreen': (context) => LoginScreen(),
+        '/loginScreen': (context) => const LoginScreen(),
         '/signUpScreen': (context) => const SignUpScreen(),
         '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
         '/changePasswordScreen': (context) => ChangePasswordScreen(),
         '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
-        '/loginWithGoogleNav': (context) => LoginWithGoogleNav(),
+        '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
+        '/elderScreen': (context) => ElderScreen(),
+        '/addNewElderScreen': (context) => const AddNewElderScreen(),
       },
     ),
   );
