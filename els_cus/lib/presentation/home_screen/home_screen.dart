@@ -468,10 +468,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         if (snapshot.hasError) print(snapshot.error);
                                         if (snapshot.hasData) {
                                           return ListView.separated(
-                                            physics: NeverScrollableScrollPhysics(),
+                                            physics: const NeverScrollableScrollPhysics(),
                                             shrinkWrap: true,
                                             scrollDirection: Axis.vertical,
-                                            // itemCount: snapshot.data!.length,
                                             itemCount: snapshot.data!.length,
                                                 separatorBuilder: (context, index) {
                                                   return Container(
