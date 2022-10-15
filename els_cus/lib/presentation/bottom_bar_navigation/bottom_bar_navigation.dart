@@ -4,6 +4,7 @@ import 'package:els_cus_mobile/presentation/account_screen/account_screen.dart';
 import 'package:els_cus_mobile/presentation/add_work_screen/add_work_screen.dart';
 import 'package:els_cus_mobile/presentation/home_screen/home_screen.dart';
 import 'package:els_cus_mobile/presentation/notifications_screen/notifications_screen.dart';
+import 'package:els_cus_mobile/presentation/schedule_screen/schedule_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:flutter/material.dart';
@@ -32,11 +33,11 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
       case 0:
         return const HomeScreen();
       case 1:
-        return const SplashScreen();
+        return const ScheduleScreen();
       case 2:
-        return AddWorkScreen();
+        return const AddWorkScreen();
       case 3:
-        return NotificationsScreen();
+        return const NotificationsScreen();
       case 4:
         return const AccountScreen();
 
