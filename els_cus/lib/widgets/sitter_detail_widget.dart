@@ -27,6 +27,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
+
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Column(
@@ -58,10 +59,15 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              Image.asset(
-                                ImageConstant.imgArrowleft,
-                                height: size.height * 0.024,
-                                width: size.width * 0.03,
+                              GestureDetector(
+                                onTap:(){
+                                  Navigator.pop(context);
+                                },
+                                child: Image.asset(
+                                  ImageConstant.imgArrowleft,
+                                  height: size.height * 0.024,
+                                  width: size.width * 0.03,
+                                ),
                               ),
                             ],
                           ),
@@ -76,8 +82,8 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                           children: [
                             Image.asset(
                               ImageConstant.imgGlobe,
-                              height: size.width * 0.03,
-                              width: size.width * 0.03,
+                              height: size.width * 0.15,
+                              width: size.width * 0.15,
                             ),
                             Container(
                               margin: EdgeInsets.only(
@@ -93,8 +99,8 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                             ),
                             Image.asset(
                               ImageConstant.imgFavorite,
-                              height: size.width * 0.03,
-                              width: size.width * 0.03,
+                              height: size.width * 0.15,
+                              width: size.width * 0.15,
                             ),
                           ],
                         ),
