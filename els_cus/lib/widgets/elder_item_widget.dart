@@ -80,7 +80,7 @@ class ElderItemWidget extends StatelessWidget {
                               textAlign: TextAlign.left,
                               style: TextStyle(
                                 color: ColorConstant.black900,
-                                fontSize: 15,
+                                fontSize: 25,
                                 fontFamily: 'Roboto',
                                 fontWeight: FontWeight.w500,
                               ),
