@@ -177,4 +177,5 @@ class ImageConstant {
   static String imgBubble = 'assets/images/img_bubble.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+  static String imgIconAdd = 'assets/images/img_icon_add.png';
 }
