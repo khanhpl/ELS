@@ -7,6 +7,8 @@ import 'package:els_cus_mobile/widgets/elder_item_widget.dart';
 import 'package:flutter/material.dart';
 
 class ElderScreen extends StatelessWidget{
+  const ElderScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -59,9 +61,9 @@ class ElderScreen extends StatelessWidget{
         onPressed: () {
           Navigator.pushNamed(context, '/addNewElderScreen');
         },
-        child: Icon(Icons.add),
         elevation: 0.0,
         backgroundColor: ColorConstant.purple900,
+        child: const Icon(Icons.add),
       ),
       body: Container(
         color: ColorConstant.whiteA700,
@@ -70,7 +72,7 @@ class ElderScreen extends StatelessWidget{
             if (snapshot.hasError) print(snapshot.error);
             if (snapshot.hasData) {
               return ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 // itemCount: snapshot.data!.length,

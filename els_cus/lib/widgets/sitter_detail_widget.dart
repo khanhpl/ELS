@@ -1,6 +1,7 @@
 import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/presentation/booking_screen/booking_from_sitter_screen.dart';
 import 'package:els_cus_mobile/presentation/booking_screen/widget/review_booking_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -1310,7 +1311,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            ReviewBookingScreen()));
+                                            BookingFromSitterScreen(sitter: sitter)));
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: ColorConstant.purple900,
