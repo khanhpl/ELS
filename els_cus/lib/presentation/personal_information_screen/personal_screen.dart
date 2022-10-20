@@ -3,7 +3,15 @@ import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 
 class PersonalScreen extends StatelessWidget {
-  const PersonalScreen({super.key});
+  PersonalScreen({super.key});
+
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +98,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _nameController,
+                          controller: _fullNameController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -131,7 +139,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _dobController,
+                          controller: _emailController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -172,7 +180,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _dobController,
+                          controller: _dobController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -213,7 +221,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _districtController,
+                          controller: _districtController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -254,7 +262,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _provinceController,
+                          controller: _cityController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -295,7 +303,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _addressController,
+                          controller: _addressController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -336,7 +344,7 @@ class PersonalScreen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: size.width * 0.04,
                               color: Colors.black),
-                          // controller: _healthStatusController,
+                          controller: _phoneController,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -361,6 +369,7 @@ class PersonalScreen extends StatelessWidget {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
+                            save();
                           },
                           style: ElevatedButton.styleFrom(
                             primary: ColorConstant.purple900,
@@ -380,5 +389,17 @@ class PersonalScreen extends StatelessWidget {
         ),
       ),
     ); //Scaffold
+  }
+
+  save() async {
+    String fullname = _fullNameController.text.trim();
+    String email = _emailController.text.trim();
+    String dob = _dobController.text.trim();
+    String district = _districtController.text.trim();
+    String city = _cityController.text.trim();
+    String address = _addressController.text.trim();
+    String phone = _phoneController.text.trim();
+
+
   }
 }
