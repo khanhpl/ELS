@@ -27,7 +27,7 @@ class _AccountScreenState extends State<AccountScreen> {
         fullname = FirebaseAuth.instance.currentUser!.displayName.toString();
         email = FirebaseAuth.instance.currentUser!.email.toString();
       }else{
-        fullname = Globals.curUser!.data.username;
+        fullname = Globals.curUser!.data.fullName;
       }
 
     });

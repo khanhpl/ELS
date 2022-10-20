@@ -12,7 +12,7 @@ class ElderBlocs{
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.bearerToken,
+          'Authorization' : Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
       );
