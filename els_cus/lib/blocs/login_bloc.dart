@@ -48,7 +48,7 @@ class LoginBloc {
         },
         body: jsonEncode(
           <String, String>{
-            'username': email,
+            'email': email,
             'password': password,
           },
         ),
