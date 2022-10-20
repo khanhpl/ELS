@@ -1,5 +1,6 @@
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
+import 'package:els_sitter/presentation/sign_up_screen/widget/CCCD.dart';
 import 'package:els_sitter/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -122,138 +123,501 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             left: size.width * 0.05,
                             right: size.width * 0.05,
                           ),
-                          child: TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04, color: Colors.black),
-                            decoration: InputDecoration(
-                                hintText: "Họ và tên",
-                                prefixIcon: SizedBox(
-                                    width: size.width * 0.05,
-                                    child: Image.asset(ImageConstant.imgUser)),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffCED0D2), width: 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)))),
-                          ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: 0,
-                            bottom: size.height * 0.03,
-                            left: size.width * 0.05,
-                            right: size.width * 0.05,
-                          ),
-                          child: TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04, color: Colors.black),
-                            decoration: InputDecoration(
-                                hintText: "Email",
-                                prefixIcon: SizedBox(
-                                    width: size.width * 0.05,
-                                    child: Image.asset(ImageConstant.imgUser)),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffCED0D2), width: 1),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(6)))),
-                          ),
-                        ),
-
-                        //mk
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(size.width * 0.05, 0,
-                              size.width * 0.05, size.height * 0.03),
-                          child: Stack(
-                            alignment: AlignmentDirectional.centerEnd,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              TextField(
-                                style: TextStyle(
-                                  fontSize: size.width * 0.04,
-                                  color: Colors.black,
-                                ),
-                                obscureText: !_showPass,
-                                decoration: InputDecoration(
-                                    errorText: null,
-                                    hintText: "Mật Khẩu",
-                                    prefixIcon: SizedBox(
-                                        width: size.width * 0.05,
-                                        child:
-                                            Image.asset(ImageConstant.imgLock)),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffCED0D2), width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)))),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(right: size.height * 0.02),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      onToggleShowPass();
-                                    });
-                                  },
-                                  child: Text(
-                                    _showPass ? "Ẩn" : "Hiện",
+                              Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Họ và Tên",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: const Color(0xff512678),
-                                      fontSize: size.width * 0.04,
-                                      fontWeight: FontWeight.bold,
+                                      color: ColorConstant.bluegray900,
+                                      fontSize: 14,
+                                      fontFamily: 'Outfit',
+                                      fontWeight: FontWeight.w400,
                                     ),
                                   ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(size.width * 0.05, 0,
-                              size.width * 0.05, size.height * 0.03),
-                          child: Stack(
-                            alignment: AlignmentDirectional.centerEnd,
-                            children: [
-                              TextField(
-                                style: TextStyle(
-                                  fontSize: size.width * 0.04,
-                                  color: Colors.black,
-                                ),
-                                obscureText: !_showPass,
-                                decoration: InputDecoration(
-                                    errorText: null,
-                                    hintText: "Nhập lại mật khẩu",
-                                    prefixIcon: SizedBox(
-                                        width: size.width * 0.05,
-                                        child:
-                                        Image.asset(ImageConstant.imgLock)),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffCED0D2), width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)))),
-                              ),
-                              Padding(
-                                padding:
-                                EdgeInsets.only(right: size.height * 0.02),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      onToggleShowPass();
-                                    });
-                                  },
-                                  child: Text(
-                                    _showPass ? "Ẩn" : "Hiện",
-                                    style: TextStyle(
-                                      color: const Color(0xff512678),
-                                      fontSize: size.width * 0.04,
-                                      fontWeight: FontWeight.bold,
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Số điện thoại",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Email",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Năm sinh",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Số CMND/CCCD",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Tải lên ảnh CMND/CCCD - Khuôn mặt",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: size.height*0.02,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Ảnh mặt trước",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 10,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.width*0.2,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: ColorConstant.purple900,
+                                          textStyle: TextStyle(
+                                            fontSize: size.width * 0.035,
+                                          ),
+                                        ),
+                                        child: const Text("Tải lên"),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
+                                SizedBox(
+                                  width: size.width*0.1,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Ảnh mặt sau",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 10,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.width*0.2,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: ColorConstant.purple900,
+                                          textStyle: TextStyle(
+                                            fontSize: size.width * 0.035,
+                                          ),
+                                        ),
+                                        child: const Text("Tải lên"),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: size.width*0.1,
+                                ),
+                                Column(
+                                  children: [
+                                    Text(
+                                      "Ảnh khuôn mặt",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 10,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: size.width*0.2,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: ColorConstant.purple900,
+                                          textStyle: TextStyle(
+                                            fontSize: size.width * 0.035,
+                                          ),
+                                        ),
+                                        child: const Text("Tải lên"),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Địa chỉ",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Quận/Huyện",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Tỉnh/Thành phố",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Chứng chỉ chuyên môn (nếu có)",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      left: size.width * 0.05,
+                                      top: 29,
+                                      right: size.width * 0.05,
+                                    ),
+                                    child: SizedBox(
+                                      width: double.infinity,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          // Navigator.pushNamed(context, "/homeScreen");
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: ColorConstant.purple900,
+                                          textStyle: TextStyle(
+                                            fontSize: size.width * 0.045,
+                                          ),
+                                        ),
+                                        child: const Text("Tải lên chứng chỉ"),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              )
                             ],
                           ),
                         ),
@@ -291,51 +655,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                               child: const Text("Đăng ký"),
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            left: size.width * 0.05,
-                            top: size.height * 0.03,
-                            right: size.width * 0.05,
-                            bottom: size.height * 0.03,
-                          ),
-                          child: Text(
-                            "hoặc sử dụng",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.gray700,
-                              fontSize: size.width * 0.045,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: size.width * 0.9,
-                          height: size.height * 0.06,
-                          decoration: BoxDecoration(
-                            color: Colors.grey[100],
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: TextButton(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(ImageConstant.imgGoogle,
-                                    width: size.height * 0.04),
-                                Text(
-                                  '    Đăng ký với Google',
-                                  style: TextStyle(
-                                    color: Colors.black87,
-                                    fontSize: size.height * 0.02,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            onPressed: () {},
                           ),
                         ),
                         Container(

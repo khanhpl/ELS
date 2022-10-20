@@ -1,3 +1,4 @@
+import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
@@ -12,6 +13,8 @@ class PersonalScreen extends StatelessWidget {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+
+  PersonalInfoBloc bloc = PersonalInfoBloc();
 
   @override
   Widget build(BuildContext context) {
@@ -400,6 +403,6 @@ class PersonalScreen extends StatelessWidget {
     String address = _addressController.text.trim();
     String phone = _phoneController.text.trim();
 
-
+    bloc.printAll(fullname, email, dob, district, city, address, phone);
   }
 }

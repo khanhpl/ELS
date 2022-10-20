@@ -17,7 +17,13 @@ class PersonalInfoBloc {
   Stream get addressStream => _addressController.stream;
   Stream get phoneStream => _phoneController.stream;
 
-  printAll(){
-
+  printAll(String fullname, String email, String dob, String district, String city, String address, String phone){
+    print(fullname);
+    print(email);
+    print(dob);
+    print(district);
+    print(city);
+    print(address);
+    print(phone);
   }
 }
