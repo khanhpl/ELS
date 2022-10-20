@@ -17,8 +17,8 @@ class ServiceBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
       );
+
       if (response.statusCode.toString() == '200') {
-        // print('test data'+ json.decode(response.body)['data'][0]['fullName'].toString());
         return ServiceModel.fromJson(json.decode(response.body));
       } else {
         throw Exception('Unable to fetch Service from the REST API');
