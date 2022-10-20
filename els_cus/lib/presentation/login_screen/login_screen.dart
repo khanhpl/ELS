@@ -414,6 +414,7 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {
         showAlertDialog(context);
       }
+    }else{
     }
   }
 }

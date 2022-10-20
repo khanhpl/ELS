@@ -72,7 +72,7 @@ class ElderScreen extends StatelessWidget{
             if (snapshot.hasError) print(snapshot.error);
             if (snapshot.hasData) {
               return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 // itemCount: snapshot.data!.length,
