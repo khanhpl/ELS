@@ -104,7 +104,7 @@ class ElderItemWidget extends StatelessWidget {
                               left: size.width*0.015,
                             ),
                             child: Text(
-                              elder.gender? "Nam" : "Nữ",
+                              (elder.gender == 'Nam')? "Nam" : "Nữ",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(

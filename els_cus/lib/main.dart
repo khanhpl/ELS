@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
         '/elderScreen': (context) => ElderScreen(),
         '/addNewElderScreen': (context) => const AddNewElderScreen(),
-        '/personalScreen': (context) => const PersonalScreen(),
+        '/personalScreen': (context) => PersonalScreen(),
       },
     ),
   );

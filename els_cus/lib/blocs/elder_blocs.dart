@@ -7,7 +7,7 @@ class ElderBlocs{
   Future<List<ElderDataModel>> getAllElder() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder");
+      Uri.parse("https://els12.herokuapp.com/elder/${Globals.curUser!.data.email}");
       final response = await http.get(
         url,
         headers: <String, String>{

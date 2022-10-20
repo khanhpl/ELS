@@ -1,3 +1,4 @@
+import 'package:els_cus_mobile/blocs/booking_sitter_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
@@ -32,6 +33,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
   bool isChooseService = false;
   final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
   String chooseElderID = "";
+  BookingSotterBloc bloc = BookingSotterBloc();
   bool checkChooseService(ServiceDataModel selectedService){
 
       if(listSelectedService.isNotEmpty){
@@ -131,6 +133,73 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
 
     // set up the AlertDialog
   }
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Đặt Lịch Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+
+      content: const Text(
+        "Đặt Lịch Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,15 +225,15 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
             color: ColorConstant.purple900,
           ),
         ),
-        onPressed: () {},
+        onPressed: () {
+          onBookingClick();
+        },
       );
 
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
-        title: Text(
-          // "Xác Nhận Đặt Lịch",
-          "So phan tu trong mang service la: " +
-              listSelectedService.length.toString(),
+        title: const Text(
+          "Xác Nhận Đặt Lịch",
         ),
         content: const Text(
           "Bạn xác nhận muốn đặt lịch chăm sóc này",
@@ -861,71 +930,6 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.015,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "40000đ/giờ",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.black900,
-                        fontSize: 17,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w500,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.015,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          "40000đ x 4 giờ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 13,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w500,
-                            height: 1.00,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            "160000đ",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: 13,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Align(
                   alignment: Alignment.center,
                   child: Padding(
                     padding: EdgeInsets.only(
@@ -952,7 +956,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            "160000đ",
+                            calTotal().ceil().toString(),
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -1009,5 +1013,30 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
         ),
       ),
     );
+  }
+
+  double calTotal() {
+    double totalPrice = 0;
+    if(listSelectedService.isNotEmpty){
+      for(ServiceDataModel service in listSelectedService){
+        totalPrice += service.price;
+      }
+    }
+    return totalPrice;
+  }
+
+  void onBookingClick() async{
+    bool chkBooking = false;
+
+    print('Test elderID: ${chooseElderID}');
+    print('Test total price: ${calTotal().toString()}');
+    print('Test list service ID: ${bloc.getListServiceID(listSelectedService)}');
+    print('Test sitter ID:' + sitter.id.toString());
+    chkBooking = await bloc.BookingSitter(int.parse(chooseElderID), calTotal(), listSelectedService, sitter);
+    if(chkBooking){
+      showSuccessAlertDialog(context);
+    }else{
+      showFailAlertDialog(context);
+    }
   }
 }

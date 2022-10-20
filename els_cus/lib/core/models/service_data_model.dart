@@ -8,7 +8,7 @@ class ServiceDataModel {
   double price;
   String description;
   dynamic url;
-  String sitterRequirement;
+  dynamic sitterRequirement;
   int duration;
   StatusModel status;
   CategoryModel category;
@@ -17,8 +17,8 @@ class ServiceDataModel {
     required this.name,
     required this.price,
     required this.description,
-    required this.url,
-    required this.sitterRequirement,
+    this.url,
+    this.sitterRequirement,
     required this.duration,
     required this.status,
     required this.category,
@@ -30,22 +30,12 @@ class ServiceDataModel {
     name: json["name"],
     price: json["price"],
     description: json["description"],
-    url: json["url"],
-    sitterRequirement: json["sitterRequirement"],
+    url: (json["url"] != null)? json["url"] : "",
+    sitterRequirement: (json["sitterRequirement"] != null) ? json["sitterRequirement"] : "",
     duration: json["duration"],
     status: StatusModel.fromJson(json["status"]),
     category: CategoryModel.fromJson(json["category"]),
   );
 
-  Map<String, dynamic> toJson() => {
-    "id": id,
-    "name": name,
-    "price": price,
-    "description": description,
-    "url": url,
-    "sitterRequirement": sitterRequirement,
-    "duration": duration,
-    "status": status.toJson(),
-    "category": category.toJson(),
-  };
+
 }
