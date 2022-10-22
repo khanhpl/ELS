@@ -8,17 +8,27 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class LoginResponseDTO {
-    private String email;
-    private String password;
-    private String role;
-    private String token;
-    private String address;
-    private LocalDate dob;
+public class SitterDTO {
+
     private String fullName;
+
+    private LocalDate dob;
+
     private String gender;
+
     private String phone;
+
+    private String address;
+
+    private String email;
+
+    private String idNumber;
+
+    private String skill;
+
+    private String exp;
+
 }

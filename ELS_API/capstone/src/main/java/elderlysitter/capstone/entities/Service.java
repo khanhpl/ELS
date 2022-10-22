@@ -1,9 +1,7 @@
 package elderlysitter.capstone.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -14,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,9 +21,15 @@ public class Service {
     private BigDecimal price;
     private String description;
     private String url;
-    private String sitter_requirement;
+    @Column(name = "sitter_requirement")
+    private String sitterRequirement;
     private Integer duration;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id")
+    private Status status;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "service")
     private List<BookingDetail> bookingDetails;
 

@@ -1,6 +1,5 @@
 package elderlysitter.capstone.dto;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,9 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class LoginDTO {
-    @NotNull
+public class ChangePasswordDTO {
     private String email;
-    @NotNull
     private String password;
 }

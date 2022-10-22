@@ -1,6 +1,7 @@
 package elderlysitter.capstone.controller;
 
-import elderlysitter.capstone.UserServices.UserServices;
+import elderlysitter.capstone.Services.UserService;
+import elderlysitter.capstone.dto.ChangePasswordDTO;
 import elderlysitter.capstone.dto.LoginDTO;
 import elderlysitter.capstone.dto.LoginResponseDTO;
 import elderlysitter.capstone.dto.ResponseDTO;
@@ -26,19 +27,18 @@ import java.time.LocalDate;
 import java.util.Date;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("auth")
 public class AuthenController {
     private AuthenticationManager authenticationManager;
-    private UserServices userServices;
+    private UserService userServices;
     private JwtConfig jwtConfig;
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     @Lazy
-    public AuthenController(AuthenticationManager authenticationManager, UserServices userServices, JwtConfig jwtConfig, PasswordEncoder passwordEncoder) {
+    public AuthenController(AuthenticationManager authenticationManager, UserService userService, JwtConfig jwtConfig, PasswordEncoder passwordEncoder) {
         this.authenticationManager = authenticationManager;
-        this.userServices = userServices;
+        this.userServices = userService;
         this.jwtConfig = jwtConfig;
         this.passwordEncoder = passwordEncoder;
     }
@@ -47,21 +47,28 @@ public class AuthenController {
     @PermitAll
     public ResponseEntity<ResponseDTO> login(@Validated @RequestBody LoginDTO user){
         ResponseDTO responseDTO = new ResponseDTO();
-        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword());
         try{
             Authentication authenticate = authenticationManager.authenticate(authentication);
             if(authenticate.isAuthenticated()){
-                User userAuthenticated = userServices.findByUsername(authenticate.getName());
+                User userAuthenticated = userServices.findByEmail(authenticate.getName());
                 String token = Jwts.builder().setSubject(authenticate.getName())
                         .claim(("authorities"), authenticate.getAuthorities()).claim("id",userAuthenticated.getId())
                         .setIssuedAt((new Date())).setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(1)))
                         .signWith(jwtConfig.secretKey()).compact();
 
-                LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder().username(userAuthenticated.getUsername()).role(userAuthenticated.getRole().getName())
+                LoginResponseDTO loginResponseDTO = LoginResponseDTO.builder()
+                        .address(userAuthenticated.getAddress())
+                        .fullName(userAuthenticated.getFullName())
+                        .dob(userAuthenticated.getDob())
+                        .phone(userAuthenticated.getPhone())
+                        .gender(userAuthenticated.getGender())
+                        .email(userAuthenticated.getEmail())
+                        .role(userAuthenticated.getRole().getName())
                         .token(jwtConfig.getTokenPrefix() + token).build();
 
                 responseDTO.setData(loginResponseDTO);
-                responseDTO.setSuccessCode(SuccessCode.LOGIN_SUCCESSS);
+                responseDTO.setSuccessCode(SuccessCode.LOGIN_SUCCESS);
                 return ResponseEntity.ok().body(responseDTO);
             }else {
                 responseDTO.setErrorCode(ErrorCode.LOGIN_FAIL);
@@ -71,5 +78,14 @@ public class AuthenController {
             e.printStackTrace();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PutMapping()
+    public ResponseEntity<ResponseDTO> changePassword(@RequestBody ChangePasswordDTO changePasswordDTO){
+        ResponseDTO responseDTO = new ResponseDTO();
+        responseDTO.setData(userServices.changePassword(changePasswordDTO));
+        return ResponseEntity.ok().body(responseDTO);
+
+
     }
 }

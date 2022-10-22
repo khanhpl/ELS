@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -13,12 +14,11 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "user")
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String username;
 
     private String password;
 
@@ -33,16 +33,16 @@ public class User {
 
     private String address;
 
+    @Column(unique=true)
     private String email;
 
     @Column(name = "create_date")
     private LocalDate createDate;
 
-    private String status;
-
-    private String identity_card;
-
-    private String skill;
+    @JsonIgnore
+    @JoinColumn(name = "status_id")
+    @ManyToOne( fetch = FetchType.EAGER)
+    private Status status;
 
     @JsonIgnore
     @JoinColumn (name = "role_id")
@@ -51,15 +51,21 @@ public class User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<CertificateSitter> certificateSitters;
+    private List<Elder> elders;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
-    private List<Elder> elders;
-
-    @OneToMany(mappedBy = "user")
     private List<UserImg> userImgs;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     private List<Booking> bookings;
+
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "sitter")
+//    private List<Booking> _bookings;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user")
+    private SitterProfile sitterProfile;
 }

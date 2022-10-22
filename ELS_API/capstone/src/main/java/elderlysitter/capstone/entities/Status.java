@@ -14,13 +14,18 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Category {
+public class Status {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-
+    private String statusName;
     @JsonIgnore
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "status")
+    private List<User> users;
+    @JsonIgnore
+    @OneToMany(mappedBy = "status")
+    private List<Booking> bookings;
+    @JsonIgnore
+    @OneToMany(mappedBy = "status")
     private List<Service> services;
 }

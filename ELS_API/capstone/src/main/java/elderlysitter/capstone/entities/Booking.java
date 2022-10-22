@@ -1,13 +1,12 @@
 package elderlysitter.capstone.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -17,6 +16,7 @@ import java.util.List;
 @Getter
 @Setter
 @Table(name = "booking")
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,37 +29,37 @@ public class Booking {
     @Column(name = "total_price")
     private BigDecimal totalPrice;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
 
-    @Column(name = "end_time")
-    private LocalTime endTime;
+    @Column(name = "start_date_time")
+    private LocalDateTime startDateTime;
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
-
-    @Column(name = "send_date")
-    private LocalDate endDate;
+    @Column(name = "end_date_time")
+    private LocalDateTime endDateTime;
 
     @Column(name = "elder_id")
     private Long elderId;
 
-    @Column(name = "sitter_id")
-    private Long sitter_id;
+    @JoinColumn(name = "sitter_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User sitter;
 
     private String address;
 
     private String place;
 
-    private String status;
+    @JoinColumn(name = "status_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Status status;
 
     @JoinColumn(name = "customer_id")
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "booking")
     private List<BookingDetail> bookingDetails;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "booking")
     private List<Rating> ratings;
 

@@ -29,5 +29,5 @@ public class CertificateSitter {
     @JsonIgnore
     @JoinColumn(name = "sitter_id")
     @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
+    private SitterProfile sitterProfile;
 }
