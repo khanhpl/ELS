@@ -1,4 +1,4 @@
-
+import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
@@ -36,7 +36,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   bool isChooseService = false;
   String expYear = "-1";
   String selectedTime = "-1";
-
+  bool isHospital = false;
+  bool isHouse = false;
+  BookingBloc bloc = BookingBloc();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   void _changeStartDate(String date) async {
     setState(() {
       startDate = date;
@@ -59,7 +63,54 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     }
     return false;
   }
+  void showAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        _onBookingClick();
+        Navigator.pop(context);
+      },
+    );
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn đặt lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   _chooseService(BuildContext context) {
     var size = MediaQuery.of(context).size;
     AlertDialog alert = AlertDialog(
@@ -189,18 +240,23 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                 });
               },
               style: ElevatedButton.styleFrom(
-                primary: (selectedTime != Globals.workingTimeFrame[index].toString())
-                    ? Colors.white
-                    : ColorConstant.purple900,
-
+                primary:
+                    (selectedTime != Globals.workingTimeFrame[index].toString())
+                        ? Colors.white
+                        : ColorConstant.purple900,
                 textStyle: TextStyle(
                   fontSize: size.width * 0.045,
                 ),
               ),
-              child: Text('${Globals.workingTimeFrame[index].toString()}h',
-              style: TextStyle(
-                color: (selectedTime != Globals.workingTimeFrame[index].toString()) ? Colors.black : ColorConstant.whiteA700,
-              ),),
+              child: Text(
+                '${Globals.workingTimeFrame[index].toString()}h',
+                style: TextStyle(
+                  color: (selectedTime !=
+                          Globals.workingTimeFrame[index].toString())
+                      ? Colors.black
+                      : ColorConstant.whiteA700,
+                ),
+              ),
             );
           },
           separatorBuilder: (context, index) =>
@@ -220,7 +276,73 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
     // set up the AlertDialog
   }
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
 
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Đặt Lịch Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+
+      content: const Text(
+        "Đặt Lịch Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -265,22 +387,28 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             left: size.width * 0.03,
                             right: size.width * 0.03,
                           ),
-                          child: TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            decoration: InputDecoration(
-                                hintText: "Địa chỉ",
-                                prefixIcon: SizedBox(
-                                    width: size.width * 0.05,
-                                    child: Image.asset(
-                                        ImageConstant.imgLocation16X13)),
-                                border: const OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Color(0xffCED0D2), width: 1),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)))),
-                          )),
+                          child: StreamBuilder(
+                              stream: bloc.addressStream,
+                              builder: (context, snapshot) {
+                                return TextField(
+                                  controller: _addressController,
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                      hintText: "Địa chỉ",
+                                      prefixIcon: SizedBox(
+                                          width: size.width * 0.05,
+                                          child: Image.asset(
+                                              ImageConstant.imgLocation16X13)),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                );
+                              })),
                       Padding(
                         padding: EdgeInsets.only(
                           top: size.height * 0.03,
@@ -457,6 +585,61 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             ),
                             Text(
                               'Nữ',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.03,
+                          left: size.width * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Nơi thực hiện',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Checkbox(
+                              value: isHouse,
+                              onChanged: (value) {
+                                setState(() {
+                                  isHospital = false;
+                                  isHouse = true;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Tư gia',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(width: size.width * 0.1),
+                            Checkbox(
+                              value: isHospital,
+                              onChanged: (value) {
+                                setState(() {
+                                  isHospital = true;
+                                  isHouse = false;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Bệnh viện',
                               style: TextStyle(
                                 fontSize: size.height * 0.02,
                                 fontWeight: FontWeight.w400,
@@ -1022,15 +1205,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           right: size.width * 0.03,
                           top: size.height * 0.03,
                         ),
-                        child: TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04, color: Colors.black),
-                          decoration: const InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xffCED0D2), width: 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
+                        child: StreamBuilder(
+                          stream: bloc.descriptionStream,
+                          builder: (context, snapshot) {
+                            return TextField(
+                              controller: _descriptionController,
+                              style: TextStyle(
+                                  fontSize: size.width * 0.04, color: Colors.black),
+                              decoration: const InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)))),
+                            );
+                          }
                         ),
                       ),
                       Padding(
@@ -1042,7 +1231,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showAlertDialog(context);
+                            },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
                               textStyle: TextStyle(
@@ -1063,5 +1254,27 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         ),
       ),
     );
+  }
+
+  _onBookingClick() async {
+    String address = _addressController.text.trim();
+    String description = _descriptionController.text.trim();
+    String startDateTime = '${startDate}T00:00:00.000Z';
+    String endDateTime = '${endDate}T00:00:00.000Z';
+    String place = "";
+    if(isHospital){
+      place = "Bệnh viện";
+    }else{
+      place = "Tại nhà";
+    }
+    String totalPrice = bloc.calTotal(listSelectedService).toString();
+    List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
+    bool isBooking = false;
+    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, totalPrice, Globals.curUser!.data.email, listServiceIDs);
+    if(isBooking){
+      showSuccessAlertDialog(context);
+    }else{
+      showFailAlertDialog(context);
+    }
   }
 }

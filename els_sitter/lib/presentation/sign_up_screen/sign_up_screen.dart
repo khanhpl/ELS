@@ -41,16 +41,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
   _getIDFrontImageFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-        Globals.isIDFrontCheck = true;
-        Globals.idFrontFile = imageFile;
-      });
-    }
+    // PickedFile? pickedFile = await ImagePicker().getImage(
+    //   source: ImageSource.gallery,
+    // );
+    // if (pickedFile != null) {
+    //   setState(() {
+    //     imageFile = File(pickedFile.path);
+    //     Globals.isIDFrontCheck = true;
+    //     Globals.idFrontFile = imageFile;
+    //   });
+    // }
   }
 
   @override
