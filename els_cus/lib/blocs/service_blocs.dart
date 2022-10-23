@@ -25,6 +25,26 @@ class ServiceBlocs{
       }
     } finally {}
   }
+  Future<ServiceModel> getServiceByBookingID(String id) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/booking/bookingDetail/${id}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode.toString() == '200') {
+        return ServiceModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to fetch Service from the REST API');
+      }
+    } finally {}
+  }
 }
 
 List<ServiceModel> parseAgentsServiceModel(var responseBody) {

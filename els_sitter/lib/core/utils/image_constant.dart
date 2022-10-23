@@ -174,9 +174,9 @@ class ImageConstant {
 
   static String imgStar1 = 'assets/images/img_star1.png';
 
-  static String imgNews = 'assets/images/img_news.png';
-
   static String imgBubble = 'assets/images/img_bubble.svg';
 
   static String imageNotFound = 'assets/images/image_not_found.png';
+  static String imgIconAdd = 'assets/images/img_icon_add.png';
+  static String imgNews = 'assets/images/img_news.png';
 }
