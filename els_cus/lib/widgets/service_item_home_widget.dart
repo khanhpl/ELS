@@ -13,9 +13,14 @@ class ServiceItemHomeWidget extends StatelessWidget{
       alignment: Alignment.center,
       height: size.height*0.1,
       width: size.width*0.4,
+      padding: EdgeInsets.only(
+        left: size.width*0.03,
+        right: size.width*0.03,
+      ),
       decoration: BoxDecoration(
         color: Colors.grey[400],
         borderRadius: const BorderRadius.all(Radius.circular(10)),
+
       ),
       child: Text(
         service.name,

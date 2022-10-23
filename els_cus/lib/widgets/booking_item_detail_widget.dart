@@ -1,209 +1,33 @@
-import 'package:els_cus_mobile/blocs/booking_sitter_bloc.dart';
+
+import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
-import 'package:els_cus_mobile/blocs/service_blocs.dart';
+import 'package:els_cus_mobile/core/models/booking_data_model.dart';
+import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-import 'package:els_cus_mobile/core/models/service_data_model.dart';
-import 'package:els_cus_mobile/core/models/service_model.dart';
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/presentation/booking_screen/widget/elder_item_on_booking_widget.dart';
-import 'package:els_cus_mobile/presentation/booking_screen/widget/update_service_button.dart';
-import 'package:els_cus_mobile/widgets/service_item_booking_widget.dart';
 import 'package:flutter/material.dart';
 
-class BookingFromSitterScreen extends StatefulWidget {
-  SitterDataModel sitter;
+class BookingItemDetailWidget extends StatefulWidget {
+  BookingDataModel booking;
 
-  BookingFromSitterScreen({super.key, required this.sitter});
+  BookingItemDetailWidget({super.key, required this.booking});
 
   @override
-  State<BookingFromSitterScreen> createState() =>
-      _BookingFromSitterScreenState(sitter: sitter);
+  State<BookingItemDetailWidget> createState() =>
+      _BookingItemDetailWidgetState(booking: booking);
 }
 
-class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
-  SitterDataModel sitter;
+class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
+  BookingDataModel booking;
 
-  _BookingFromSitterScreenState({required this.sitter});
-
-  final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
-  List<ServiceDataModel> listSelectedService = [];
-  bool isChooseService = false;
-  final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
-  String chooseElderID = "";
-  BookingSitterBloc bloc = BookingSitterBloc();
-  bool checkChooseService(ServiceDataModel selectedService){
-
-      if(listSelectedService.isNotEmpty){
-        for(ServiceDataModel service in listSelectedService){
-          if(service.id == selectedService.id){
-            return true;
-          }
-        }
-      }
-      return false;
-  }
-  _chooseService(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    AlertDialog alert = AlertDialog(
-      contentPadding: const EdgeInsets.all(0),
-      backgroundColor: ColorConstant.gray300,
-      content: Container(
-        padding: EdgeInsets.all(size.width * 0.03),
-        width: size.width,
-        decoration: BoxDecoration(
-          color: ColorConstant.gray300,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: FutureBuilder<ServiceModel>(
-          builder: (context, snapshot) {
-            if (snapshot.hasError) print(snapshot.error);
-            if (snapshot.hasData) {
-              return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data!.data.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: size.height * 0.01);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: ColorConstant.whiteA700,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ServiceItemBookingWidget(
-                              context, snapshot.data!.data[index]),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: (){
-                                setState(() {
-                                  bool chkOccur = false;
-                                  if(listSelectedService.isNotEmpty){
-                                    for(ServiceDataModel service in listSelectedService){
-                                      if(service.id == snapshot.data!.data[index].id){
-                                        chkOccur = true;
-                                      }
-                                    }
-                                    if(chkOccur){
-                                      listSelectedService.remove(snapshot.data!.data[index]);
-                                    }else{
-                                      listSelectedService.add(snapshot.data!.data[index]);
-                                    }
-                                  }else{
-                                    listSelectedService.add(snapshot.data!.data[index]);
-                                  }
-                                  Navigator.pop(context);
-                                });
-                              },
-                                child: updateServiceButton(context, checkChooseService(snapshot.data!.data[index]))),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-          future: serviceList,
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-
-    // set up the AlertDialog
-  }
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Đặt Lịch Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-
-      content: const Text(
-        "Đặt Lịch Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
+  _BookingItemDetailWidgetState({required this.booking});
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-
+    final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
+    final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
     void showAlertDialog(BuildContext context) {
       // set up the buttons
       Widget cancelButton = TextButton(
@@ -224,18 +48,16 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
             color: ColorConstant.purple900,
           ),
         ),
-        onPressed: () {
-          onBookingClick();
-        },
+        onPressed: () {},
       );
 
       // set up the AlertDialog
       AlertDialog alert = AlertDialog(
         title: const Text(
-          "Xác Nhận Đặt Lịch",
+          "Xác Nhận Hủy Đặt Lịch",
         ),
         content: const Text(
-          "Bạn xác nhận muốn đặt lịch chăm sóc này",
+          "Bạn xác nhận muốn hủy đặt lịch chăm sóc này",
         ),
         actions: [
           cancelButton,
@@ -291,7 +113,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                         Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Xem lại lịch đặt",
+                            "Chi tiết đặt lịch",
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
@@ -347,7 +169,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Thứ hai, 24 tháng 10",
+                              booking.startDateTime.toString(),
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -365,7 +187,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                                   top: size.height * 0.01,
                                 ),
                                 child: Text(
-                                  "8:00 SA - 12:00 CH",
+                                  booking.startDateTime.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
@@ -444,7 +266,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              sitter.fullname,
+                              booking.sitter.fullname,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -455,26 +277,26 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                                 height: 1.00,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                ),
-                                child: Text(
-                                  "Trò chuyện cùng",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.00,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Align(
+                            //   alignment: Alignment.centerLeft,
+                            //   child: Padding(
+                            //     padding: EdgeInsets.only(
+                            //       top: size.height * 0.01,
+                            //     ),
+                            //     child: Text(
+                            //       "Trò chuyện cùng",
+                            //       overflow: TextOverflow.ellipsis,
+                            //       textAlign: TextAlign.left,
+                            //       style: TextStyle(
+                            //         color: ColorConstant.black900,
+                            //         fontSize: 13,
+                            //         fontFamily: 'Roboto',
+                            //         fontWeight: FontWeight.w500,
+                            //         height: 1.00,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Expanded(
@@ -533,56 +355,40 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _chooseService(context);
-                          });
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              ImageConstant.imgIconAdd,
-                              height: size.width * 0.03,
-                              width: size.width * 0.03,
-                            ),
-                            SizedBox(width: size.width * 0.015),
-                            Text(
-                              "Thêm dịch vụ",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.gray700,
-                                fontSize: 13,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
-                                height: 1.00,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-
                       Padding(
                         padding: EdgeInsets.only(
                           top: size.height * 0.015,
                         ),
-                        child: ListView.separated(
-                          physics: const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: listSelectedService.length,
-                          separatorBuilder: (context, index) {
-                            return SizedBox(height: size.height * 0.01);
-                          },
-                          itemBuilder: (BuildContext context, int index) {
-                            return Text('${listSelectedService[index].name}: ${listSelectedService[index].price.ceil().toString()} VNĐ');
-                          },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: FutureBuilder<BookingDetailModel>(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) print(snapshot.error);
+                              if (snapshot.hasData) {
+                                return ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  // itemCount: snapshot.data!.length,
+                                  itemCount: snapshot.data!.data.length,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: size.height*0.01);
+                                  },
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Text(
+                                        snapshot.data!.data[index].service.name);
+                                  },
+                                );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                            future: bookingDetail,
+                          ),
                         ),
+                        //show elder
                       ),
-                      //show elder
                     ],
                   ),
                 ),
@@ -633,29 +439,9 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
-                            return ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.horizontal,
-                              // itemCount: snapshot.data!.length,
-                              itemCount: snapshot.data!.length,
-                              separatorBuilder: (context, index) {
-                                return Container(
-                                  width: size.width * 0.03,
-                                );
-                              },
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        chooseElderID =
-                                            snapshot.data![index].id.toString();
-                                      });
-                                    },
-                                    child: ElderItemOnBookingWidget(context,
-                                        snapshot.data![index], chooseElderID));
-                              },
-                            );
+                            
+                              return Text("người thân nè");
+                            
                           } else {
                             return const CircularProgressIndicator();
                           }
@@ -955,7 +741,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                         ),
                         Expanded(
                           child: Text(
-                            calTotal().ceil().toString(),
+                            booking.totalPrice.ceil().toString(),
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.right,
                             style: TextStyle(
@@ -1000,7 +786,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
                               fontSize: size.width * 0.045,
                             ),
                           ),
-                          child: const Text("Xác nhận"),
+                          child: const Text("Hủy"),
                         ),
                       ),
                     ),
@@ -1014,24 +800,7 @@ class _BookingFromSitterScreenState extends State<BookingFromSitterScreen> {
     );
   }
 
-  double calTotal() {
-    double totalPrice = 0;
-    if(listSelectedService.isNotEmpty){
-      for(ServiceDataModel service in listSelectedService){
-        totalPrice += service.price;
-      }
-    }
-    return totalPrice;
-  }
 
-  void onBookingClick() async{
-    bool chkBooking = false;
 
-    print('Test elderID: ${chooseElderID}');
-    print('Test total price: ${calTotal().toString()}');
-    print('Test list service ID: ${bloc.getListServiceID(listSelectedService)}');
-    print('Test sitter ID:' + sitter.id.toString());
-    chkBooking = await bloc.BookingSitter(int.parse(chooseElderID), calTotal(), listSelectedService, sitter);
 
-  }
 }

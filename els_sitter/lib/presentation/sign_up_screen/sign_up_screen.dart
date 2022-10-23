@@ -1,13 +1,13 @@
+import 'dart:io';
+
 import 'package:els_sitter/core/utils/color_constant.dart';
-import 'package:els_sitter/core/utils/image_constant.dart';
-import 'package:els_sitter/presentation/sign_up_screen/widget/CCCD.dart';
 import 'package:els_sitter/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:scan/scan.dart';
-import 'package:image_picker/image_picker.dart';
-
+import '../../core/utils/globals.dart' as Globals;
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -19,6 +19,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _showPass = false;
   String _platformVersion = 'Unknown';
   String qrcode = 'Unknown';
+
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -26,6 +27,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _genderController = TextEditingController();
   final TextEditingController _idNumberController = TextEditingController();
+
+  late File imageFile;
+
 
   @override
   void initState() {
@@ -45,6 +49,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _platformVersion = platformVersion;
     });
+  }
+  _getIDFrontImageFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.gallery,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Globals.isIDFrontCheck = true;
+        Globals.idFrontFile = imageFile;
+      });
+    }
   }
 
   @override
@@ -450,6 +466,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       width: size.width*0.2,
                                       child: ElevatedButton(
                                         onPressed: () {
+                                          _getIDFrontImageFromGallery();
                                         },
                                         style: ElevatedButton.styleFrom(
                                           primary: ColorConstant.purple900,
@@ -458,6 +475,37 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           ),
                                         ),
                                         child: const Text("Tải lên"),
+                                      ),
+                                    ),
+                                    Globals.isIDFrontCheck == false
+                                        ? Container(
+                                      width: size.height * 0.12,
+                                      height: size.height * 0.12,
+                                      alignment: Alignment.bottomCenter,
+                                      padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: Colors.black,
+                                          width: 1,
+                                        )
+                                      ),
+                                    )
+                                        : Container(
+                                      width: size.height * 0.12,
+                                      height: size.height * 0.12,
+                                      alignment: Alignment.bottomCenter,
+                                      padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                        image: DecorationImage(
+                                          image: FileImage(Globals.idFrontFile),
+                                          fit: BoxFit.fill,
+                                        ),
                                       ),
                                     ),
                                   ],

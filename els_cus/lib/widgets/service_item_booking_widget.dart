@@ -8,25 +8,48 @@ Widget ServiceItemBookingWidget(BuildContext context, ServiceDataModel service){
     padding: EdgeInsets.only(
       left: size.width * 0.03,
     ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.start,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: size.height * 0.01,
+            right: size.width*0.03
           ),
-          child: Text(
-            service.name,
+          child: Container(
+            width: size.width*0.1,
+            height: size.width*0.1,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Image.network(service.url),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: size.height * 0.01,
-            bottom: size.height * 0.01,
-          ),
-          child: Text(
-            service.price.toString(),
+        SizedBox(
+          width: size.width*0.45,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  top: size.height * 0.01,
+                ),
+                child: Text(
+                  service.name,
+                  maxLines: 2,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: size.height * 0.01,
+                  bottom: size.height * 0.01,
+                ),
+                child: Text(
+                  service.price.ceil().toString(),
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -1,8 +1,7 @@
 
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/presentation/schedule_screen/widget/up_comming_widget.dart';
 
+import 'package:els_sitter/core/utils/color_constant.dart';
+import 'package:els_sitter/presentation/schedule_screen/widget/up_comming_widget.dart';
 import 'package:flutter/material.dart';
 
 class ScheduleScreen extends StatefulWidget {
@@ -84,22 +83,20 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         ),
         backgroundColor: ColorConstant.whiteA700,
         body: TabBarView(children: [
-          Material(
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: size.height*0.03
-              ),
-              child: SizedBox(
-                width: size.width,
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: const [
-                      UpcommingWidget(),
-                    ],
-                  ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: size.height*0.03
+            ),
+            child: SizedBox(
+              width: size.width,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: const [
+                    UpcommingWidget(),
+                  ],
                 ),
               ),
             ),

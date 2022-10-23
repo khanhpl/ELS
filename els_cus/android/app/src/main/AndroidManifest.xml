@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.els_cus_mobile">
    <application
         android:label="ELS"

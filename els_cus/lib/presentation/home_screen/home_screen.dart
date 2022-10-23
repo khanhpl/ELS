@@ -247,33 +247,38 @@ class _HomeScreenState extends State<HomeScreen> {
                               //     ],
                               //   ),
                               // ),
-                              SizedBox(
-                                width: double.infinity,
-                                height: size.height*0.1,
-                                child: FutureBuilder<ServiceModel>(
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasError) print(snapshot.error);
-                                    if (snapshot.hasData) {
-                                      return ListView.separated(
-                                        physics: const BouncingScrollPhysics(),
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.horizontal,
-                                        itemCount: snapshot.data!.data.length,
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                            width: size.width*0.05,
-                                          );
-                                        },
-                                        itemBuilder: (BuildContext context, int index) {
-                                          return ServiceItemHomeWidget(
-                                              service: snapshot.data!.data[index]);
-                                        },
-                                      );
-                                    } else {
-                                      return const CircularProgressIndicator();
-                                    }
-                                  },
-                                  future: serviceList,
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: size.width*0.03
+                                ),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: size.height*0.1,
+                                  child: FutureBuilder<ServiceModel>(
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError) print(snapshot.error);
+                                      if (snapshot.hasData) {
+                                        return ListView.separated(
+                                          physics: const BouncingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: snapshot.data!.data.length,
+                                          separatorBuilder: (context, index) {
+                                            return SizedBox(
+                                              width: size.width*0.05,
+                                            );
+                                          },
+                                          itemBuilder: (BuildContext context, int index) {
+                                            return ServiceItemHomeWidget(
+                                                service: snapshot.data!.data[index]);
+                                          },
+                                        );
+                                      } else {
+                                        return const CircularProgressIndicator();
+                                      }
+                                    },
+                                    future: serviceList,
+                                  ),
                                 ),
                               ),
                             ],
