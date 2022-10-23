@@ -3,6 +3,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:els_sitter/presentation/home_screen/home_screen.dart';
+import 'package:els_sitter/presentation/schedule_screen/schedule_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +31,7 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
       case 0:
         return const HomeScreen();
       case 1:
-        return const SplashScreen();
+        return const ScheduleScreen();
       case 2:
         return const SplashScreen();
       case 3:

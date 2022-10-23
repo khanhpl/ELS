@@ -1,10 +1,9 @@
 
-import 'package:els_cus_mobile/blocs/booking_bloc.dart';
-import 'package:els_cus_mobile/core/models/booking_model.dart';
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
-import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
-import 'package:els_cus_mobile/widgets/elder_detail_widget.dart';
+import 'package:els_sitter/blocs/booking_bloc.dart';
+import 'package:els_sitter/core/models/booking_model.dart';
+import 'package:els_sitter/core/utils/color_constant.dart';
+import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
+import 'package:els_sitter/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
@@ -16,7 +15,7 @@ class UpcommingWidget extends StatefulWidget {
 }
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
-  final Future<BookingModel> bookingList = BookingBloc().getBookingByCusEmail();
+  final Future<BookingModel> bookingList = BookingBloc().getBookingBySitterEmail();
 
   @override
   Widget build(BuildContext context) {
@@ -70,9 +69,9 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               },
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookingItemDetailWidget(booking: snapshot.data!.data[index])));
-                                  },
+                                    onTap: (){
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => BookingItemDetailWidget(booking: snapshot.data!.data[index])));
+                                    },
                                     child: bookingItemWidget(context, snapshot.data!.data[index]));
                               },
                             );

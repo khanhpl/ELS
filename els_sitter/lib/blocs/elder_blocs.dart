@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
+import 'package:els_sitter/core/models/elder_data_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ElderBlocs{
   Future<List<ElderDataModel>> getAllElder() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder/${Globals.curUser!.data.email}");
+      Uri.parse("https://els12.herokuapp.com/elder");
       final response = await http.get(
         url,
         headers: <String, String>{
