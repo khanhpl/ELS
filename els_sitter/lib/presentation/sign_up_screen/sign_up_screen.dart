@@ -19,7 +19,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _showPass = false;
   String _platformVersion = 'Unknown';
   String qrcode = 'Unknown';
+
+  final TextEditingController _fullnameController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _idNumberController = TextEditingController();
+
   late File imageFile;
+
 
   @override
   void initState() {
@@ -295,7 +305,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       top: size.height*0.02,
                                     ),
                                     child: Text(
-                                      "Năm sinh",
+                                      "Giới tính",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                        color: ColorConstant.bluegray900,
+                                        fontSize: 14,
+                                        fontFamily: 'Outfit',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                    ),
+                                    child: StreamBuilder(
+                                      stream: null,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(
+                                            fontSize: size.width * 0.04,
+                                            color: Colors.black),
+                                        // controller: _emailController,
+                                        decoration: const InputDecoration(
+                                          // errorText: snapshot.hasError
+                                          //     ? snapshot.error.toString()
+                                          //     : null,
+                                          enabledBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                          focusedBorder: UnderlineInputBorder(
+                                            borderSide: BorderSide(color: Colors.black),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height*0.02,
+                                    ),
+                                    child: Text(
+                                      "Ngày sinh",
                                       overflow: TextOverflow.ellipsis,
                                       textAlign: TextAlign.left,
                                       style: TextStyle(
