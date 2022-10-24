@@ -11,14 +11,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-// Future main() async{
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(MyApp());
-// }
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -39,3 +37,24 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) => ChangeNotifierProvider(
+//     create: (context) => GoogleSignInProvider(),
+//     child: MaterialApp(
+//       initialRoute: '/',
+//       routes: <String, WidgetBuilder>{
+//         // '/': (context) =>  const SplashScreen(),
+//         '/': (context) =>  OnboardingScreen(),
+//         // '/': (context) =>  LoginWithGoogleNav(),
+//         '/splashScreen': (context) => const SplashScreen(),
+//         '/loginScreen': (context) => const LoginScreen(),
+//         '/signUpScreen': (context) => const SignUpScreen(),
+//         '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
+//         '/changePasswordScreen': (context) => ChangePasswordScreen(),
+//         '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
+//         '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
+//       },
+//     ),
+//   );
+// }
