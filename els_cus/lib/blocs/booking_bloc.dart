@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/booking_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
@@ -59,6 +60,15 @@ class BookingBloc{
         return false;
       }
     } finally {}
+  }
+  List<BookingDataModel> getBookingListByStatus(BookingModel model, int statusID){
+    List<BookingDataModel>  listBookingByStatus = [];
+    for(BookingDataModel data in model.data){
+      if(data.status.id == data.status.id){
+        listBookingByStatus.add(data);
+      }
+    }
+    return listBookingByStatus;
   }
   Future<BookingModel> getBookingByCusEmail() async {
     try {

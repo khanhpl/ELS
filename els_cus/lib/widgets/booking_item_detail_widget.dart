@@ -4,8 +4,11 @@ import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
+import 'package:els_cus_mobile/core/models/elder_model.dart';
+import 'package:els_cus_mobile/core/models/single_elder_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/presentation/booking_screen/widget/elder_item_on_booking_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
@@ -26,7 +29,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
+    final Future<SingleElderModel> elderList = ElderBlocs().getElderByID(booking.elderId);
     final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
     void showAlertDialog(BuildContext context) {
       // set up the buttons
@@ -266,7 +269,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              booking.sitter.fullname,
+                              (booking.status.id == 4) ? "Đang tìm kiếm chăm sóc viên phù hợp" : booking.sitter!.fullname,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -435,12 +438,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                     ),
                     child: SizedBox(
                       height: size.height * 0.08,
-                      child: FutureBuilder<List<ElderDataModel>>(
+                      child: FutureBuilder<SingleElderModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
                             
-                              return Text("người thân nè");
+                              return ElderItemOnBookingWidget(context, snapshot.data!.data, snapshot.data!.data.id.toString());
                             
                           } else {
                             return const CircularProgressIndicator();
@@ -502,7 +505,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Gò vấp, tp Hồ Chí Minh",
+                              booking.address,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -513,26 +516,26 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 height: 1.00,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                ),
-                                child: Text(
-                                  "0.31 Km",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.00,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Align(
+                            //   alignment: Alignment.centerLeft,
+                            //   child: Padding(
+                            //     padding: EdgeInsets.only(
+                            //       top: size.height * 0.01,
+                            //     ),
+                            //     child: Text(
+                            //       "0.31 Km",
+                            //       overflow: TextOverflow.ellipsis,
+                            //       textAlign: TextAlign.left,
+                            //       style: TextStyle(
+                            //         color: ColorConstant.black900,
+                            //         fontSize: 13,
+                            //         fontFamily: 'Roboto',
+                            //         fontWeight: FontWeight.w500,
+                            //         height: 1.00,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Expanded(

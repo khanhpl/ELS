@@ -5,6 +5,11 @@ import 'package:flutter/cupertino.dart';
 
 Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
   var size = MediaQuery.of(context).size;
+  String getStatus(){
+    String status = "";
+    if(booking.id == 4) status = "Đang tìm kiếm";
+    return status;
+  }
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.max,
@@ -34,7 +39,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
             Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                booking.sitter.fullname,
+                booking.name,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -117,7 +122,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
                 right: size.width*0.03,
               ),
               child: Text(
-                "Đang chờ",
+                getStatus(),
                 // overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: ColorConstant.green400,
@@ -133,4 +138,5 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       ),
     ],
   );
+
 }

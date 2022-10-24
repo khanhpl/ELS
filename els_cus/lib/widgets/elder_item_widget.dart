@@ -1,12 +1,8 @@
 
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/presentation/home_screen/widgets/sitter_detail.dart';
 import 'package:els_cus_mobile/widgets/elder_detail_widget.dart';
-import 'package:els_cus_mobile/widgets/sitter_detail_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -178,7 +174,7 @@ class ElderItemWidget extends StatelessWidget {
   }
   String getAge() {
     String age = "";
-    String birthYear = elder.dob.split('-')[0];
+    String birthYear = elder.dob.toString().split('-')[0];
     final now = DateTime.now();
     String formatter = DateFormat('yMd').format(now);
     String curYear = formatter.split('/')[2];

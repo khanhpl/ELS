@@ -1,6 +1,7 @@
 
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
+import 'package:els_cus_mobile/core/models/elder_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/widgets/elder_item_widget.dart';
@@ -12,7 +13,7 @@ class ElderScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
+    final Future<ElderModel> elderList = ElderBlocs().getAllElder();
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -67,7 +68,7 @@ class ElderScreen extends StatelessWidget{
       ),
       body: Container(
         color: ColorConstant.whiteA700,
-        child: FutureBuilder<List<ElderDataModel>>(
+        child: FutureBuilder<ElderModel>(
           builder: (context, snapshot) {
             if (snapshot.hasError) print(snapshot.error);
             if (snapshot.hasData) {
@@ -76,7 +77,7 @@ class ElderScreen extends StatelessWidget{
                 shrinkWrap: true,
                 scrollDirection: Axis.vertical,
                 // itemCount: snapshot.data!.length,
-                itemCount: snapshot.data!.length,
+                itemCount: snapshot.data!.data.length,
                 separatorBuilder: (context, index) {
                   return Container(
                     height: 1,
@@ -88,7 +89,7 @@ class ElderScreen extends StatelessWidget{
                 },
                 itemBuilder: (BuildContext context, int index) {
                   return ElderItemWidget(
-                      elder: snapshot.data![index]);
+                      elder: snapshot.data!.data[index]);
                 },
               );
             } else {
