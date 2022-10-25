@@ -76,7 +76,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
                 top: size.height*0.01,
               ),
               child: Text(
-                "Dịch vụ",
+                booking.status.id.toString(),
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(

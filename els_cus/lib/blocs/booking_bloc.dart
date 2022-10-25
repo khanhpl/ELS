@@ -64,7 +64,7 @@ class BookingBloc{
   List<BookingDataModel> getBookingListByStatus(BookingModel model, int statusID){
     List<BookingDataModel>  listBookingByStatus = [];
     for(BookingDataModel data in model.data){
-      if(data.status.id == data.status.id){
+      if(data.status.id == statusID){
         listBookingByStatus.add(data);
       }
     }
