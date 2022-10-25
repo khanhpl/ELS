@@ -1,4 +1,5 @@
 import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
+import 'package:els_cus_mobile/core/models/status_model.dart';
 
 class BookingDataModel {
 
@@ -6,13 +7,13 @@ class BookingDataModel {
   String name;
   String description;
   double totalPrice;
-  var startDateTime;
-  var endDateTime;
+  DateTime startDateTime;
+  DateTime endDateTime;
   int elderId;
-  SitterDataModel sitter;
+  SitterDataModel? sitter;
   String address;
   String place;
-  dynamic status;
+  StatusModel status;
   dynamic payment;
   BookingDataModel({
     required this.id,
@@ -22,10 +23,10 @@ class BookingDataModel {
     required this.startDateTime,
     required this.endDateTime,
     required this.elderId,
-    required this.sitter,
+    this.sitter,
     required this.address,
     required this.place,
-    this.status,
+    required this.status,
     this.payment,
   });
 
@@ -35,16 +36,14 @@ class BookingDataModel {
     name: json["name"],
     description: json["description"],
     totalPrice: json["totalPrice"],
-    // startDateTime: json["startDateTime"],
-    // endDateTime: json["endDateTime"],
     startDateTime: DateTime.parse(json["startDateTime"]),
     endDateTime: DateTime.parse(json["endDateTime"]),
     elderId: json["elderId"],
-    sitter: SitterDataModel.fromJson(json["sitter"]),
+    sitter: json["sitter"] == null ? null : SitterDataModel.fromJson(json["sitter"]),
     address: json["address"],
     place: json["place"],
-    status: json["status"],
-    payment: (json["payment"] != null)? json["payment"] : "",
+    status: StatusModel.fromJson(json["status"]),
+    payment: json["payment"],
   );
 
 

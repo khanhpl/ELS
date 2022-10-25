@@ -2,6 +2,7 @@ import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
+import 'package:els_cus_mobile/core/models/elder_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import 'package:els_cus_mobile/core/models/service_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
@@ -24,7 +25,7 @@ class AddWorkScreen extends StatefulWidget {
 class _AddWorkScreenState extends State<AddWorkScreen> {
   double _sliderValue = 20000;
   RangeValues _sliderRangeValues = RangeValues(15000, 100000);
-  final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
+  final Future<ElderModel> elderList = ElderBlocs().getAllElder();
   String chooseElderID = "";
   bool _isGenderMale = false;
   bool _isGenderFemale = false;
@@ -1102,7 +1103,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ),
                           child: SizedBox(
                             height: size.height * 0.08,
-                            child: FutureBuilder<List<ElderDataModel>>(
+                            child: FutureBuilder<ElderModel>(
                               builder: (context, snapshot) {
                                 if (snapshot.hasError) print(snapshot.error);
                                 if (snapshot.hasData) {
@@ -1111,7 +1112,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     shrinkWrap: true,
                                     scrollDirection: Axis.horizontal,
                                     // itemCount: snapshot.data!.length,
-                                    itemCount: snapshot.data!.length,
+                                    itemCount: snapshot.data!.data.length,
                                     separatorBuilder: (context, index) {
                                       return Container(
                                         width: size.width * 0.03,
@@ -1123,13 +1124,13 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                           onTap: () {
                                             setState(() {
                                               chooseElderID = snapshot
-                                                  .data![index].id
+                                                  .data!.data[index].id
                                                   .toString();
                                             });
                                           },
                                           child: ElderItemOnBookingWidget(
                                               context,
-                                              snapshot.data![index],
+                                              snapshot.data!.data[index],
                                               chooseElderID));
                                     },
                                   );

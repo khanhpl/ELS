@@ -1,5 +1,6 @@
 
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
+import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
@@ -17,7 +18,7 @@ class UpcommingWidget extends StatefulWidget {
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
   final Future<BookingModel> bookingList = BookingBloc().getBookingByCusEmail();
-
+  BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -53,12 +54,13 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
+                            List<BookingDataModel> listBooking = bloc.getBookingListByStatus(snapshot.data!, 4);
                             return ListView.separated(
                               physics: const BouncingScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               // itemCount: snapshot.data!.length,
-                              itemCount: snapshot.data!.data.length,
+                              itemCount: listBooking.length,
                               separatorBuilder: (context, index) {
                                 return Container(
                                   height: 1,
@@ -73,7 +75,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                                   onTap: (){
                                     Navigator.push(context, MaterialPageRoute(builder: (context) => BookingItemDetailWidget(booking: snapshot.data!.data[index])));
                                   },
-                                    child: bookingItemWidget(context, snapshot.data!.data[index]));
+                                    child: bookingItemWidget(context, listBooking[index]));
                               },
                             );
                           } else {

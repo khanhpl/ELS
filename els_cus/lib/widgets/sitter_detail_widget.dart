@@ -1313,11 +1313,11 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            BookingFromSitterScreen(sitter: sitter)));
+                                // Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) =>
+                                //             BookingFromSitterScreen(sitter: sitter)));
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: ColorConstant.purple900,

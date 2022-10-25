@@ -11,10 +11,6 @@ import 'package:scan/scan.dart';
 
 import '../../blocs/signup_bloc.dart';
 import '../../core/utils/globals.dart' as globals;
-<<<<<<< HEAD
-=======
-
->>>>>>> 93496aadf96d41cd322ddb34f37ed00ffc6de759
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -29,18 +25,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String qrcode = 'Unknown';
   SignupBloc bloc = SignupBloc();
 
-  final TextEditingController _fullnameController = TextEditingController();
-  final TextEditingController _dobController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController _idNumberController = TextEditingController();
+  late File imageFileFrontID;
+  XFile? pickedFileFrontID;
+  UploadTask? uploadTaskFrontID;
+  bool isIDFrontCheck = false;
 
-  late File imageFile;
-  XFile? pickedFile;
-  UploadTask? uploadTask;
+  late File imageFileBackID;
+  XFile? pickedFileBackID;
+  UploadTask? uploadTaskBackID;
+  bool isIDBackCheck = false;
 
+  late File imageFileFace;
+  XFile? pickedFileFace;
+  UploadTask? uploadTaskFace;
+  bool isFaceCheck = false;
 
   @override
   void initState() {
@@ -48,18 +46,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
     initPlatformState();
   }
 
-  // Future uploadFile() async{
-  //   final path = 'els_images/${pickedFile!.name}';
-  //   final file = File(pickedFile!.path);
-  //   print('Test path: ${path}');
-  //   print('Test file: ${file}');
-  //   final ref = FirebaseStorage.instance.ref().child(path);
-  //   uploadTask = ref.putFile(file);
-  //
-  //   final snapshot = await uploadTask!.whenComplete(() {});
-  //   final urlDownload = await snapshot.ref.getDownloadURL();
-  //   print('Download link: ${urlDownload}');
-  // }
+
+  Future uploadFileFrontID() async{
+    final path = 'els_images/${pickedFileFrontID!.name}';
+    final file = File(pickedFileFrontID!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskFrontID = ref.putFile(file);
+
+    final snapshot = await uploadTaskFrontID!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Download link frontID: ${urlDownload}');
+  }
+  Future uploadFileBackID() async{
+    final path = 'els_images/${pickedFileBackID!.name}';
+    final file = File(pickedFileBackID!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskBackID = ref.putFile(file);
+
+    final snapshot = await uploadTaskBackID!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Download link BackID: ${urlDownload}');
+  }
+  Future uploadFileFace() async{
+    final path = 'els_images/${pickedFileFace!.name}';
+    final file = File(pickedFileFace!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskFace = ref.putFile(file);
+
+    final snapshot = await uploadTaskFace!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Download link Face: ${urlDownload}');
+  }
+
 
   Future<void> initPlatformState() async {
     String platformVersion;
@@ -77,51 +95,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getIDFrontImageFromGallery() async {
 
-    pickedFile = (await ImagePicker().pickImage(
+    pickedFileFrontID = (await ImagePicker().pickImage(
+
       source: ImageSource.camera,
     )) ;
-    if (pickedFile != null) {
+    if (pickedFileFrontID != null) {
       setState(() {
-<<<<<<< HEAD
-        imageFile = File(pickedFile.path);
-        globals.isIDFrontCheck = true;
-        globals.idFrontFile = imageFile;
-=======
-        imageFile = File(pickedFile!.path);
-        globals.isIDFrontCheck = true;
-        globals.idFrontFile = imageFile;
-
-        print('Test path: ${pickedFile!.path}');
->>>>>>> 93496aadf96d41cd322ddb34f37ed00ffc6de759
+        imageFileFrontID = File(pickedFileFrontID!.path);
+        isIDFrontCheck = true;
       });
     }
   }
-
   _getIDBackImageFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
+    pickedFileBackID = (await ImagePicker().pickImage(
       source: ImageSource.camera,
-    );
-    if (pickedFile != null) {
+    )) ;
+    if (pickedFileBackID != null) {
       setState(() {
-        imageFile = File(pickedFile.path);
-        globals.isIDBackCheck = true;
-        globals.idBackFile = imageFile;
+        imageFileBackID = File(pickedFileBackID!.path);
+        isIDBackCheck = true;
+      });
+    }
+  }
+  _getFaceImageFromGallery() async {
+    pickedFileFace = (await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    )) ;
+    if (pickedFileFace != null) {
+      setState(() {
+        imageFileFace = File(pickedFileFace!.path);
+        isFaceCheck = true;
       });
     }
   }
 
-  _getIDFaceImageFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-        globals.isIDFaceCheck = true;
-        globals.idFaceFile = imageFile;
-      });
-    }
-  }
+      
 
   @override
   Widget build(BuildContext context) {
@@ -460,212 +468,251 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       fontSize: 14,
                                       fontFamily: 'Outfit',
                                       fontWeight: FontWeight.w400,
-                                    ),
-
-                                    child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.04,
-                                            color: Colors.black),
-                                        controller: _emailController,
-                                        decoration: const InputDecoration(
-                                          // errorText: snapshot.hasError
-                                          //     ? snapshot.error.toString()
-                                          //     : null,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.2,
-                                            child: ElevatedButton(
-                                              onPressed: () {
-                                                _getIDFrontImageFromGallery();
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    ColorConstant.purple900,
-                                                textStyle: TextStyle(
-                                                  fontSize: size.width * 0.035,
-                                                ),
+                  
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.02,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              "Ảnh mặt trước",
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: ColorConstant.bluegray900,
+                                                fontSize: 10,
+                                                fontFamily: 'Outfit',
+                                                fontWeight: FontWeight.w400,
                                               ),
-                                              child: const Text("Tải lên"),
                                             ),
-                                          ),
-                                          globals.isIDFrontCheck == false
-                                              ? Container(
-                                                  width: size.height * 0.12,
-                                                  height: size.height * 0.12,
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  padding: EdgeInsets.only(
-                                                      bottom:
-                                                          size.height * 0.01),
-                                                  decoration: BoxDecoration(
+                                            SizedBox(
+                                              width: size.width * 0.2,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  _getIDFrontImageFromGallery();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  primary:
+                                                      ColorConstant.purple900,
+                                                  textStyle: TextStyle(
+                                                    fontSize: size.width * 0.035,
+                                                  ),
+
+                                                ),
+                                                child: const Text("Tải lên"),
+                                              ),
+                                            ),
+                                            isIDFrontCheck == false
+                                                ? Container(
+                                                    width: size.height * 0.12,
+                                                    height: size.height * 0.12,
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    padding: EdgeInsets.only(
+                                                        bottom:
+                                                            size.height * 0.01),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                8),
+                                                        border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 1,
+                                                        )),
+                                                  )
+                                                : Container(
+                                                    width: size.height * 0.12,
+                                                    height: size.height * 0.12,
+                                                    alignment:
+                                                        Alignment.bottomCenter,
+                                                    padding: EdgeInsets.only(
+                                                        bottom:
+                                                            size.height * 0.01),
+                                                    decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               8),
                                                       border: Border.all(
                                                         color: Colors.black,
                                                         width: 1,
-                                                      )),
-                                                )
-                                              : Container(
-                                                  width: size.height * 0.12,
-                                                  height: size.height * 0.12,
-                                                  alignment:
-                                                      Alignment.bottomCenter,
-                                                  padding: EdgeInsets.only(
-                                                      bottom:
-                                                          size.height * 0.01),
-                                                  decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            8),
-                                                    border: Border.all(
-                                                      color: Colors.black,
-                                                      width: 1,
-                                                    ),
-                                                    image: DecorationImage(
-                                                      image: FileImage(
-                                                          globals.idFrontFile),
-                                                      fit: BoxFit.fill,
+                                                      ),
+                                                      image: DecorationImage(
+                                                        image: FileImage(
+                                                            imageFileFrontID),
+                                                        fit: BoxFit.fill,
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
-                                        ],
-                                      ),
 
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height*0.02,
-                                    ),
-                                    child: Text(
-                                      "Giới tính",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 14,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                    ),
-                                    child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.04,
-                                            color: Colors.black),
-                                        controller: _genderController,
-                                        decoration: const InputDecoration(
-                                          // errorText: snapshot.hasError
-                                          //     ? snapshot.error.toString()
-                                          //     : null,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
+                                          ],
                                         ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height*0.02,
-                                    ),
-                                    child: Text(
-                                      "Ngày sinh",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 14,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
+                                        SizedBox(
+                                          width: size.width * 0.1,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Ảnh mặt sau",
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                color: ColorConstant.bluegray900,
+                                                fontSize: 10,
+                                                fontFamily: 'Outfit',
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: size.width * 0.2,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  _getIDBackImageFromGallery();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  primary:
+                                                      ColorConstant.purple900,
+                                                  textStyle: TextStyle(
+                                                    fontSize: size.width * 0.035,
+                                                  ),
 
-                                      ),
-
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                    ),
-                                    child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.04,
-                                            color: Colors.black),
-                                        controller: _dobController,
-                                        decoration: const InputDecoration(
-                                          // errorText: snapshot.hasError
-                                          //     ? snapshot.error.toString()
-                                          //     : null,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.2,
-                                            child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    ColorConstant.purple900,
-                                                textStyle: TextStyle(
-                                                  fontSize: size.width * 0.035,
+                                                ),
+                                                child: const Text("Tải lên"),
+                                              ),
+                                            ),
+                                            isIDBackCheck == false
+                                                ? Container(
+                                              width: size.height * 0.12,
+                                              height: size.height * 0.12,
+                                              alignment:
+                                              Alignment.bottomCenter,
+                                              padding: EdgeInsets.only(
+                                                  bottom:
+                                                  size.height * 0.01),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      8),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  )),
+                                            )
+                                                : Container(
+                                              width: size.height * 0.12,
+                                              height: size.height * 0.12,
+                                              alignment:
+                                              Alignment.bottomCenter,
+                                              padding: EdgeInsets.only(
+                                                  bottom:
+                                                  size.height * 0.01),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    8),
+                                                border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                image: DecorationImage(
+                                                  image: FileImage(
+                                                      imageFileBackID),
+                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
-                                              child: const Text("Tải lên"),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(
-                                        width: size.width * 0.1,
-                                      ),
-                                      Column(
-                                        children: [
-                                          Text(
-                                            "Ảnh khuôn mặt",
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.left,
-                                            style: TextStyle(
-                                              color: ColorConstant.bluegray900,
-                                              fontSize: 10,
-                                              fontFamily: 'Outfit',
-                                              fontWeight: FontWeight.w400,
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.1,
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(
+                                              "Ảnh khuôn mặt",
+                                              overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                color: ColorConstant.bluegray900,
+                                                fontSize: 10,
+                                                fontFamily: 'Outfit',
+                                                fontWeight: FontWeight.w400,
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            width: size.width * 0.2,
-                                            child: ElevatedButton(
-                                              onPressed: () {},
-                                              style: ElevatedButton.styleFrom(
-                                                primary:
-                                                    ColorConstant.purple900,
-                                                textStyle: TextStyle(
-                                                  fontSize: size.width * 0.035,
+                                            SizedBox(
+                                              width: size.width * 0.2,
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  _getFaceImageFromGallery();
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  primary:
+                                                      ColorConstant.purple900,
+                                                  textStyle: TextStyle(
+                                                    fontSize: size.width * 0.035,
+                                                  ),
+                                                ),
+                                                child: const Text("Tải lên"),
+                                              ),
+                                            ),
+                                            isFaceCheck == false
+                                                ? Container(
+                                              width: size.height * 0.12,
+                                              height: size.height * 0.12,
+                                              alignment:
+                                              Alignment.bottomCenter,
+                                              padding: EdgeInsets.only(
+                                                  bottom:
+                                                  size.height * 0.01),
+                                              decoration: BoxDecoration(
+                                                  borderRadius:
+                                                  BorderRadius.circular(
+                                                      8),
+                                                  border: Border.all(
+                                                    color: Colors.black,
+                                                    width: 1,
+                                                  )),
+                                            )
+                                                : Container(
+                                              width: size.height * 0.12,
+                                              height: size.height * 0.12,
+                                              alignment:
+                                              Alignment.bottomCenter,
+                                              padding: EdgeInsets.only(
+                                                  bottom:
+                                                  size.height * 0.01),
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                BorderRadius.circular(
+                                                    8),
+                                                border: Border.all(
+                                                  color: Colors.black,
+                                                  width: 1,
+                                                ),
+                                                image: DecorationImage(
+                                                  image: FileImage(
+                                                      imageFileFace),
+                                                  fit: BoxFit.fill,
                                                 ),
                                               ),
-                                              child: const Text("Tải lên"),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Padding(
@@ -1148,6 +1195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
 
 
+
                         Padding(
                           padding: EdgeInsets.only(
                             left: size.width * 0.05,
@@ -1158,6 +1206,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
+                                uploadFileFrontID();
+                                uploadFileBackID();
+                                uploadFileFace();
                                 signupClick();
                               },
                               style: ElevatedButton.styleFrom(
@@ -1165,6 +1216,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 textStyle: TextStyle(
                                   fontSize: size.width * 0.045,
                                 ),
+
 
                               ),
                             ),
