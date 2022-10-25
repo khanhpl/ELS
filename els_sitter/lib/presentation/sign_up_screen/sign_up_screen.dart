@@ -11,7 +11,10 @@ import 'package:scan/scan.dart';
 
 import '../../blocs/signup_bloc.dart';
 import '../../core/utils/globals.dart' as globals;
+<<<<<<< HEAD
+=======
 
+>>>>>>> 93496aadf96d41cd322ddb34f37ed00ffc6de759
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -45,18 +48,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
     initPlatformState();
   }
 
-  Future uploadFile() async{
-    final path = 'els_images/${pickedFile!.name}';
-    final file = File(pickedFile!.path);
-    print('Test path: ${path}');
-    print('Test file: ${file}');
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTask = ref.putFile(file);
-
-    final snapshot = await uploadTask!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    print('Download link: ${urlDownload}');
-  }
+  // Future uploadFile() async{
+  //   final path = 'els_images/${pickedFile!.name}';
+  //   final file = File(pickedFile!.path);
+  //   print('Test path: ${path}');
+  //   print('Test file: ${file}');
+  //   final ref = FirebaseStorage.instance.ref().child(path);
+  //   uploadTask = ref.putFile(file);
+  //
+  //   final snapshot = await uploadTask!.whenComplete(() {});
+  //   final urlDownload = await snapshot.ref.getDownloadURL();
+  //   print('Download link: ${urlDownload}');
+  // }
 
   Future<void> initPlatformState() async {
     String platformVersion;
@@ -79,11 +82,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
     )) ;
     if (pickedFile != null) {
       setState(() {
+<<<<<<< HEAD
+        imageFile = File(pickedFile.path);
+        globals.isIDFrontCheck = true;
+        globals.idFrontFile = imageFile;
+=======
         imageFile = File(pickedFile!.path);
         globals.isIDFrontCheck = true;
         globals.idFrontFile = imageFile;
 
         print('Test path: ${pickedFile!.path}');
+>>>>>>> 93496aadf96d41cd322ddb34f37ed00ffc6de759
       });
     }
   }
@@ -95,8 +104,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
-        Globals.isIDBackCheck = true;
-        Globals.idBackFile = imageFile;
+        globals.isIDBackCheck = true;
+        globals.idBackFile = imageFile;
       });
     }
   }
@@ -108,8 +117,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
-        Globals.isIDFaceCheck = true;
-        Globals.idFaceFile = imageFile;
+        globals.isIDFaceCheck = true;
+        globals.idFaceFile = imageFile;
       });
     }
   }
@@ -796,7 +805,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           child: const Text("Tải lên"),
                                         ),
                                       ),
-                                      Globals.isIDFrontCheck == false
+                                      globals.isIDFrontCheck == false
                                           ? Container(
                                         width: size.height * 0.12,
                                         height: size.height * 0.12,
@@ -822,7 +831,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                               width: 1,
                                             ),
                                           image: DecorationImage(
-                                            image: FileImage(Globals.idFrontFile),
+                                            image: FileImage(globals.idFrontFile),
                                             fit: BoxFit.fill,
                                           ),
                                         ),
@@ -860,7 +869,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           child: const Text("Tải lên"),
                                         ),
                                       ),
-                                      Globals.isIDBackCheck == false
+                                      globals.isIDBackCheck == false
                                           ? Container(
                                         width: size.height * 0.12,
                                         height: size.height * 0.12,
@@ -886,7 +895,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             width: 1,
                                           ),
                                           image: DecorationImage(
-                                            image: FileImage(Globals.idBackFile),
+                                            image: FileImage(globals.idBackFile),
                                             fit: BoxFit.fill,
                                           ),
                                         ),
@@ -924,7 +933,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           child: const Text("Tải lên"),
                                         ),
                                       ),
-                                      Globals.isIDFaceCheck == false
+                                      globals.isIDFaceCheck == false
                                           ? Container(
                                         width: size.height * 0.12,
                                         height: size.height * 0.12,
@@ -950,7 +959,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                             width: 1,
                                           ),
                                           image: DecorationImage(
-                                            image: FileImage(Globals.idFaceFile),
+                                            image: FileImage(globals.idFaceFile),
                                             fit: BoxFit.fill,
                                           ),
 

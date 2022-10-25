@@ -277,22 +277,30 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.pushNamed(context, '/signUpScreen');
-                            },
-                            child: Text(
-                              'Đăng ký',
-                              style: TextStyle(
-                                color: ColorConstant.gray700,
-                                fontSize: size.width*0.045,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w700,
-                              ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.05,
+                        top: 29,
+                        right: size.width * 0.05,
+                      ),
+                      child: SizedBox(
+                        width: double.infinity,
+                        child:ElevatedButton(
+
+                          onPressed: () {
+                            Navigator.pushNamed(context, "/signUpScreen");
+                          },
+                          style: ElevatedButton.styleFrom(
+                            primary: ColorConstant.gray700,
+                            textStyle: TextStyle(
+                              fontSize: size.width * 0.045,
                             ),
                           ),
-                        ],
-
+                          child: const Text("Gửi đơn đăng ký"),
+                        ),
                       ),
                     ),
                   ],
