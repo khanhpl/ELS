@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:els_sitter/core/models/certificateModel.dart';
 import 'package:http/http.dart' as http;
 
 import '../core/validators/validations.dart';
@@ -67,7 +68,7 @@ class SignupBloc{
     return isValid;
   }
 
-  Future<bool> register(String fullname, String phone, String email, String gender, String dob, String id, String address, String skill, String exp) async {
+  Future<bool> register(String fullname, String phone, String email, String gender, String dob, String id, String address, String skill, String exp, List<CertificateModel> listCert) async {
     try {
       print('test fullname: '+ fullname);
       print('test email:'+ email);
@@ -78,8 +79,9 @@ class SignupBloc{
       print('test gender:' + gender);
       print('test skill:' + skill);
       print('test exp:' + exp);
+      print('test cert' + listCert.length.toString());
       var url =
-      Uri.parse("https://els12.herokuapp.com/sitter");
+      Uri.parse("https://els12.herokuapp.com/candidate");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -87,7 +89,7 @@ class SignupBloc{
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, String>{
+          <String, dynamic>{
             'fullName': fullname,
             'dob': dob,
             'gender': gender,
@@ -96,7 +98,8 @@ class SignupBloc{
             'email': email,
             'idNumber': id,
             'skill': skill,
-            'exp': exp
+            'exp': exp,
+            'certificateDTOS': listCert,
           },
         ),
       );
