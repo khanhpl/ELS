@@ -259,56 +259,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.05,
-                        top: size.height*0.03,
-                        right: size.width * 0.05,
-                        bottom: size.height*0.03,
-                      ),
-                      child: Text(
-                        "hoặc sử dụng",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: ColorConstant.gray700,
-                          fontSize: size.width * 0.045,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: size.width * 0.9,
-                      height: size.height * 0.06,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: TextButton(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(ImageConstant.imgGoogle,
-                                width: size.height * 0.04),
-                            Text(
-                              '    Đăng nhập với Google',
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            // final provider = Provider.of<GoogleSignInProvider>(context, listen: false);
-                            // provider.googleLogin();
-                          });
-                        },
-                      ),
-                    ),
                     Container(
                       margin: EdgeInsets.only(
                         left: size.width*0.05,
