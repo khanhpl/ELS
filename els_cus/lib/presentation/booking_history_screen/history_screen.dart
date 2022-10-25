@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 
+import '../../blocs/booking_bloc.dart';
+import '../../core/models/booking_data_model.dart';
+import '../../core/models/booking_model.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
+import 'package:els_cus_mobile/widgets/history_item_widget.dart';
 
-class HistoryBookingScreen extends StatelessWidget {
+import '../../widgets/booking_item_detail_widget.dart';
+import '../../widgets/booking_item_widget.dart';
+import '../../widgets/history_item_detail_widget.dart';
+
+class HistoryBookingScreen extends StatefulWidget {
   const HistoryBookingScreen({super.key});
+  @override
+  State<HistoryBookingScreen> createState() => _HistoryBookingScreenState();
+}
 
+class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
+  final Future<BookingModel> bookingList = BookingBloc().getBookingByCusEmail();
+  BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -51,7 +65,103 @@ class HistoryBookingScreen extends StatelessWidget {
           ),
         ),
       ),
+      body: Container(
+        child: SafeArea(
+          child: Material(
+            child: Container(
+              color: Colors.transparent,
+              child: SingleChildScrollView(
+                child: Align(
+                  child: Container(
+                    width: size.width,
+                    margin: EdgeInsets.only(
+                      left: size.width*0.03,
+                      right: size.width*0.03,
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 1,
+                          width: size.width,
+                          margin: EdgeInsets.only(
+                            top: size.width*0.03,
+                          ),
+                          decoration: BoxDecoration(
+                            color: ColorConstant.bluegray50,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FutureBuilder<BookingModel>(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) print(snapshot.error);
+                              if (snapshot.hasData) {
+                                List<BookingDataModel> listBooking = bloc.getBookingListByStatus(snapshot.data!, 6);
+                                if(listBooking.isEmpty){
+                                  return const Center(
+                                    child: Text(
+                                      "Chưa có lịch sử đặt lịch",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                } else {
+                                  return ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    // itemCount: snapshot.data!.length,
+                                    itemCount: listBooking.length,
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                        height: 1,
+                                        width: size.width,
+                                        decoration: BoxDecoration(
+                                          color: ColorConstant.bluegray50,
+                                        ),
+                                      );
+                                    },
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HistoryItemDetailWidget(
+                                                            booking: snapshot
+                                                                .data!
+                                                                .data[index])));
+                                          },
+                                          child: HistoryItemWidget(
+                                              context, listBooking[index]));
+                                    },
+                                  );
+                                }
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                            future: bookingList,
+                          ),
+                        ),
+                        Container(
+                          height: 1,
+                          width: size.width,
+                          decoration: BoxDecoration(
+                            color: ColorConstant.bluegray50,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
-
 }

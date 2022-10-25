@@ -1,15 +1,17 @@
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
-
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:flutter/cupertino.dart';
 
-Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
+import '../core/utils/color_constant.dart';
+
+Widget HistoryItemWidget(BuildContext context, BookingDataModel booking){
   var size = MediaQuery.of(context).size;
   String getStatus(){
     String status = "";
-    if(booking.id.toInt() == 4) status = "Đang tìm kiếm";
+    if(booking.id.toInt() == 6) status = "Đã hoàn thành";
+    // if(booking.id.toInt() != 6) status = "Đã hủy";
     return status;
   }
+
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.max,
@@ -117,25 +119,6 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            // Padding(
-            //   padding: EdgeInsets.only(
-            //     top: size.width * 0.01,
-            //     bottom: size.height*0.01,
-            //     right: size.width*0.03,
-            //   ),
-            //   child: Text(
-            //     "30 phút trước",
-            //     overflow: TextOverflow.ellipsis,
-            //     textAlign: TextAlign.left,
-            //     style: TextStyle(
-            //       color: ColorConstant.gray700,
-            //       fontSize: 13,
-            //       fontFamily: 'Roboto',
-            //       fontWeight: FontWeight.w400,
-            //       height: 1.00,
-            //     ),
-            //   ),
-            // ),
             Container(
               padding: EdgeInsets.only(
                 top: size.height*0.01,
@@ -143,7 +126,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
               ),
               child: Text(
                 "",
-                // overflow: TextOverflow.ellipsis,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: ColorConstant.green400,
                   fontSize: 13,
@@ -158,5 +141,4 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       ),
     ],
   );
-
 }

@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class UpcommingWidget extends StatefulWidget {
   const UpcommingWidget({super.key});
-
   @override
   State<UpcommingWidget> createState() => _UpcommingWidgetState();
 }
@@ -55,29 +54,44 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
                             List<BookingDataModel> listBooking = bloc.getBookingListByStatus(snapshot.data!, 4);
-                            return ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              scrollDirection: Axis.vertical,
-                              // itemCount: snapshot.data!.length,
-                              itemCount: listBooking.length,
-                              separatorBuilder: (context, index) {
-                                return Container(
-                                  height: 1,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                    color: ColorConstant.bluegray50,
-                                  ),
-                                );
-                              },
-                              itemBuilder: (BuildContext context, int index) {
-                                return GestureDetector(
-                                  onTap: (){
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => BookingItemDetailWidget(booking: snapshot.data!.data[index])));
-                                  },
-                                    child: bookingItemWidget(context, listBooking[index]));
-                              },
-                            );
+                            if(listBooking.isEmpty){
+                              return const Center(
+                                child: Text(
+                                  "Chưa có lịch được đặt",
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            } else {
+                              return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                // itemCount: snapshot.data!.length,
+                                itemCount: listBooking.length,
+                                separatorBuilder: (context, index) {
+                                  return Container(
+                                    height: 1,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.bluegray50,
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BookingItemDetailWidget(
+                                                        booking: snapshot.data!
+                                                            .data[index])));
+                                      },
+                                      child: bookingItemWidget(
+                                          context, listBooking[index]));
+                                },
+                              );
+                            }
                           } else {
                             return const CircularProgressIndicator();
                           }
