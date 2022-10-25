@@ -7,7 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:async';
 import 'package:scan/scan.dart';
+import '../../blocs/signup_bloc.dart';
 import '../../core/utils/globals.dart' as Globals;
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -19,6 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool _showPass = false;
   String _platformVersion = 'Unknown';
   String qrcode = 'Unknown';
+  SignupBloc bloc = SignupBloc();
 
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
@@ -37,6 +40,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     initPlatformState();
   }
 
+  Future uploadFile() async{
+    final path = 'els_images/${pickedFile!.name}';
+    final file = File(pickedFile!.path);
+    print('Test path: ${path}');
+    print('Test file: ${file}');
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTask = ref.putFile(file);
+
+    final snapshot = await uploadTask!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    print('Download link: ${urlDownload}');
+  }
+
   Future<void> initPlatformState() async {
     String platformVersion;
     try {
@@ -52,13 +68,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
   _getIDFrontImageFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     );
     if (pickedFile != null) {
       setState(() {
         imageFile = File(pickedFile.path);
         Globals.isIDFrontCheck = true;
         Globals.idFrontFile = imageFile;
+      });
+    }
+  }
+
+  _getIDBackImageFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Globals.isIDBackCheck = true;
+        Globals.idBackFile = imageFile;
+      });
+    }
+  }
+
+  _getIDFaceImageFromGallery() async {
+    PickedFile? pickedFile = await ImagePicker().getImage(
+      source: ImageSource.camera,
+    );
+    if (pickedFile != null) {
+      setState(() {
+        imageFile = File(pickedFile.path);
+        Globals.isIDFaceCheck = true;
+        Globals.idFaceFile = imageFile;
       });
     }
   }
@@ -203,7 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _fullnameController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -244,7 +286,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _phoneController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -285,7 +327,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _emailController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -326,7 +368,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _genderController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -367,7 +409,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _dobController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -408,7 +450,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _idNumberController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -443,138 +485,205 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             padding: EdgeInsets.only(
                               top: size.height*0.02,
                             ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Ảnh mặt trước",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Ảnh mặt trước",
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: ColorConstant.bluegray900,
+                                          fontSize: 10,
+                                          fontFamily: 'Outfit',
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width*0.2,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          _getIDFrontImageFromGallery();
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: ColorConstant.purple900,
-                                          textStyle: TextStyle(
-                                            fontSize: size.width * 0.035,
+                                      SizedBox(
+                                        width: size.width*0.2,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            _getIDFrontImageFromGallery();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: ColorConstant.purple900,
+                                            textStyle: TextStyle(
+                                              fontSize: size.width * 0.035,
+                                            ),
+                                          ),
+                                          child: const Text("Tải lên"),
+                                        ),
+                                      ),
+                                      Globals.isIDFrontCheck == false
+                                          ? Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 1,
+                                          )
+                                        ),
+                                      )
+                                          : Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                          image: DecorationImage(
+                                            image: FileImage(Globals.idFrontFile),
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
-                                        child: const Text("Tải lên"),
                                       ),
-                                    ),
-                                    Globals.isIDFrontCheck == false
-                                        ? Container(
-                                      width: size.height * 0.12,
-                                      height: size.height * 0.12,
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.only(bottom: size.height * 0.01),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(
-                                          color: Colors.black,
-                                          width: 1,
-                                        )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: size.width*0.1,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Ảnh mặt sau",
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: ColorConstant.bluegray900,
+                                          fontSize: 10,
+                                          fontFamily: 'Outfit',
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    )
-                                        : Container(
-                                      width: size.height * 0.12,
-                                      height: size.height * 0.12,
-                                      alignment: Alignment.bottomCenter,
-                                      padding: EdgeInsets.only(bottom: size.height * 0.01),
-                                      decoration: BoxDecoration(
+                                      SizedBox(
+                                        width: size.width*0.2,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            _getIDBackImageFromGallery();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: ColorConstant.purple900,
+                                            textStyle: TextStyle(
+                                              fontSize: size.width * 0.035,
+                                            ),
+                                          ),
+                                          child: const Text("Tải lên"),
+                                        ),
+                                      ),
+                                      Globals.isIDBackCheck == false
+                                          ? Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            )
+                                        ),
+                                      )
+                                          : Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(8),
                                           border: Border.all(
                                             color: Colors.black,
                                             width: 1,
                                           ),
-                                        image: DecorationImage(
-                                          image: FileImage(Globals.idFrontFile),
-                                          fit: BoxFit.fill,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: size.width*0.1,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Ảnh mặt sau",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width*0.2,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: ColorConstant.purple900,
-                                          textStyle: TextStyle(
-                                            fontSize: size.width * 0.035,
+                                          image: DecorationImage(
+                                            image: FileImage(Globals.idBackFile),
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
-                                        child: const Text("Tải lên"),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  width: size.width*0.1,
-                                ),
-                                Column(
-                                  children: [
-                                    Text(
-                                      "Ảnh khuôn mặt",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 10,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    width: size.width*0.1,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "Ảnh khuôn mặt",
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: ColorConstant.bluegray900,
+                                          fontSize: 10,
+                                          fontFamily: 'Outfit',
+                                          fontWeight: FontWeight.w400,
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: size.width*0.2,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: ColorConstant.purple900,
-                                          textStyle: TextStyle(
-                                            fontSize: size.width * 0.035,
+                                      SizedBox(
+                                        width: size.width*0.2,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            _getIDFaceImageFromGallery();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: ColorConstant.purple900,
+                                            textStyle: TextStyle(
+                                              fontSize: size.width * 0.035,
+                                            ),
+                                          ),
+                                          child: const Text("Tải lên"),
+                                        ),
+                                      ),
+                                      Globals.isIDFaceCheck == false
+                                          ? Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            )
+                                        ),
+                                      )
+                                          : Container(
+                                        width: size.height * 0.12,
+                                        height: size.height * 0.12,
+                                        alignment: Alignment.bottomCenter,
+                                        padding: EdgeInsets.only(bottom: size.height * 0.01),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          border: Border.all(
+                                            color: Colors.black,
+                                            width: 1,
+                                          ),
+                                          image: DecorationImage(
+                                            image: FileImage(Globals.idFaceFile),
+                                            fit: BoxFit.fill,
                                           ),
                                         ),
-                                        child: const Text("Tải lên"),
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                                   Padding(
@@ -603,7 +712,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         style: TextStyle(
                                             fontSize: size.width * 0.04,
                                             color: Colors.black),
-                                        // controller: _emailController,
+                                        controller: _addressController,
                                         decoration: const InputDecoration(
                                           // errorText: snapshot.hasError
                                           //     ? snapshot.error.toString()
@@ -618,88 +727,88 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height*0.02,
-                                    ),
-                                    child: Text(
-                                      "Quận/Huyện",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 14,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                    ),
-                                    child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.04,
-                                            color: Colors.black),
-                                        // controller: _emailController,
-                                        decoration: const InputDecoration(
-                                          // errorText: snapshot.hasError
-                                          //     ? snapshot.error.toString()
-                                          //     : null,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height*0.02,
-                                    ),
-                                    child: Text(
-                                      "Tỉnh/Thành phố",
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.left,
-                                      style: TextStyle(
-                                        color: ColorConstant.bluegray900,
-                                        fontSize: 14,
-                                        fontFamily: 'Outfit',
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                    ),
-                                    child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                        style: TextStyle(
-                                            fontSize: size.width * 0.04,
-                                            color: Colors.black),
-                                        // controller: _emailController,
-                                        decoration: const InputDecoration(
-                                          // errorText: snapshot.hasError
-                                          //     ? snapshot.error.toString()
-                                          //     : null,
-                                          enabledBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(color: Colors.black),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: size.height*0.02,
+                                  //   ),
+                                  //   child: Text(
+                                  //     "Quận/Huyện",
+                                  //     overflow: TextOverflow.ellipsis,
+                                  //     textAlign: TextAlign.left,
+                                  //     style: TextStyle(
+                                  //       color: ColorConstant.bluegray900,
+                                  //       fontSize: 14,
+                                  //       fontFamily: 'Outfit',
+                                  //       fontWeight: FontWeight.w400,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: size.height * 0.01,
+                                  //   ),
+                                  //   child: StreamBuilder(
+                                  //     stream: null,
+                                  //     builder: (context, snapshot) => TextField(
+                                  //       style: TextStyle(
+                                  //           fontSize: size.width * 0.04,
+                                  //           color: Colors.black),
+                                  //       // controller: _emailController,
+                                  //       decoration: const InputDecoration(
+                                  //         // errorText: snapshot.hasError
+                                  //         //     ? snapshot.error.toString()
+                                  //         //     : null,
+                                  //         enabledBorder: UnderlineInputBorder(
+                                  //           borderSide: BorderSide(color: Colors.black),
+                                  //         ),
+                                  //         focusedBorder: UnderlineInputBorder(
+                                  //           borderSide: BorderSide(color: Colors.black),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: size.height*0.02,
+                                  //   ),
+                                  //   child: Text(
+                                  //     "Tỉnh/Thành phố",
+                                  //     overflow: TextOverflow.ellipsis,
+                                  //     textAlign: TextAlign.left,
+                                  //     style: TextStyle(
+                                  //       color: ColorConstant.bluegray900,
+                                  //       fontSize: 14,
+                                  //       fontFamily: 'Outfit',
+                                  //       fontWeight: FontWeight.w400,
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                  // Padding(
+                                  //   padding: EdgeInsets.only(
+                                  //     top: size.height * 0.01,
+                                  //   ),
+                                  //   child: StreamBuilder(
+                                  //     stream: null,
+                                  //     builder: (context, snapshot) => TextField(
+                                  //       style: TextStyle(
+                                  //           fontSize: size.width * 0.04,
+                                  //           color: Colors.black),
+                                  //       // controller: _emailController,
+                                  //       decoration: const InputDecoration(
+                                  //         // errorText: snapshot.hasError
+                                  //         //     ? snapshot.error.toString()
+                                  //         //     : null,
+                                  //         enabledBorder: UnderlineInputBorder(
+                                  //           borderSide: BorderSide(color: Colors.black),
+                                  //         ),
+                                  //         focusedBorder: UnderlineInputBorder(
+                                  //           borderSide: BorderSide(color: Colors.black),
+                                  //         ),
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
                                   Padding(
                                     padding: EdgeInsets.only(
                                       top: size.height*0.02,
@@ -767,7 +876,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> const VerificationCodeScreen(functionKey: "signUpScreen")));
+                                signupClick();
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: ColorConstant.purple900,
@@ -830,5 +939,93 @@ class _SignUpScreenState extends State<SignUpScreen> {
     setState(() {
       _showPass = !_showPass;
     });
+  }
+
+  void signupClick() async {
+    String fullname = _fullnameController.text.trim();
+    String dob = _dobController.text.trim();
+    String gender = _genderController.text.trim();
+    String phone = _phoneController.text.trim();
+    String address = _addressController.text.trim();
+    String email = _emailController.text.trim();
+    String id = _idNumberController.text.trim();
+    String skill = "";
+    String exp = "";
+    bool createSuccess = false;
+    
+    createSuccess =await bloc.register(fullname, phone, email, gender, dob, id, address, skill, exp);
+    if(createSuccess){
+      // ignore: use_build_context_synchronously
+      showSuccessAlertDialog(context);
+      // print('tạo thành công');
+    }else{
+      // ignore: use_build_context_synchronously
+      showFailAlertDialog(context);
+      // print('tạo thất bại');
+    }
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        // Navigator.pushNamed(context, '/loginWithGoogleNav');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Tài khoản đăng ký thành công, vui lòng đợi phản hồi từ email.",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Đăng ký tài khoản thất bại, vui lòng nhập lại.",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
