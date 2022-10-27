@@ -28,7 +28,14 @@ class _PersonalScreenState extends State<PersonalScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    setState(() {
+      _fullNameController.text = globals.curUser!.data.fullName;
+      _emailController.text = globals.curUser!.data.email;
+      _genderController.text = globals.curUser!.data.gender;
+      _phoneController.text = globals.curUser!.data.phone;
+      _addressController.text = globals.curUser!.data.address;
+      _dobController.text = globals.curUser!.data.dob.toString();
+    });
   }
   @override
   Widget build(BuildContext context) {
