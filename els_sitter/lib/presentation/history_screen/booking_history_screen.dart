@@ -1,5 +1,5 @@
-import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
-import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
+import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
+import 'package:els_sitter/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/booking_bloc.dart';
@@ -150,37 +150,37 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                             builder: (context, snapshot) {
                               if (snapshot.hasError) print(snapshot.error);
                               if (snapshot.hasData) {
-                                  return ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    // itemCount: snapshot.data!.length,
-                                    itemCount: snapshot.data!.data.length,
-                                    separatorBuilder: (context, index) {
-                                      return Container(
-                                        height: 1,
-                                        width: size.width,
-                                        decoration: BoxDecoration(
-                                          color: ColorConstant.bluegray50,
-                                        ),
-                                      );
-                                    },
-                                    itemBuilder: (BuildContext context,
-                                        int index) {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BookingItemDetailWidget(
-                                                            booking: snapshot
-                                                                .data!
-                                                                .data[index])));
-                                          },
-                                          child: bookingItemWidget(
-                                              context, snapshot.data!.data[index]));
-                                    },
-                                  );
+                                return ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  // itemCount: snapshot.data!.length,
+                                  itemCount: snapshot.data!.data.length,
+                                  separatorBuilder: (context, index) {
+                                    return Container(
+                                      height: 1,
+                                      width: size.width,
+                                      decoration: BoxDecoration(
+                                        color: ColorConstant.bluegray50,
+                                      ),
+                                    );
+                                  },
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BookingItemDetailWidget(
+                                                          booking: snapshot
+                                                              .data!
+                                                              .data[index])));
+                                        },
+                                        child: bookingItemWidget(
+                                            context, snapshot.data!.data[index]));
+                                  },
+                                );
                               } else {
                                 return const CircularProgressIndicator();
                               }

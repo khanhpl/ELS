@@ -8,6 +8,8 @@ import 'package:els_sitter/presentation/onboarding_screen/onboarding_screen.dart
 import 'package:els_sitter/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:els_sitter/presentation/personal_screen/personal_screen.dart';
+import 'package:els_sitter/presentation/history_screen/booking_history_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -33,6 +35,8 @@ class MyApp extends StatelessWidget {
         '/changePasswordScreen': (context) => ChangePasswordScreen(),
         '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
         '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
+        '/personalScreen': (context) => PersonalScreen(),
+        '/hístoryScreen': (context) => HistoryBookingScreen(),
       },
     );
   }
