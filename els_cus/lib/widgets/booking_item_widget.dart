@@ -8,7 +8,17 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
   // print('Status id:' );
   String getStatus(){
     String status = "";
-    if(booking.status.id == 4) status = "Đang tìm kiếm";
+    if(booking.status.statusName == 'WAITING_FOR_SITTER'){
+      status = "Đang tìm kiếm";
+    }else if(booking.status.statusName == 'STARTING'){
+      status = "Đang thực hiện";
+    }else if(booking.status.statusName == 'DONE'){
+      status = "Đã xong";
+    }else if(booking.status.statusName == 'CANCEL'){
+      status = "Đã hủy";
+    }else{
+      status = "Chưa biết";
+    }
     return status;
   }
   return Row(

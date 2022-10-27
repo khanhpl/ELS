@@ -1,4 +1,3 @@
-
 import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/blocs/elder_blocs.dart';
 import 'package:els_sitter/core/models/booking_data_model.dart';
@@ -23,7 +22,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
+
   BookingBloc bookBloc = BookingBloc();
+
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -117,6 +118,52 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+  void showCheckoutAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Hoàn Thành Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn hoàn thành lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget getButton(BuildContext context) {
     var size = MediaQuery.of(context).size;
     if (booking.status.statusName == 'WAITING_FOR_SITTER') {
@@ -125,7 +172,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width*0.4,
+              width: size.width * 0.4,
               margin: EdgeInsets.only(
                   left: size.width * 0.03,
                   right: size.width * 0.03,
@@ -151,11 +198,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-          SizedBox(width: size.width*0.05),
+          SizedBox(width: size.width * 0.05),
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width*0.4,
+              width: size.width * 0.4,
               margin: EdgeInsets.only(
                   left: size.width * 0.03,
                   right: size.width * 0.03,
@@ -183,10 +230,48 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ],
       );
-    }else{
+    } else if (booking.status.statusName == 'STARTING') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Xác nhận xong"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
+    } else {
       return SizedBox();
     }
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -900,16 +985,15 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
     );
   }
+
   onAcceptClick() async {
     bool isAccept = false;
     isAccept = await bookBloc.sitterAcceptAction(booking.id);
 
-    if(isAccept){
+    if (isAccept) {
       print('được ời nè');
-    }else{
+    } else {
       print('Còn cái nịt');
     }
-
   }
-
 }
