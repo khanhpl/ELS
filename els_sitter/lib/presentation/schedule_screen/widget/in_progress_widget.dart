@@ -57,7 +57,7 @@ class _InprogressWidgetState extends State<InprogressWidget> {
                                 height: size.height*0.5,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Chưa có lịch đang diễn ra",
+                                  "Chưa có lịch trình nào",
                                   textAlign: TextAlign.center,
                                 ),
                               );
