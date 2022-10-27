@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/booking_model.dart';
+import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import '../core/utils/globals.dart' as Globals;
 import 'package:http/http.dart' as http;
@@ -29,7 +30,7 @@ class BookingBloc{
     }
     return listID;
   }
-  Future<bool> createBooking(String address, String description, String elderID, String startDateTime, String endDateTime, String place, String totalPrice, String email, List<String> listServiceIDs) async {
+  Future<bool> createBooking(String address, String description, String elderID, String startDateTime, String endDateTime, String place, String totalPrice, List<ServiceRequestBookingModel> listBookingServiceRequest) async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/booking");
       final response = await http.post(
@@ -48,8 +49,8 @@ class BookingBloc{
             "endDateTime": endDateTime,
             "place": place,
             "totalPrice": totalPrice,
-            "email": email,
-            "serviceIds": listServiceIDs,
+            "email": Globals.curUser!.data.email,
+            "bookingServiceRequestDTOS": listBookingServiceRequest,
           },
         ),
       );

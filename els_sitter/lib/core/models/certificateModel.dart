@@ -1,20 +1,20 @@
 class CertificateModel {
 
   String url;
-  String exp;
+  String name;
   CertificateModel({
     required this.url,
-    required this.exp,
+    required this.name,
   });
 
 
   factory CertificateModel.fromJson(Map<String, dynamic> json) => CertificateModel(
     url: json["url"],
-    exp: json["exp"],
+    name: json["name"],
   );
 
   Map<String, dynamic> toJson() => {
     "url": url,
-    "exp": exp,
+    "name": name,
   };
 }

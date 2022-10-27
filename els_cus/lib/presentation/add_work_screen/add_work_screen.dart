@@ -1,8 +1,8 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/models/elder_model.dart';
+import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import 'package:els_cus_mobile/core/models/service_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
@@ -23,8 +23,7 @@ class AddWorkScreen extends StatefulWidget {
 }
 
 class _AddWorkScreenState extends State<AddWorkScreen> {
-  double _sliderValue = 20000;
-  RangeValues _sliderRangeValues = RangeValues(15000, 100000);
+  // RangeValues _sliderRangeValues = RangeValues(15000, 100000);
   final Future<ElderModel> elderList = ElderBlocs().getAllElder();
   String chooseElderID = "";
   bool _isGenderMale = false;
@@ -42,6 +41,8 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   BookingBloc bloc = BookingBloc();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final Map<dynamic, dynamic> listServiceObj = {};
+
   void _changeStartDate(String date) async {
     setState(() {
       startDate = date;
@@ -64,6 +65,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     }
     return false;
   }
+
   void showAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -112,6 +114,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       },
     );
   }
+
   _chooseService(BuildContext context) {
     var size = MediaQuery.of(context).size;
     AlertDialog alert = AlertDialog(
@@ -167,13 +170,23 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                       if (chkOccur) {
                                         listSelectedService
                                             .remove(snapshot.data!.data[index]);
+                                        listServiceObj.removeWhere(
+                                            (key, value) =>
+                                                key ==
+                                                snapshot.data!.data[index].id);
                                       } else {
                                         listSelectedService
                                             .add(snapshot.data!.data[index]);
+                                        listServiceObj[
+                                                snapshot.data!.data[index].id] =
+                                            snapshot.data!.data[index].duration;
                                       }
                                     } else {
                                       listSelectedService
                                           .add(snapshot.data!.data[index]);
+                                      listServiceObj[
+                                              snapshot.data!.data[index].id] =
+                                          snapshot.data!.data[index].duration;
                                     }
                                     Navigator.pop(context);
                                   });
@@ -277,6 +290,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
     // set up the AlertDialog
   }
+
   void showSuccessAlertDialog(BuildContext context) {
     // set up the buttons
 
@@ -310,6 +324,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       },
     );
   }
+
   void showFailAlertDialog(BuildContext context) {
     // set up the buttons
 
@@ -327,7 +342,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-
       content: const Text(
         "Đặt Lịch Thất bại",
       ),
@@ -344,6 +358,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       },
     );
   }
+
+
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -726,8 +743,83 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                   return SizedBox(height: size.height * 0.01);
                                 },
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Text(
-                                      '${listSelectedService[index].name}: ${listSelectedService[index].price.ceil().toString()} VNĐ');
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                          '${listSelectedService[index].name}:'),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: size.width * 0.03,
+                                          top: size.height * 0.01,
+                                        ),
+                                        child: Text(
+                                            '(giá đề xuất)${listSelectedService[index].price.ceil().toString()}VNĐ/${listSelectedService[index].duration} phút'),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                              top: size.width * 0.01,
+                                              left: size.width * 0.03),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  'Thời gian thực hiện: ${listServiceObj[listSelectedService[index].id]} phút'),
+                                              SizedBox(
+                                                  width: size.width * 0.03),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    listServiceObj[
+                                                            listSelectedService[
+                                                                    index]
+                                                                .id] =
+                                                        (listServiceObj[
+                                                                listSelectedService[
+                                                                        index]
+                                                                    .id] +
+                                                            listSelectedService[
+                                                                    index]
+                                                                .duration);
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.add_circle_outline,
+                                                  size: size.width * 0.04,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                  width: size.width * 0.03),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (listServiceObj[listSelectedService[
+                                                    index].id] > listSelectedService[
+                                                    index].duration) {
+                                                      listServiceObj[listSelectedService[
+                                                      index].id] =
+                                                          listServiceObj[listSelectedService[
+                                                          index].id] - listSelectedService[
+                                                          index].duration;
+                                                    }
+                                                  });
+                                                },
+                                                child: Icon(
+                                                  Icons.remove_circle_outline,
+                                                  size: size.width * 0.04,
+                                                  color: Colors.black,
+                                                ),
+                                              ),
+                                            ],
+                                          )),
+                                    ],
+                                  );
                                 },
                               ),
                             ),
@@ -984,97 +1076,97 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.03,
-                          top: size.height * 0.03,
-                        ),
-                        child: Text(
-                          "Khung giá cả",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 17,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            height: 1.00,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.03,
-                          top: size.height * 0.02,
-                        ),
-                        child: Text(
-                          "Từ 15000đ đến 100000đ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 15,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                            height: 1.00,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.03,
-                          top: size.height * 0.02,
-                        ),
-                        child: Text(
-                          "Giá trung bình là 57500đ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray400,
-                            fontSize: 15,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w400,
-                            height: 1.00,
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          height: size.height * 0.05,
-                          width: double.infinity,
-                          margin: EdgeInsets.only(
-                            left: size.width * 0.03,
-                            top: size.height * 0.02,
-                            right: size.width * 0.03,
-                          ),
-                          child: Stack(
-                            alignment: Alignment.bottomLeft,
-                            children: [
-                              SliderTheme(
-                                data: SliderThemeData(
-                                  trackShape:
-                                      const RoundedRectSliderTrackShape(),
-                                  activeTrackColor: ColorConstant.purple900,
-                                  inactiveTrackColor: ColorConstant.bluegray50,
-                                  thumbColor: ColorConstant.whiteA700,
-                                  thumbShape: const RoundSliderThumbShape(),
-                                ),
-                                child: RangeSlider(
-                                  values: _sliderRangeValues,
-                                  min: 15000,
-                                  max: 100000,
-                                  onChanged: (RangeValues value) {
-                                    setState(() {
-                                      _sliderRangeValues = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: size.width * 0.03,
+                      //     top: size.height * 0.03,
+                      //   ),
+                      //   child: Text(
+                      //     "Khung giá cả",
+                      //     overflow: TextOverflow.ellipsis,
+                      //     textAlign: TextAlign.left,
+                      //     style: TextStyle(
+                      //       color: ColorConstant.black900,
+                      //       fontSize: 17,
+                      //       fontFamily: 'Roboto',
+                      //       fontWeight: FontWeight.w700,
+                      //       height: 1.00,
+                      //     ),
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: size.width * 0.03,
+                      //     top: size.height * 0.02,
+                      //   ),
+                      //   child: Text(
+                      //     "Từ 15000đ đến 100000đ",
+                      //     overflow: TextOverflow.ellipsis,
+                      //     textAlign: TextAlign.left,
+                      //     style: TextStyle(
+                      //       color: ColorConstant.black900,
+                      //       fontSize: 15,
+                      //       fontFamily: 'Roboto',
+                      //       fontWeight: FontWeight.w400,
+                      //       height: 1.00,
+                      //     ),
+                      //   ),
+                      // ),
+                      // Padding(
+                      //   padding: EdgeInsets.only(
+                      //     left: size.width * 0.03,
+                      //     top: size.height * 0.02,
+                      //   ),
+                      //   child: Text(
+                      //     "Giá trung bình là 57500đ",
+                      //     overflow: TextOverflow.ellipsis,
+                      //     textAlign: TextAlign.left,
+                      //     style: TextStyle(
+                      //       color: ColorConstant.bluegray400,
+                      //       fontSize: 15,
+                      //       fontFamily: 'Roboto',
+                      //       fontWeight: FontWeight.w400,
+                      //       height: 1.00,
+                      //     ),
+                      //   ),
+                      // ),
+                      // Align(
+                      //   alignment: Alignment.center,
+                      //   child: Container(
+                      //     height: size.height * 0.05,
+                      //     width: double.infinity,
+                      //     margin: EdgeInsets.only(
+                      //       left: size.width * 0.03,
+                      //       top: size.height * 0.02,
+                      //       right: size.width * 0.03,
+                      //     ),
+                      //     child: Stack(
+                      //       alignment: Alignment.bottomLeft,
+                      //       children: [
+                      //         SliderTheme(
+                      //           data: SliderThemeData(
+                      //             trackShape:
+                      //                 const RoundedRectSliderTrackShape(),
+                      //             activeTrackColor: ColorConstant.purple900,
+                      //             inactiveTrackColor: ColorConstant.bluegray50,
+                      //             thumbColor: ColorConstant.whiteA700,
+                      //             thumbShape: const RoundSliderThumbShape(),
+                      //           ),
+                      //           child: RangeSlider(
+                      //             values: _sliderRangeValues,
+                      //             min: 15000,
+                      //             max: 100000,
+                      //             onChanged: (RangeValues value) {
+                      //               setState(() {
+                      //                 _sliderRangeValues = value;
+                      //               });
+                      //             },
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
@@ -1207,21 +1299,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           top: size.height * 0.03,
                         ),
                         child: StreamBuilder(
-                          stream: bloc.descriptionStream,
-                          builder: (context, snapshot) {
-                            return TextField(
-                              controller: _descriptionController,
-                              style: TextStyle(
-                                  fontSize: size.width * 0.04, color: Colors.black),
-                              decoration: const InputDecoration(
-                                  border: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(6)))),
-                            );
-                          }
-                        ),
+                            stream: bloc.descriptionStream,
+                            builder: (context, snapshot) {
+                              return TextField(
+                                controller: _descriptionController,
+                                style: TextStyle(
+                                    fontSize: size.width * 0.04,
+                                    color: Colors.black),
+                                decoration: const InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xffCED0D2), width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6)))),
+                              );
+                            }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -1258,6 +1350,10 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _onBookingClick() async {
+    List<ServiceRequestBookingModel> listBookingServiceRequest= [];
+    listServiceObj.forEach((key, value) {
+      listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
+    });
     String address = _addressController.text.trim();
     String description = _descriptionController.text.trim();
     String startDateTime = '${startDate}T00:00:00.000Z';
@@ -1271,7 +1367,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     String totalPrice = bloc.calTotal(listSelectedService).toString();
     List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
     bool isBooking = false;
-    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, totalPrice, Globals.curUser!.data.email, listServiceIDs);
+    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, totalPrice,  listBookingServiceRequest);
     if(isBooking){
       showSuccessAlertDialog(context);
     }else{

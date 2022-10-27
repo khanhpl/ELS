@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:els_cus_mobile/core/models/service_model.dart';
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
+import 'package:els_sitter/core/models/service_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ServiceBlocs{
@@ -13,10 +12,10 @@ class ServiceBlocs{
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
       );
+      print('Test status code: '+response.statusCode.toString());
 
       if (response.statusCode.toString() == '200') {
         return ServiceModel.fromJson(json.decode(response.body));
