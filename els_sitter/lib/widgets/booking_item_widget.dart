@@ -8,6 +8,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
   // print('Status id:' );
   String getStatus(){
     String status = "";
+
     if(booking.status.statusName == 'WAITING_FOR_SITTER'){
       status = "Đang tìm kiếm";
     }else if(booking.status.statusName == 'STARTING'){
