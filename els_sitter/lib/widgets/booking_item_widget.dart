@@ -5,6 +5,12 @@ import 'package:flutter/cupertino.dart';
 
 Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
   var size = MediaQuery.of(context).size;
+  // print('Status id:' );
+  String getStatus(){
+    String status = "";
+    if(booking.status.id == 4) status = "Đang tìm kiếm";
+    return status;
+  }
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     mainAxisSize: MainAxisSize.max,
@@ -26,111 +32,93 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
           bottom: size.height*0.01,
           left: size.width * 0.03,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                booking.sitter.fullname,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: ColorConstant.black900,
-                  fontSize: 15,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w500,
-                  height: 1.00,
-                ),
-              ),
-            ),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: size.height * 0.01,
-                ),
+        child: SizedBox(
+          width: size.width*0.6,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
                 child: Text(
-                  "${booking.startDateTime.toString()}",
+                  booking.cus!.fullname,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: ColorConstant.black900,
-                    fontSize: 13,
+                    fontSize: 15,
                     fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w500,
                     height: 1.00,
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                top: size.height*0.01,
-              ),
-              child: Text(
-                "Dịch vụ",
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: ColorConstant.gray700,
-                  fontSize: 13,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  height: 1.00,
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.01,
+                  ),
+                  child: Text(
+                    "Ngày bắt đầu: "+"${booking.startDateTime.toString()}",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 13,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                      height: 1.00,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: size.height * 0.01,
+                  ),
+                  child: Text(
+                    "Ngày kết thúc: "+"${booking.endDateTime.toString()}",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 13,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                      height: 1.00,
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
         ),
       ),
       Expanded(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // Padding(
-            //   padding: EdgeInsets.only(
-            //     top: size.width * 0.01,
-            //     bottom: size.height*0.01,
-            //     right: size.width*0.03,
-            //   ),
-            //   child: Text(
-            //     "30 phút trước",
-            //     overflow: TextOverflow.ellipsis,
-            //     textAlign: TextAlign.left,
-            //     style: TextStyle(
-            //       color: ColorConstant.gray700,
-            //       fontSize: 13,
-            //       fontFamily: 'Roboto',
-            //       fontWeight: FontWeight.w400,
-            //       height: 1.00,
-            //     ),
-            //   ),
-            // ),
-            Container(
-              padding: EdgeInsets.only(
-                top: size.height*0.01,
-                right: size.width*0.03,
-              ),
-              child: Text(
-                "Đang chờ",
-                // overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: ColorConstant.green400,
-                  fontSize: 13,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
-                  height: 1.00,
-                ),
-              ),
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: size.height*0.01,
+          ),
+          child: Text(
+            getStatus(),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              color: ColorConstant.black900,
+              fontSize: 13,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w400,
+              height: 1.00,
             ),
-          ],
+          ),
         ),
       ),
     ],
   );
+
 }
