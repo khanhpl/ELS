@@ -7,6 +7,8 @@ import 'package:els_sitter/presentation/schedule_screen/schedule_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../account_screen/account_screen.dart';
+
 class BottomBarNavigation extends StatefulWidget {
   int selectedIndex = 0;
 
@@ -37,7 +39,7 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
       case 3:
         return SplashScreen();
       case 4:
-        return const SplashScreen();
+        return const AccountScreen();
 
       default:
         return const SplashScreen();

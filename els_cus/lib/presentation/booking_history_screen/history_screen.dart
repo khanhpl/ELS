@@ -145,6 +145,50 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                             future: doneList,
                           ),
                         ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FutureBuilder<BookingModel>(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) print(snapshot.error);
+                              if (snapshot.hasData) {
+                                  return ListView.separated(
+                                    physics: const BouncingScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    // itemCount: snapshot.data!.length,
+                                    itemCount: snapshot.data!.data.length,
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                        height: 1,
+                                        width: size.width,
+                                        decoration: BoxDecoration(
+                                          color: ColorConstant.bluegray50,
+                                        ),
+                                      );
+                                    },
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
+                                      return GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HistoryItemDetailWidget(
+                                                            booking: snapshot
+                                                                .data!
+                                                                .data[index])));
+                                          },
+                                          child: HistoryItemWidget(
+                                              context, snapshot.data!.data[index]));
+                                    },
+                                  );
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                            future: cancelList,
+                          ),
+                        ),
                         Container(
                           height: 1,
                           width: size.width,
