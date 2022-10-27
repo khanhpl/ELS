@@ -1,4 +1,4 @@
-library els_cus_mobile.globlas;
+library els_sitter.globlas;
 
 import 'dart:io';
 
