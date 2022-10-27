@@ -14,5 +14,10 @@ class UserIDImageModel {
     backIdImgUrl: json["backIdImgUrl"],
     avatarImgUrl: json["avatarImgUrl"],
   );
+  Map<String, dynamic> toJson() => {
+    "fontIdImgUrl": fontIdImgUrl,
+    "backIdImgUrl": backIdImgUrl,
+    "avatarImgUrl": avatarImgUrl,
+  };
 
 }

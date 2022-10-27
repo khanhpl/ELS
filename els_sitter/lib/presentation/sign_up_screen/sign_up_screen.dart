@@ -1380,9 +1380,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
     uploadFileFrontID();
     uploadFileBackID();
     uploadFileFace();
-
+    print('Test list service input: ' + listSitterService.length.toString());
     UserIDImageModel userIdImage = UserIDImageModel(fontIdImgUrl: frontIDImage, backIdImgUrl: backIDImage, avatarImgUrl: avatarImage);
-    print('Test list service input: ' + listSitterService.toString());
+    print('Test url: '+ userIdImage.fontIdImgUrl);
     createSuccess =await bloc.register(fullname, phone, email, gender, dob, id, address, listSitterService, userIdImage, listCert);
     if(createSuccess){
       // ignore: use_build_context_synchronously
