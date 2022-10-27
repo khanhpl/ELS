@@ -23,6 +23,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
+  BookingBloc bookBloc = BookingBloc();
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -43,7 +44,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onAcceptClick();
+      },
     );
 
     // set up the AlertDialog
@@ -897,6 +900,16 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
     );
   }
+  onAcceptClick() async {
+    bool isAccept = false;
+    isAccept = await bookBloc.sitterAcceptAction(booking.id);
 
+    if(isAccept){
+      print('được ời nè');
+    }else{
+      print('Còn cái nịt');
+    }
+
+  }
 
 }

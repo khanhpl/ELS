@@ -44,6 +44,20 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   final Map<dynamic, dynamic> listServiceObj = {};
   @override
 
+  double calTotal() {
+    double totalPrice = 0;
+    if(listServiceObj.isNotEmpty){
+      listServiceObj.forEach((key, value) {
+        for(ServiceDataModel service in listSelectedService){
+          if(service.id == key){
+            totalPrice = totalPrice + service.price*(value/service.duration);
+          }
+        }
+      });
+
+    }
+    return totalPrice;
+  }
 
   void _changeStartDate(String date) async {
     setState(() {
@@ -1283,6 +1297,36 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           right: size.width * 0.03,
                         ),
                         child: Text(
+                          "Tổng giá tiền đặt lịch(Dự tính)",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: ColorConstant.black900,
+                            fontSize: 17,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                            height: 1.00,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.03,
+                          top: size.width * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Text('${calTotal().ceil().toString()} VNĐ'),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.03,
+                          top: size.height * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: Text(
                           "Ghi chú",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
@@ -1339,6 +1383,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ),
                         ),
                       ),
+
                       SizedBox(height: size.height * 0.1),
                     ],
                   ),
@@ -1356,6 +1401,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     listServiceObj.forEach((key, value) {
       listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
     });
+    double total = calTotal();
     String address = _addressController.text.trim();
     String description = _descriptionController.text.trim();
     String startDateTime = '${startDate}T00:00:00.000Z';
@@ -1366,10 +1412,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     }else{
       place = "Tại nhà";
     }
-    String totalPrice = bloc.calTotal(listSelectedService).toString();
     List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
     bool isBooking = false;
-    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, totalPrice,  listBookingServiceRequest);
+    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
     if(isBooking){
       showSuccessAlertDialog(context);
     }else{
