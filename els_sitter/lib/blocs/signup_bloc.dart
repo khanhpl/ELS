@@ -79,7 +79,7 @@ class SignupBloc{
       print('test id:' + id);
       print('test address:' + address);
       print('test listSitterService' + listSitterService.length.toString());
-      print('test userIDImage '+ userIDImage.avatarImgUrl);
+      print('test userIDImage '+ userIDImage.fontIdImgUrl.toString());
       print('test gender:' + gender);
       print('test cert' + listCert.length.toString());
       var url =

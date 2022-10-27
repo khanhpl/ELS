@@ -15,7 +15,6 @@ class ServiceBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
       );
-      print('Test status code: '+response.statusCode.toString());
 
       if (response.statusCode.toString() == '200') {
         return ServiceModel.fromJson(json.decode(response.body));
