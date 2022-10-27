@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/booking_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
@@ -61,18 +60,29 @@ class BookingBloc{
       }
     } finally {}
   }
-  List<BookingDataModel> getBookingListByStatus(BookingModel model, int statusID){
-    List<BookingDataModel>  listBookingByStatus = [];
-    for(BookingDataModel data in model.data){
-      if(data.status.id == statusID){
-        listBookingByStatus.add(data);
-      }
-    }
-    return listBookingByStatus;
-  }
+
   Future<BookingModel> getBookingByCusEmail() async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/booking/customer/${Globals.curUser!.data.email}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+
+      );
+      if (response.statusCode.toString() == '200') {
+        return BookingModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to booking Service from the REST API');
+      }
+    } finally {}
+  }
+  Future<BookingModel> getBookingByStatusName(String statusName) async {
+    try {
+      var url = Uri.parse("https://els12.herokuapp.com/booking/customer/${Globals.curUser!.data.email}/${statusName}");
       final response = await http.get(
         url,
         headers: <String, String>{

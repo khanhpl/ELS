@@ -61,7 +61,7 @@ class _HistoryItemDetailWidgetState extends State<HistoryItemDetailWidget>{
                           Align(
                             alignment: Alignment.center,
                             child: Text(
-                              "Chi tiết lịch sử đặt lịch",
+                              "Chi tiết đặt lịch",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -205,7 +205,7 @@ class _HistoryItemDetailWidgetState extends State<HistoryItemDetailWidget>{
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                (booking.status.id == 6) ? "" : booking.sitter!.fullname,
+                                (booking.status.id == 6) ? booking.sitter!.fullname : "Đã hủy đơn đặt lịch",
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(

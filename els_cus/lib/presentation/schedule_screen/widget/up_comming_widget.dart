@@ -16,7 +16,9 @@ class UpcommingWidget extends StatefulWidget {
 }
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
-  final Future<BookingModel> bookingList = BookingBloc().getBookingByCusEmail();
+  final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
+  final Future<BookingModel> acceptList = BookingBloc().getBookingByStatusName('SITTER_ACCEPT');
+  final Future<BookingModel> waitingList = BookingBloc().getBookingByStatusName('WAITING_TO_START_DATE');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -53,9 +55,10 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
-                            List<BookingDataModel> listBooking = bloc.getBookingListByStatus(snapshot.data!, 4);
-                            if(listBooking.isEmpty){
-                              return const Center(
+                            if(snapshot.data!.data.length == 0){
+                              return Container(
+                                height: size.height*0.5,
+                                alignment: Alignment.center,
                                 child: Text(
                                   "Chưa có lịch được đặt",
                                   textAlign: TextAlign.center,
@@ -67,7 +70,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 // itemCount: snapshot.data!.length,
-                                itemCount: listBooking.length,
+                                itemCount: snapshot.data!.data.length,
                                 separatorBuilder: (context, index) {
                                   return Container(
                                     height: 1,
@@ -88,15 +91,99 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                                                             .data[index])));
                                       },
                                       child: bookingItemWidget(
-                                          context, listBooking[index]));
+                                          context, snapshot.data!.data[index]));
                                 },
                               );
                             }
                           } else {
-                            return const CircularProgressIndicator();
+                            return CircularProgressIndicator();
                           }
                         },
                         future: bookingList,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<BookingModel>(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          if (snapshot.hasData) {
+                              return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                // itemCount: snapshot.data!.length,
+                                itemCount: snapshot.data!.data.length,
+                                separatorBuilder: (context, index) {
+                                  return Container(
+                                    height: 1,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.bluegray50,
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BookingItemDetailWidget(
+                                                        booking: snapshot.data!
+                                                            .data[index])));
+                                      },
+                                      child: bookingItemWidget(
+                                          context, snapshot.data!.data[index]));
+                                },
+                              );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                        future: acceptList,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<BookingModel>(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          if (snapshot.hasData) {
+                              return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                // itemCount: snapshot.data!.length,
+                                itemCount: snapshot.data!.data.length,
+                                separatorBuilder: (context, index) {
+                                  return Container(
+                                    height: 1,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.bluegray50,
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BookingItemDetailWidget(
+                                                        booking: snapshot.data!
+                                                            .data[index])));
+                                      },
+                                      child: bookingItemWidget(
+                                          context, snapshot.data!.data[index]));
+                                },
+                              );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                        future: waitingList,
                       ),
                     ),
                     Container(

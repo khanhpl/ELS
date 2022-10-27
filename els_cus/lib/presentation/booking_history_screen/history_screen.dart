@@ -6,9 +6,6 @@ import '../../core/models/booking_model.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
 import 'package:els_cus_mobile/widgets/history_item_widget.dart';
-
-import '../../widgets/booking_item_detail_widget.dart';
-import '../../widgets/booking_item_widget.dart';
 import '../../widgets/history_item_detail_widget.dart';
 
 class HistoryBookingScreen extends StatefulWidget {
@@ -18,7 +15,8 @@ class HistoryBookingScreen extends StatefulWidget {
 }
 
 class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
-  final Future<BookingModel> bookingList = BookingBloc().getBookingByCusEmail();
+  final Future<BookingModel> doneList = BookingBloc().getBookingByStatusName('DONE');
+  final Future<BookingModel> cancelList = BookingBloc().getBookingByStatusName('CANCEL');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -98,9 +96,10 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                             builder: (context, snapshot) {
                               if (snapshot.hasError) print(snapshot.error);
                               if (snapshot.hasData) {
-                                List<BookingDataModel> listBooking = bloc.getBookingListByStatus(snapshot.data!, 6);
-                                if(listBooking.isEmpty){
-                                  return const Center(
+                                if(snapshot.data!.data.isEmpty){
+                                  return Container(
+                                    height: size.height*0.5,
+                                    alignment: Alignment.center,
                                     child: Text(
                                       "Chưa có lịch sử đặt lịch",
                                       textAlign: TextAlign.center,
@@ -112,7 +111,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                     shrinkWrap: true,
                                     scrollDirection: Axis.vertical,
                                     // itemCount: snapshot.data!.length,
-                                    itemCount: listBooking.length,
+                                    itemCount: snapshot.data!.data.length,
                                     separatorBuilder: (context, index) {
                                       return Container(
                                         height: 1,
@@ -135,7 +134,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                                                 .data[index])));
                                           },
                                           child: HistoryItemWidget(
-                                              context, listBooking[index]));
+                                              context, snapshot.data!.data[index]));
                                     },
                                   );
                                 }
@@ -143,7 +142,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                 return const CircularProgressIndicator();
                               }
                             },
-                            future: bookingList,
+                            future: doneList,
                           ),
                         ),
                         Container(
