@@ -3,6 +3,7 @@ import 'package:convex_bottom_bar/convex_bottom_bar.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:els_sitter/presentation/home_screen/home_screen.dart';
+import 'package:els_sitter/presentation/request_screen/request_screen.dart';
 import 'package:els_sitter/presentation/schedule_screen/schedule_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
       case 1:
         return const ScheduleScreen();
       case 2:
-        return const SplashScreen();
+        return const RequestScreen();
       case 3:
         return SplashScreen();
       case 4:
@@ -140,7 +141,7 @@ class _BottomBarNavigationState extends State<BottomBarNavigation> {
                     AssetImage(ImageConstant.imgNews),
                     color: ColorConstant.purple900,
                   ),
-                  title: 'Tin đăng\n',
+                  title: 'Yêu cầu\n',
                 ),
                 TabItem(
                   icon: ImageIcon(

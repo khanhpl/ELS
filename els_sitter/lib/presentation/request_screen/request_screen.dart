@@ -1,21 +1,20 @@
+import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
+import 'package:els_sitter/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/booking_bloc.dart';
 import '../../core/models/booking_model.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
-import 'package:els_cus_mobile/widgets/history_item_widget.dart';
-import '../../widgets/history_item_detail_widget.dart';
 
-class HistoryBookingScreen extends StatefulWidget {
-  const HistoryBookingScreen({super.key});
+class RequestScreen extends StatefulWidget {
+  const RequestScreen({super.key});
   @override
-  State<HistoryBookingScreen> createState() => _HistoryBookingScreenState();
+  State<RequestScreen> createState() => _RequestScreenState();
 }
 
-class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
-  final Future<BookingModel> doneList = BookingBloc().getBookingByStatusName('DONE');
-  final Future<BookingModel> cancelList = BookingBloc().getBookingByStatusName('CANCEL');
+class _RequestScreenState extends State<RequestScreen>{
+  final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -28,16 +27,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
         elevation: 0.0,
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstant.whiteA700,
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.pop(context);
-          },
-          child: Image.asset(
-            ImageConstant.imgArrowleft,
-            height: size.height * 0.024,
-            width: size.width * 0.03,
-          ),
-        ),
+
         title: Container(
           decoration: BoxDecoration(
             color: ColorConstant.whiteA700,
@@ -48,7 +38,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
               bottom: size.height * 0.01,
             ),
             child: Text(
-              "Lịch sử đặt lịch",
+              "Yêu cầu đến bạn",
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
@@ -100,7 +90,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                     height: size.height*0.5,
                                     alignment: Alignment.center,
                                     child: Text(
-                                      "Chưa có lịch sử đặt lịch",
+                                      "Chưa có đặt lịch",
                                       textAlign: TextAlign.center,
                                     ),
                                   );
@@ -127,12 +117,12 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        HistoryItemDetailWidget(
+                                                        BookingItemDetailWidget(
                                                             booking: snapshot
                                                                 .data!
                                                                 .data[index])));
                                           },
-                                          child: HistoryItemWidget(
+                                          child: bookingItemWidget(
                                               context, snapshot.data!.data[index]));
                                     },
                                   );
@@ -141,7 +131,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                 return const CircularProgressIndicator();
                               }
                             },
-                            future: doneList,
+                            future: bookingList,
                           ),
                         ),
                         Container(

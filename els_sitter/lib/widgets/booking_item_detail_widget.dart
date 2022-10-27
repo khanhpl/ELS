@@ -3,9 +3,10 @@ import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/blocs/elder_blocs.dart';
 import 'package:els_sitter/core/models/booking_data_model.dart';
 import 'package:els_sitter/core/models/booking_detail_model.dart';
-import 'package:els_sitter/core/models/elder_data_model.dart';
+import 'package:els_sitter/core/models/single_elder_model.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
+import 'package:els_sitter/widgets/elder_item_on_booking_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
@@ -22,57 +23,174 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
+  void showAcceptAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {},
+    );
 
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn nhận đặt lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showCancelAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Từ Chối Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn từ chối đặt lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  Widget getButton(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    if (booking.status.statusName == 'WAITING_FOR_SITTER') {
+      return Row(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width*0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCancelAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Từ chối"),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: size.width*0.05),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width*0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showAcceptAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Chấp nhận"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }else{
+      return SizedBox();
+    }
+  }
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<List<ElderDataModel>> elderList = ElderBlocs().getAllElder();
-    final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
-    void showAlertDialog(BuildContext context) {
-      // set up the buttons
-      Widget cancelButton = TextButton(
-        child: Text(
-          "Hủy",
-          style: TextStyle(
-            color: ColorConstant.purple900,
-          ),
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      );
-      Widget continueButton = TextButton(
-        child: Text(
-          "Xác nhận",
-          style: TextStyle(
-            color: ColorConstant.purple900,
-          ),
-        ),
-        onPressed: () {},
-      );
-
-      // set up the AlertDialog
-      AlertDialog alert = AlertDialog(
-        title: const Text(
-          "Xác Nhận Đặt Lịch",
-        ),
-        content: const Text(
-          "Bạn xác nhận muốn nhận đặt lịch này?",
-        ),
-        actions: [
-          cancelButton,
-          continueButton,
-        ],
-      );
-
-      // show the dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return alert;
-        },
-      );
-    }
+    final Future<SingleElderModel> elderList =
+        ElderBlocs().getElderByID(booking.elderId);
+    final Future<BookingDetailModel> bookingDetail =
+        BookingBloc().getBookingDetailByBookingID(booking.id.toString());
 
     return SafeArea(
       child: Scaffold(
@@ -187,12 +305,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   top: size.height * 0.01,
                                 ),
                                 child: Text(
-                                  booking.startDateTime.toString(),
+                                  booking.endDateTime.toString(),
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: ColorConstant.black900,
-                                    fontSize: 13,
+                                    fontSize: 17,
                                     fontFamily: 'Roboto',
                                     fontWeight: FontWeight.w500,
                                     height: 1.00,
@@ -235,7 +353,40 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       right: size.width * 0.03,
                     ),
                     child: Text(
-                      "Nhân viên",
+                      "Trạng thái ${booking.status.statusName}",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.gray700,
+                        fontSize: 13,
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w400,
+                        height: 1.00,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 1,
+                  width: double.infinity,
+                  margin: EdgeInsets.only(
+                    left: size.width * 0.03,
+                    top: size.width * 0.03,
+                  ),
+                  decoration: BoxDecoration(
+                    color: ColorConstant.bluegray50,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: size.width * 0.03,
+                      top: size.height * 0.02,
+                      right: size.width * 0.03,
+                    ),
+                    child: Text(
+                      "Người đặt lịch",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -266,7 +417,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              booking.sitter.fullname,
+                              booking.cus!.fullname,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -277,26 +428,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 height: 1.00,
                               ),
                             ),
-                            // Align(
-                            //   alignment: Alignment.centerLeft,
-                            //   child: Padding(
-                            //     padding: EdgeInsets.only(
-                            //       top: size.height * 0.01,
-                            //     ),
-                            //     child: Text(
-                            //       "Trò chuyện cùng",
-                            //       overflow: TextOverflow.ellipsis,
-                            //       textAlign: TextAlign.left,
-                            //       style: TextStyle(
-                            //         color: ColorConstant.black900,
-                            //         fontSize: 13,
-                            //         fontFamily: 'Roboto',
-                            //         fontWeight: FontWeight.w500,
-                            //         height: 1.00,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
                           ],
                         ),
                         Expanded(
@@ -372,12 +503,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   // itemCount: snapshot.data!.length,
                                   itemCount: snapshot.data!.data.length,
                                   separatorBuilder: (context, index) {
-                                    return SizedBox(height: size.height*0.01);
+                                    return SizedBox(height: size.height * 0.01);
                                   },
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Text(
-                                        snapshot.data!.data[index].service.name);
+                                    return Text(snapshot
+                                        .data!.data[index].service.name);
                                   },
                                 );
                               } else {
@@ -412,7 +543,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       right: size.width * 0.03,
                     ),
                     child: Text(
-                      "Thân nhân được chăm sóc",
+                      "Người được chăm sóc",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -435,13 +566,14 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                     ),
                     child: SizedBox(
                       height: size.height * 0.08,
-                      child: FutureBuilder<List<ElderDataModel>>(
+                      child: FutureBuilder<SingleElderModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
-                            
-                              return Text("người thân nè");
-                            
+                            return ElderItemOnBookingWidget(
+                                context,
+                                snapshot.data!.data,
+                                snapshot.data!.data.id.toString());
                           } else {
                             return const CircularProgressIndicator();
                           }
@@ -502,7 +634,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Gò vấp, tp Hồ Chí Minh",
+                              booking.address,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -513,26 +645,26 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 height: 1.00,
                               ),
                             ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                ),
-                                child: Text(
-                                  "0.31 Km",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 13,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.00,
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Align(
+                            //   alignment: Alignment.centerLeft,
+                            //   child: Padding(
+                            //     padding: EdgeInsets.only(
+                            //       top: size.height * 0.01,
+                            //     ),
+                            //     child: Text(
+                            //       "0.31 Km",
+                            //       overflow: TextOverflow.ellipsis,
+                            //       textAlign: TextAlign.left,
+                            //       style: TextStyle(
+                            //         color: ColorConstant.black900,
+                            //         fontSize: 13,
+                            //         fontFamily: 'Roboto',
+                            //         fontWeight: FontWeight.w500,
+                            //         height: 1.00,
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                         Expanded(
@@ -757,83 +889,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                     ),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: size.width*0.4,
-                        margin: EdgeInsets.only(
-                            left: size.width * 0.03,
-                            right: size.width * 0.03,
-                            top: size.height * 0.02,
-                            bottom: size.height * 0.02),
-                        decoration: BoxDecoration(
-                          color: ColorConstant.whiteA700,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: size.width * 0.05,
-                            right: size.width * 0.05,
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                showAlertDialog(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: ColorConstant.purple900,
-                                textStyle: TextStyle(
-                                  fontSize: size.width * 0.045,
-                                ),
-                              ),
-                              child: const Text("Từ Chối"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: size.width*0.4,
-                        margin: EdgeInsets.only(
-                            left: size.width * 0.03,
-                            right: size.width * 0.03,
-                            top: size.height * 0.02,
-                            bottom: size.height * 0.02),
-                        decoration: BoxDecoration(
-                          color: ColorConstant.whiteA700,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: size.width * 0.05,
-                            right: size.width * 0.05,
-                          ),
-                          child: SizedBox(
-                            width: double.infinity,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                showAlertDialog(context);
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: ColorConstant.purple900,
-                                textStyle: TextStyle(
-                                  fontSize: size.width * 0.045,
-                                ),
-                              ),
-                              child: const Text("Chấp Nhận"),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                getButton(context),
               ],
             ),
           ),
@@ -841,8 +897,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
     );
   }
-
-
 
 
 }
