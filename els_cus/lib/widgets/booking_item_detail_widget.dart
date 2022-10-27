@@ -23,146 +23,332 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
-  // Widget StatusIDWidget(BuildContext){
-  //   var size = MediaQuery.of(context).size;
-  //   final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
-  //   if(booking.status.id == 4){
-  //     return Align(
-  //       alignment: Alignment.center,
-  //       child: Padding(
-  //         padding: EdgeInsets.only(
-  //           left: size.width * 0.03,
-  //           top: size.height * 0.02,
-  //           right: size.width * 0.03,
-  //         ),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.max,
-  //           children: [
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.start,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   "Đang tìm kiếm chăm sóc viên phù hợp",
-  //                   overflow: TextOverflow.ellipsis,
-  //                   textAlign: TextAlign.left,
-  //                   style: TextStyle(
-  //                     color: ColorConstant.black900,
-  //                     fontSize: 17,
-  //                     fontFamily: 'Roboto',
-  //                     fontWeight: FontWeight.w500,
-  //                     height: 1.00,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             Expanded(
-  //               child: Align(
-  //                   alignment: Alignment.centerRight,
-  //                   child: Image.asset(
-  //                     ImageConstant.imgArrowrightGray400,
-  //                     height: size.width * 0.03,
-  //                     width: size.width * 0.03,
-  //                   )),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //   }else if (booking.status.id == 7){
-  //     return Align(
-  //       alignment: Alignment.center,
-  //       child: Padding(
-  //         padding: EdgeInsets.only(
-  //           left: size.width * 0.03,
-  //           top: size.height * 0.02,
-  //           right: size.width * 0.03,
-  //         ),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.max,
-  //           children: [
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.start,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   "Chờ chăm sóc viên xác nhận",
-  //                   overflow: TextOverflow.ellipsis,
-  //                   textAlign: TextAlign.left,
-  //                   style: TextStyle(
-  //                     color: ColorConstant.black900,
-  //                     fontSize: 17,
-  //                     fontFamily: 'Roboto',
-  //                     fontWeight: FontWeight.w500,
-  //                     height: 1.00,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             Expanded(
-  //               child: Align(
-  //                   alignment: Alignment.centerRight,
-  //                   child: Image.asset(
-  //                     ImageConstant.imgArrowrightGray400,
-  //                     height: size.width * 0.03,
-  //                     width: size.width * 0.03,
-  //                   )),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //   } else {
-  //     return Align(
-  //       alignment: Alignment.center,
-  //       child: Padding(
-  //         padding: EdgeInsets.only(
-  //           left: size.width * 0.03,
-  //           top: size.height * 0.02,
-  //           right: size.width * 0.03,
-  //         ),
-  //         child: Row(
-  //           mainAxisAlignment: MainAxisAlignment.start,
-  //           crossAxisAlignment: CrossAxisAlignment.center,
-  //           mainAxisSize: MainAxisSize.max,
-  //           children: [
-  //             Column(
-  //               mainAxisAlignment: MainAxisAlignment.start,
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   "Đang chờ bắt đầu",
-  //                   overflow: TextOverflow.ellipsis,
-  //                   textAlign: TextAlign.left,
-  //                   style: TextStyle(
-  //                     color: ColorConstant.black900,
-  //                     fontSize: 17,
-  //                     fontFamily: 'Roboto',
-  //                     fontWeight: FontWeight.w500,
-  //                     height: 1.00,
-  //                   ),
-  //                 ),
-  //               ],
-  //             ),
-  //             Expanded(
-  //               child: Align(
-  //                   alignment: Alignment.centerRight,
-  //                   child: Image.asset(
-  //                     ImageConstant.imgArrowrightGray400,
-  //                     height: size.width * 0.03,
-  //                     width: size.width * 0.03,
-  //                   )),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
+
+
+  String getStatus(){
+    String status = "";
+    if(booking.status.statusName == 'WAITING_FOR_SITTER'){
+      status = "Đang tìm kiếm";
+    }else if(booking.status.statusName == 'STARTING'){
+      status = "Đang thực hiện";
+    }else if(booking.status.statusName == 'DONE'){
+      status = "Đã xong";
+    }else if(booking.status.statusName == 'CANCEL'){
+      status = "Đã hủy";
+    }else{
+      status = "Chưa biết";
+    }
+    return status;
+  }
+  void showCancelAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Hủy Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn hủy đặt lịch này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showCheckoutAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Hoàn Thành Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn hoàn thành lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  Widget getButton(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    if (booking.status.statusName == 'WAITING_FOR_SITTER') {
+      return Row(
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCancelAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Hủy"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (booking.status.statusName == 'STARTING') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Xác nhận xong"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
+    } else {
+      return SizedBox();
+    }
+  }
+  Widget StatusIDWidget(BuildContext){
+    var size = MediaQuery.of(context).size;
+    final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
+    if(booking.status.id == 4){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đang tìm kiếm chăm sóc viên phù hợp",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else if (booking.status.id == 7){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chờ chăm sóc viên xác nhận",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đang chờ bắt đầu",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -479,7 +665,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              (booking.status.id == 4) ? "Đang tìm kiếm chăm sóc viên phù hợp" : booking.sitter!.fullname,
+                              booking.sitter!.fullname,
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(
@@ -950,41 +1136,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(
-                        left: size.width * 0.03,
-                        right: size.width * 0.03,
-                        top: size.height * 0.02,
-                        bottom: size.height * 0.02),
-                    decoration: BoxDecoration(
-                      color: ColorConstant.whiteA700,
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: size.width * 0.05,
-                        right: size.width * 0.05,
-                      ),
-                      child: SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            showAlertDialog(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            primary: ColorConstant.purple900,
-                            textStyle: TextStyle(
-                              fontSize: size.width * 0.045,
-                            ),
-                          ),
-                          child: const Text("Hủy"),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                getButton(context),
               ],
             ),
           ),

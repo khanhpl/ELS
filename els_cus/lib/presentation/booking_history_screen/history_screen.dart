@@ -1,11 +1,11 @@
+import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
+import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/booking_bloc.dart';
 import '../../core/models/booking_model.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
-import 'package:els_cus_mobile/widgets/history_item_widget.dart';
-import '../../widgets/history_item_detail_widget.dart';
 
 class HistoryBookingScreen extends StatefulWidget {
   const HistoryBookingScreen({super.key});
@@ -127,12 +127,12 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        HistoryItemDetailWidget(
+                                                        BookingItemDetailWidget(
                                                             booking: snapshot
                                                                 .data!
                                                                 .data[index])));
                                           },
-                                          child: HistoryItemWidget(
+                                          child: bookingItemWidget(
                                               context, snapshot.data!.data[index]));
                                     },
                                   );
@@ -172,12 +172,12 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                             Navigator.push(context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        HistoryItemDetailWidget(
+                                                        BookingItemDetailWidget(
                                                             booking: snapshot
                                                                 .data!
                                                                 .data[index])));
                                           },
-                                          child: HistoryItemWidget(
+                                          child: bookingItemWidget(
                                               context, snapshot.data!.data[index]));
                                     },
                                   );
