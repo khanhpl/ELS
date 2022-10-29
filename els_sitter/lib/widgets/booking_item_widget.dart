@@ -17,6 +17,8 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       status = "Đã xong";
     }else if(booking.status.statusName == 'CANCEL'){
       status = "Đã hủy";
+    }else if(booking.status.statusName == 'WAITING_TO_START_DATE'){
+      status = "Chờ đến ngày";
     }else{
       status = "Chưa biết";
     }
