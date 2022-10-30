@@ -31,7 +31,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String _platformVersion = 'Unknown';
   String qrcode = 'Unknown';
   SignupBloc bloc = SignupBloc();
-  bool createSuccess = false;
+  bool _isGenderMale = false;
+  bool _isGenderFemale = false;
   final TextEditingController _fullnameController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
@@ -417,27 +418,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _fullnameController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.fullName,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _fullnameController,
+                                        decoration: InputDecoration(
+                                            hintText: "Họ và tên",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -460,27 +454,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _phoneController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.phone,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _phoneController,
+                                        decoration: InputDecoration(
+                                            hintText: "Số điện thoại",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -503,27 +490,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _emailController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.email,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _emailController,
+                                        decoration: InputDecoration(
+                                            hintText: "Email",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -545,27 +525,61 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: EdgeInsets.only(
                                     top: size.height * 0.01,
                                   ),
-                                  child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _genderController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
+                                  // child: StreamBuilder(
+                                  //     stream: bloc.gender,
+                                  //     builder: (context, snapshot) => TextField(
+                                  //       style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                  //       controller: _genderController,
+                                  //       decoration: InputDecoration(
+                                  //           hintText: "Giới tính",
+                                  //           errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  //
+                                  //           border: const OutlineInputBorder(
+                                  //               borderSide: BorderSide(
+                                  //                   color: Color(0xffCED0D2), width: 1),
+                                  //               borderRadius:
+                                  //               BorderRadius.all(Radius.circular(6)))),
+                                  //     )),
+                                  child: Row(
+                                    children: [
+                                      Checkbox(
+                                        value: _isGenderMale,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isGenderMale = true;
+                                            _isGenderFemale = false;
+                                          });
+                                        },
+                                        checkColor: ColorConstant.purple900,
+                                        activeColor: Colors.white,
+                                      ),
+                                      Text(
+                                        'Nam',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.02,
+                                          fontWeight: FontWeight.w400,
                                         ),
                                       ),
-                                    ),
+                                      SizedBox(width: size.width * 0.1),
+                                      Checkbox(
+                                        value: _isGenderFemale,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            _isGenderMale = false;
+                                            _isGenderFemale = true;
+                                          });
+                                        },
+                                        checkColor: ColorConstant.purple900,
+                                        activeColor: Colors.white,
+                                      ),
+                                      Text(
+                                        'Nữ',
+                                        style: TextStyle(
+                                          fontSize: size.height * 0.02,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                                 Padding(
@@ -589,27 +603,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _dobController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.dob,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _dobController,
+                                        decoration: InputDecoration(
+                                            hintText: "Năm - Tháng - Ngày",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -632,27 +638,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _idNumberController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.id,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _idNumberController,
+                                        decoration: InputDecoration(
+                                            hintText: "Số CCCD/CMND",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -939,27 +937,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     top: size.height * 0.01,
                                   ),
                                   child: StreamBuilder(
-                                    stream: null,
-                                    builder: (context, snapshot) => TextField(
-                                      style: TextStyle(
-                                          fontSize: size.width * 0.04,
-                                          color: Colors.black),
-                                      controller: _addressController,
-                                      decoration: const InputDecoration(
-                                        // errorText: snapshot.hasError
-                                        //     ? snapshot.error.toString()
-                                        //     : null,
-                                        enabledBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                        focusedBorder: UnderlineInputBorder(
-                                          borderSide:
-                                              BorderSide(color: Colors.black),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                      stream: bloc.address,
+                                      builder: (context, snapshot) => TextField(
+                                        style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                                        controller: _addressController,
+                                        decoration: InputDecoration(
+                                            hintText: "Địa chỉ",
+                                            errorText: snapshot.hasError ? snapshot.error.toString() : null,
+
+                                            border: const OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                    color: Color(0xffCED0D2), width: 1),
+                                                borderRadius:
+                                                BorderRadius.all(Radius.circular(6)))),
+                                      )),
                                 ),
                                 // Padding(
                                 //   padding: EdgeInsets.only(
@@ -1376,24 +1367,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String address = _addressController.text.trim();
     String email = _emailController.text.trim();
     String id = _idNumberController.text.trim();
-
-    uploadFileFrontID();
-    uploadFileBackID();
-    uploadFileFace();
-    print('Test list service input: ' + listSitterService.length.toString());
-    UserIDImageModel userIdImage = UserIDImageModel(fontIdImgUrl: frontIDImage, backIdImgUrl: backIDImage, avatarImgUrl: avatarImage);
-    print('Test url: '+ userIdImage.fontIdImgUrl);
-    createSuccess =await bloc.register(fullname, phone, email, gender, dob, id, address, listSitterService, userIdImage, listCert);
-    if(createSuccess){
-      // ignore: use_build_context_synchronously
-
-      showSuccessAlertDialog(context);
-      // print('tạo thành công');
-    }else{
-      // ignore: use_build_context_synchronously
-      showFailAlertDialog(context);
-// print('tạo thất bại');
+    bool isValid = false;
+    bool createSuccess = false;
+    if(_isGenderMale = true){
+      gender = "Nam";
+    } else {
+      gender = "Nữ";
     }
+    isValid = bloc.isValidInput(fullname, email, phone, dob, id, address, gender);
+//     uploadFileFrontID();
+//     uploadFileBackID();
+//     uploadFileFace();
+//     print('Test list service input: ' + listSitterService.length.toString());
+//     UserIDImageModel userIdImage = UserIDImageModel(fontIdImgUrl: frontIDImage, backIdImgUrl: backIDImage, avatarImgUrl: avatarImage);
+//     print('Test url: '+ userIdImage.fontIdImgUrl);
+//     if(isValid){
+//       createSuccess =await bloc.register(fullname, phone, email, gender, dob, id, address, listSitterService, userIdImage, listCert);
+//       if(createSuccess){
+//         // ignore: use_build_context_synchronously
+//
+//         showSuccessAlertDialog(context);
+//         // print('tạo thành công');
+//       }else{
+//         // ignore: use_build_context_synchronously
+//         showFailAlertDialog(context);
+// // print('tạo thất bại');
+//       }
+//     }
   }
 
   void showSuccessAlertDialog(BuildContext context) {
