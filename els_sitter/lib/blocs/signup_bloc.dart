@@ -51,20 +51,72 @@ class SignupBloc{
       _phoneController.sink.addError("Số điện thoại không thể để trống");
       phoneValid = false;
     }else{
-      _phoneController.sink.add("OK");
-      phoneValid = true;
+      if(!Validations.isValidPhone(phone)){
+        _phoneController.sink.addError("Số điện thoại không hợp lệ");
+        phoneValid = false;
+      } else {
+        _phoneController.sink.add("OK");
+        phoneValid = true;
+      }
     }
 
-    if(!Validations.isValidEmail(email)){
+    if(address.isEmpty){
+      _addressController.sink.addError("Địa chỉ không thể để trống");
+      addressValid = false;
+    } else {
+      _addressController.sink.add("OK");
+      addressValid = true;
+    }
 
-      _emailController.sink.addError("Email không hợp lệ!");
+    if(id.isEmpty){
+      _idNumberController.sink.addError("Số CMND/CCCD không thể để trống");
+      idValid = false;
+    } else {
+      if(!Validations.isValidId(id)){
+        _idNumberController.sink.addError("Số CCCD/CMND không hợp lệ");
+        idValid = false;
+      } else {
+        _idNumberController.sink.add("OK");
+        idValid = true;
+      }
+    }
+
+    if(email.isEmpty){
+      _emailController.sink.addError("Email không thể để trống");
       userValid = false;
-    }else{
-      _emailController.sink.add("OK");
-      userValid = true;
+    } else {
+      if(!Validations.isValidEmail(email)){
+
+        _emailController.sink.addError("Email không hợp lệ!");
+        userValid = false;
+      }else{
+        _emailController.sink.add("OK");
+        userValid = true;
+      }
     }
 
-    if(userValid && fullnameValid && phoneValid && genderValid && dobValid && idValid && addressValid){
+    if(dob.isEmpty){
+      _dobController.sink.addError("Ngày sinh không thể để trống");
+      dobValid = false;
+    } else {
+      if(!Validations.isValidDob(dob)){
+        _dobController.sink.addError("Nhập theo cú pháp Năm-Tháng-Ngày");
+        dobValid = false;
+      } else {
+        _dobController.sink.add("OK");
+        dobValid = true;
+      }
+    }
+
+    if(!Validations.isValidGender(gender)){
+      _genderController.sink.addError("Giới tính chỉ là Nam hoặc Nữ");
+      genderValid = false;
+    } else {
+      _genderController.sink.add("OK");
+      genderValid = true;
+    }
+
+    if(userValid && fullnameValid && phoneValid && genderValid && dobValid && addressValid && idValid){
       isValid = true;
     }
     return isValid;

@@ -2,19 +2,42 @@ import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 
-class PersonalScreen extends StatelessWidget {
+class PersonalScreen extends StatefulWidget {
   PersonalScreen({super.key});
 
+  @override
+  State<PersonalScreen> createState() => _PersonalScreenState();
+}
+
+class _PersonalScreenState extends State<PersonalScreen> {
   final TextEditingController _fullNameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _dobController = TextEditingController();
+
   final TextEditingController _districtController = TextEditingController();
+
   final TextEditingController _cityController = TextEditingController();
+
   final TextEditingController _addressController = TextEditingController();
+
   final TextEditingController _phoneController = TextEditingController();
 
   PersonalInfoBloc bloc = PersonalInfoBloc();
+
+  @override
+  void initState() {
+    setState(() {
+      _fullNameController.text = globals.curUser!.data.fullName;
+      _emailController.text = globals.curUser!.data.email;
+      _dobController.text = globals.curUser!.data.dob.toString();
+      _addressController.text = globals.curUser!.data.address;
+      _phoneController.text = globals.curUser!.data.phone;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -198,88 +221,88 @@ class PersonalScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height*0.02,
-                      ),
-                      child: Text(
-                        "Quận/Huyện",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.01,
-                      ),
-                      child: StreamBuilder(
-                        stream: null,
-                        builder: (context, snapshot) => TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
-                          controller: _districtController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height*0.02,
-                      ),
-                      child: Text(
-                        "Tỉnh/Thành Phố",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.01,
-                      ),
-                      child: StreamBuilder(
-                        stream: null,
-                        builder: (context, snapshot) => TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
-                          controller: _cityController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: size.height*0.02,
+                    //   ),
+                    //   child: Text(
+                    //     "Quận/Huyện",
+                    //     overflow: TextOverflow.ellipsis,
+                    //     textAlign: TextAlign.left,
+                    //     style: TextStyle(
+                    //       color: ColorConstant.bluegray900,
+                    //       fontSize: 14,
+                    //       fontFamily: 'Outfit',
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: size.height * 0.01,
+                    //   ),
+                    //   child: StreamBuilder(
+                    //     stream: null,
+                    //     builder: (context, snapshot) => TextField(
+                    //       style: TextStyle(
+                    //           fontSize: size.width * 0.04,
+                    //           color: Colors.black),
+                    //       controller: _districtController,
+                    //       decoration: const InputDecoration(
+                    //         // errorText: snapshot.hasError
+                    //         //     ? snapshot.error.toString()
+                    //         //     : null,
+                    //         enabledBorder: UnderlineInputBorder(
+                    //           borderSide: BorderSide(color: Colors.black),
+                    //         ),
+                    //         focusedBorder: UnderlineInputBorder(
+                    //           borderSide: BorderSide(color: Colors.black),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: size.height*0.02,
+                    //   ),
+                    //   child: Text(
+                    //     "Tỉnh/Thành Phố",
+                    //     overflow: TextOverflow.ellipsis,
+                    //     textAlign: TextAlign.left,
+                    //     style: TextStyle(
+                    //       color: ColorConstant.bluegray900,
+                    //       fontSize: 14,
+                    //       fontFamily: 'Outfit',
+                    //       fontWeight: FontWeight.w400,
+                    //     ),
+                    //   ),
+                    // ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //     top: size.height * 0.01,
+                    //   ),
+                    //   child: StreamBuilder(
+                    //     stream: null,
+                    //     builder: (context, snapshot) => TextField(
+                    //       style: TextStyle(
+                    //           fontSize: size.width * 0.04,
+                    //           color: Colors.black),
+                    //       controller: _cityController,
+                    //       decoration: const InputDecoration(
+                    //         // errorText: snapshot.hasError
+                    //         //     ? snapshot.error.toString()
+                    //         //     : null,
+                    //         enabledBorder: UnderlineInputBorder(
+                    //           borderSide: BorderSide(color: Colors.black),
+                    //         ),
+                    //         focusedBorder: UnderlineInputBorder(
+                    //           borderSide: BorderSide(color: Colors.black),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: size.height*0.02,
