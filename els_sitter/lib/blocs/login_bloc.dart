@@ -61,6 +61,7 @@ class LoginBloc {
       );
       if (response.statusCode.toString() == '200') {
         Globals.curUser = UserModel.fromJson(json.decode(response.body));
+
         return true;
       } else {
         return false;
