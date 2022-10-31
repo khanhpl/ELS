@@ -1,9 +1,40 @@
+import 'package:els_cus_mobile/blocs/elder_blocs.dart';
+import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
-class AddNewElderScreen extends StatelessWidget {
+class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
+
+  @override
+  State<AddNewElderScreen> createState() => _AddNewElderScreenState();
+}
+
+class _AddNewElderScreenState extends State<AddNewElderScreen> {
+  final TextEditingController _nameController = TextEditingController();
+
+  final TextEditingController _noteController = TextEditingController();
+
+  final TextEditingController _healthStatusController = TextEditingController();
+  String dob = "Chọn ngày";
+  ElderBlocs elderBlocs = ElderBlocs();
+
+  bool _isAllergy = false;
+  bool _isMale = true;
+  bool _isFemale = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _changeDob(String date) async {
+    setState(() {
+      dob = date;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -86,33 +117,116 @@ class AddNewElderScreen extends StatelessWidget {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "Nguyễn Văn X",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
+                            stream: elderBlocs.nameStream,
+                            builder: (context, snapshot) => TextField(
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _nameController,
+                                  decoration: InputDecoration(
+                                      hintText: "",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.02,
+                        ),
+                        child: Text(
+                          "Ngày sinh",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: ColorConstant.bluegray900,
+                            fontSize: 14,
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.02,
+                          top: size.height * 0.03,
+                          left: size.width * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: StreamBuilder(
+                            stream: elderBlocs.dobStream,
+                            builder: (context, snapshot) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      DatePicker.showDatePicker(
+                                          context, //showDateTime to pick time
+                                          showTitleActions: true,
+                                          maxTime: DateTime.now(),
+                                          onChanged: (date) {},
+                                          onConfirm: (date) {
+                                        String dateInput =
+                                            '${date.year}-${date.month}-${date.day}';
+                                        _changeDob(dateInput);
+                                      },
+                                          currentTime: DateTime.now(),
+                                          locale: LocaleType.vi);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: size.height * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                            color: Colors.black45, width: 1),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: size.width * 0.048,
+                                              right: size.width * 0.048,
+                                            ),
+                                            child: Image.asset(
+                                                ImageConstant.imgCalendar),
+                                          ),
+                                          Text(dob),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height *0.01),
+                                  snapshot.hasError
+                                      ? Text(
+                                          snapshot.error.toString(),
+                                          style: const TextStyle(
+                                            color: Color(0xffCB4847),
+                                            fontSize: 13,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              );
+                            }),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.02,
                         ),
                         child: Text(
-                          "Năm sinh",
+                          "Giới tính",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -127,34 +241,90 @@ class AddNewElderScreen extends StatelessWidget {
                         padding: EdgeInsets.only(
                           top: size.height * 0.01,
                         ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "22-12-1999",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _isMale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isMale = true;
+                                  _isFemale = false;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nam',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ),
+                            SizedBox(width: size.width * 0.1),
+                            Checkbox(
+                              value: _isFemale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isMale = false;
+                                  _isFemale = true;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nữ',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Text(
+                        "Tình trạng sức khỏe",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.02,
+                          top: size.height * 0.01,
+                        ),
+                        child: StreamBuilder(
+                            stream: null,
+                            builder: (context, snapshot) => TextField(
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _healthStatusController,
+                                  decoration: InputDecoration(
+                                      hintText:
+                                          "Có bệnh nền như tiểu đường, Huyết áp cao",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.02,
                         ),
                         child: Text(
-                          "Quận/Huyện",
+                          "Dị ứng",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -169,42 +339,41 @@ class AddNewElderScreen extends StatelessWidget {
                         padding: EdgeInsets.only(
                           top: size.height * 0.01,
                         ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "Quận 9",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _isAllergy,
+                              onChanged: (value) {
+                                setState(() {
+                                  if (_isAllergy) {
+                                    _isAllergy = false;
+                                  } else {
+                                    _isAllergy = true;
+                                  }
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Có dị ứng',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height*0.02,
-                        ),
-                        child: Text(
-                          "Tỉnh/Thành Phố",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                          ),
+                      Text(
+                        "Ghi chú",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
                       Padding(
@@ -212,121 +381,36 @@ class AddNewElderScreen extends StatelessWidget {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "Tp. Hồ Chí Minh",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height*0.02,
-                        ),
-                        child: Text(
-                          "Địa chỉ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.01,
-                        ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "Lô 1b, Phước long A",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height*0.02,
-                        ),
-                        child: Text(
-                          "Tình trạng sức khoẻ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.01,
-                        ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            // controller: _emailController,
-                            decoration: const InputDecoration(
-                              hintText: "Có bệnh nền như tiểu đường, Huyết áp cao",
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
+                            stream: null,
+                            builder: (context, snapshot) => TextField(
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _noteController,
+                                  decoration: InputDecoration(
+                                      hintText: "",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
-                          top: size.height*0.05,
+                          top: size.height * 0.05,
                           right: size.width * 0.03,
                         ),
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+                              onAddNewElderClick();
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -347,5 +431,29 @@ class AddNewElderScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  onAddNewElderClick() async {
+    String name = _nameController.text.trim();
+    String statusHealth = _healthStatusController.text.trim();
+    String note = _noteController.text.trim();
+    String gender = "";
+    if (_isMale) {
+      gender = "Nam";
+    } else {
+      gender = "Nữ";
+    }
+    bool isValidElder = false;
+    isValidElder = elderBlocs.isValidElder(name, dob);
+    if (isValidElder) {
+      bool createSuccess = false;
+      createSuccess = await elderBlocs.addNewElder(
+          name, gender, dob, statusHealth, note, _isAllergy);
+      if (createSuccess) {
+        print('tạo được rồi');
+      } else {
+        print('chưa được');
+      }
+    } else {}
   }
 }

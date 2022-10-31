@@ -268,7 +268,42 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ],
       );
     } else {
-      return SizedBox();
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Đánh giá"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
     }
   }
 

@@ -15,9 +15,8 @@ class SignupBloc{
   final StreamController _dobController = StreamController();
   final StreamController _idNumberController = StreamController();
   final StreamController _addressController = StreamController();
-  final StreamController _skillController = StreamController(); // chưa dùng tạm thời để rỗng
-  final StreamController _expController = StreamController(); // chưa dùng tạm thời để rỗng
   final StreamController _genderController = StreamController();
+  final StreamController _idImageController = StreamController();
 
   Stream get fullName => _fullNameController.stream;
   Stream get phone => _phoneController.stream;
@@ -26,8 +25,9 @@ class SignupBloc{
   Stream get id => _idNumberController.stream;
   Stream get address => _addressController.stream;
   Stream get gender => _genderController.stream;
+  Stream get idImage => _idImageController.stream;
 
-  bool isValidInput(String fullname, String email, String phone, String dob, String id, String address, String gender){
+  bool isValidInput(String fullname, String email, String phone, String dob, String id, String address, String gender, UserIDImageModel model){
     bool isValid = false;
     bool fullnameValid = false;
     bool phoneValid = false;
@@ -36,8 +36,7 @@ class SignupBloc{
     bool addressValid = false;
     bool genderValid = false;
     bool userValid = false;
-    bool passValid = false;
-    bool rePassValid = false;
+    bool idImageValid = false;
 
     if(fullname.isEmpty){
       _fullNameController.sink.addError("Họ và tên không thể để trống");
@@ -51,20 +50,75 @@ class SignupBloc{
       _phoneController.sink.addError("Số điện thoại không thể để trống");
       phoneValid = false;
     }else{
-      _phoneController.sink.add("OK");
-      phoneValid = true;
+      if(!Validations.isValidPhone(phone)){
+        _phoneController.sink.addError("Số điện thoại không hợp lệ");
+        phoneValid = false;
+      } else {
+        _phoneController.sink.add("OK");
+        phoneValid = true;
+      }
     }
 
-    if(!Validations.isValidEmail(email)){
+    if(address.isEmpty){
+      _addressController.sink.addError("Địa chỉ không thể để trống");
+      addressValid = false;
+    } else {
+      _addressController.sink.add("OK");
+      addressValid = true;
+    }
 
-      _emailController.sink.addError("Email không hợp lệ!");
+    if(id.isEmpty){
+      _idNumberController.sink.addError("Số CMND/CCCD không thể để trống");
+      idValid = false;
+    } else {
+      if(!Validations.isValidId(id)){
+        _idNumberController.sink.addError("Số CCCD/CMND không hợp lệ");
+        idValid = false;
+      } else {
+        _idNumberController.sink.add("OK");
+        idValid = true;
+      }
+    }
+
+    if(email.isEmpty){
+      _emailController.sink.addError("Email không thể để trống");
       userValid = false;
-    }else{
-      _emailController.sink.add("OK");
-      userValid = true;
+    } else {
+      if(!Validations.isValidEmail(email)){
+
+        _emailController.sink.addError("Email không hợp lệ!");
+        userValid = false;
+      }else{
+        _emailController.sink.add("OK");
+        userValid = true;
+      }
     }
 
-    if(userValid && fullnameValid && phoneValid && genderValid && dobValid && idValid && addressValid){
+    if(dob == "Chọn ngày"){
+      _dobController.sink.addError("Ngày sinh không thể để trống");
+      dobValid = false;
+    } else {
+      _dobController.sink.add("OK");
+      dobValid = true;
+    }
+
+    if(!Validations.isValidGender(gender)){
+      _genderController.sink.addError("Giới tính chỉ là Nam hoặc Nữ");
+      genderValid = false;
+    } else {
+      _genderController.sink.add("OK");
+      genderValid = true;
+    }
+
+    if(model.avatarImgUrl.isEmpty || model.backIdImgUrl.isEmpty || model.fontIdImgUrl.isEmpty){
+      _idImageController.sink.addError("Ba hình ảnh phải được tải lên đầy đủ");
+      idImageValid = false;
+    }else{
+      _idImageController.add("Ok");
+      idImageValid = true;
+    }
+
+    if(userValid && fullnameValid && phoneValid && genderValid && dobValid && addressValid && idValid && idImageValid){
       isValid = true;
     }
     return isValid;

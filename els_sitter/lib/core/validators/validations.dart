@@ -20,6 +20,58 @@ class Validations{
       multiLine: false,
     );
     if(passwordRegex.hasMatch(password) && password.isNotEmpty){
+
+      return true;
+    }
+
+    return false;
+  }
+
+  static bool isValidPhone(String phone) {
+    RegExp passwordRegex = RegExp(
+      r'^[0-9]{10}$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if(passwordRegex.hasMatch(phone) && phone.isNotEmpty){
+
+      return true;
+    }
+    return false;
+  }
+
+  static bool isValidDob(String dob){
+    RegExp dobRegex = RegExp(
+      r'^\d{4}[\-\/\s]?((((0[13578])|(1[02]))[\-\/\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\-\/\s]?(([0-2][0-9])|(30)))|(02[\-\/\s]?[0-2][0-9]))$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if(dobRegex.hasMatch(dob) && dob.isNotEmpty){
+      return true;
+    }
+    return false;
+  }
+
+  static bool isValidId(String id){
+    RegExp dobRegex = RegExp(
+      r'^[0-9]{9}$|^[0-9]{12}$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if(dobRegex.hasMatch(id) && id.isNotEmpty){
+      return true;
+    }
+    return false;
+  }
+
+
+  static bool isValidGender(String gender){
+    RegExp genderRegex = RegExp(
+      r'^Nam$|^Nữ$',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    if(genderRegex.hasMatch(gender) && gender.isNotEmpty){
       return true;
     }
     return false;
