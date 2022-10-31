@@ -1,4 +1,5 @@
 
+
 import 'package:els_sitter/core/models/user_data_model.dart';
 
 class UserModel {

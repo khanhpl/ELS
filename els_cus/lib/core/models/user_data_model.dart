@@ -28,7 +28,9 @@ class UserDataModel {
     dob: DateTime.parse(json["dob"]),
     fullName: json["fullName"],
     gender: json["gender"],
+
     phone: (json["phone"] != null)?json["phone"]:"",
+
   );
 
   Map<String, dynamic> toJson() => {
