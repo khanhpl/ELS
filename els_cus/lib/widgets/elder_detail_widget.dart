@@ -26,6 +26,55 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
+
+  void showAcceptAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/elderScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Lưu thông tin người thân",
+      ),
+      content: const Text(
+        "Hủy chỉnh sửa thông tin người thân",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -388,6 +437,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+                              showAcceptAlertDialog(context);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,

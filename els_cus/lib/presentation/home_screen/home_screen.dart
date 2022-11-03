@@ -1,15 +1,18 @@
 import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
+import 'package:els_cus_mobile/core/models/category_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/home_screen/widgets/banner_item_widget.dart';
 import 'package:els_cus_mobile/widgets/sitter_item_widget.dart';
+import 'package:els_cus_mobile/widgets/category_item_home_widget.dart';
 import 'package:flutter/material.dart';
 import '../../core/models/service_model.dart';
 import '../../widgets/custom_search_view.dart';
 import '../../widgets/service_item_home_widget.dart';
+import 'package:els_cus_mobile/blocs/category_blocs.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var size = MediaQuery.of(context).size;
     final Future<List<SitterDataModel>> sitterList = SitterBlocs().getAllSitter();
     final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
+    final Future<CategoryModel> categoryList = CategoryBloc().getAllCategory();
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
       body: Container(
@@ -177,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                    ),
+                                    )   ,
                                   ],
                                 ),
                               ),
@@ -254,7 +258,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: SizedBox(
                                   width: double.infinity,
                                   height: size.height*0.1,
-                                  child: FutureBuilder<ServiceModel>(
+                                  child: FutureBuilder<CategoryModel>(
                                     builder: (context, snapshot) {
                                       if (snapshot.hasError) print(snapshot.error);
                                       if (snapshot.hasData) {
@@ -269,15 +273,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                             );
                                           },
                                           itemBuilder: (BuildContext context, int index) {
-                                            return ServiceItemHomeWidget(
-                                                service: snapshot.data!.data[index]);
+                                            return CategoryItemHomeWidget(
+                                                category: snapshot.data!.data[index]);
                                           },
                                         );
                                       } else {
                                         return const CircularProgressIndicator();
                                       }
                                     },
-                                    future: serviceList,
+                                    future: categoryList,
                                   ),
                                 ),
                               ),

@@ -24,7 +24,7 @@ class ElderScreen extends StatelessWidget{
         backgroundColor: ColorConstant.whiteA700,
         leading: GestureDetector(
           onTap: (){
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/accountScreen');
           },
           child: Image.asset(
             ImageConstant.imgArrowleft,

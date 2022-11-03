@@ -12,6 +12,7 @@ import 'package:els_cus_mobile/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:els_cus_mobile/presentation/personal_information_screen/personal_screen.dart';
 import 'package:els_cus_mobile/presentation/booking_history_screen/history_screen.dart';
+import 'package:els_cus_mobile/presentation/account_screen/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -42,7 +43,10 @@ class MyApp extends StatelessWidget {
         '/elderScreen': (context) => ElderScreen(),
         '/addNewElderScreen': (context) => AddNewElderScreen(),
         '/personalScreen': (context) => PersonalScreen(),
-        '/historyScreen': (context) => HistoryBookingScreen(),
+
+        '/accountScreen': (context) => BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
+
+
       },
     ),
   );
