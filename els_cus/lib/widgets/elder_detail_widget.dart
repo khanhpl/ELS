@@ -18,24 +18,31 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
 
   final TextEditingController _dobController = TextEditingController();
 
-  final TextEditingController _districtController = TextEditingController();
-
-  final TextEditingController _provinceController = TextEditingController();
-
-  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
 
   final TextEditingController _healthStatusController = TextEditingController();
+
+  final TextEditingController _genderController = TextEditingController();
+  bool _isAllergy = false;
+  bool _isMale = false;
+  bool _isFemale = false;
   @override
   void initState() {
     // TODO: implement initState
     setState(() {
       _nameController.text = elder.name;
       _dobController.text = elder.dob.toString();
-      _districtController.text = '';
-      _provinceController.text='';
-      _addressController.text='';
-      _healthStatusController.text=elder.healthStatus.toString();
-
+      _noteController.text = elder.note;
+      _healthStatusController.text=elder.healthStatus;
+      _genderController.text = elder.gender.toString();
+      if(elder.gender.toString() == "Nam"){
+        _isMale = true;
+        _isFemale = false;
+      } else {
+        _isMale = false;
+        _isFemale = true;
+      }
+      _isAllergy = elder.isAllergy;
     });
   }
 
@@ -186,7 +193,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                           top: size.height*0.02,
                         ),
                         child: Text(
-                          "Quận/Huyện",
+                          "Giới tính",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -201,107 +208,46 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                         padding: EdgeInsets.only(
                           top: size.height * 0.01,
                         ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            controller: _districtController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _isMale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isMale = true;
+                                  _isFemale = false;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nam',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height*0.02,
-                        ),
-                        child: Text(
-                          "Tỉnh/Thành Phố",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.01,
-                        ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            controller: _provinceController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                            SizedBox(width: size.width * 0.1),
+                            Checkbox(
+                              value: _isFemale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isMale = false;
+                                  _isFemale = true;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nữ',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height*0.02,
-                        ),
-                        child: Text(
-                          "Địa chỉ",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.01,
-                        ),
-                        child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            controller: _addressController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                       Padding(
@@ -347,6 +293,93 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
+                          top: size.height*0.02,
+                        ),
+                        child: Text(
+                          "Dị ứng",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: ColorConstant.bluegray900,
+                            fontSize: 14,
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.01,
+                        ),
+                        child: Row(
+                          children: [
+                            Checkbox(
+                              value: _isAllergy,
+                              onChanged: (value) {
+                                setState(() {
+                                  if(_isAllergy){
+                                    _isAllergy = false;
+                                  }else{
+                                    _isAllergy = true;
+                                  }
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Có dị ứng',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height*0.02,
+                        ),
+                        child: Text(
+                          "Ghi chú",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            color: ColorConstant.bluegray900,
+                            fontSize: 14,
+                            fontFamily: 'Outfit',
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.01,
+                        ),
+                        child: StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: _noteController,
+                            decoration: const InputDecoration(
+                              // errorText: snapshot.hasError
+                              //     ? snapshot.error.toString()
+                              //     : null,
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
                           left: size.width * 0.03,
                           top: size.height*0.05,
                           right: size.width * 0.03,
@@ -362,7 +395,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 fontSize: size.width * 0.045,
                               ),
                             ),
-                            child: const Text("Tạo mới"),
+                            child: const Text("Lưu"),
                           ),
                         ),
                       ),

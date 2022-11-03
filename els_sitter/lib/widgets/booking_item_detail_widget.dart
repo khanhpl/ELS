@@ -25,6 +25,73 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   BookingBloc bookBloc = BookingBloc();
 
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -93,7 +160,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onCancelClick();
+      },
     );
 
     // set up the AlertDialog
@@ -1026,9 +1095,19 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isAccept = await bookBloc.sitterAcceptAction(booking.id);
 
     if (isAccept) {
-      print('được ời nè');
+      showSuccessAlertDialog(context);
     } else {
-      print('Còn cái nịt');
+      showFailAlertDialog(context);
+    }
+  }
+  onCancelClick() async{
+    bool isCancel = false;
+    isCancel = await bookBloc.sitterCancelAction(booking.id);
+
+    if (isCancel) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
     }
   }
 }

@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
         '/elderScreen': (context) => ElderScreen(),
         '/addNewElderScreen': (context) => AddNewElderScreen(),
         '/personalScreen': (context) => PersonalScreen(),
-        '/hístoryScreen': (context) => HistoryBookingScreen(),
+        '/historyScreen': (context) => HistoryBookingScreen(),
       },
     ),
   );

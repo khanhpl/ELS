@@ -15,7 +15,7 @@ class UpcommingWidget extends StatefulWidget {
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
   // final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
-  final Future<BookingModel> waitingList = BookingBloc().getBookingByStatusName('WAITING_TO_START_DATE');
+  final Future<BookingModel> waitingList = BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
