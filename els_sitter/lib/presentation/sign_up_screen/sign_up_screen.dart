@@ -1,3 +1,4 @@
+
 import 'dart:io';
 
 import 'package:els_sitter/blocs/service_blocs.dart';
@@ -44,8 +45,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _idNumberController = TextEditingController();
   final TextEditingController _personalDescriptionController =
       TextEditingController();
+  final TextEditingController _certLinkController = TextEditingController();
+  final TextEditingController _certLinkImgController = TextEditingController();
+  final TextEditingController _certNameController = TextEditingController();
   final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
   List<ServiceDataModel> listSelectedService = [];
+
+  List<CertificateModel> listCert = [];
   List<SitterServiceRequestModel> listSitterService = [];
   final Map<dynamic, dynamic> listServiceObj = {};
   String dob = "Chọn ngày";
@@ -53,6 +59,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   String frontIDImage = "";
   String backIDImage = "";
   String avatarImage = "";
+  String certURL = "";
+  late StateSetter _setState;
+  bool _isURLCert = true;
+  bool _isImageCert = false;
 
   @override
   void initState() {
@@ -75,6 +85,335 @@ class _SignUpScreenState extends State<SignUpScreen> {
       }
     }
     return false;
+  }
+
+  void changeCertSendType() async {
+    setState(() {
+      if (_isURLCert) {
+        _isURLCert = false;
+        _isImageCert = true;
+      } else {
+        _isURLCert = true;
+        _isImageCert = false;
+      }
+    });
+  }
+
+  _addCertifiCate(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+    Widget confirmButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        listCert.add(CertificateModel(url: _certLinkController.text, name: _certNameController.text));
+        _certLinkController.text = "";
+        _certNameController.text = "";
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      contentPadding: const EdgeInsets.all(0),
+      backgroundColor: ColorConstant.whiteA700,
+      actions: [
+        confirmButton,
+      ],
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          _setState = setState;
+          return Container(
+              width: size.width,
+              height: size.height*0.6,
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.02,
+                        left: size.width*0.03,
+                      ),
+                      child: Text(
+                        "Tải lên chứng chỉ bằng:",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.01,
+                      ),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _isURLCert,
+                            onChanged: (value) {
+                              setState(() {
+                                // _isURLCert = true;
+                                // _isImageCert = false;
+                                changeCertSendType();
+                              });
+                            },
+                            checkColor: ColorConstant.purple900,
+                            activeColor: Colors.white,
+                          ),
+                          Text(
+                            'Đường dẫn',
+                            style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(width: size.width * 0.1),
+                          Checkbox(
+                            value: _isImageCert,
+                            onChanged: (value) {
+                              setState(() {
+                                // _isURLCert = false;
+                                // _isImageCert = true;
+                                changeCertSendType();
+                              });
+                            },
+                            checkColor: ColorConstant.purple900,
+                            activeColor: Colors.white,
+                          ),
+                          Text(
+                            'Hình ảnh',
+                            style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    (_isURLCert)
+                        ? Padding(
+                            padding: EdgeInsets.only(
+                              top: size.height * 0.05,
+                              bottom: size.height * 0.03,
+                              left: size.width * 0.05,
+                              right: size.width * 0.05,
+                            ),
+                            child: StreamBuilder(
+                              stream: null,
+                              builder: (context, snapshot) => TextField(
+                                style: TextStyle(
+                                    fontSize: size.width * 0.04,
+                                    color: Colors.black),
+                                controller: _certLinkController,
+                                decoration: InputDecoration(
+                                    hintText: "Đường dẫn",
+                                    errorText: snapshot.hasError
+                                        ? snapshot.error.toString()
+                                        : null,
+
+                                    border: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xffCED0D2), width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6)))),
+                              ),
+                            ),
+                          )
+                        : Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            SizedBox(
+                              width: size.width * 0.2,
+                              child: ElevatedButton(
+                                onPressed: () {
+                                    _getCertImageFromGallery();
+                                },
+                                style: ElevatedButton
+                                    .styleFrom(
+                                  primary:
+                                  ColorConstant
+                                      .purple900,
+                                  textStyle:
+                                  TextStyle(
+                                    fontSize:
+                                    size.width *
+                                        0.035,
+                                  ),
+                                ),
+                                child: const Text(
+                                    "Tải lên"),
+                              ),
+                            ),
+                            isCertCheck == false
+                                ? Container(
+                              width:
+                              size.height *
+                                  0.12,
+                              height:
+                              size.height *
+                                  0.12,
+                              alignment: Alignment
+                                  .bottomCenter,
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                  size.height *
+                                      0.01),
+                              decoration:
+                              BoxDecoration(
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      8),
+                                  border:
+                                  Border
+                                      .all(
+                                    color: Colors
+                                        .black,
+                                    width:
+                                    1,
+                                  )),
+                            )
+                                : Container(
+                              width:
+                              size.height *
+                                  0.12,
+                              height:
+                              size.height *
+                                  0.12,
+                              alignment: Alignment
+                                  .bottomCenter,
+                              padding: EdgeInsets.only(
+                                  bottom:
+                                  size.height *
+                                      0.01),
+                              decoration:
+                              BoxDecoration(
+                                borderRadius:
+                                BorderRadius
+                                    .circular(
+                                    8),
+                                border:
+                                Border.all(
+                                  color: Colors
+                                      .black,
+                                  width: 1,
+                                ),
+                                image:
+                                DecorationImage(
+                                  image: FileImage(
+                                      imageFileCert),
+                                  fit: BoxFit
+                                      .fill,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: size.height * 0.05,
+                            bottom: size.height * 0.03,
+                            left: size.width * 0.05,
+                            right: size.width * 0.05,
+                          ),
+                          child: StreamBuilder(
+                            stream: null,
+                            builder: (context, snapshot) => TextField(
+                              style: TextStyle(
+                                  fontSize: size.width * 0.04,
+                                  color: Colors.black),
+                              controller: null,
+                              decoration: InputDecoration(
+                                  hintText: "Đường dẫn",
+                                  errorText: snapshot.hasError
+                                      ? snapshot.error.toString()
+                                      : null,
+
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(6)))),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.02,
+                        left: size.width*0.03,
+                      ),
+                      child: Text(
+                        "Tên chứng chỉ:",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.05,
+                        bottom: size.height * 0.03,
+                        left: size.width * 0.05,
+                        right: size.width * 0.05,
+                      ),
+                      child: StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) => TextField(
+                          style: TextStyle(
+                              fontSize: size.width * 0.04,
+                              color: Colors.black),
+                          controller: _certNameController,
+                          decoration: InputDecoration(
+                              hintText: "Tên chứng chỉ",
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffCED0D2), width: 1),
+                                  borderRadius: BorderRadius.all(
+                                      Radius.circular(6)))),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ));
+        },
+      ),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+
+    );
+
+    // set up the AlertDialog
   }
 
   _chooseService(BuildContext context) {
@@ -195,7 +534,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // set up the AlertDialog
   }
+  Future uploadFileCert() async {
+    final path = 'els_images/${pickedFileCert!.name}';
+    final file = File(pickedFileCert!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskCert = ref.putFile(file);
 
+    final snapshot = await uploadTaskCert!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    certURL = urlDownload;
+    print('Download link Cert: ${urlDownload}');
+  }
   Future uploadFileFrontID() async {
     final path = 'els_images/${pickedFileFrontID!.name}';
     final file = File(pickedFileFrontID!.path);
@@ -245,6 +594,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _platformVersion = platformVersion;
     });
   }
+  late File imageFileCert;
+  XFile? pickedFileCert;
+  UploadTask? uploadTaskCert;
+  bool isCertCheck = false;
 
   late File imageFileFrontID;
   XFile? pickedFileFrontID;
@@ -261,6 +614,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
   UploadTask? uploadTaskFace;
   bool isFaceCheck = false;
 
+  _getCertImageFromGallery() async {
+    pickedFileCert = (await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    ));
+    if (pickedFileCert != null) {
+      setState(() {
+        imageFileCert = File(pickedFileCert!.path);
+        isCertCheck = true;
+      });
+    }
+  }
   _getIDFrontImageFromGallery() async {
     pickedFileFrontID = (await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -564,21 +928,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   padding: EdgeInsets.only(
                                     top: size.height * 0.01,
                                   ),
-                                  // child: StreamBuilder(
-                                  //     stream: bloc.gender,
-                                  //     builder: (context, snapshot) => TextField(
-                                  //       style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                                  //       controller: _genderController,
-                                  //       decoration: InputDecoration(
-                                  //           hintText: "Giới tính",
-                                  //           errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  //
-                                  //           border: const OutlineInputBorder(
-                                  //               borderSide: BorderSide(
-                                  //                   color: Color(0xffCED0D2), width: 1),
-                                  //               borderRadius:
-                                  //               BorderRadius.all(Radius.circular(6)))),
-                                  //     )),
                                   child: Row(
                                     children: [
                                       Checkbox(
@@ -1262,44 +1611,93 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 //     ),
                                 //   ),
                                 // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     top: size.height*0.02,
-                                //   ),
-                                //   child: Text(
-                                //     "Chứng chỉ chuyên môn (nếu có)",
-                                //     overflow: TextOverflow.ellipsis,
-                                //     textAlign: TextAlign.left,
-                                //     style: TextStyle(
-                                //       color: ColorConstant.bluegray900,
-                                //       fontSize: 14,
-                                //       fontFamily: 'Outfit',
-                                //       fontWeight: FontWeight.w400,
-                                //     ),
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     left: size.width * 0.05,
-                                //     top: 29,
-                                //     right: size.width * 0.05,
-                                //   ),
-                                //   child: SizedBox(
-                                //     width: double.infinity,
-                                //     child: ElevatedButton(
-                                //       onPressed: () {
-                                //         // Navigator.pushNamed(context, "/homeScreen");
-                                //       },
-                                //       style: ElevatedButton.styleFrom(
-                                //         primary: ColorConstant.purple900,
-                                //         textStyle: TextStyle(
-                                //           fontSize: size.width * 0.045,
-                                //         ),
-                                //       ),
-                                //       child: const Text("Tải lên chứng chỉ"),
-                                //     ),
-                                //   ),
-                                // ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.02,
+                                  ),
+                                  child: Text(
+                                    "Chứng chỉ chuyên môn (nếu có)",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: ColorConstant.bluegray900,
+                                      fontSize: 14,
+                                      fontFamily: 'Outfit',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: size.width * 0.03,
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _addCertifiCate(context);
+                                      });
+                                    },
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Image.asset(
+                                          ImageConstant.imgIconAdd,
+                                          height: size.width * 0.03,
+                                          width: size.width * 0.03,
+                                        ),
+                                        SizedBox(width: size.width * 0.015),
+                                        Text(
+                                          "Thêm chứng chỉ",
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.left,
+                                          style: TextStyle(
+                                            color: ColorConstant.gray700,
+                                            fontSize: 13,
+                                            fontFamily: 'Roboto',
+                                            fontWeight: FontWeight.w400,
+                                            height: 1.00,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: size.width*0.03,
+                                  ),
+                                  child: ListView.separated(
+                                    physics:
+                                    const NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: listCert.length,
+                                    separatorBuilder: (context, index) {
+                                      return SizedBox(
+                                          height: size.height * 0.01);
+                                    },
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      // final TextEditingController _servicePrice = TextEditingController();
+                                      // final TextEditingController _year = TextEditingController();
+
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Text(listCert[index].name),
+                                          SizedBox(width: size.width*0.05),
+                                          Text("Xóa",
+                                          style: TextStyle(
+                                            color: ColorConstant.purple900,
+                                          ),),
+                                        ],
+                                      );
+                                    },
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsets.only(
                                     top: size.height * 0.02,
@@ -1371,8 +1769,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           return SizedBox(
                                               height: size.height * 0.01);
                                         },
-                                        itemBuilder: (BuildContext context,
-                                            int index) {
+                                        itemBuilder:
+                                            (BuildContext context, int index) {
                                           // final TextEditingController _servicePrice = TextEditingController();
                                           // final TextEditingController _year = TextEditingController();
 
@@ -1400,19 +1798,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
                                                         'Giá mong muốn:'),
                                                     SizedBox(
-                                                        width: size.width *
-                                                            0.03),
+                                                        width:
+                                                            size.width * 0.03),
                                                     SizedBox(
                                                       height:
                                                           size.height * 0.03,
-                                                      width:
-                                                          size.width * 0.25,
+                                                      width: size.width * 0.25,
                                                       child: TextField(
                                                         controller:
                                                             _listController[
@@ -1420,8 +1816,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                        width: size.width *
-                                                            0.03),
+                                                        width:
+                                                            size.width * 0.03),
                                                     const Text('VNĐ')
                                                   ],
                                                 ),
@@ -1434,24 +1830,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment
-                                                          .start,
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
                                                         'Kinh nghiệm làm dịch vụ:'),
                                                     SizedBox(
-                                                        width: size.width *
-                                                            0.03),
+                                                        width:
+                                                            size.width * 0.03),
                                                     SizedBox(
                                                       height:
                                                           size.height * 0.03,
-                                                      width:
-                                                          size.width * 0.25,
+                                                      width: size.width * 0.25,
                                                       child: TextField(
                                                         controller:
                                                             _listController[
-                                                                index * 2 +
-                                                                    1],
+                                                                index * 2 + 1],
                                                       ),
                                                     ),
                                                     const Text('Năm'),
@@ -1476,8 +1869,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                               .id,
                                                           servicePrice: int.parse(
                                                               _listController[
-                                                                      index *
-                                                                          2]
+                                                                      index * 2]
                                                                   .text)));
                                                     });
                                                   },
@@ -1679,9 +2071,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signupClick() async {
-    print('test + ${listSitterService.length.toString()}');
-    List<CertificateModel> listCert = [];
-    listCert.add(CertificateModel(url: "", name: ""));
     String fullname = _fullnameController.text.trim();
     String gender = _genderController.text.trim();
     String phone = _phoneController.text.toString().trim();

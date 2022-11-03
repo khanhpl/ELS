@@ -18,6 +18,7 @@ class SignupBloc{
   final StreamController _genderController = StreamController();
   final StreamController _idImageController = StreamController();
 
+
   Stream get fullName => _fullNameController.stream;
   Stream get phone => _phoneController.stream;
   Stream get email => _emailController.stream;

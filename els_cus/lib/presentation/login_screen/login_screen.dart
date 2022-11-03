@@ -118,35 +118,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     //tk
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.05,
-                        bottom: size.height * 0.03,
-                        left: size.width * 0.05,
-                        right: size.width * 0.05,
-                      ),
-                      child: StreamBuilder(
-                        stream: bloc.emailStream,
-                        builder: (context, snapshot) => TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04, color: Colors.black),
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                              hintText: "Email",
-                              errorText: snapshot.hasError
-                                  ? snapshot.error.toString()
-                                  : null,
-                              prefixIcon: SizedBox(
-                                  width: size.width * 0.05,
-                                  child: Image.asset(ImageConstant.imgUser)),
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Color(0xffCED0D2), width: 1),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.05,
+                          bottom: size.height * 0.03,
+                          left: size.width * 0.05,
+                          right: size.width * 0.05,
+                        ),
+                        child: StreamBuilder(
+                          stream: bloc.emailStream,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04, color: Colors.black),
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                                hintText: "Email",
+                                errorText: snapshot.hasError
+                                    ? snapshot.error.toString()
+                                    : null,
+                                prefixIcon: SizedBox(
+                                    width: size.width * 0.05,
+                                    child: Image.asset(ImageConstant.imgUser)),
+                                border: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xffCED0D2), width: 1),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(6)))),
+                          ),
                         ),
                       ),
-                    ),
 
                     //mk
                     Padding(
