@@ -30,7 +30,6 @@ class UserDataModel {
     gender: json["gender"],
 
     phone: (json["phone"] != null)?json["phone"]:"",
-
   );
 
   Map<String, dynamic> toJson() => {

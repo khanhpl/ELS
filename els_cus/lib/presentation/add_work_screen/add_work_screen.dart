@@ -26,10 +26,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   // RangeValues _sliderRangeValues = RangeValues(15000, 100000);
   final Future<ElderModel> elderList = ElderBlocs().getAllElder();
   String chooseElderID = "";
-  bool _isGenderMale = false;
+  bool _isGenderMale = true;
   bool _isGenderFemale = false;
-  String startDate = "Ngày bắt đầu";
-  String endDate = "Ngày kết thúc";
+  bool _isOneDay = true;
+  bool _isMiltiDates = false;
+  String workDate = "Ngày làm việc";
   String workTime = "Chọn thời gian làm việc";
   final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
   List<ServiceDataModel> listSelectedService = [];
@@ -37,7 +38,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   String expYear = "-1";
   String selectedTime = "-1";
   bool isHospital = false;
-  bool isHouse = false;
+  bool isHouse = true;
   BookingBloc bloc = BookingBloc();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -59,17 +60,12 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     return totalPrice;
   }
 
-  void _changeStartDate(String date) async {
+  void _changeWorkDate(String date) async {
     setState(() {
-      startDate = date;
+      workDate = date;
     });
   }
 
-  void _changeEndDate(String date) async {
-    setState(() {
-      endDate = date;
-    });
-  }
 
   bool checkChooseService(ServiceDataModel selectedService) {
     if (listSelectedService.isNotEmpty) {
@@ -318,7 +314,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         ),
       ),
       onPressed: () {
-        Navigator.pushNamed(context, '/');
+        Navigator.pushNamed(context, '/homeScreen');
       },
     );
 
@@ -375,7 +371,100 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     );
   }
 
-
+  Widget getPickDateWidget(BuildContext context){
+    var size = MediaQuery.of(context).size;
+    if(_isOneDay){
+      return Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              top: size.height * 0.03,
+              left: size.width * 0.03,
+              right: size.width * 0.03,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                DatePicker.showDatePicker(
+                    context, //showDateTime to pick time
+                    showTitleActions: true,
+                    minTime: DateTime.now(),
+                    maxTime: DateTime(2023, 12, 31),
+                    onChanged: (date) {}, onConfirm: (date) {
+                  String dateInput =
+                      '${date.year}-${date.month}-${date.day}';
+                  _changeWorkDate(dateInput);
+                },
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.vi);
+              },
+              child: Container(
+                width: double.infinity,
+                height: size.height * 0.07,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  border:
+                  Border.all(color: Colors.black45, width: 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.048,
+                        right: size.width * 0.048,
+                      ),
+                      child: Image.asset(ImageConstant.imgCalendar),
+                    ),
+                    Text(workDate),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              top: size.height * 0.03,
+              left: size.width * 0.03,
+              right: size.width * 0.03,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _chooseTimeFrame(context);
+                });
+              },
+              child: Container(
+                width: double.infinity,
+                height: size.height * 0.07,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(6),
+                  border:
+                  Border.all(color: Colors.black45, width: 1),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: size.width * 0.048,
+                        right: size.width * 0.048,
+                      ),
+                      child: Image.asset(ImageConstant.imgClock),
+                    ),
+                    Text(workTime),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }else{
+      return SizedBox();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -413,218 +502,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             fontWeight: FontWeight.w700,
                             height: 1.00,
                           ),
-                        ),
-                      ),
-                      Padding(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.05,
-                            left: size.width * 0.03,
-                            right: size.width * 0.03,
-                          ),
-                          child: StreamBuilder(
-                              stream: bloc.addressStream,
-                              builder: (context, snapshot) {
-                                return TextField(
-                                  controller: _addressController,
-                                  style: TextStyle(
-                                      fontSize: size.width * 0.04,
-                                      color: Colors.black),
-                                  decoration: InputDecoration(
-                                      hintText: "Địa chỉ",
-                                      prefixIcon: SizedBox(
-                                          width: size.width * 0.05,
-                                          child: Image.asset(
-                                              ImageConstant.imgLocation16X13)),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
-                                );
-                              })),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.03,
-                          left: size.width * 0.03,
-                          right: size.width * 0.03,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            DatePicker.showDatePicker(
-                                context, //showDateTime to pick time
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2023, 12, 31),
-                                onChanged: (date) {}, onConfirm: (date) {
-                              String dateInput =
-                                  '${date.year}-${date.month}-${date.day}';
-                              _changeStartDate(dateInput);
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.vi);
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: size.height * 0.07,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border:
-                                  Border.all(color: Colors.black45, width: 1),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.048,
-                                    right: size.width * 0.048,
-                                  ),
-                                  child: Image.asset(ImageConstant.imgCalendar),
-                                ),
-                                Text(startDate),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.03,
-                          left: size.width * 0.03,
-                          right: size.width * 0.03,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            DatePicker.showDatePicker(
-                                context, //showDateTime to pick time
-                                showTitleActions: true,
-                                minTime: DateTime.now(),
-                                maxTime: DateTime(2023, 12, 31),
-                                onChanged: (date) {}, onConfirm: (date) {
-                              String dateInput =
-                                  '${date.year}-${date.month}-${date.day}';
-                              _changeEndDate(dateInput);
-                            },
-                                currentTime: DateTime.now(),
-                                locale: LocaleType.vi);
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: size.height * 0.07,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border:
-                                  Border.all(color: Colors.black45, width: 1),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.048,
-                                    right: size.width * 0.048,
-                                  ),
-                                  child: Image.asset(ImageConstant.imgCalendar),
-                                ),
-                                Text(endDate),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.03,
-                          left: size.width * 0.03,
-                          right: size.width * 0.03,
-                        ),
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _chooseTimeFrame(context);
-                            });
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            height: size.height * 0.07,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border:
-                                  Border.all(color: Colors.black45, width: 1),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.048,
-                                    right: size.width * 0.048,
-                                  ),
-                                  child: Image.asset(ImageConstant.imgClock),
-                                ),
-                                Text(workTime),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.03,
-                          left: size.width * 0.03,
-                          right: size.width * 0.03,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Giới tính:',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            Checkbox(
-                              value: _isGenderMale,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isGenderMale = true;
-                                  _isGenderFemale = false;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Nam',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            SizedBox(width: size.width * 0.1),
-                            Checkbox(
-                              value: _isGenderFemale,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isGenderMale = false;
-                                  _isGenderFemale = true;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Nữ',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                       Padding(
@@ -682,6 +559,150 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ],
                         ),
                       ),
+                      Padding(
+                          padding: EdgeInsets.only(
+                            left: size.width * 0.03,
+                            right: size.width * 0.03,
+                          ),
+                          child: StreamBuilder(
+                              stream: bloc.addressStream,
+                              builder: (context, snapshot) {
+                                return TextField(
+                                  controller: _addressController,
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  decoration: InputDecoration(
+                                      hintText: "Địa chỉ",
+                                      prefixIcon: SizedBox(
+                                          width: size.width * 0.05,
+                                          child: Image.asset(
+                                              ImageConstant.imgLocation16X13)),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                );
+                              })),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.03,
+                          left: size.width * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Số ngày làm việc:',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Row(
+                              children: [
+                                Checkbox(
+                                  value: _isOneDay,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isOneDay = true;
+                                      _isMiltiDates = false;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                Text(
+                                  'Một ngày',
+                                  style: TextStyle(
+                                    fontSize: size.height * 0.02,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(width: size.width * 0.1),
+                                Checkbox(
+                                  value: _isMiltiDates,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isOneDay = false;
+                                      _isMiltiDates = true;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                Text(
+                                  'Nhiều ngày',
+                                  style: TextStyle(
+                                    fontSize: size.height * 0.02,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      getPickDateWidget(context),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          top: size.height * 0.03,
+                          left: size.width * 0.03,
+                          right: size.width * 0.03,
+                        ),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Giới tính:',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            Checkbox(
+                              value: _isGenderMale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isGenderMale = true;
+                                  _isGenderFemale = false;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nam',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            SizedBox(width: size.width * 0.1),
+                            Checkbox(
+                              value: _isGenderFemale,
+                              onChanged: (value) {
+                                setState(() {
+                                  _isGenderMale = false;
+                                  _isGenderFemale = true;
+                                });
+                              },
+                              checkColor: ColorConstant.purple900,
+                              activeColor: Colors.white,
+                            ),
+                            Text(
+                              'Nữ',
+                              style: TextStyle(
+                                fontSize: size.height * 0.02,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -1397,28 +1418,28 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _onBookingClick() async {
-    List<ServiceRequestBookingModel> listBookingServiceRequest= [];
-    listServiceObj.forEach((key, value) {
-      listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
-    });
-    double total = calTotal();
-    String address = _addressController.text.trim();
-    String description = _descriptionController.text.trim();
-    String startDateTime = '${startDate}T00:00:00.000Z';
-    String endDateTime = '${endDate}T00:00:00.000Z';
-    String place = "";
-    if(isHospital){
-      place = "Bệnh viện";
-    }else{
-      place = "Tại nhà";
-    }
-    List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
-    bool isBooking = false;
-    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
-    if(isBooking){
-      showSuccessAlertDialog(context);
-    }else{
-      showFailAlertDialog(context);
-    }
+    // List<ServiceRequestBookingModel> listBookingServiceRequest= [];
+    // listServiceObj.forEach((key, value) {
+    //   listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
+    // });
+    // double total = calTotal();
+    // String address = _addressController.text.trim();
+    // String description = _descriptionController.text.trim();
+    // String startDateTime = '${startDate}T00:00:00.000Z';
+    // String endDateTime = '${endDate}T00:00:00.000Z';
+    // String place = "";
+    // if(isHospital){
+    //   place = "Bệnh viện";
+    // }else{
+    //   place = "Tại nhà";
+    // }
+    // List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
+    // bool isBooking = false;
+    // isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
+    // if(isBooking){
+    //   showSuccessAlertDialog(context);
+    // }else{
+    //   showFailAlertDialog(context);
+    // }
   }
 }

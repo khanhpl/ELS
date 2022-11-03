@@ -27,14 +27,18 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   String getStatus(){
     String status = "";
-    if(booking.status.statusName == 'WAITING_FOR_SITTER'){
-      status = "Đang tìm kiếm";
-    }else if(booking.status.statusName == 'STARTING'){
+    if(booking.status == 'WAITING_FOR_SITTER'){
+      status = "Đang đợi chăm xóc viên xác nhận";
+    }else if(booking.status == 'STARTING'){
       status = "Đang thực hiện";
-    }else if(booking.status.statusName == 'DONE'){
+    }else if(booking.status == 'DONE'){
       status = "Đã xong";
-    }else if(booking.status.statusName == 'CANCEL'){
+    }else if(booking.status == 'CANCEL'){
       status = "Đã hủy";
+    }else if(booking.status == 'WAITING_FOR_DATE'){
+      status = "Đang đợi đến ngày làm việc";
+    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+      status = "Đang đợi thanh toán";
     }else{
       status = "Chưa biết";
     }
@@ -133,7 +137,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   Widget getButton(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (booking.status.statusName == 'WAITING_FOR_SITTER') {
+    if (booking.status == 'WAITING_FOR_SITTER') {
       return Row(
         children: [
           Align(
@@ -167,7 +171,118 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ],
       );
-    } else if (booking.status.statusName == 'STARTING') {
+    } else if (booking.status == 'WAITING_FOR_DATE') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Hủy"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
+    }else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Thanh Toán"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
+    }else if (booking.status == 'DONE') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: BoxDecoration(
+                color: ColorConstant.whiteA700,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Đánh giá"),
+                ),
+              ),
+            ),
+          ),
+
+        ],
+      );
+    }else if (booking.status == 'STARTING') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -211,52 +326,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   Widget StatusIDWidget(BuildContext){
     var size = MediaQuery.of(context).size;
     final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
-    if(booking.status.id == 4){
-      return Align(
-        alignment: Alignment.center,
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: size.width * 0.03,
-            top: size.height * 0.02,
-            right: size.width * 0.03,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Đang tìm kiếm chăm sóc viên phù hợp",
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      color: ColorConstant.black900,
-                      fontSize: 17,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w500,
-                      height: 1.00,
-                    ),
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Image.asset(
-                      ImageConstant.imgArrowrightGray400,
-                      height: size.width * 0.03,
-                      width: size.width * 0.03,
-                    )),
-              ),
-            ],
-          ),
-        ),
-      );
-    }else if (booking.status.id == 7){
+    if(booking.status == "WAITING_FOR_SITTER"){
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -301,7 +371,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    } else {
+    }else if (booking.status == "WAITING_FOR_CUS_PAYMENT"){
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -320,7 +390,232 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Đang chờ bắt đầu",
+                    "Chờ thanh toán",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else if (booking.status == "WAITING_FOR_DATE"){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chờ đến ngày thực hiện",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else if (booking.status == "STARTING"){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đang thực hiện",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else if (booking.status == "CANCEL"){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đã hủy",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else if (booking.status == "DONE"){
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đã hoàn thành",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.black900,
+                      fontSize: 17,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w500,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Image.asset(
+                      ImageConstant.imgArrowrightGray400,
+                      height: size.width * 0.03,
+                      width: size.width * 0.03,
+                    )),
+              ),
+            ],
+          ),
+        ),
+      );
+    }else{
+      return Align(
+        alignment: Alignment.center,
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: size.width * 0.03,
+            top: size.height * 0.02,
+            right: size.width * 0.03,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Đang tải ...",
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -587,7 +882,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              (booking.status.id == 4) ? "Đang chờ chăm sóc viên xác nhận" : "Đợi đến ngày làm việc",
+                              getStatus(),
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(

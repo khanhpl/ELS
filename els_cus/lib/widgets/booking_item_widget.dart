@@ -8,16 +8,20 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
   // print('Status id:' );
   String getStatus(){
     String status = "";
-    if(booking.status.statusName == 'WAITING_FOR_SITTER'){
-      status = "Đang tìm kiếm";
-    }else if(booking.status.statusName == 'STARTING'){
+    if(booking.status == 'WAITING_FOR_SITTER'){
+      status = "Đang đợi xác nhận";
+    }else if(booking.status == 'STARTING'){
       status = "Đang thực hiện";
-    }else if(booking.status.statusName == 'DONE'){
+    }else if(booking.status == 'DONE'){
       status = "Đã xong";
-    }else if(booking.status.statusName == 'CANCEL'){
+    }else if(booking.status == 'CANCEL'){
       status = "Đã hủy";
+    }else if(booking.status == 'WAITING_FOR_DATE'){
+      status = "Đang đợi đến ngày làm việc";
+    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+      status = "Đang đợi thanh toán";
     }else{
-      status = "Chưa biết";
+      status = "Đang tải";
     }
     return status;
   }
@@ -52,7 +56,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
               Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  booking.name,
+                  booking.sitter!.fullname,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.left,
                   style: TextStyle(
