@@ -1,5 +1,4 @@
 import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
-import 'package:els_cus_mobile/core/models/status_model.dart';
 
 class BookingDataModel {
 
@@ -13,7 +12,7 @@ class BookingDataModel {
   SitterDataModel? sitter;
   String address;
   String place;
-  StatusModel status;
+  String status;
   dynamic payment;
   BookingDataModel({
     required this.id,
@@ -42,7 +41,7 @@ class BookingDataModel {
     sitter: json["sitter"] == null ? null : SitterDataModel.fromJson(json["sitter"]),
     address: json["address"],
     place: json["place"],
-    status: StatusModel.fromJson(json["status"]),
+    status: json["status"],
     payment: json["payment"],
   );
 

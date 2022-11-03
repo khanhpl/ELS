@@ -2,7 +2,6 @@
 
 import 'package:els_sitter/core/models/cus_data_model.dart';
 import 'package:els_sitter/core/models/sitter_data_model.dart';
-import 'package:els_sitter/core/models/status_model.dart';
 
 class BookingDataModel {
 
@@ -16,7 +15,7 @@ class BookingDataModel {
   CusDataModel? cus;
   String address;
   String place;
-  StatusModel status;
+  String status;
   dynamic payment;
   BookingDataModel({
     required this.id,
@@ -45,7 +44,7 @@ class BookingDataModel {
     cus: json["user"] == null ? null : CusDataModel.fromJson(json["user"]),
     address: json["address"],
     place: json["place"],
-    status: StatusModel.fromJson(json["status"]),
+    status: json["status"],
     payment: json["payment"],
   );
 

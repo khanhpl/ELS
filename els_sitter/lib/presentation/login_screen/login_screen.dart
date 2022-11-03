@@ -294,7 +294,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.pushNamed(context, "/signUpScreen");
                           },
                           style: ElevatedButton.styleFrom(
-                            primary: ColorConstant.gray700,
+                            primary: ColorConstant.gray301,
                             textStyle: TextStyle(
                               fontSize: size.width * 0.045,
                             ),

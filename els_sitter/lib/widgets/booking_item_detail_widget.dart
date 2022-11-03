@@ -25,6 +25,93 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   BookingBloc bookBloc = BookingBloc();
 
+  String getStatus(){
+    String status = "";
+    if(booking.status == 'WAITING_FOR_SITTER'){
+      status = "Đang đợi chăm xóc viên xác nhận";
+    }else if(booking.status == 'STARTING'){
+      status = "Đang thực hiện";
+    }else if(booking.status == 'DONE'){
+      status = "Đã xong";
+    }else if(booking.status == 'CANCEL'){
+      status = "Đã hủy";
+    }else if(booking.status == 'WAITING_FOR_DATE'){
+      status = "Đang đợi đến ngày làm việc";
+    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+      status = "Đang đợi thanh toán";
+    }else{
+      status = "Chưa biết";
+    }
+    return status;
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -93,7 +180,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onCancelClick();
+      },
     );
 
     // set up the AlertDialog
@@ -166,7 +255,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   Widget getButton(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    if (booking.status.statusName == 'WAITING_FOR_SITTER') {
+    if (booking.status == 'WAITING_FOR_SITTER') {
       return Row(
         children: [
           Align(
@@ -230,7 +319,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ],
       );
-    } else if (booking.status.statusName == 'STARTING') {
+    } else if (booking.status == 'STARTING') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -476,7 +565,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       right: size.width * 0.03,
                     ),
                     child: Text(
-                      "Trạng thái ${booking.status.statusName}",
+                      "Trạng thái:",
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
@@ -486,6 +575,50 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                         fontWeight: FontWeight.w400,
                         height: 1.00,
                       ),
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: size.width * 0.03,
+                      top: size.height * 0.02,
+                      right: size.width * 0.03,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              getStatus(),
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: ColorConstant.black900,
+                                fontSize: 17,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w500,
+                                height: 1.00,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: Image.asset(
+                                ImageConstant.imgArrowrightGray400,
+                                height: size.width * 0.03,
+                                width: size.width * 0.03,
+                              )),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -1026,9 +1159,19 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isAccept = await bookBloc.sitterAcceptAction(booking.id);
 
     if (isAccept) {
-      print('được ời nè');
+      showSuccessAlertDialog(context);
     } else {
-      print('Còn cái nịt');
+      showFailAlertDialog(context);
+    }
+  }
+  onCancelClick() async{
+    bool isCancel = false;
+    isCancel = await bookBloc.sitterCancelAction(booking.id);
+
+    if (isCancel) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
     }
   }
 }
