@@ -4,7 +4,7 @@ class UserDataModel {
   String role;
   String token;
   String address;
-  DateTime dob;
+  DateTime? dob;
   String fullName;
   String gender;
   String phone;
@@ -24,10 +24,10 @@ class UserDataModel {
     email: json["email"],
     role: json["role"],
     token: json["token"],
-    address: json["address"],
-    dob: DateTime.parse(json["dob"]),
+    address: (json["address"]) != null?json["address"]:"",
+    dob: (json["dob"]  != null)?(DateTime.parse(json["dob"])): null,
     fullName: json["fullName"],
-    gender: json["gender"],
+    gender: (json["gender"] != null)?json["gender"]:"",
     phone: (json["phone"] != null)?json["phone"]:"",
   );
 
@@ -36,7 +36,7 @@ class UserDataModel {
     "role": role,
     "token": token,
     "address": address,
-    "dob": "${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}",
+    "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
     "fullName": fullName,
     "gender": gender,
     "phone": phone,

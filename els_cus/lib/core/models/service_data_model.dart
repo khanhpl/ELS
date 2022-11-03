@@ -1,4 +1,4 @@
-import 'package:els_cus_mobile/core/models/category_model.dart';
+import 'package:els_cus_mobile/core/models/category_data_model.dart';
 import 'package:els_cus_mobile/core/models/status_model.dart';
 
 class ServiceDataModel {
@@ -11,7 +11,7 @@ class ServiceDataModel {
   dynamic sitterRequirement;
   int duration;
   StatusModel status;
-  CategoryModel category;
+  CategoryDataModel category;
   ServiceDataModel({
     required this.id,
     required this.name,
@@ -34,7 +34,7 @@ class ServiceDataModel {
     sitterRequirement: (json["sitterRequirement"] != null) ? json["sitterRequirement"] : "",
     duration: json["duration"],
     status: StatusModel.fromJson(json["status"]),
-    category: CategoryModel.fromJson(json["category"]),
+    category: CategoryDataModel.fromJson(json["category"]),
   );
 
 
