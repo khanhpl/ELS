@@ -1,7 +1,10 @@
+import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
+import 'package:get/get.dart';
 
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
@@ -21,13 +24,30 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
 
   final TextEditingController _healthStatusController = TextEditingController();
 
+  final TextEditingController _emailController = TextEditingController();
+
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
 
+  ElderBlocs bloc = ElderBlocs();
+
   @override
   void initState() {
-    super.initState();
+    setState(() {
+      _nameController.text = "";
+      _dobController.text = "";
+      _noteController.text = "";
+      _healthStatusController.text = "";
+      _genderController.text = "";
+      if(_isMale = true){
+        _genderController.text = "Nam";
+      } else {
+        _genderController.text = "Nữ";
+      }
+      _isAllergy = false;
+      _emailController.text = globals.curUser!.data.email;
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -110,7 +130,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.nameStream,
                             builder: (context, snapshot) => TextField(
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                               controller: _nameController,
@@ -145,7 +165,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.dobStream,
                             builder: (context, snapshot) => TextField(
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                               controller: _dobController,
@@ -237,7 +257,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.healthStatusStream,
                             builder: (context, snapshot) => TextField(
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                               controller: _healthStatusController,
@@ -313,7 +333,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.noteStream,
                             builder: (context, snapshot) => TextField(
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                               controller: _noteController,
@@ -337,6 +357,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+                              create();
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -357,5 +378,23 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
         ),
       ),
     );
+  }
+
+  void create() async {
+    String name = _nameController.text.trim();
+    String dob = _dobController.text.trim();
+    String gender = "";
+    if(_isMale){
+      gender = "Nam";
+    }else{
+      gender = "Nữ";
+    }
+    String healthStatus = _healthStatusController.text.trim();
+    String note = _noteController.text.trim();
+    String email = _emailController.text.trim();
+    bool isAllergy = _isAllergy;
+
+    bool createSuccess = false;
+    createSuccess = await bloc.createElder(name, gender, dob, healthStatus, note, isAllergy, email);
   }
 }
