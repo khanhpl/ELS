@@ -75,6 +75,7 @@ class ElderBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
       );
+      print('Response Elder Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
         return ElderModel.fromJson(json.decode(response.body));
       } else {

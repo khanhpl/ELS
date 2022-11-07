@@ -36,6 +36,8 @@ class BookingBloc{
         },
 
       );
+      print('Test booking: ${id}');
+      print('TEst getBookingDetailByBookingID ${response.statusCode}');
       if (response.statusCode.toString() == '200') {
         return BookingDetailModel.fromJson(json.decode(response.body));
       } else {
@@ -55,6 +57,8 @@ class BookingBloc{
         },
 
       );
+      // print('Test status name: ${statusName}');
+      // print('TEst getBookingByStatusName ${response.statusCode}');
       if (response.statusCode.toString() == '200') {
         return BookingModel.fromJson(json.decode(response.body));
       } else {

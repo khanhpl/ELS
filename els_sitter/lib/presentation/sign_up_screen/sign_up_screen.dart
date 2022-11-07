@@ -109,9 +109,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
       onPressed: () {
-        listCert.add(CertificateModel(url: _certLinkController.text, name: _certNameController.text));
-        _certLinkController.text = "";
-        _certNameController.text = "";
+        setState(() {
+          listCert.add(CertificateModel(url: _certLinkController.text, name: _certNameController.text));
+          _certLinkController.text = "";
+          _certNameController.text = "";
+        });
       },
     );
     AlertDialog alert = AlertDialog(
@@ -478,7 +480,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                                         _listController.removeAt(index * 2);
                                         _listController.removeAt(index * 2 + 1);
-                                        listSitterService.removeAt(index);
+                                        if(listSitterService.isNotEmpty){
+                                          listSitterService.removeAt(index);
+                                        }
                                       } else {
                                         listSelectedService
                                             .add(snapshot.data!.data[index]);
@@ -616,7 +620,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getCertImageFromGallery() async {
     pickedFileCert = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     ));
     if (pickedFileCert != null) {
       setState(() {
@@ -627,7 +631,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
   _getIDFrontImageFromGallery() async {
     pickedFileFrontID = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     ));
     if (pickedFileFrontID != null) {
       setState(() {
@@ -639,7 +643,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getIDBackImageFromGallery() async {
     pickedFileBackID = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     ));
     if (pickedFileBackID != null) {
       setState(() {
@@ -651,7 +655,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getFaceImageFromGallery() async {
     pickedFileFace = (await ImagePicker().pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
     ));
     if (pickedFileFace != null) {
       setState(() {
@@ -1091,6 +1095,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                 fontSize: size.width * 0.04,
                                                 color: Colors.black),
                                             controller: _idNumberController,
+                                            keyboardType: TextInputType.number,
                                             decoration: InputDecoration(
                                                 hintText: "Số CCCD/CMND",
                                                 errorText: snapshot.hasError
@@ -2071,41 +2076,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signupClick() async {
-    String fullname = _fullnameController.text.trim();
-    String gender = _genderController.text.trim();
-    String phone = _phoneController.text.toString().trim();
-    String address = _addressController.text.trim();
-    String email = _emailController.text.trim();
-    String id = _idNumberController.text.trim();
-    bool isValid = false;
-    bool createSuccess = false;
-    if (_isGenderMale = true) {
-      gender = "Nam";
-    } else {
-      gender = "Nữ";
+    for(SitterServiceRequestModel model in listSitterService){
+      print('${model.id}: ${model.exp} ${model.servicePrice} VNĐ');
     }
-
-    uploadFileFrontID();
-    uploadFileBackID();
-    uploadFileFace();
-    UserIDImageModel userIdImage = UserIDImageModel(
-        fontIdImgUrl: frontIDImage,
-        backIdImgUrl: backIDImage,
-        avatarImgUrl: avatarImage);
-    isValid = bloc.isValidInput(
-        fullname, email, phone, dob, id, address, gender, userIdImage);
-    if (isValid) {
-      createSuccess = await bloc.register(fullname, phone, email, gender, dob,
-          id, address, listSitterService, userIdImage, listCert);
-      if (createSuccess) {
-        // ignore: use_build_context_synchronously
-
-        showSuccessAlertDialog(context);
-      } else {
-        // ignore: use_build_context_synchronously
-        showFailAlertDialog(context);
-      }
-    }
+    // String fullname = _fullnameController.text.trim();
+    // String gender = _genderController.text.trim();
+    // String phone = _phoneController.text.toString().trim();
+    // String address = _addressController.text.trim();
+    // String email = _emailController.text.trim();
+    // String id = _idNumberController.text.trim();
+    // bool isValid = false;
+    // bool createSuccess = false;
+    // if (_isGenderMale = true) {
+    //   gender = "Nam";
+    // } else {
+    //   gender = "Nữ";
+    // }
+    //
+    // uploadFileFrontID();
+    // uploadFileBackID();
+    // uploadFileFace();
+    // UserIDImageModel userIdImage = UserIDImageModel(
+    //     fontIdImgUrl: frontIDImage,
+    //     backIdImgUrl: backIDImage,
+    //     avatarImgUrl: avatarImage);
+    // isValid = bloc.isValidInput(
+    //     fullname, email, phone, dob, id, address, gender, userIdImage);
+    // if (isValid) {
+    //   createSuccess = await bloc.register(fullname, phone, email, gender, dob,
+    //       id, address, listSitterService, userIdImage, listCert);
+    //   if (createSuccess) {
+    //     // ignore: use_build_context_synchronously
+    //
+    //     showSuccessAlertDialog(context);
+    //   } else {
+    //     // ignore: use_build_context_synchronously
+    //     showFailAlertDialog(context);
+    //   }
+    // }
   }
 
   void showSuccessAlertDialog(BuildContext context) {

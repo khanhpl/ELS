@@ -1,6 +1,7 @@
 
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
+import 'package:els_cus_mobile/blocs/payment_bloc.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/single_elder_model.dart';
@@ -23,6 +24,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
+  PaymentBloc _paymentBloc = PaymentBloc();
 
 
   String getStatus(){
@@ -43,6 +45,72 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Chưa biết";
     }
     return status;
+  }
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
   void showCancelAlertDialog(BuildContext context) {
     // set up the buttons
@@ -74,6 +142,53 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
       content: const Text(
         "Bạn xác nhận muốn hủy đặt lịch này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showPaymentAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        onPaymentClick();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Thanh Toán",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn thanh toán cho lịch chăm sóc này",
       ),
       actions: [
         cancelButton,
@@ -229,7 +344,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
+                    showPaymentAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -648,7 +763,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<SingleElderModel> elderList = ElderBlocs().getElderByID(booking.elderId);
+    final Future<SingleElderModel> elderList = ElderBlocs().getElderByID(booking.elder.id);
     final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
     void showAlertDialog(BuildContext context) {
       // set up the buttons
@@ -1050,8 +1165,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   },
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Text(
-                                        snapshot.data!.data[index].service.name);
+                                    return Text('${snapshot.data!.data[index].serviceName}: ${snapshot.data!.data[index].price.ceil()} - Thời gian làm: ${snapshot.data!.data[index].duration} phút');
                                   },
                                 );
                               } else {
@@ -1438,6 +1552,16 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ),
       ),
     );
+  }
+
+  onPaymentClick() async{
+    bool isPaid = false;
+    isPaid = await _paymentBloc.cusPayment(booking.id);
+    if(isPaid){
+      showSuccessAlertDialog(context);
+    }else{
+      showFailAlertDialog(context);
+    }
   }
 
 

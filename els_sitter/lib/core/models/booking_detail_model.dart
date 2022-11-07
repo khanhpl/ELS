@@ -1,4 +1,5 @@
 
+
 import 'package:els_sitter/core/models/booking_detail_data_model.dart';
 
 class BookingDetailModel {

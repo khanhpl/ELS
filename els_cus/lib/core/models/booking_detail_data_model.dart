@@ -4,22 +4,22 @@ import 'package:els_cus_mobile/core/models/service_data_model.dart';
 class BookingDetailDataModel {
 
   int id;
-  BookingDataModel booking;
-  ServiceDataModel service;
+  String serviceName;
   int duration;
+  double price;
 
   BookingDetailDataModel({
     required this.id,
-    required this.booking,
-    required this.service,
+    required this.serviceName,
     required this.duration,
+    required this.price
   });
 
   factory BookingDetailDataModel.fromJson(Map<String, dynamic> json) => BookingDetailDataModel(
     id: json["id"],
-    booking: BookingDataModel.fromJson(json["booking"]),
-    service: ServiceDataModel.fromJson(json["service"]),
+    serviceName: json["serviceName"],
     duration: json["duration"],
+    price: json["price"],
   );
 
 }
