@@ -19,6 +19,10 @@ class UserDataModel {
     required this.phone,
   });
 
+  setDob(DateTime? newDob){
+    dob = newDob;
+  }
+
 
   factory UserDataModel.fromJson(Map<String, dynamic> json) => UserDataModel(
     email: json["email"],

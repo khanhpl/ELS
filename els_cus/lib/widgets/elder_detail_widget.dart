@@ -3,6 +3,9 @@ import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 
+import '../blocs/elder_blocs.dart';
+import '../core/models/elder_model.dart';
+
 class ElderDetailWidget extends StatefulWidget {
   ElderDataModel elder;
   ElderDetailWidget({super.key, required this.elder});
@@ -27,6 +30,8 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
   bool _isMale = false;
   bool _isFemale = false;
 
+  ElderBlocs bloc = ElderBlocs();
+
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -48,6 +53,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
         ),
       ),
       onPressed: () {
+        save();
         Navigator.pushNamed(context, '/elderScreen');
       },
     );
@@ -80,19 +86,26 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     // TODO: implement initState
     setState(() {
       _nameController.text = elder.name;
-      _dobController.text = elder.dob.toString();
+      _dobController.text = filterDob(elder.dob.toString());
       _noteController.text = elder.note;
       _healthStatusController.text=elder.healthStatus;
       _genderController.text = elder.gender.toString();
       if(elder.gender.toString() == "Nam"){
         _isMale = true;
         _isFemale = false;
-      } else {
+      }
+      if(elder.gender.toString() == "Nữ"){
         _isMale = false;
         _isFemale = true;
       }
       _isAllergy = elder.isAllergy;
     });
+  }
+
+  filterDob(String dob){
+    var parts = dob.split(" ");
+    var prefix = parts[0].trim();
+    return prefix;
   }
 
   @override
@@ -201,7 +214,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                           top: size.height*0.02,
                         ),
                         child: Text(
-                          "Năm sinh",
+                          "Ngày sinh",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -459,4 +472,34 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
       ),
     );
   }
+
+  void save() async{
+    String fullName = _nameController.text.trim();
+    String gender = "";
+    if(_isMale){
+      gender = "Nam";
+    }else{
+      gender = "Nữ";
+    }
+    String dob = _dobController.text.trim();
+    String healthStatus = _healthStatusController.text.trim();
+    String note = _noteController.text.trim();
+    bool isAllergy = _isAllergy;
+    bool updateSuccess = false;
+
+    print('test fullname: '+ fullName);
+    print('test gender:'+ gender);
+    print('test dob: '+ dob);
+    print('test healthStatus:'+ healthStatus);
+    print('test note: '+ note);
+    print('test Allergy:'+ isAllergy.toString());
+    updateSuccess = await bloc.updateElder(fullName, gender, dob, healthStatus, note, isAllergy);
+    // if(updateElderProfile){
+    //
+    // }else{
+    //
+    // }
+  }
 }
+
+

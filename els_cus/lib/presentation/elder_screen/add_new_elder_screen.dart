@@ -3,7 +3,12 @@ import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
+import 'package:get/get.dart';
+=======
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
 
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
@@ -21,13 +26,30 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   String dob = "Chọn ngày";
   ElderBlocs elderBlocs = ElderBlocs();
 
+  final TextEditingController _emailController = TextEditingController();
+
   bool _isAllergy = false;
   bool _isMale = true;
   bool _isFemale = false;
 
+  ElderBlocs bloc = ElderBlocs();
+
   @override
   void initState() {
-    super.initState();
+    setState(() {
+      _nameController.text = "";
+      _dobController.text = "";
+      _noteController.text = "";
+      _healthStatusController.text = "";
+      _genderController.text = "";
+      if(_isMale = true){
+        _genderController.text = "Nam";
+      } else {
+        _genderController.text = "Nữ";
+      }
+      _isAllergy = false;
+      _emailController.text = globals.curUser!.data.email;
+    });
   }
 
   void _changeDob(String date) async {
@@ -117,7 +139,11 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
+<<<<<<< HEAD
+                            stream: bloc.nameStream,
+=======
                             stream: elderBlocs.nameStream,
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                             builder: (context, snapshot) => TextField(
                                   style: TextStyle(
                                       fontSize: size.width * 0.04,
@@ -159,6 +185,21 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           right: size.width * 0.03,
                         ),
                         child: StreamBuilder(
+<<<<<<< HEAD
+                            stream: bloc.dobStream,
+                            builder: (context, snapshot) => TextField(
+                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                              controller: _dobController,
+                              decoration: InputDecoration(
+                                  hintText: "",
+                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  border: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
+                            )),
+=======
                             stream: elderBlocs.dobStream,
                             builder: (context, snapshot) {
                               return Column(
@@ -220,6 +261,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                 ],
                               );
                             }),
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -299,7 +341,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.healthStatusStream,
                             builder: (context, snapshot) => TextField(
                                   style: TextStyle(
                                       fontSize: size.width * 0.04,
@@ -381,7 +423,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                            stream: null,
+                            stream: bloc.noteStream,
                             builder: (context, snapshot) => TextField(
                                   style: TextStyle(
                                       fontSize: size.width * 0.04,
@@ -410,7 +452,11 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
+<<<<<<< HEAD
+                              create();
+=======
                               onAddNewElderClick();
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -433,6 +479,24 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     );
   }
 
+<<<<<<< HEAD
+  void create() async {
+    String name = _nameController.text.trim();
+    String dob = _dobController.text.trim();
+    String gender = "";
+    if(_isMale){
+      gender = "Nam";
+    }else{
+      gender = "Nữ";
+    }
+    String healthStatus = _healthStatusController.text.trim();
+    String note = _noteController.text.trim();
+    String email = _emailController.text.trim();
+    bool isAllergy = _isAllergy;
+
+    bool createSuccess = false;
+    createSuccess = await bloc.createElder(name, gender, dob, healthStatus, note, isAllergy, email);
+=======
   onAddNewElderClick() async {
     String name = _nameController.text.trim();
     String statusHealth = _healthStatusController.text.trim();
@@ -455,5 +519,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
         print('chưa được');
       }
     } else {}
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
   }
 }

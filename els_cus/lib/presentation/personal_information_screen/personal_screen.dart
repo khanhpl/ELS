@@ -18,25 +18,38 @@ class _PersonalScreenState extends State<PersonalScreen> {
 
   final TextEditingController _dobController = TextEditingController();
 
-  final TextEditingController _districtController = TextEditingController();
-
-  final TextEditingController _cityController = TextEditingController();
-
   final TextEditingController _addressController = TextEditingController();
 
   final TextEditingController _phoneController = TextEditingController();
 
   PersonalInfoBloc bloc = PersonalInfoBloc();
 
+  bool _isMale = false;
+  bool _isFemale = false;
+
   @override
   void initState() {
     setState(() {
       _fullNameController.text = globals.curUser!.data.fullName;
       _emailController.text = globals.curUser!.data.email;
-      _dobController.text = globals.curUser!.data.dob.toString();
+      _dobController.text = filterDob(globals.curUser!.data.dob.toString());
       _addressController.text = globals.curUser!.data.address;
       _phoneController.text = globals.curUser!.data.phone;
+      if(globals.curUser!.data.gender == "Nam"){
+        _isMale = true;
+        _isFemale = false;
+      }
+      if(globals.curUser!.data.gender == "Nữ"){
+        _isMale = false;
+        _isFemale = true;
+      }
     });
+  }
+
+  filterDob(String dob){
+    var parts = dob.split(" ");
+    var prefix = parts[0].trim();
+    return prefix;
   }
 
   @override
@@ -221,6 +234,68 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height*0.02,
+                      ),
+                      child: Text(
+                        "Giới tính",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.01,
+                      ),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: _isMale,
+                            onChanged: (value) {
+                              setState(() {
+                                _isMale = true;
+                                _isFemale = false;
+                              });
+                            },
+                            checkColor: ColorConstant.purple900,
+                            activeColor: Colors.white,
+                          ),
+                          Text(
+                            'Nam',
+                            style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(width: size.width * 0.1),
+                          Checkbox(
+                            value: _isFemale,
+                            onChanged: (value) {
+                              setState(() {
+                                _isMale = false;
+                                _isFemale = true;
+                              });
+                            },
+                            checkColor: ColorConstant.purple900,
+                            activeColor: Colors.white,
+                          ),
+                          Text(
+                            'Nữ',
+                            style: TextStyle(
+                              fontSize: size.height * 0.02,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     // Padding(
                     //   padding: EdgeInsets.only(
                     //     top: size.height*0.02,
@@ -262,47 +337,47 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     //     ),
                     //   ),
                     // ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     top: size.height*0.02,
-                    //   ),
-                    //   child: Text(
-                    //     "Tỉnh/Thành Phố",
-                    //     overflow: TextOverflow.ellipsis,
-                    //     textAlign: TextAlign.left,
-                    //     style: TextStyle(
-                    //       color: ColorConstant.bluegray900,
-                    //       fontSize: 14,
-                    //       fontFamily: 'Outfit',
-                    //       fontWeight: FontWeight.w400,
-                    //     ),
-                    //   ),
-                    // ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //     top: size.height * 0.01,
-                    //   ),
-                    //   child: StreamBuilder(
-                    //     stream: null,
-                    //     builder: (context, snapshot) => TextField(
-                    //       style: TextStyle(
-                    //           fontSize: size.width * 0.04,
-                    //           color: Colors.black),
-                    //       controller: _cityController,
-                    //       decoration: const InputDecoration(
-                    //         // errorText: snapshot.hasError
-                    //         //     ? snapshot.error.toString()
-                    //         //     : null,
-                    //         enabledBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: Colors.black),
-                    //         ),
-                    //         focusedBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: Colors.black),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height*0.02,
+                      ),
+                      child: Text(
+                        "Số CCCD/CMND",
+                        overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: ColorConstant.bluegray900,
+                          fontSize: 14,
+                          fontFamily: 'Outfit',
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.01,
+                      ),
+                      child: StreamBuilder(
+                        stream: null,
+                        builder: (context, snapshot) => TextField(
+                          style: TextStyle(
+                              fontSize: size.width * 0.04,
+                              color: Colors.black),
+                          // controller: _idController,
+                          decoration: const InputDecoration(
+                            // errorText: snapshot.hasError
+                            //     ? snapshot.error.toString()
+                            //     : null,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: size.height*0.02,
@@ -421,11 +496,20 @@ class _PersonalScreenState extends State<PersonalScreen> {
     String fullname = _fullNameController.text.trim();
     String email = _emailController.text.trim();
     String dob = _dobController.text.trim();
-    String district = _districtController.text.trim();
-    String city = _cityController.text.trim();
     String address = _addressController.text.trim();
     String phone = _phoneController.text.trim();
-
-    bloc.printAll(fullname, email, dob, district, city, address, phone);
+    String gender = "";
+    if(_isMale){
+      gender = "Nam";
+    }else {
+      gender = "Nữ";
+    }
+    bool updateSuccess = false;
+    print('test gender ${globals.curUser!.data.gender}');
+    bloc.printAll(fullname, email, dob, address, phone);
+    updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone);
+    if(updateSuccess){
+      globals.curUser!.data.setDob(DateTime.parse(dob));
+    }
   }
 }
