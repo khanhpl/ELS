@@ -314,7 +314,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         ),
       ),
       onPressed: () {
-        Navigator.pushNamed(context, '/homeScreen');
+        Navigator.pushNamed(context, '/scheduleScreen');
       },
     );
 
@@ -1418,28 +1418,28 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _onBookingClick() async {
-    // List<ServiceRequestBookingModel> listBookingServiceRequest= [];
-    // listServiceObj.forEach((key, value) {
-    //   listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
-    // });
-    // double total = calTotal();
-    // String address = _addressController.text.trim();
-    // String description = _descriptionController.text.trim();
-    // String startDateTime = '${startDate}T00:00:00.000Z';
-    // String endDateTime = '${endDate}T00:00:00.000Z';
-    // String place = "";
-    // if(isHospital){
-    //   place = "Bệnh viện";
-    // }else{
-    //   place = "Tại nhà";
-    // }
-    // List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
-    // bool isBooking = false;
-    // isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
-    // if(isBooking){
-    //   showSuccessAlertDialog(context);
-    // }else{
-    //   showFailAlertDialog(context);
-    // }
+    List<ServiceRequestBookingModel> listBookingServiceRequest= [];
+    listServiceObj.forEach((key, value) {
+      listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
+    });
+    double total = calTotal();
+    String address = _addressController.text.trim();
+    String description = _descriptionController.text.trim();
+    String startDateTime = '${workDate}T00:00:00.000Z';
+    String endDateTime = '${workDate}T00:00:00.000Z';
+    String place = "";
+    if(isHospital){
+      place = "Bệnh viện";
+    }else{
+      place = "Tại nhà";
+    }
+    List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
+    bool isBooking = false;
+    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
+    if(isBooking){
+      showSuccessAlertDialog(context);
+    }else{
+      showFailAlertDialog(context);
+    }
   }
 }

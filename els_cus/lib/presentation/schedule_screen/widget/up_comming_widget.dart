@@ -17,7 +17,8 @@ class UpcommingWidget extends StatefulWidget {
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
   final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
-  final Future<BookingModel> waitingList = BookingBloc().getBookingByStatusName('WAITING_TO_START_DATE');
+  final Future<BookingModel> waitingList = BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
+  final Future<BookingModel> paymentList = BookingBloc().getBookingByStatusName('WAITING_FOR_CUS_PAYMENT');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -56,10 +57,63 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                           if (snapshot.hasData) {
                             if(snapshot.data!.data.length == 0){
                               return Container(
-                                height: size.height*0.5,
+                                height: size.height*0.01,
                                 alignment: Alignment.center,
                                 child: Text(
-                                  "Chưa có lịch được đặt",
+                                  "",
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            } else {
+                              return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+                                // itemCount: snapshot.data!.length,
+                                itemCount: snapshot.data!.data.length,
+                                separatorBuilder: (context, index) {
+                                  return Container(
+                                    height: 1,
+                                    width: size.width,
+                                    decoration: BoxDecoration(
+                                      color: ColorConstant.bluegray50,
+                                    ),
+                                  );
+                                },
+                                itemBuilder: (BuildContext context, int index) {
+                                  return GestureDetector(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    BookingItemDetailWidget(
+                                                        booking: snapshot.data!
+                                                            .data[index])));
+                                      },
+                                      child: bookingItemWidget(
+                                          context, snapshot.data!.data[index]));
+                                },
+                              );
+                            }
+                          } else {
+                            return CircularProgressIndicator();
+                          }
+                        },
+                        future: paymentList,
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<BookingModel>(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          if (snapshot.hasData) {
+                            if(snapshot.data!.data.length == 0){
+                              return Container(
+                                height: size.height*0.01,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "",
                                   textAlign: TextAlign.center,
                                 ),
                               );
