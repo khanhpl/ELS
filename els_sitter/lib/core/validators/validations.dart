@@ -20,18 +20,21 @@ class Validations{
       multiLine: false,
     );
     if(passwordRegex.hasMatch(password) && password.isNotEmpty){
+
       return true;
     }
+
     return false;
   }
 
   static bool isValidPhone(String phone) {
     RegExp passwordRegex = RegExp(
-      r'^[0-9]$',
+      r'^[0-9]{10}$',
       caseSensitive: false,
       multiLine: false,
     );
     if(passwordRegex.hasMatch(phone) && phone.isNotEmpty){
+
       return true;
     }
     return false;

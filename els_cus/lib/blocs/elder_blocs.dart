@@ -1,14 +1,18 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/models/elder_model.dart';
 import 'package:els_cus_mobile/core/models/single_elder_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ElderBlocs{
   final StreamController _nameController = StreamController();
+<<<<<<< HEAD
   final StreamController _dobController = StreamController();
   final StreamController _noteController = StreamController();
   final StreamController _healthStatusController = StreamController();
@@ -21,6 +25,42 @@ class ElderBlocs{
   Stream get healthStatusStream => _healthStatusController.stream;
   Stream get genderStream => _genderController.stream;
   Stream get allergyStream => _isAllergy.stream;
+=======
+
+  final StreamController _dobController = StreamController();
+
+
+  Stream get nameStream => _nameController.stream;
+  Stream get dobStream => _dobController.stream;
+
+  bool isValidElder(String name, String dob){
+    bool isValid = false;
+    bool isValidName = false;
+    bool isValidDob = false;
+    if(name.isEmpty){
+
+      _nameController.sink.addError("Vui lòng không để trống tên thân nhân");
+      isValidName = false;
+    }else{
+      _nameController.sink.add("Ok");
+      isValidName = true;
+    }
+    if(dob == 'Chọn ngày'){
+      _dobController.sink.addError("Vui lòng chọn ngày sinh của thân nhân");
+      isValidDob = false;
+    }else{
+      _dobController.sink.add("Ok");
+      isValidDob = true;
+    }
+    if(isValidName && isValidDob){
+      isValid = true;
+    }else{
+      isValid = false;
+    }
+    return isValid;
+  }
+
+>>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
 
 
   Future<ElderModel> getAllElder() async {
@@ -61,10 +101,36 @@ class ElderBlocs{
       }
     } finally {}
   }
+  Future<bool> addNewElder(String name, String gender, String dob, String healthStatus, String note, bool isAllergy) async {
+    try {
+      var url = Uri.parse("https://els12.herokuapp.com/elder");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "name": name,
+            "gender": gender,
+            "dob": dob,
+            "healthStatus": healthStatus,
+            "note": note,
+            "isAllergy": isAllergy,
+            "email": Globals.curUser!.data.email,
+          },
+        ),
+      );
+      print('Test add new Elder Status code: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
 
-  List<ElderDataModel> parseAgentsElderDataModel(var responseBody) {
-    // final parsed = json.decode(responseBody).cast<Map<dynamic, dynamic>>();
-    return responseBody.cast<Map<dynamic, dynamic>>().map<ElderDataModel>((json) => ElderDataModel.fromJson(json)).toList();
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
   }
 
   Future<bool> createElder(String name, String gender, String dob, String healthStatus, String note, bool isAllergy, String email) async {

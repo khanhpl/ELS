@@ -26,7 +26,7 @@ class CusDataModel {
       json['fullName'],
       json['dob'],
       json['gender'],
-      json['phone'],
+      (json['phone'] != null) ? json['phone'] : "",
       json['address'],
       json['email'],
     );

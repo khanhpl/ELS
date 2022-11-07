@@ -1,5 +1,6 @@
-import 'package:els_cus_mobile/core/models/category_data_model.dart';
+
 import 'package:els_cus_mobile/core/models/status_model.dart';
+
 
 class ServiceDataModel {
 
@@ -12,6 +13,7 @@ class ServiceDataModel {
   int duration;
   StatusModel status;
   CategoryDataModel category;
+
   ServiceDataModel({
     required this.id,
     required this.name,
@@ -35,6 +37,7 @@ class ServiceDataModel {
     duration: json["duration"],
     status: StatusModel.fromJson(json["status"]),
     category: CategoryDataModel.fromJson(json["category"]),
+
   );
 
 
