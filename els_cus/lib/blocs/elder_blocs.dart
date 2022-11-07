@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -12,7 +9,6 @@ import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ElderBlocs{
   final StreamController _nameController = StreamController();
-<<<<<<< HEAD
   final StreamController _dobController = StreamController();
   final StreamController _noteController = StreamController();
   final StreamController _healthStatusController = StreamController();
@@ -25,13 +21,7 @@ class ElderBlocs{
   Stream get healthStatusStream => _healthStatusController.stream;
   Stream get genderStream => _genderController.stream;
   Stream get allergyStream => _isAllergy.stream;
-=======
 
-  final StreamController _dobController = StreamController();
-
-
-  Stream get nameStream => _nameController.stream;
-  Stream get dobStream => _dobController.stream;
 
   bool isValidElder(String name, String dob){
     bool isValid = false;
@@ -59,8 +49,6 @@ class ElderBlocs{
     }
     return isValid;
   }
-
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
 
 
   Future<ElderModel> getAllElder() async {
