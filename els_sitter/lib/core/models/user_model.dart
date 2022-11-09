@@ -1,5 +1,4 @@
 
-
 import 'package:els_sitter/core/models/user_data_model.dart';
 
 class UserModel {
@@ -7,15 +6,15 @@ class UserModel {
   String successCode;
   dynamic errorCode;
   UserDataModel data;
-
   UserModel({
     required this.successCode,
     this.errorCode,
     required this.data,
   });
 
+
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-    successCode: json["successCode"],
+    successCode: (json["successCode"] != null)? json["successCode"] : "",
     errorCode: (json["errorCode"] != null)? json["errorCode"] : "",
     data: UserDataModel.fromJson(json["data"]),
   );

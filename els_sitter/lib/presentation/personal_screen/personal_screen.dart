@@ -28,7 +28,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
   final TextEditingController _phoneController = TextEditingController();
 
   final TextEditingController _genderController = TextEditingController();
-
+  
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +38,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
       _genderController.text = globals.curUser!.data.gender;
       _phoneController.text = globals.curUser!.data.phone;
       _addressController.text = globals.curUser!.data.address;
-      _dobController.text = globals.curUser!.data.dob.toString();
+      _dobController.text = globals.curUser!.data.dob.toString().split(" ")[0];
 
     });
   }

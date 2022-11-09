@@ -391,7 +391,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                     maxTime: DateTime(2023, 12, 31),
                     onChanged: (date) {}, onConfirm: (date) {
                   String dateInput =
-                      '${date.year}-${date.month}-${date.day}';
+                      '${date.year}-${(date.month >= 10)?date.month:'0'+date.month.toString()}-${(date.day >= 10)?date.day:'0'+date.day.toString()}';
                   _changeWorkDate(dateInput);
                 },
                     currentTime: DateTime.now(),
