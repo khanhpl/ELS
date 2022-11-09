@@ -26,13 +26,13 @@ class PersonalInfoBloc {
     print(phone);
   }
 
-  Future<bool> updateInfo(String name, String gender, String dob, String address, String phone) async {
+  Future<bool> updateInfo(String name, String gender, String dob, String address, String phone, String frontIdImgUrl, String backIdImgUrl, String avatarImgUrl) async {
     try{
       print('test fullname: '+ name);
       print('test gender:'+ gender);
       print('test dob: '+ dob);
       var url =
-      Uri.parse("https://els12.herokuapp.com/customer");
+      Uri.parse("https://els12.herokuapp.com/customer/update");
       final response = await http.put(
         url,
         headers: <String, String>{
@@ -46,7 +46,10 @@ class PersonalInfoBloc {
           "dob": dob,
           "fullName": name,
           "gender": gender,
-          "phone": phone
+          "phone": phone,
+          "frontIdImgUrl": frontIdImgUrl,
+          "backIdImgUrl": backIdImgUrl,
+          "avatarImgUrl": avatarImgUrl
         }),
       );
       print('Status updateInfo:'+response.statusCode.toString());

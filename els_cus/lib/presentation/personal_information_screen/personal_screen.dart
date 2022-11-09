@@ -504,10 +504,13 @@ class _PersonalScreenState extends State<PersonalScreen> {
     }else {
       gender = "Nữ";
     }
+    String frontIdImgUrl = "";
+    String backIdImgUrl = "";
+    String avatarImgUrl = "";
     bool updateSuccess = false;
     print('test gender ${globals.curUser!.data.gender}');
     bloc.printAll(fullname, email, dob, address, phone);
-    updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone);
+    updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone, frontIdImgUrl, backIdImgUrl, avatarImgUrl);
     if(updateSuccess){
       globals.curUser!.data.setDob(DateTime.parse(dob));
     }

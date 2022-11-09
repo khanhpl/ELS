@@ -3,12 +3,9 @@ import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
-import 'package:get/get.dart';
-=======
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
+import 'package:get/get.dart';
 
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
@@ -20,16 +17,18 @@ class AddNewElderScreen extends StatefulWidget {
 class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _nameController = TextEditingController();
 
+  final TextEditingController _dobController = TextEditingController();
+
+  final TextEditingController _genderController = TextEditingController();
+
   final TextEditingController _noteController = TextEditingController();
 
   final TextEditingController _healthStatusController = TextEditingController();
-  String dob = "Chọn ngày";
-  ElderBlocs elderBlocs = ElderBlocs();
 
   final TextEditingController _emailController = TextEditingController();
 
   bool _isAllergy = false;
-  bool _isMale = true;
+  bool _isMale = false;
   bool _isFemale = false;
 
   ElderBlocs bloc = ElderBlocs();
@@ -51,12 +50,96 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       _emailController.text = globals.curUser!.data.email;
     });
   }
-
-  void _changeDob(String date) async {
-    setState(() {
-      dob = date;
-    });
-  }
+  // Widget getPickDateWidget(BuildContext context){
+  //   var size = MediaQuery.of(context).size;
+  //     return Column(
+  //       children: [
+  //         Padding(
+  //           padding: EdgeInsets.only(
+  //             top: size.height * 0.03,
+  //             left: size.width * 0.03,
+  //             right: size.width * 0.03,
+  //           ),
+  //           child: GestureDetector(
+  //             onTap: () {
+  //               DatePicker.showDatePicker(
+  //                   context, //showDateTime to pick time
+  //                   showTitleActions: true,
+  //                   minTime: DateTime.now(),
+  //                   maxTime: DateTime(2023, 12, 31),
+  //                   onChanged: (date) {}, onConfirm: (date) {
+  //                 String dateInput =
+  //                     '${date.year}-${(date.month >= 10)?date.month:'0'+date.month.toString()}-${(date.day >= 10)?date.day:'0'+date.day.toString()}';
+  //                 _changeWorkDate(dateInput);
+  //               },
+  //                   currentTime: DateTime.now(),
+  //                   locale: LocaleType.vi);
+  //             },
+  //             child: Container(
+  //               width: double.infinity,
+  //               height: size.height * 0.07,
+  //               decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.circular(6),
+  //                 border:
+  //                 Border.all(color: Colors.black45, width: 1),
+  //               ),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Padding(
+  //                     padding: EdgeInsets.only(
+  //                       left: size.width * 0.048,
+  //                       right: size.width * 0.048,
+  //                     ),
+  //                     child: Image.asset(ImageConstant.imgCalendar),
+  //                   ),
+  //                   Text(workDate),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //         Padding(
+  //           padding: EdgeInsets.only(
+  //             top: size.height * 0.03,
+  //             left: size.width * 0.03,
+  //             right: size.width * 0.03,
+  //           ),
+  //           child: GestureDetector(
+  //             onTap: () {
+  //               setState(() {
+  //                 _chooseTimeFrame(context);
+  //               });
+  //             },
+  //             child: Container(
+  //               width: double.infinity,
+  //               height: size.height * 0.07,
+  //               decoration: BoxDecoration(
+  //                 borderRadius: BorderRadius.circular(6),
+  //                 border:
+  //                 Border.all(color: Colors.black45, width: 1),
+  //               ),
+  //               child: Row(
+  //                 mainAxisAlignment: MainAxisAlignment.start,
+  //                 crossAxisAlignment: CrossAxisAlignment.center,
+  //                 children: [
+  //                   Padding(
+  //                     padding: EdgeInsets.only(
+  //                       left: size.width * 0.048,
+  //                       right: size.width * 0.048,
+  //                     ),
+  //                     child: Image.asset(ImageConstant.imgClock),
+  //                   ),
+  //                   Text(workTime),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -139,35 +222,26 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-<<<<<<< HEAD
                             stream: bloc.nameStream,
-=======
-                            stream: elderBlocs.nameStream,
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                             builder: (context, snapshot) => TextField(
-                                  style: TextStyle(
-                                      fontSize: size.width * 0.04,
-                                      color: Colors.black),
-                                  controller: _nameController,
-                                  decoration: InputDecoration(
-                                      hintText: "",
-                                      errorText: snapshot.hasError
-                                          ? snapshot.error.toString()
-                                          : null,
-                                      border: const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
-                                )),
+                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                              controller: _nameController,
+                              decoration: InputDecoration(
+                                  hintText: "",
+                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  border: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
+                            )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height * 0.02,
+                          top: size.height*0.02,
                         ),
                         child: Text(
-                          "Ngày sinh",
+                          "Năm sinh",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -180,12 +254,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height * 0.03,
-                          left: size.width * 0.03,
-                          right: size.width * 0.03,
+                          top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-<<<<<<< HEAD
                             stream: bloc.dobStream,
                             builder: (context, snapshot) => TextField(
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
@@ -199,73 +270,10 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                       borderRadius:
                                       BorderRadius.all(Radius.circular(6)))),
                             )),
-=======
-                            stream: elderBlocs.dobStream,
-                            builder: (context, snapshot) {
-                              return Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      DatePicker.showDatePicker(
-                                          context, //showDateTime to pick time
-                                          showTitleActions: true,
-                                          maxTime: DateTime.now(),
-                                          onChanged: (date) {},
-                                          onConfirm: (date) {
-                                        String dateInput =
-                                            '${date.year}-${date.month}-${date.day}';
-                                        _changeDob(dateInput);
-                                      },
-                                          currentTime: DateTime.now(),
-                                          locale: LocaleType.vi);
-                                    },
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: size.height * 0.07,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(
-                                            color: Colors.black45, width: 1),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: size.width * 0.048,
-                                              right: size.width * 0.048,
-                                            ),
-                                            child: Image.asset(
-                                                ImageConstant.imgCalendar),
-                                          ),
-                                          Text(dob),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: size.height *0.01),
-                                  snapshot.hasError
-                                      ? Text(
-                                          snapshot.error.toString(),
-                                          style: const TextStyle(
-                                            color: Color(0xffCB4847),
-                                            fontSize: 13,
-                                          ),
-                                        )
-                                      : const SizedBox(),
-                                ],
-                              );
-                            }),
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height * 0.02,
+                          top: size.height*0.02,
                         ),
                         child: Text(
                           "Giới tính",
@@ -343,27 +351,21 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         child: StreamBuilder(
                             stream: bloc.healthStatusStream,
                             builder: (context, snapshot) => TextField(
-                                  style: TextStyle(
-                                      fontSize: size.width * 0.04,
-                                      color: Colors.black),
-                                  controller: _healthStatusController,
-                                  decoration: InputDecoration(
-                                      hintText:
-                                          "Có bệnh nền như tiểu đường, Huyết áp cao",
-                                      errorText: snapshot.hasError
-                                          ? snapshot.error.toString()
-                                          : null,
-                                      border: const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
-                                )),
+                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                              controller: _healthStatusController,
+                              decoration: InputDecoration(
+                                  hintText: "Có bệnh nền như tiểu đường, Huyết áp cao",
+                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  border: const UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
+                            )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height * 0.02,
+                          top: size.height*0.02,
                         ),
                         child: Text(
                           "Dị ứng",
@@ -387,9 +389,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                               value: _isAllergy,
                               onChanged: (value) {
                                 setState(() {
-                                  if (_isAllergy) {
+                                  if(_isAllergy){
                                     _isAllergy = false;
-                                  } else {
+                                  }else{
                                     _isAllergy = true;
                                   }
                                 });
@@ -425,38 +427,29 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         child: StreamBuilder(
                             stream: bloc.noteStream,
                             builder: (context, snapshot) => TextField(
-                                  style: TextStyle(
-                                      fontSize: size.width * 0.04,
-                                      color: Colors.black),
-                                  controller: _noteController,
-                                  decoration: InputDecoration(
-                                      hintText: "",
-                                      errorText: snapshot.hasError
-                                          ? snapshot.error.toString()
-                                          : null,
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
-                                )),
+                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
+                              controller: _noteController,
+                              decoration: InputDecoration(
+                                  hintText: "",
+                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
+                            )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
-                          top: size.height * 0.05,
+                          top: size.height*0.05,
                           right: size.width * 0.03,
                         ),
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-<<<<<<< HEAD
                               create();
-=======
-                              onAddNewElderClick();
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -479,7 +472,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     );
   }
 
-<<<<<<< HEAD
   void create() async {
     String name = _nameController.text.trim();
     String dob = _dobController.text.trim();
@@ -493,32 +485,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     String note = _noteController.text.trim();
     String email = _emailController.text.trim();
     bool isAllergy = _isAllergy;
-
     bool createSuccess = false;
     createSuccess = await bloc.createElder(name, gender, dob, healthStatus, note, isAllergy, email);
-=======
-  onAddNewElderClick() async {
-    String name = _nameController.text.trim();
-    String statusHealth = _healthStatusController.text.trim();
-    String note = _noteController.text.trim();
-    String gender = "";
-    if (_isMale) {
-      gender = "Nam";
-    } else {
-      gender = "Nữ";
-    }
-    bool isValidElder = false;
-    isValidElder = elderBlocs.isValidElder(name, dob);
-    if (isValidElder) {
-      bool createSuccess = false;
-      createSuccess = await elderBlocs.addNewElder(
-          name, gender, dob, statusHealth, note, _isAllergy);
-      if (createSuccess) {
-        print('tạo được rồi');
-      } else {
-        print('chưa được');
-      }
-    } else {}
->>>>>>> 7f77c6db114a08194722dac625de0102487b46d9
   }
 }

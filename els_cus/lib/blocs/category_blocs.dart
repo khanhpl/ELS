@@ -8,7 +8,7 @@ class CategoryBloc{
   Future<CategoryModel> getAllCategory() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/service/category");
+      Uri.parse("https://els12.herokuapp.com/category/categories");
       final response = await http.get(
         url,
         headers: <String, String>{
