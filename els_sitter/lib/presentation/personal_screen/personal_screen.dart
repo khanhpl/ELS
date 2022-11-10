@@ -1,3 +1,6 @@
+import 'package:els_sitter/blocs/sitter_bloc.dart';
+import 'package:els_sitter/core/models/sitter_data_model.dart';
+import 'package:els_sitter/core/models/sitter_detail_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/utils/color_constant.dart';
@@ -13,6 +16,7 @@ class PersonalScreen extends StatefulWidget {
 }
 
 class _PersonalScreenState extends State<PersonalScreen> {
+  SitterBlocs blocs = SitterBlocs();
   final TextEditingController _fullNameController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
@@ -35,6 +39,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
       _phoneController.text = globals.curUser!.data.phone;
       _addressController.text = globals.curUser!.data.address;
       _dobController.text = globals.curUser!.data.dob.toString();
+
     });
   }
   @override
@@ -73,7 +78,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: ColorConstant.black900,
-                fontSize: 34,
+                fontSize: 30,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,
@@ -337,6 +342,38 @@ class _PersonalScreenState extends State<PersonalScreen> {
                             ),
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                        top: size.height * 0.01,
+                      ),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.pushNamed(context, '/ServiceAndCertificateScreen');
+                        },
+                        child: StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: null,
+                            enabled: false,
+                            decoration: const InputDecoration(
+                              // errorText: snapshot.hasError
+                              //     ? snapshot.error.toString()
+                              //     : null,
+                              hintText: "Dịch vụ và chứng chỉ",
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: Colors.black),
+                              ),
                             ),
                           ),
                         ),

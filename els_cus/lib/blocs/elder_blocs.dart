@@ -1,3 +1,4 @@
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -20,6 +21,7 @@ class ElderBlocs{
   Stream get healthStatusStream => _healthStatusController.stream;
   Stream get genderStream => _genderController.stream;
   Stream get allergyStream => _isAllergy.stream;
+
 
   bool isValidElder(String name, String dob){
     bool isValid = false;
@@ -47,7 +49,6 @@ class ElderBlocs{
     }
     return isValid;
   }
-
   Future<ElderModel> getAllElder() async {
     try {
       var url =
@@ -60,6 +61,7 @@ class ElderBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
       );
+      print('Response Elder Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
         return ElderModel.fromJson(json.decode(response.body));
       } else {

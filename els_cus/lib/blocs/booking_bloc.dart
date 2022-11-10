@@ -93,6 +93,9 @@ class BookingBloc{
         },
 
       );
+      print('Test status name: ${statusName}');
+      print('Test email: ${Globals.curUser!.data.email}');
+      print('Response getBookingByStatusName Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
         return BookingModel.fromJson(json.decode(response.body));
       } else {

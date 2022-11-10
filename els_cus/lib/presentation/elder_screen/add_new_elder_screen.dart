@@ -7,6 +7,7 @@ import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 
+
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
 
@@ -140,6 +141,11 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   //       ],
   //     );
   // }
+  void _changeDob(String date) async {
+    setState(() {
+      dob = date;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -258,18 +264,67 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         ),
                         child: StreamBuilder(
                             stream: bloc.dobStream,
-                            builder: (context, snapshot) => TextField(
-                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                              controller: _dobController,
-                              decoration: InputDecoration(
-                                  hintText: "",
-                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  border: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                            )),
+                            builder: (context, snapshot) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      DatePicker.showDatePicker(
+                                          context, //showDateTime to pick time
+                                          showTitleActions: true,
+                                          maxTime: DateTime.now(),
+                                          onChanged: (date) {},
+                                          onConfirm: (date) {
+                                        String dateInput =
+                                            '${date.year}-${date.month}-${date.day}';
+                                        _changeDob(dateInput);
+                                      },
+                                          currentTime: DateTime.now(),
+                                          locale: LocaleType.vi);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: size.height * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                            color: Colors.black45, width: 1),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: size.width * 0.048,
+                                              right: size.width * 0.048,
+                                            ),
+                                            child: Image.asset(
+                                                ImageConstant.imgCalendar),
+                                          ),
+                                          Text(dob),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  snapshot.hasError
+                                      ? Text(
+                                          snapshot.error.toString(),
+                                          style: const TextStyle(
+                                            color: Color(0xffCB4847),
+                                            fontSize: 13,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              );
+                            }),
+
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -449,7 +504,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              create();
+
+                              onAddNewElderClick();
+
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -472,20 +529,29 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     );
   }
 
-  void create() async {
+
+  onAddNewElderClick() async {
     String name = _nameController.text.trim();
-    String dob = _dobController.text.trim();
+    String statusHealth = _healthStatusController.text.trim();
+    String note = _noteController.text.trim();
     String gender = "";
-    if(_isMale){
+    if (_isMale) {
       gender = "Nam";
-    }else{
+    } else {
       gender = "Nữ";
     }
-    String healthStatus = _healthStatusController.text.trim();
-    String note = _noteController.text.trim();
-    String email = _emailController.text.trim();
-    bool isAllergy = _isAllergy;
-    bool createSuccess = false;
-    createSuccess = await bloc.createElder(name, gender, dob, healthStatus, note, isAllergy, email);
+    bool isValidElder = false;
+    isValidElder = elderBlocs.isValidElder(name, dob);
+    if (isValidElder) {
+      bool createSuccess = false;
+      createSuccess = await elderBlocs.addNewElder(
+          name, gender, dob, statusHealth, note, _isAllergy);
+      if (createSuccess) {
+        print('tạo được rồi');
+      } else {
+        print('chưa được');
+      }
+    } else {}
+
   }
 }

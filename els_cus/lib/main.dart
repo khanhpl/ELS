@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         '/elderScreen': (context) => ElderScreen(),
         '/addNewElderScreen': (context) => AddNewElderScreen(),
         '/personalScreen': (context) => PersonalScreen(),
-
+        '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
         '/accountScreen': (context) => BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
 
 

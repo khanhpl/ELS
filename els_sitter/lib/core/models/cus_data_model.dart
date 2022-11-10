@@ -1,16 +1,14 @@
 class CusDataModel {
-  var id;
-  var username;
-  var fullname;
-  var dob;
-  var gender;
-  var phone;
-  var address;
-  var email;
+  int id;
+  String fullname;
+  DateTime? dob;
+  String gender;
+  String phone;
+  String address;
+  String email;
 
   CusDataModel(
       this.id,
-      this.username,
       this.fullname,
       this.dob,
       this.gender,
@@ -22,12 +20,11 @@ class CusDataModel {
   factory CusDataModel.fromJson(Map<dynamic, dynamic> json) {
     return CusDataModel(
       json['id'],
-      json['username'],
       json['fullName'],
-      json['dob'],
-      json['gender'],
+      (json["dob"]  != null) ?(DateTime.parse(json["dob"])): null,
+      (json["gender"] != null)?json["gender"]:"",
       (json['phone'] != null) ? json['phone'] : "",
-      json['address'],
+      (json["address"] != null) ?json["address"]:"",
       json['email'],
     );
   }

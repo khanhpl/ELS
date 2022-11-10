@@ -1,7 +1,7 @@
 
 
 import 'package:els_sitter/core/models/cus_data_model.dart';
-import 'package:els_sitter/core/models/sitter_data_model.dart';
+import 'package:els_sitter/core/models/elder_data_model.dart';
 
 class BookingDataModel {
 
@@ -11,7 +11,7 @@ class BookingDataModel {
   double totalPrice;
   DateTime startDateTime;
   DateTime endDateTime;
-  int elderId;
+  ElderDataModel? elder;
   CusDataModel? cus;
   String address;
   String place;
@@ -24,7 +24,7 @@ class BookingDataModel {
     required this.totalPrice,
     required this.startDateTime,
     required this.endDateTime,
-    required this.elderId,
+    required this.elder,
     this.cus,
     required this.address,
     required this.place,
@@ -40,8 +40,8 @@ class BookingDataModel {
     totalPrice: json["totalPrice"],
     startDateTime: DateTime.parse(json["startDateTime"]),
     endDateTime: DateTime.parse(json["endDateTime"]),
-    elderId: json["elderId"],
-    cus: json["user"] == null ? null : CusDataModel.fromJson(json["user"]),
+    elder: (json["elder"] != null)?ElderDataModel.fromJson(json["elder"]):null,
+    cus: (json["user"] == null) ? null : CusDataModel.fromJson(json["user"]),
     address: json["address"],
     place: json["place"],
     status: json["status"],

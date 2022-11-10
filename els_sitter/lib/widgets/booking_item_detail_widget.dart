@@ -400,7 +400,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final Future<SingleElderModel> elderList =
-        ElderBlocs().getElderByID(booking.elderId);
+        ElderBlocs().getElderByID(booking.elder!.id);
     final Future<BookingDetailModel> bookingDetail =
         BookingBloc().getBookingDetailByBookingID(booking.id.toString());
 
@@ -759,12 +759,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   // itemCount: snapshot.data!.length,
                                   itemCount: snapshot.data!.data.length,
                                   separatorBuilder: (context, index) {
-                                    return SizedBox(height: size.height * 0.01);
+                                    return SizedBox(height: size.height*0.01);
                                   },
                                   itemBuilder:
                                       (BuildContext context, int index) {
-                                    return Text(snapshot
-                                        .data!.data[index].service.name);
+                                    return Text('${snapshot.data!.data[index].serviceName}: ${snapshot.data!.data[index].price.ceil()} - Thời gian làm: ${snapshot.data!.data[index].duration} phút');
                                   },
                                 );
                               } else {
