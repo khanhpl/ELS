@@ -62,7 +62,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
         // bottomOpacity: 0.0,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        backgroundColor: ColorConstant.whiteA700,
+        backgroundColor: ColorConstant.purple900,
         leading: GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -71,11 +71,12 @@ class _PersonalScreenState extends State<PersonalScreen> {
             ImageConstant.imgArrowleft,
             height: size.height * 0.024,
             width: size.width * 0.03,
+            color: ColorConstant.whiteA700,
           ),
         ),
         title: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.whiteA700,
+            color: ColorConstant.purple900,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -87,8 +88,8 @@ class _PersonalScreenState extends State<PersonalScreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: ColorConstant.black900,
-                fontSize: 34,
+                color: ColorConstant.whiteA700,
+                fontSize: 28,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,
@@ -121,10 +122,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.left,
                       style: TextStyle(
-                        color: ColorConstant.bluegray900,
-                        fontSize: 14,
-                        fontFamily: 'Outfit',
-                        fontWeight: FontWeight.w400,
+                        color: ColorConstant.purple900,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     Padding(
@@ -161,10 +161,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -198,14 +197,13 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         top: size.height*0.02,
                       ),
                       child: Text(
-                        "Năm sinh",
+                        "Ngày sinh",
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -243,10 +241,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -346,10 +343,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -387,10 +383,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
@@ -428,10 +423,9 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
