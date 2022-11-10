@@ -2254,8 +2254,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         fontIdImgUrl: frontIDImage,
         backIdImgUrl: backIDImage,
         avatarImgUrl: avatarImage);
-    isValid = bloc.isValidInput(
-        fullname, email, phone, dob, id, address, gender, userIdImage, description);
+    isValid = bloc.isValidInput(fullname, email, phone, dob, id, address,
+        gender, userIdImage, description);
     if (isValid) {
       createSuccess = await bloc.register(fullname, phone, email, gender, dob,
           id, address, listSitterService, userIdImage, listCert, description);

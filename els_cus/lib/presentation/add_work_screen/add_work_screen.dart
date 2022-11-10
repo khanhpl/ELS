@@ -1,10 +1,14 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
+import 'package:els_cus_mobile/core/models/add_booking_service_request_dto.dart';
+import 'package:els_cus_mobile/core/models/add_working_times_dto_list.dart';
+import 'package:els_cus_mobile/core/models/booking_form_model.dart';
 import 'package:els_cus_mobile/core/models/elder_model.dart';
 import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import 'package:els_cus_mobile/core/models/service_model.dart';
+import 'package:els_cus_mobile/core/models/time.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/booking_screen/widget/elder_item_on_booking_widget.dart';
@@ -16,7 +20,9 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../core/utils/globals.dart' as Globals;
 
 class AddWorkScreen extends StatefulWidget {
-  const AddWorkScreen({super.key});
+  const AddWorkScreen
+
+  ({super.key});
 
   @override
   State<AddWorkScreen> createState() => _AddWorkScreenState();
@@ -43,19 +49,20 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final Map<dynamic, dynamic> listServiceObj = {};
-  @override
+  DateTime startDateTime = DateTime.now();
 
+  @override
   double calTotal() {
     double totalPrice = 0;
-    if(listServiceObj.isNotEmpty){
+    if (listServiceObj.isNotEmpty) {
       listServiceObj.forEach((key, value) {
-        for(ServiceDataModel service in listSelectedService){
-          if(service.id == key){
-            totalPrice = totalPrice + service.price*(value/service.duration);
+        for (ServiceDataModel service in listSelectedService) {
+          if (service.id == key) {
+            totalPrice =
+                totalPrice + service.price * (value / service.duration);
           }
         }
       });
-
     }
     return totalPrice;
   }
@@ -65,7 +72,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       workDate = date;
     });
   }
-
+  void _changeWorkTime(String time) async {
+    setState(() {
+      workTime = time;
+    });
+  }
 
   bool checkChooseService(ServiceDataModel selectedService) {
     if (listSelectedService.isNotEmpty) {
@@ -128,7 +139,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _chooseService(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     AlertDialog alert = AlertDialog(
       contentPadding: const EdgeInsets.all(0),
       backgroundColor: ColorConstant.gray300,
@@ -173,7 +186,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     bool chkOccur = false;
                                     if (listSelectedService.isNotEmpty) {
                                       for (ServiceDataModel service
-                                          in listSelectedService) {
+                                      in listSelectedService) {
                                         if (service.id ==
                                             snapshot.data!.data[index].id) {
                                           chkOccur = true;
@@ -183,21 +196,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                         listSelectedService
                                             .remove(snapshot.data!.data[index]);
                                         listServiceObj.removeWhere(
-                                            (key, value) =>
-                                                key ==
+                                                (key, value) =>
+                                            key ==
                                                 snapshot.data!.data[index].id);
                                       } else {
                                         listSelectedService
                                             .add(snapshot.data!.data[index]);
                                         listServiceObj[
-                                                snapshot.data!.data[index].id] =
+                                        snapshot.data!.data[index].id] =
                                             snapshot.data!.data[index].duration;
                                       }
                                     } else {
                                       listSelectedService
                                           .add(snapshot.data!.data[index]);
                                       listServiceObj[
-                                              snapshot.data!.data[index].id] =
+                                      snapshot.data!.data[index].id] =
                                           snapshot.data!.data[index].duration;
                                     }
                                     Navigator.pop(context);
@@ -234,74 +247,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     // set up the AlertDialog
   }
 
-  _chooseTimeFrame(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    AlertDialog alert = AlertDialog(
-      contentPadding: const EdgeInsets.all(0),
-      backgroundColor: ColorConstant.gray300,
-      content: Container(
-        padding: EdgeInsets.all(size.width * 0.03),
-        width: size.width,
-        decoration: BoxDecoration(
-          color: ColorConstant.gray300,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: ListView.separated(
-          itemBuilder: (context, index) {
-            // return Container(
-            //   width: size.width*0.1,
-            //   height: size.height*0.06,
-            //   alignment: Alignment.center,
-            //   decoration: BoxDecoration(
-            //     borderRadius: BorderRadius.circular(10),
-            //     color: ColorConstant.whiteA700,
-            //   ),
-            //   child: Text('${Globals.workingTimeFrame[index].toString()}h'),
-            // );
-            return ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  selectedTime = Globals.workingTimeFrame[index].toString();
-                  Navigator.pop(context);
-                });
-              },
-              style: ElevatedButton.styleFrom(
-                primary:
-                    (selectedTime != Globals.workingTimeFrame[index].toString())
-                        ? Colors.white
-                        : ColorConstant.purple900,
-                textStyle: TextStyle(
-                  fontSize: size.width * 0.045,
-                ),
-              ),
-              child: Text(
-                '${Globals.workingTimeFrame[index].toString()}h',
-                style: TextStyle(
-                  color: (selectedTime !=
-                          Globals.workingTimeFrame[index].toString())
-                      ? Colors.black
-                      : ColorConstant.whiteA700,
-                ),
-              ),
-            );
-          },
-          separatorBuilder: (context, index) =>
-              SizedBox(height: size.height * 0.01),
-          itemCount: Globals.workingTimeFrame.length,
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-
-    // set up the AlertDialog
-  }
 
   void showSuccessAlertDialog(BuildContext context) {
     // set up the buttons
@@ -371,29 +316,34 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     );
   }
 
-  Widget getPickDateWidget(BuildContext context){
-    var size = MediaQuery.of(context).size;
-    if(_isOneDay){
+  Widget getPickDateWidget(BuildContext context) {
+    var size = MediaQuery
+        .of(context)
+        .size;
+    if (_isOneDay) {
       return Column(
         children: [
           Padding(
             padding: EdgeInsets.only(
-              top: size.height * 0.03,
               left: size.width * 0.03,
               right: size.width * 0.03,
             ),
             child: GestureDetector(
               onTap: () {
-                DatePicker.showDatePicker(
-                    context, //showDateTime to pick time
+                DatePicker.showDatePicker(context, //showDateTime to pick time
                     showTitleActions: true,
                     minTime: DateTime.now(),
                     maxTime: DateTime(2023, 12, 31),
-                    onChanged: (date) {}, onConfirm: (date) {
-                  String dateInput =
-                      '${date.year}-${(date.month >= 10)?date.month:'0'+date.month.toString()}-${(date.day >= 10)?date.day:'0'+date.day.toString()}';
-                  _changeWorkDate(dateInput);
-                },
+                    onChanged: (date) {},
+                    onConfirm: (date) {
+                      String dateInput =
+                          '${date.year}-${(date.month >= 10)
+                          ? date.month
+                          : '0' + date.month.toString()}-${(date.day >= 10)
+                          ? date.day
+                          : '0' + date.day.toString()}';
+                      _changeWorkDate(dateInput);
+                    },
                     currentTime: DateTime.now(),
                     locale: LocaleType.vi);
               },
@@ -402,8 +352,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                 height: size.height * 0.07,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  border:
-                  Border.all(color: Colors.black45, width: 1),
+                  border: Border.all(color: Colors.black45, width: 1),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -414,9 +363,18 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         left: size.width * 0.048,
                         right: size.width * 0.048,
                       ),
-                      child: Image.asset(ImageConstant.imgCalendar),
+                      child: Image.asset(
+                        ImageConstant.imgCalendar,
+                        color: ColorConstant.purple900,
+                      ),
                     ),
-                    Text(workDate),
+                    Text(
+                      workDate,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -430,17 +388,24 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
             ),
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  _chooseTimeFrame(context);
-                });
+                DatePicker.showTimePicker(context, //showDateTime to pick time
+                    showTitleActions: true,
+                    onChanged: (time) {},
+                    onConfirm: (time) {
+                      String timeInput =
+                          '${time.hour}:${time.minute}';
+                      _changeWorkTime(timeInput);
+                      startDateTime = time;
+                    },
+                    currentTime: DateTime.now(),
+                    locale: LocaleType.vi);
               },
               child: Container(
                 width: double.infinity,
                 height: size.height * 0.07,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(6),
-                  border:
-                  Border.all(color: Colors.black45, width: 1),
+                  border: Border.all(color: Colors.black45, width: 1),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -451,9 +416,18 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         left: size.width * 0.048,
                         right: size.width * 0.048,
                       ),
-                      child: Image.asset(ImageConstant.imgClock),
+                      child: Image.asset(
+                        ImageConstant.imgClock,
+                        color: ColorConstant.purple900,
+                      ),
                     ),
-                    Text(workTime),
+                    Text(
+                      (workTime != "Chọn thời gian làm việc") ? '${workTime.split(":")[0]} Giờ ${workTime.split(":")[1]} phút' : workTime,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14,
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -461,14 +435,16 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
           ),
         ],
       );
-    }else{
+    } else {
       return SizedBox();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
@@ -496,7 +472,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.black900,
+                            color: ColorConstant.purple900,
                             fontSize: 34,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w700,
@@ -510,52 +486,61 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           left: size.width * 0.03,
                           right: size.width * 0.03,
                         ),
-                        child: Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Nơi thực hiện',
+                              'Nơi thực hiện: ',
                               style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
+                                color: ColorConstant.purple900,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Checkbox(
-                              value: isHouse,
-                              onChanged: (value) {
-                                setState(() {
-                                  isHospital = false;
-                                  isHouse = true;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Tư gia',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            SizedBox(width: size.width * 0.1),
-                            Checkbox(
-                              value: isHospital,
-                              onChanged: (value) {
-                                setState(() {
-                                  isHospital = true;
-                                  isHouse = false;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Bệnh viện',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Checkbox(
+                                  value: isHouse,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isHospital = false;
+                                      isHouse = true;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                const Text(
+                                  'Tư gia',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(width: size.width * 0.05),
+                                Checkbox(
+                                  value: isHospital,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      isHospital = true;
+                                      isHouse = false;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                const Text(
+                                  'Bệnh viện',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -569,21 +554,30 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                               builder: (context, snapshot) {
                                 return TextField(
                                   controller: _addressController,
+                                  cursorColor: ColorConstant.purple900,
                                   style: TextStyle(
                                       fontSize: size.width * 0.04,
                                       color: Colors.black),
                                   decoration: InputDecoration(
-                                      hintText: "Địa chỉ",
-                                      prefixIcon: SizedBox(
-                                          width: size.width * 0.05,
-                                          child: Image.asset(
-                                              ImageConstant.imgLocation16X13)),
-                                      border: const OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
+                                    hintText: "Địa chỉ",
+                                    prefixIcon: SizedBox(
+                                      width: size.width * 0.05,
+                                      child: Image.asset(
+                                        ImageConstant.imgLocation16X13,
+                                        color: ColorConstant.purple900,
+                                      ),
+                                    ),
+                                    border: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xffCED0D2), width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6))),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          width: 1,
+                                          color: ColorConstant.purple900),
+                                    ),
+                                  ),
                                 );
                               })),
                       Padding(
@@ -598,8 +592,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             Text(
                               'Số ngày làm việc:',
                               style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
+                                color: ColorConstant.purple900,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
                             Row(
@@ -653,56 +648,64 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           left: size.width * 0.03,
                           right: size.width * 0.03,
                         ),
-                        child: Row(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'Giới tính:',
                               style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
+                                color: ColorConstant.purple900,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Checkbox(
-                              value: _isGenderMale,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isGenderMale = true;
-                                  _isGenderFemale = false;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Nam',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            SizedBox(width: size.width * 0.1),
-                            Checkbox(
-                              value: _isGenderFemale,
-                              onChanged: (value) {
-                                setState(() {
-                                  _isGenderMale = false;
-                                  _isGenderFemale = true;
-                                });
-                              },
-                              checkColor: ColorConstant.purple900,
-                              activeColor: Colors.white,
-                            ),
-                            Text(
-                              'Nữ',
-                              style: TextStyle(
-                                fontSize: size.height * 0.02,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Checkbox(
+                                  value: _isGenderMale,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isGenderMale = true;
+                                      _isGenderFemale = false;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                const Text(
+                                  'Nam',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                                SizedBox(width: size.width * 0.1),
+                                Checkbox(
+                                  value: _isGenderFemale,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isGenderMale = false;
+                                      _isGenderFemale = true;
+                                    });
+                                  },
+                                  checkColor: ColorConstant.purple900,
+                                  activeColor: Colors.white,
+                                ),
+                                const Text(
+                                  'Nữ',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
-
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Padding(
@@ -716,11 +719,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: 17,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                              height: 1.00,
+                              color: ColorConstant.purple900,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),
@@ -749,6 +750,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     ImageConstant.imgIconAdd,
                                     height: size.width * 0.03,
                                     width: size.width * 0.03,
+                                    color: ColorConstant.purple900,
                                   ),
                                   SizedBox(width: size.width * 0.015),
                                   Text(
@@ -756,7 +758,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
-                                      color: ColorConstant.gray700,
+                                      color: ColorConstant.purple900,
                                       fontSize: 13,
                                       fontFamily: 'Roboto',
                                       fontWeight: FontWeight.w400,
@@ -780,82 +782,119 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                   return SizedBox(height: size.height * 0.01);
                                 },
                                 itemBuilder: (BuildContext context, int index) {
-                                  return Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                          '${listSelectedService[index].name}:'),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left: size.width * 0.03,
-                                          top: size.height * 0.01,
+                                  return Container(
+                                    padding: EdgeInsets.all(size.width * 0.03),
+                                    margin: EdgeInsets.all(size.width * 0.03),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(
+                                          width: 1,
+                                          color: ColorConstant.purple900,
+                                        )),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${listSelectedService[index].name}:',
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w400),
                                         ),
-                                        child: Text(
-                                            '(giá đề xuất)${listSelectedService[index].price.ceil().toString()}VNĐ/${listSelectedService[index].duration} phút'),
-                                      ),
-                                      Padding(
+                                        Padding(
                                           padding: EdgeInsets.only(
-                                              top: size.width * 0.01,
-                                              left: size.width * 0.03),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                  'Thời gian thực hiện: ${listServiceObj[listSelectedService[index].id]} phút'),
-                                              SizedBox(
-                                                  width: size.width * 0.03),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    listServiceObj[
+                                            left: size.width * 0.03,
+                                            top: size.height * 0.01,
+                                          ),
+                                          child: Text(
+                                            '(giá đề xuất)${listSelectedService[index]
+                                                .price.ceil()
+                                                .toString()}VNĐ/${listSelectedService[index]
+                                                .duration} phút',
+                                            style: const TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ),
+                                        Padding(
+                                            padding: EdgeInsets.only(
+                                                top: size.width * 0.01,
+                                                left: size.width * 0.03),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Thời gian thực hiện: ${listServiceObj[listSelectedService[index]
+                                                      .id]} phút',
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.w400),
+                                                ),
+                                                SizedBox(
+                                                    width: size.width * 0.03),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      listServiceObj[
+                                                      listSelectedService[
+                                                      index]
+                                                          .id] =
+                                                      (listServiceObj[
+                                                      listSelectedService[
+                                                      index]
+                                                          .id] +
+                                                          listSelectedService[
+                                                          index]
+                                                              .duration);
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.add_circle_outline,
+                                                    size: size.width * 0.04,
+                                                    color: Colors.black,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: size.width * 0.03),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    setState(() {
+                                                      if (listServiceObj[
+                                                      listSelectedService[
+                                                      index]
+                                                          .id] >
+                                                          listSelectedService[
+                                                          index]
+                                                              .duration) {
+                                                        listServiceObj[listSelectedService[
+                                                        index]
+                                                            .id] =
+                                                            listServiceObj[
                                                             listSelectedService[
-                                                                    index]
-                                                                .id] =
-                                                        (listServiceObj[
+                                                            index]
+                                                                .id] -
                                                                 listSelectedService[
-                                                                        index]
-                                                                    .id] +
-                                                            listSelectedService[
-                                                                    index]
-                                                                .duration);
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  Icons.add_circle_outline,
-                                                  size: size.width * 0.04,
-                                                  color: Colors.black,
+                                                                index]
+                                                                    .duration;
+                                                      }
+                                                    });
+                                                  },
+                                                  child: Icon(
+                                                    Icons.remove_circle_outline,
+                                                    size: size.width * 0.04,
+                                                    color: Colors.black,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(
-                                                  width: size.width * 0.03),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  setState(() {
-                                                    if (listServiceObj[listSelectedService[
-                                                    index].id] > listSelectedService[
-                                                    index].duration) {
-                                                      listServiceObj[listSelectedService[
-                                                      index].id] =
-                                                          listServiceObj[listSelectedService[
-                                                          index].id] - listSelectedService[
-                                                          index].duration;
-                                                    }
-                                                  });
-                                                },
-                                                child: Icon(
-                                                  Icons.remove_circle_outline,
-                                                  size: size.width * 0.04,
-                                                  color: Colors.black,
-                                                ),
-                                              ),
-                                            ],
-                                          )),
-                                    ],
+                                              ],
+                                            )),
+                                      ],
+                                    ),
                                   );
                                 },
                               ),
@@ -882,11 +921,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
-                                  color: ColorConstant.black900,
-                                  fontSize: 17,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.00,
+                                  color: ColorConstant.purple900,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               Padding(
@@ -895,7 +932,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -971,7 +1008,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1043,7 +1080,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1113,97 +1150,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ),
                         ),
                       ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //     left: size.width * 0.03,
-                      //     top: size.height * 0.03,
-                      //   ),
-                      //   child: Text(
-                      //     "Khung giá cả",
-                      //     overflow: TextOverflow.ellipsis,
-                      //     textAlign: TextAlign.left,
-                      //     style: TextStyle(
-                      //       color: ColorConstant.black900,
-                      //       fontSize: 17,
-                      //       fontFamily: 'Roboto',
-                      //       fontWeight: FontWeight.w700,
-                      //       height: 1.00,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //     left: size.width * 0.03,
-                      //     top: size.height * 0.02,
-                      //   ),
-                      //   child: Text(
-                      //     "Từ 15000đ đến 100000đ",
-                      //     overflow: TextOverflow.ellipsis,
-                      //     textAlign: TextAlign.left,
-                      //     style: TextStyle(
-                      //       color: ColorConstant.black900,
-                      //       fontSize: 15,
-                      //       fontFamily: 'Roboto',
-                      //       fontWeight: FontWeight.w400,
-                      //       height: 1.00,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Padding(
-                      //   padding: EdgeInsets.only(
-                      //     left: size.width * 0.03,
-                      //     top: size.height * 0.02,
-                      //   ),
-                      //   child: Text(
-                      //     "Giá trung bình là 57500đ",
-                      //     overflow: TextOverflow.ellipsis,
-                      //     textAlign: TextAlign.left,
-                      //     style: TextStyle(
-                      //       color: ColorConstant.bluegray400,
-                      //       fontSize: 15,
-                      //       fontFamily: 'Roboto',
-                      //       fontWeight: FontWeight.w400,
-                      //       height: 1.00,
-                      //     ),
-                      //   ),
-                      // ),
-                      // Align(
-                      //   alignment: Alignment.center,
-                      //   child: Container(
-                      //     height: size.height * 0.05,
-                      //     width: double.infinity,
-                      //     margin: EdgeInsets.only(
-                      //       left: size.width * 0.03,
-                      //       top: size.height * 0.02,
-                      //       right: size.width * 0.03,
-                      //     ),
-                      //     child: Stack(
-                      //       alignment: Alignment.bottomLeft,
-                      //       children: [
-                      //         SliderTheme(
-                      //           data: SliderThemeData(
-                      //             trackShape:
-                      //                 const RoundedRectSliderTrackShape(),
-                      //             activeTrackColor: ColorConstant.purple900,
-                      //             inactiveTrackColor: ColorConstant.bluegray50,
-                      //             thumbColor: ColorConstant.whiteA700,
-                      //             thumbShape: const RoundSliderThumbShape(),
-                      //           ),
-                      //           child: RangeSlider(
-                      //             values: _sliderRangeValues,
-                      //             min: 15000,
-                      //             max: 100000,
-                      //             onChanged: (RangeValues value) {
-                      //               setState(() {
-                      //                 _sliderRangeValues = value;
-                      //               });
-                      //             },
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
@@ -1214,11 +1160,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 17,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            height: 1.00,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -1283,11 +1227,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 17,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            height: 1.00,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -1303,11 +1245,12 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
-                          itemBuilder: (context, _) => Icon(
-                            Icons.star,
-                            color: ColorConstant.purple900,
-                            // size: 10.0,
-                          ),
+                          itemBuilder: (context, _) =>
+                              Icon(
+                                Icons.star,
+                                color: ColorConstant.purple900,
+                                // size: 10.0,
+                              ),
                           onRatingUpdate: (rating) {},
                         ),
                       ),
@@ -1322,11 +1265,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 17,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            height: 1.00,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -1352,10 +1293,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 13,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -1363,29 +1303,38 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
                           right: size.width * 0.03,
-                          top: size.height * 0.03,
+                          top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
                             stream: bloc.descriptionStream,
                             builder: (context, snapshot) {
                               return TextField(
+                                maxLines: 5,
                                 controller: _descriptionController,
+                                cursorColor: ColorConstant.purple900,
                                 style: TextStyle(
                                     fontSize: size.width * 0.04,
                                     color: Colors.black),
-                                decoration: const InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffCED0D2), width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)))),
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xffCED0D2), width: 1),
+                                    borderRadius:
+                                    BorderRadius.all(Radius.circular(6)),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        color: ColorConstant.purple900),
+                                  ),
+                                ),
                               );
                             }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
-                          top: size.width * 0.03,
+                          top: size.width * 0.06,
                           right: size.width * 0.03,
                         ),
                         child: SizedBox(
@@ -1404,7 +1353,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           ),
                         ),
                       ),
-
                       SizedBox(height: size.height * 0.1),
                     ],
                   ),
@@ -1418,27 +1366,43 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _onBookingClick() async {
-    List<ServiceRequestBookingModel> listBookingServiceRequest= [];
+    List<AddBookingServiceRequestDto> addBookingServiceRequestDtos = [];
+    int totalDuration = 0;
     listServiceObj.forEach((key, value) {
-      listBookingServiceRequest.add(ServiceRequestBookingModel(key, value));
+      addBookingServiceRequestDtos.add(AddBookingServiceRequestDto(id: key, duration: value));
+      totalDuration += (value) as int;
     });
     double total = calTotal();
     String address = _addressController.text.trim();
     String description = _descriptionController.text.trim();
-    String startDateTime = '${workDate}T00:00:00.000Z';
-    String endDateTime = '${workDate}T00:00:00.000Z';
     String place = "";
-    if(isHospital){
+    if (isHospital) {
       place = "Bệnh viện";
-    }else{
+    } else {
       place = "Tại nhà";
     }
-    List<String> listServiceIDs = bloc.getListServiceID(listSelectedService);
     bool isBooking = false;
-    isBooking = await bloc.createBooking(address, description, chooseElderID, startDateTime, endDateTime, place, total.toString(),  listBookingServiceRequest);
-    if(isBooking){
+
+    Duration duration = Duration(minutes: totalDuration);
+    DateTime endDateTime = startDateTime.add(duration);
+    Time startTime = Time(hour: int.parse(workTime.split(":")[0]), minute: int.parse(workTime.split(":")[1]), second: 0, nano: 0);
+    Time endTime = Time(hour: endDateTime.hour, minute: endDateTime.minute, second: 0, nano: 0);
+    AddWorkingTimesDtoList addWorkingTimesDto = AddWorkingTimesDtoList(
+        localDate: workDate, startTime: startTime, endTime: endTime);
+    List<AddWorkingTimesDtoList> addWorkingTimesDtoList =[];
+    addWorkingTimesDtoList.add(addWorkingTimesDto);
+    BookingFormModel booking = BookingFormModel(address: address,
+        description: description,
+        elderId: int.parse(chooseElderID),
+        place: place,
+        email: Globals.curUser!.data.email,
+        totalPrice: total,
+        addWorkingTimesDtoList: addWorkingTimesDtoList,
+        addBookingServiceRequestDtos: addBookingServiceRequestDtos);
+    isBooking = await bloc.createBooking(booking);
+    if (isBooking) {
       showSuccessAlertDialog(context);
-    }else{
+    } else {
       showFailAlertDialog(context);
     }
   }

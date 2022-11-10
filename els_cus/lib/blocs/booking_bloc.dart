@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
+import 'package:els_cus_mobile/core/models/booking_form_model.dart';
 import 'package:els_cus_mobile/core/models/booking_model.dart';
 import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
@@ -35,17 +36,12 @@ class BookingBloc {
     return listID;
   }
 
-  Future<bool> createBooking(
-      String address,
-      String description,
-      String elderID,
-      String startDateTime,
-      String endDateTime,
-      String place,
-      String totalPrice,
-      List<ServiceRequestBookingModel> listBookingServiceRequest) async {
+  Future<bool> createBooking(BookingFormModel bookingModel) async {
+
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking");
+      var url = Uri.parse("https://els12.herokuapp.com/booking/add");
+      print(
+          'Test start time: ${bookingModel.addWorkingTimesDtoList[0].startTime.hour} giờ ${bookingModel.addWorkingTimesDtoList[0].startTime.minute} phút ${bookingModel.addWorkingTimesDtoList[0].startTime.second} giây ${bookingModel.addWorkingTimesDtoList[0].startTime.nano}');
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -55,19 +51,22 @@ class BookingBloc {
         },
         body: jsonEncode(
           <String, dynamic>{
-            "address": address,
-            "description": description,
-            "elderId": elderID,
-            "startDateTime": startDateTime,
-            "endDateTime": endDateTime,
-            "place": place,
-            "totalPrice": totalPrice,
-            "email": Globals.curUser!.data.email,
-            "bookingServiceRequestDTOS": listBookingServiceRequest,
+            "address": bookingModel.address,
+            "description": bookingModel.description,
+            "elderId": bookingModel.elderId,
+            "place": bookingModel.place,
+            "email": bookingModel.email,
+            "totalPrice": bookingModel.totalPrice,
+            "addWorkingTimesDTOList": List<dynamic>.from(
+                bookingModel.addWorkingTimesDtoList.map((x) => x.toJson())),
+            "addBookingServiceRequestDTOS": List<dynamic>.from(bookingModel
+                .addBookingServiceRequestDtos
+                .map((x) => x.toJson())),
           },
         ),
       );
-      print('Status code:' + response.statusCode.toString());
+      print('Status code createBooking:' + response.statusCode.toString());
+
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
