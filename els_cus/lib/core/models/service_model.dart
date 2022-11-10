@@ -1,3 +1,4 @@
+
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 
 class ServiceModel {

@@ -1,6 +1,6 @@
 
 import 'package:els_cus_mobile/core/models/category_data_model.dart';
-
+import 'package:els_cus_mobile/core/models/category_model.dart';
 
 class ServiceDataModel {
 
