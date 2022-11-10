@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:els_cus_mobile/core/models/user_data_model.dart';
 import 'package:http/http.dart' as http;
+import '../core/models/customer_detail_model.dart';
 import '../core/utils/globals.dart' as Globals;
 
 class PersonalInfoBloc {
@@ -24,6 +25,27 @@ class PersonalInfoBloc {
     print(dob);
     print(address);
     print(phone);
+  }
+
+  Future<CustomerDetailModel> getCustomerDetailByEmail() async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/customer/get-by-email/${Globals.curUser!.data.email}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      );
+      print('Status: ' + response.statusCode.toString());
+      if (response.statusCode.toString() == '200') {
+        return CustomerDetailModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to fetch customer detail from the REST API');
+      }
+    } finally {}
   }
 
   Future<bool> updateInfo(String name, String gender, String dob, String address, String phone, String frontIdImgUrl, String backIdImgUrl, String avatarImgUrl) async {
