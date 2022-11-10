@@ -158,7 +158,7 @@ class ElderBlocs{
     } finally {}
   }
 
-  Future<bool> updateElder(String name, String gender, String dob, String healthStatus, String note, bool isAllergy) async {
+  Future<bool> updateElder(int id, String name, String gender, String dob, String healthStatus, String note, bool isAllergy) async {
     try{
       print('test fullname: '+ name);
       print('test gender:'+ gender);
@@ -176,6 +176,7 @@ class ElderBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
+          'id': id,
           'name': name,
           'gender': gender,
           "dob": dob,
@@ -194,10 +195,10 @@ class ElderBlocs{
     finally {}
   }
 
-  Future<bool> removeElder(String name, String gender, String dob, String healthStatus, String note, bool isAllergy) async {
+  Future<bool> removeElderByID(int elderID) async {
     try{
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder");
+      Uri.parse("https://els12.herokuapp.com/elder/remove/${elderID}");
       final response = await http.put(
         url,
         headers: <String, String>{
@@ -206,12 +207,7 @@ class ElderBlocs{
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, dynamic>{
-          'name': name,
-          'gender': gender,
-          "dob": dob,
-          "healthStatus": healthStatus,
-          "note": note,
-          "isAllergy": isAllergy,
+
         }),
       );
       print('Status:'+response.statusCode.toString());

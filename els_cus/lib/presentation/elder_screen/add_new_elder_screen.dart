@@ -152,7 +152,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
           // bottomOpacity: 0.0,
           elevation: 0.0,
           automaticallyImplyLeading: false,
-          backgroundColor: ColorConstant.whiteA700,
+          backgroundColor: ColorConstant.purple900,
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -161,11 +161,12 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
               ImageConstant.imgArrowleft,
               height: size.height * 0.024,
               width: size.width * 0.03,
+              color: ColorConstant.whiteA700,
             ),
           ),
           title: Container(
             decoration: BoxDecoration(
-              color: ColorConstant.whiteA700,
+              color: ColorConstant.purple900,
             ),
             child: Container(
               margin: EdgeInsets.only(
@@ -177,7 +178,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: ColorConstant.black900,
+                  color: ColorConstant.whiteA700,
                   fontSize: 24,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
@@ -211,10 +212,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -245,10 +245,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -280,10 +279,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -338,10 +336,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -372,10 +369,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -414,10 +410,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -430,7 +425,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                               style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
                               controller: _noteController,
                               decoration: InputDecoration(
-                                  hintText: "",
+                                  hintText: "Những lưu ý cho chăm sóc viên",
                                   errorText: snapshot.hasError ? snapshot.error.toString() : null,
                                   border: const OutlineInputBorder(
                                       borderSide: BorderSide(

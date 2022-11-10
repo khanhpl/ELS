@@ -21,7 +21,7 @@ class ElderScreen extends StatelessWidget{
         // bottomOpacity: 0.0,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        backgroundColor: ColorConstant.whiteA700,
+        backgroundColor: ColorConstant.purple900,
         leading: GestureDetector(
           onTap: (){
             Navigator.pushNamed(context, '/accountScreen');
@@ -30,11 +30,12 @@ class ElderScreen extends StatelessWidget{
             ImageConstant.imgArrowleft,
             height: size.height * 0.024,
             width: size.width * 0.03,
+            color: ColorConstant.whiteA700,
           ),
         ),
         title: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.whiteA700,
+            color: ColorConstant.purple900,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -46,7 +47,7 @@ class ElderScreen extends StatelessWidget{
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: ColorConstant.black900,
+                color: ColorConstant.whiteA700,
                 fontSize: 34,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
@@ -79,13 +80,7 @@ class ElderScreen extends StatelessWidget{
                 // itemCount: snapshot.data!.length,
                 itemCount: snapshot.data!.data.length,
                 separatorBuilder: (context, index) {
-                  return Container(
-                    height: 1,
-                    width: size.width,
-                    decoration: BoxDecoration(
-                      color: ColorConstant.bluegray50,
-                    ),
-                  );
+                  return SizedBox(height: size.height*0.000001,);
                 },
                 itemBuilder: (BuildContext context, int index) {
                   return ElderItemWidget(
