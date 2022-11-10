@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:els_sitter/blocs/service_blocs.dart';
@@ -54,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   List<CertificateModel> listCert = [];
   List<SitterServiceRequestModel> listSitterService = [];
   final Map<dynamic, dynamic> listServiceObj = {};
-  String dob = "Chọn ngày";
+  String dob = "";
   List<TextEditingController> _listController = [];
   String frontIDImage = "";
   String backIDImage = "";
@@ -110,7 +109,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
       onPressed: () {
         setState(() {
-          listCert.add(CertificateModel(url: _certLinkController.text, name: _certNameController.text));
+          listCert.add(CertificateModel(
+              url: _certLinkController.text, name: _certNameController.text));
           _certLinkController.text = "";
           _certNameController.text = "";
         });
@@ -127,7 +127,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _setState = setState;
           return Container(
               width: size.width,
-              height: size.height*0.6,
+              height: size.height * 0.6,
               decoration: BoxDecoration(
                 color: ColorConstant.whiteA700,
                 borderRadius: BorderRadius.circular(10),
@@ -141,7 +141,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Padding(
                       padding: EdgeInsets.only(
                         top: size.height * 0.02,
-                        left: size.width*0.03,
+                        left: size.width * 0.03,
                       ),
                       child: Text(
                         "Tải lên chứng chỉ bằng:",
@@ -223,7 +223,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     errorText: snapshot.hasError
                                         ? snapshot.error.toString()
                                         : null,
-
                                     border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color(0xffCED0D2), width: 1),
@@ -233,131 +232,95 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           )
                         : Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-
-                            SizedBox(
-                              width: size.width * 0.2,
-                              child: ElevatedButton(
-                                onPressed: () {
-                                    _getCertImageFromGallery();
-                                },
-                                style: ElevatedButton
-                                    .styleFrom(
-                                  primary:
-                                  ColorConstant
-                                      .purple900,
-                                  textStyle:
-                                  TextStyle(
-                                    fontSize:
-                                    size.width *
-                                        0.035,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    width: size.width * 0.2,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        _getCertImageFromGallery();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        primary: ColorConstant.purple900,
+                                        textStyle: TextStyle(
+                                          fontSize: size.width * 0.035,
+                                        ),
+                                      ),
+                                      child: const Text("Tải lên"),
+                                    ),
+                                  ),
+                                  isCertCheck == false
+                                      ? Container(
+                                          width: size.height * 0.12,
+                                          height: size.height * 0.12,
+                                          alignment: Alignment.bottomCenter,
+                                          padding: EdgeInsets.only(
+                                              bottom: size.height * 0.01),
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 1,
+                                              )),
+                                        )
+                                      : Container(
+                                          width: size.height * 0.12,
+                                          height: size.height * 0.12,
+                                          alignment: Alignment.bottomCenter,
+                                          padding: EdgeInsets.only(
+                                              bottom: size.height * 0.01),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            image: DecorationImage(
+                                              image: FileImage(imageFileCert),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.05,
+                                  bottom: size.height * 0.03,
+                                  left: size.width * 0.05,
+                                  right: size.width * 0.05,
+                                ),
+                                child: StreamBuilder(
+                                  stream: null,
+                                  builder: (context, snapshot) => TextField(
+                                    style: TextStyle(
+                                        fontSize: size.width * 0.04,
+                                        color: Colors.black),
+                                    controller: null,
+                                    decoration: InputDecoration(
+                                        hintText: "Đường dẫn",
+                                        errorText: snapshot.hasError
+                                            ? snapshot.error.toString()
+                                            : null,
+                                        border: const OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: Color(0xffCED0D2),
+                                                width: 1),
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(6)))),
                                   ),
                                 ),
-                                child: const Text(
-                                    "Tải lên"),
-                              ),
-                            ),
-                            isCertCheck == false
-                                ? Container(
-                              width:
-                              size.height *
-                                  0.12,
-                              height:
-                              size.height *
-                                  0.12,
-                              alignment: Alignment
-                                  .bottomCenter,
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                  size.height *
-                                      0.01),
-                              decoration:
-                              BoxDecoration(
-                                  borderRadius:
-                                  BorderRadius.circular(
-                                      8),
-                                  border:
-                                  Border
-                                      .all(
-                                    color: Colors
-                                        .black,
-                                    width:
-                                    1,
-                                  )),
-                            )
-                                : Container(
-                              width:
-                              size.height *
-                                  0.12,
-                              height:
-                              size.height *
-                                  0.12,
-                              alignment: Alignment
-                                  .bottomCenter,
-                              padding: EdgeInsets.only(
-                                  bottom:
-                                  size.height *
-                                      0.01),
-                              decoration:
-                              BoxDecoration(
-                                borderRadius:
-                                BorderRadius
-                                    .circular(
-                                    8),
-                                border:
-                                Border.all(
-                                  color: Colors
-                                      .black,
-                                  width: 1,
-                                ),
-                                image:
-                                DecorationImage(
-                                  image: FileImage(
-                                      imageFileCert),
-                                  fit: BoxFit
-                                      .fill,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(
-                            top: size.height * 0.05,
-                            bottom: size.height * 0.03,
-                            left: size.width * 0.05,
-                            right: size.width * 0.05,
+                              )
+                            ],
                           ),
-                          child: StreamBuilder(
-                            stream: null,
-                            builder: (context, snapshot) => TextField(
-                              style: TextStyle(
-                                  fontSize: size.width * 0.04,
-                                  color: Colors.black),
-                              controller: null,
-                              decoration: InputDecoration(
-                                  hintText: "Đường dẫn",
-                                  errorText: snapshot.hasError
-                                      ? snapshot.error.toString()
-                                      : null,
-
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(6)))),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: size.height * 0.02,
-                        left: size.width*0.03,
+                        left: size.width * 0.03,
                       ),
                       child: Text(
                         "Tên chứng chỉ:",
@@ -382,20 +345,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           controller: _certNameController,
                           decoration: InputDecoration(
                               hintText: "Tên chứng chỉ",
                               errorText: snapshot.hasError
                                   ? snapshot.error.toString()
                                   : null,
-
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: Color(0xffCED0D2), width: 1),
-                                  borderRadius: BorderRadius.all(
-                                      Radius.circular(6)))),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6)))),
                         ),
                       ),
                     )
@@ -412,120 +373,597 @@ class _SignUpScreenState extends State<SignUpScreen> {
       builder: (BuildContext context) {
         return alert;
       },
-
     );
 
     // set up the AlertDialog
+  }
+
+  _addSitterService(BuildContext context, ServiceDataModel service) {
+    var size = MediaQuery.of(context).size;
+
+    AlertDialog alert = AlertDialog(
+      contentPadding: const EdgeInsets.all(0),
+      backgroundColor: Colors.transparent,
+      content: StatefulBuilder(builder: (context, setState) {
+        _setState = setState;
+        final TextEditingController _hobPriceController =
+            TextEditingController();
+        final TextEditingController _workExpController =
+            TextEditingController();
+        return Container(
+            padding: EdgeInsets.all(size.width * 0.03),
+            width: size.width,
+            decoration: BoxDecoration(
+              color: ColorConstant.whiteA700,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Text(
+                      "Tên dịch vụ:",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: size.width * 0.04,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                      left: size.width * 0.03,
+                    ),
+                    child: Text(
+                      service.name,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.02,
+                    ),
+                    child: Text(
+                      "Giá dịch vụ(Đề xuất):",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: size.width * 0.04,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                      left: size.width * 0.03,
+                    ),
+                    child: Text(
+                      '${service.price.ceil()}VNĐ/ ${service.duration} phút',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.centerEnd,
+                      children: [
+                        StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: _hobPriceController,
+                            cursorColor: ColorConstant.purple900,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Giá dịch vụ mong muốn",
+                              hintStyle: TextStyle(
+                                fontSize: size.width * 0.04,
+                              ),
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1, color: ColorConstant.purple900),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: size.height * 0.02),
+                          child: Text(
+                            "VNĐ",
+                            style: TextStyle(
+                              color: ColorConstant.black900,
+                              fontSize: size.width * 0.04,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.centerEnd,
+                      children: [
+                        StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: _workExpController,
+                            cursorColor: ColorConstant.purple900,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Kinh nghiệm làm việc(Năm)",
+                              hintStyle: TextStyle(
+                                fontSize: size.width * 0.04,
+                              ),
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1, color: ColorConstant.purple900),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: size.height * 0.02),
+                          child: Text(
+                            "Năm",
+                            style: TextStyle(
+                              color: ColorConstant.black900,
+                              fontSize: size.width * 0.04,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.05,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          listSitterService.add(SitterServiceRequestModel(
+                              servicePrice: int.parse(_hobPriceController.text),
+                              exp: int.parse(_workExpController.text),
+                              id: service.id));
+                          if (listSitterService.isNotEmpty) {
+                            for (ServiceDataModel service
+                                in listSelectedService) {
+                              bool addedService = false;
+                              for (SitterServiceRequestModel sitterService
+                                  in listSitterService) {
+                                if (service.id == sitterService.id) {
+                                  addedService = true;
+                                }
+                              }
+                              if (!addedService) {
+                                listSelectedService.remove(service);
+                              }
+                            }
+                          } else {
+                            listSelectedService.clear();
+                          }
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: ColorConstant.purple900,
+                          textStyle: TextStyle(
+                            fontSize: size.width * 0.045,
+                          ),
+                        ),
+                        child: const Text("Xác nhận"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
+      }),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  _updateSitterService(
+      BuildContext context, SitterServiceRequestModel sitterService) {
+    var size = MediaQuery.of(context).size;
+
+    AlertDialog alert = AlertDialog(
+      contentPadding: const EdgeInsets.all(0),
+      backgroundColor: Colors.transparent,
+      content: StatefulBuilder(builder: (context, setState) {
+        _setState = setState;
+        ServiceDataModel service = listSelectedService
+            .where((element) => element.id == sitterService.id)
+            .toList()[0];
+        final TextEditingController _hobPriceController =
+            TextEditingController();
+        final TextEditingController _workExpController =
+            TextEditingController();
+        _hobPriceController.text = sitterService.servicePrice.toString();
+        _workExpController.text = sitterService.exp.toString();
+
+        return Container(
+            padding: EdgeInsets.all(size.width * 0.03),
+            width: size.width,
+            decoration: BoxDecoration(
+              color: ColorConstant.whiteA700,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Text(
+                      "Tên dịch vụ:",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: size.width * 0.04,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                      left: size.width * 0.03,
+                    ),
+                    child: Text(
+                      service.name,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.02,
+                    ),
+                    child: Text(
+                      "Giá dịch vụ(Đề xuất):",
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: size.width * 0.04,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                      left: size.width * 0.03,
+                    ),
+                    child: Text(
+                      '${service.price.ceil()}VNĐ/ ${service.duration} phút',
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        color: ColorConstant.bluegray900,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.centerEnd,
+                      children: [
+                        StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: _hobPriceController,
+                            cursorColor: ColorConstant.purple900,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Giá dịch vụ mong muốn(VNĐ)",
+                              hintStyle: TextStyle(
+                                fontSize: size.width * 0.04,
+                              ),
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1, color: ColorConstant.purple900),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: size.height * 0.02),
+                          child: Text(
+                            "VNĐ",
+                            style: TextStyle(
+                              color: ColorConstant.black900,
+                              fontSize: size.width * 0.04,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.01,
+                    ),
+                    child: Stack(
+                      alignment: AlignmentDirectional.centerEnd,
+                      children: [
+                        StreamBuilder(
+                          stream: null,
+                          builder: (context, snapshot) => TextField(
+                            style: TextStyle(
+                                fontSize: size.width * 0.04,
+                                color: Colors.black),
+                            controller: _workExpController,
+                            cursorColor: ColorConstant.purple900,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Kinh nghiệm làm việc(Năm)",
+                              hintStyle: TextStyle(
+                                fontSize: size.width * 0.04,
+                              ),
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                    width: 1, color: ColorConstant.purple900),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(right: size.height * 0.02),
+                          child: Text(
+                            "Năm",
+                            style: TextStyle(
+                              color: ColorConstant.black900,
+                              fontSize: size.width * 0.04,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: size.height * 0.02),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.05,
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          listSitterService[listSitterService.indexWhere(
+                                  (element) =>
+                                      element.id == sitterService.id)] =
+                              SitterServiceRequestModel(
+                                  servicePrice:
+                                      int.parse(_hobPriceController.text),
+                                  exp: int.parse(_workExpController.text),
+                                  id: service.id);
+
+                          // if (listSitterService.isNotEmpty) {
+                          //   for (ServiceDataModel service
+                          //       in listSelectedService) {
+                          //     bool addedService = false;
+                          //     for (SitterServiceRequestModel sitterService
+                          //         in listSitterService) {
+                          //       if (service.id == sitterService.id) {
+                          //         addedService = true;
+                          //       }
+                          //     }
+                          //     if (!addedService) {
+                          //       listSelectedService.remove(service);
+                          //     }
+                          //   }
+                          // } else {
+                          //   listSelectedService.clear();
+                          // }
+                          Navigator.pop(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: ColorConstant.purple900,
+                          textStyle: TextStyle(
+                            fontSize: size.width * 0.045,
+                          ),
+                        ),
+                        child: const Text("Xác nhận"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ));
+      }),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   _chooseService(BuildContext context) {
     var size = MediaQuery.of(context).size;
     AlertDialog alert = AlertDialog(
       contentPadding: const EdgeInsets.all(0),
-      backgroundColor: ColorConstant.gray300,
-      content: Container(
-        padding: EdgeInsets.all(size.width * 0.03),
-        width: size.width,
-        decoration: BoxDecoration(
-          color: ColorConstant.gray300,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: FutureBuilder<ServiceModel>(
-          builder: (context, snapshot) {
-            if (snapshot.hasError) print(snapshot.error);
-            if (snapshot.hasData) {
-              return ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemCount: snapshot.data!.data.length,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: size.height * 0.01);
-                },
-                itemBuilder: (BuildContext context, int index) {
-                  return Align(
-                    alignment: Alignment.centerLeft,
-                    child: Container(
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: ColorConstant.whiteA700,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ServiceItemBookingWidget(
-                              context, snapshot.data!.data[index]),
-                          Expanded(
-                            child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    bool chkOccur = false;
-                                    if (listSelectedService.isNotEmpty) {
-                                      for (ServiceDataModel service
-                                          in listSelectedService) {
-                                        if (service.id ==
-                                            snapshot.data!.data[index].id) {
-                                          chkOccur = true;
-                                        }
-                                      }
-                                      if (chkOccur) {
-                                        listSelectedService
-                                            .remove(snapshot.data!.data[index]);
-                                        listServiceObj.removeWhere(
-                                            (key, value) =>
-                                                key ==
-                                                snapshot.data!.data[index].id);
+      backgroundColor: Colors.transparent,
+      content: StatefulBuilder(builder: (context, setState) {
+        _setState = setState;
 
-                                        _listController.removeAt(index * 2);
-                                        _listController.removeAt(index * 2 + 1);
-                                        if(listSitterService.isNotEmpty){
-                                          listSitterService.removeAt(index);
+        return Container(
+          padding: EdgeInsets.all(size.width * 0.03),
+          width: size.width,
+          decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: FutureBuilder<ServiceModel>(
+              future: serviceList,
+              builder: (context, snapshot) {
+                if (snapshot.hasError) print(snapshot.error);
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: snapshot.data!.data.length,
+                    separatorBuilder: (context, index) {
+                      return SizedBox(height: size.height * 0.01);
+                    },
+                    itemBuilder: (BuildContext context, int index) {
+                      return Align(
+                        alignment: Alignment.centerLeft,
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: ColorConstant.whiteA700,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ServiceItemBookingWidget(
+                                  context, snapshot.data!.data[index]),
+                              Expanded(
+                                child: GestureDetector(
+                                    onTap: () {
+                                      bool chkOccur = false;
+                                      if (listSelectedService.isNotEmpty) {
+                                        for (ServiceDataModel service
+                                            in listSelectedService) {
+                                          if (service.id ==
+                                              snapshot.data!.data[index].id) {
+                                            chkOccur = true;
+                                          }
+                                        }
+                                        if (chkOccur) {
+                                          print(
+                                              'Test list s1 ${listSelectedService.length}');
+                                          print(
+                                              'Test list ss1 ${listSitterService.length}');
+                                          listSitterService.removeWhere(
+                                              (element) =>
+                                                  element.id ==
+                                                  snapshot
+                                                      .data!.data[index].id);
+                                          listSelectedService.remove(
+                                              snapshot.data!.data[index]);
+                                          print(
+                                              'Test list s ${listSelectedService.length}');
+                                          print(
+                                              'Test list ss ${listSitterService.length}');
+
+                                          _setState = setState;
+                                          Navigator.pop(context);
+                                        } else {
+                                          listSelectedService
+                                              .add(snapshot.data!.data[index]);
+                                          Navigator.pop(context);
+                                          _addSitterService(context,
+                                              snapshot.data!.data[index]);
                                         }
                                       } else {
                                         listSelectedService
                                             .add(snapshot.data!.data[index]);
-                                        listServiceObj[
-                                                snapshot.data!.data[index].id] =
-                                            snapshot.data!.data[index].duration;
-                                        _listController
-                                            .add(TextEditingController());
-                                        _listController
-                                            .add(TextEditingController());
+                                        Navigator.pop(context);
+                                        _addSitterService(context,
+                                            snapshot.data!.data[index]);
                                       }
-                                    } else {
-                                      listSelectedService
-                                          .add(snapshot.data!.data[index]);
-                                      listServiceObj[
-                                              snapshot.data!.data[index].id] =
-                                          snapshot.data!.data[index].duration;
-                                      _listController
-                                          .add(TextEditingController());
-                                      _listController
-                                          .add(TextEditingController());
-                                    }
-                                    Navigator.pop(context);
-                                  });
-                                },
-                                child: updateServiceButton(
-                                    context,
-                                    checkChooseService(
-                                        snapshot.data!.data[index]))),
-                          )
-                        ],
-                      ),
-                    ),
+                                    },
+                                    child: updateServiceButton(
+                                        context,
+                                        checkChooseService(
+                                            snapshot.data!.data[index]))),
+                              )
+                            ],
+                          ),
+                        ),
+                      );
+                    },
                   );
-                },
-              );
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
-          future: serviceList,
-        ),
-      ),
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }),
+        );
+      }),
     );
 
     // show the dialog
@@ -538,6 +976,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     // set up the AlertDialog
   }
+
   Future uploadFileCert() async {
     final path = 'els_images/${pickedFileCert!.name}';
     final file = File(pickedFileCert!.path);
@@ -549,6 +988,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     certURL = urlDownload;
     print('Download link Cert: ${urlDownload}');
   }
+
   Future uploadFileFrontID() async {
     final path = 'els_images/${pickedFileFrontID!.name}';
     final file = File(pickedFileFrontID!.path);
@@ -598,6 +1038,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _platformVersion = platformVersion;
     });
   }
+
   late File imageFileCert;
   XFile? pickedFileCert;
   UploadTask? uploadTaskCert;
@@ -620,7 +1061,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getCertImageFromGallery() async {
     pickedFileCert = (await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     ));
     if (pickedFileCert != null) {
       setState(() {
@@ -629,9 +1070,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       });
     }
   }
+
   _getIDFrontImageFromGallery() async {
     pickedFileFrontID = (await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     ));
     if (pickedFileFrontID != null) {
       setState(() {
@@ -643,7 +1085,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getIDBackImageFromGallery() async {
     pickedFileBackID = (await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     ));
     if (pickedFileBackID != null) {
       setState(() {
@@ -655,7 +1097,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   _getFaceImageFromGallery() async {
     pickedFileFace = (await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+      source: ImageSource.camera,
     ));
     if (pickedFileFace != null) {
       setState(() {
@@ -670,7 +1112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     var size = MediaQuery.of(context).size;
     // TODO: implement build
     return Scaffold(
-      backgroundColor: ColorConstant.whiteA700,
+      backgroundColor: ColorConstant.onboard7,
       body: SizedBox(
         width: size.width,
         child: SizedBox(
@@ -747,12 +1189,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           bottom: size.height * 0.05,
                                         ),
                                         child: Text(
-                                          "Đăng ký để tham giao với chúng tôi",
+                                          "Đăng ký để tham gia với chúng tôi",
                                           overflow: TextOverflow.ellipsis,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             color: ColorConstant.whiteA700,
-                                            fontSize: size.width * 0.045,
+                                            fontSize: size.width * 0.05,
                                             fontFamily: 'Roboto',
                                             fontWeight: FontWeight.w400,
                                           ),
@@ -767,291 +1209,545 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                       ),
                       //tk
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.05,
-                          bottom: size.height * 0.03,
-                          left: size.width * 0.05,
-                          right: size.width * 0.05,
+                      Container(
+                        decoration: BoxDecoration(
+                          color: ColorConstant.whiteA700,
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                          ),
                         ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Họ và Tên",
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: size.height * 0.03,
+                            bottom: size.height * 0.03,
+                            left: size.width * 0.05,
+                            right: size.width * 0.05,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                ),
+                                child: StreamBuilder(
+                                  stream: bloc.fullName,
+                                  builder: (context, snapshot) => TextField(
+                                    style: TextStyle(
+                                        fontSize: size.width * 0.04,
+                                        color: Colors.black),
+                                    controller: _fullnameController,
+                                    cursorColor: ColorConstant.purple900,
+                                    decoration: InputDecoration(
+                                      hintText: "Họ và tên",
+                                      hintStyle: TextStyle(
+                                        fontSize: size.width * 0.04,
+                                      ),
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            color: ColorConstant.purple900),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.phone,
+                                    builder: (context, snapshot) => TextField(
+                                          style: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                              color: Colors.black),
+                                          controller: _phoneController,
+                                          keyboardType: TextInputType.number,
+                                          cursorColor: ColorConstant.purple900,
+                                          decoration: InputDecoration(
+                                            hintText: "Số điện thoại",
+                                            hintStyle: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                            ),
+                                            errorText: snapshot.hasError
+                                                ? snapshot.error.toString()
+                                                : null,
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color:
+                                                      ColorConstant.purple900),
+                                            ),
+                                          ),
+                                        )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.email,
+                                    builder: (context, snapshot) => TextField(
+                                          style: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                              color: Colors.black),
+                                          controller: _emailController,
+                                          cursorColor: ColorConstant.purple900,
+                                          decoration: InputDecoration(
+                                            hintText: "Email",
+                                            hintStyle: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                            ),
+                                            errorText: snapshot.hasError
+                                                ? snapshot.error.toString()
+                                                : null,
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color:
+                                                      ColorConstant.purple900),
+                                            ),
+                                          ),
+                                        )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Giới tính: ",
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.left,
+                                      style: TextStyle(
+                                          fontSize: size.width * 0.04,
+                                          color: Colors.black),
+                                    ),
+                                    Checkbox(
+                                      value: _isGenderMale,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _isGenderMale = true;
+                                          _isGenderFemale = false;
+                                        });
+                                      },
+                                      checkColor: ColorConstant.purple900,
+                                      activeColor: Colors.white,
+                                    ),
+                                    Text(
+                                      'Nam',
+                                      style: TextStyle(
+                                        fontSize: size.height * 0.02,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    SizedBox(width: size.width * 0.1),
+                                    Checkbox(
+                                      value: _isGenderFemale,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _isGenderMale = false;
+                                          _isGenderFemale = true;
+                                        });
+                                      },
+                                      checkColor: ColorConstant.purple900,
+                                      activeColor: Colors.white,
+                                    ),
+                                    Text(
+                                      'Nữ',
+                                      style: TextStyle(
+                                        fontSize: size.height * 0.02,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.dob,
+                                    builder: (context, snapshot) {
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          GestureDetector(
+                                            onTap: () {
+                                              DatePicker.showDatePicker(context,
+                                                  //showDateTime to pick time
+                                                  showTitleActions: true,
+                                                  maxTime: DateTime.now(),
+                                                  onChanged: (date) {},
+                                                  onConfirm: (date) {
+                                                String dateInput =
+                                                    '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0${date.day}'}';
+                                                _changeDob(dateInput);
+                                              },
+                                                  currentTime: DateTime.now(),
+                                                  locale: LocaleType.vi);
+                                            },
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Container(
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            6),
+                                                    border: Border.all(
+                                                        color: ColorConstant
+                                                            .purple900,
+                                                        width: 1),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.only(
+                                                      left: size.width * 0.048,
+                                                      right: size.width * 0.048,
+                                                      top: size.height * 0.02,
+                                                      bottom:
+                                                          size.height * 0.02,
+                                                    ),
+                                                    child: Image.asset(
+                                                        ImageConstant
+                                                            .imgCalendar,
+                                                        color: ColorConstant
+                                                            .purple900),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                    width: size.width * 0.03),
+                                                Text('Ngày sinh: $dob'),
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(height: size.height * 0.01),
+                                          snapshot.hasError
+                                              ? Text(
+                                                  snapshot.error.toString(),
+                                                  style: const TextStyle(
+                                                    color: Color(0xffCB4847),
+                                                    fontSize: 13,
+                                                  ),
+                                                )
+                                              : const SizedBox(),
+                                        ],
+                                      );
+                                    }),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.id,
+                                    builder: (context, snapshot) => TextField(
+                                          style: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                              color: Colors.black),
+                                          controller: _idNumberController,
+                                          keyboardType: TextInputType.number,
+                                          cursorColor: ColorConstant.purple900,
+                                          decoration: InputDecoration(
+                                            hintText: "Số CMND/CCCD",
+                                            hintStyle: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                            ),
+                                            errorText: snapshot.hasError
+                                                ? snapshot.error.toString()
+                                                : null,
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color:
+                                                      ColorConstant.purple900),
+                                            ),
+                                          ),
+                                        )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
+                                ),
+                                child: Text(
+                                  "Tải lên ảnh CMND/CCCD - Khuôn mặt",
                                   overflow: TextOverflow.ellipsis,
                                   textAlign: TextAlign.left,
                                   style: TextStyle(
                                     color: ColorConstant.bluegray900,
-                                    fontSize: 14,
-                                    fontFamily: 'Outfit',
-                                    fontWeight: FontWeight.w400,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.fullName,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller: _fullnameController,
-                                            decoration: InputDecoration(
-                                                hintText: "Họ và tên",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Số điện thoại",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.phone,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller: _phoneController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                hintText: "Số điện thoại",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Email",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.email,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller: _emailController,
-                                            decoration: InputDecoration(
-                                                hintText: "Email",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Giới tính",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Checkbox(
-                                        value: _isGenderMale,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _isGenderMale = true;
-                                            _isGenderFemale = false;
-                                          });
-                                        },
-                                        checkColor: ColorConstant.purple900,
-                                        activeColor: Colors.white,
+                              ),
+                              StreamBuilder(
+                                  stream: bloc.idImage,
+                                  builder: (context, snapshot) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                        top: size.height * 0.01,
                                       ),
-                                      Text(
-                                        'Nam',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.02,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                      SizedBox(width: size.width * 0.1),
-                                      Checkbox(
-                                        value: _isGenderFemale,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _isGenderMale = false;
-                                            _isGenderFemale = true;
-                                          });
-                                        },
-                                        checkColor: ColorConstant.purple900,
-                                        activeColor: Colors.white,
-                                      ),
-                                      Text(
-                                        'Nữ',
-                                        style: TextStyle(
-                                          fontSize: size.height * 0.02,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Ngày sinh",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.03,
-                                    left: size.width * 0.03,
-                                    right: size.width * 0.03,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.dob,
-                                      builder: (context, snapshot) {
-                                        return Column(
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.horizontal,
+                                        child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.start,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            GestureDetector(
-                                              onTap: () {
-                                                DatePicker.showDatePicker(
-                                                    context,
-                                                    //showDateTime to pick time
-                                                    showTitleActions: true,
-                                                    maxTime: DateTime.now(),
-                                                    onChanged: (date) {},
-                                                    onConfirm: (date) {
-                                                  String dateInput =
-                                                      '${date.year}-${date.month}-${date.day}';
-                                                  _changeDob(dateInput);
-                                                },
-                                                    currentTime: DateTime.now(),
-                                                    locale: LocaleType.vi);
-                                              },
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: size.height * 0.07,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(6),
-                                                  border: Border.all(
-                                                      color: Colors.black45,
-                                                      width: 1),
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                            Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Column(
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
                                                   children: [
-                                                    Padding(
-                                                      padding: EdgeInsets.only(
-                                                        left:
-                                                            size.width * 0.048,
-                                                        right:
-                                                            size.width * 0.048,
+                                                    Text(
+                                                      "CMND/CCCD mặt trước",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: ColorConstant
+                                                            .bluegray900,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                       ),
-                                                      child: Image.asset(
-                                                          ImageConstant
-                                                              .imgCalendar),
                                                     ),
-                                                    Text(dob),
+                                                    SizedBox(
+                                                      width: size.width * 0.2,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          _getIDFrontImageFromGallery();
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          primary: ColorConstant
+                                                              .purple900,
+                                                          textStyle: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.035,
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                            "Tải lên"),
+                                                      ),
+                                                    ),
+                                                    isIDFrontCheck == false
+                                                        ? const SizedBox()
+                                                        : Container(
+                                                            width: size.width *
+                                                                0.4,
+                                                            height:
+                                                                size.height *
+                                                                    0.12,
+                                                            alignment: Alignment
+                                                                .bottomCenter,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    bottom: size
+                                                                            .height *
+                                                                        0.01),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 1,
+                                                              ),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: FileImage(
+                                                                    imageFileFrontID),
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                          ),
                                                   ],
                                                 ),
-                                              ),
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      "CMND/CCCD mặt sau",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                        color: ColorConstant
+                                                            .bluegray900,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: size.width * 0.2,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          _getIDBackImageFromGallery();
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          primary: ColorConstant
+                                                              .purple900,
+                                                          textStyle: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.035,
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                            "Tải lên"),
+                                                      ),
+                                                    ),
+                                                    isIDBackCheck == false
+                                                        ? const SizedBox()
+                                                        : Container(
+                                                            width: size.width *
+                                                                0.4,
+                                                            height:
+                                                                size.height *
+                                                                    0.12,
+                                                            alignment: Alignment
+                                                                .bottomCenter,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    bottom: size
+                                                                            .height *
+                                                                        0.01),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 1,
+                                                              ),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: FileImage(
+                                                                    imageFileBackID),
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: size.width * 0.1,
+                                                ),
+                                                Column(
+                                                  children: [
+                                                    Text(
+                                                      "Ảnh khuôn mặt",
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      textAlign: TextAlign.left,
+                                                      style: TextStyle(
+                                                        color: ColorConstant
+                                                            .bluegray900,
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: size.width * 0.2,
+                                                      child: ElevatedButton(
+                                                        onPressed: () {
+                                                          _getFaceImageFromGallery();
+                                                        },
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          primary: ColorConstant
+                                                              .purple900,
+                                                          textStyle: TextStyle(
+                                                            fontSize:
+                                                                size.width *
+                                                                    0.035,
+                                                          ),
+                                                        ),
+                                                        child: const Text(
+                                                            "Tải lên"),
+                                                      ),
+                                                    ),
+                                                    isFaceCheck == false
+                                                        ? const SizedBox()
+                                                        : Container(
+                                                            width: size.height *
+                                                                0.12,
+                                                            height:
+                                                                size.height *
+                                                                    0.12,
+                                                            alignment: Alignment
+                                                                .bottomCenter,
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    bottom: size
+                                                                            .height *
+                                                                        0.01),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8),
+                                                              border:
+                                                                  Border.all(
+                                                                color: Colors
+                                                                    .black,
+                                                                width: 1,
+                                                              ),
+                                                              image:
+                                                                  DecorationImage(
+                                                                image: FileImage(
+                                                                    imageFileFace),
+                                                                fit:
+                                                                    BoxFit.fill,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                             SizedBox(
                                                 height: size.height * 0.01),
@@ -1065,999 +1761,459 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                   )
                                                 : const SizedBox(),
                                           ],
-                                        );
-                                      }),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Số CMND/CCCD",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.id,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller: _idNumberController,
-                                            keyboardType: TextInputType.number,
-                                            decoration: InputDecoration(
-                                                hintText: "Số CCCD/CMND",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Tải lên ảnh CMND/CCCD - Khuôn mặt",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                StreamBuilder(
-                                    stream: bloc.idImage,
-                                    builder: (context, snapshot) {
-                                      return Padding(
-                                        padding: EdgeInsets.only(
-                                          top: size.height * 0.02,
                                         ),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.horizontal,
+                                      ),
+                                    );
+                                  }),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.address,
+                                    builder: (context, snapshot) => TextField(
+                                          style: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                              color: Colors.black),
+                                          controller: _addressController,
+                                          cursorColor: ColorConstant.purple900,
+                                          decoration: InputDecoration(
+                                            hintText: "Địa chỉ",
+                                            hintStyle: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                            ),
+                                            errorText: snapshot.hasError
+                                                ? snapshot.error.toString()
+                                                : null,
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  width: 1,
+                                                  color:
+                                                      ColorConstant.purple900),
+                                            ),
+                                          ),
+                                        )),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
+                                ),
+                                child: Text(
+                                  "Chứng chỉ chuyên môn (nếu có)",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.bluegray900,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                  left: size.width * 0.03,
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _addCertifiCate(context);
+                                    });
+                                  },
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                        ImageConstant.imgIconAdd,
+                                        height: size.width * 0.03,
+                                        width: size.width * 0.03,
+                                        color: ColorConstant.purple900,
+                                      ),
+                                      SizedBox(width: size.width * 0.015),
+                                      Text(
+                                        "Thêm chứng chỉ",
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          color: ColorConstant.purple900,
+                                          fontSize: 13,
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: size.width * 0.03,
+                                ),
+                                child: ListView.separated(
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: listCert.length,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: size.height * 0.01);
+                                  },
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    // final TextEditingController _servicePrice = TextEditingController();
+                                    // final TextEditingController _year = TextEditingController();
+
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(listCert[index].name),
+                                        SizedBox(width: size.width * 0.05),
+                                        Text(
+                                          "Xóa",
+                                          style: TextStyle(
+                                            color: ColorConstant.purple900,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.03,
+                                ),
+                                child: Text(
+                                  "Dịch vụ có thể thực hiện",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.bluegray900,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.02,
+                                  right: size.width * 0.03,
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          if (listSitterService.isNotEmpty) {
+                                            for (ServiceDataModel service
+                                                in listSelectedService) {
+                                              bool addedService = false;
+                                              for (SitterServiceRequestModel sitterService
+                                                  in listSitterService) {
+                                                if (service.id ==
+                                                    sitterService.id) {
+                                                  addedService = true;
+                                                }
+                                              }
+                                              if (!addedService) {
+                                                listSelectedService
+                                                    .remove(service);
+                                              }
+                                            }
+                                          } else {
+                                            listSelectedService.clear();
+                                          }
+
+                                          _chooseService(context);
+                                        });
+                                      },
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            ImageConstant.imgIconAdd,
+                                            height: size.width * 0.03,
+                                            width: size.width * 0.03,
+                                            color: ColorConstant.purple900,
+                                          ),
+                                          SizedBox(width: size.width * 0.015),
+                                          Text(
+                                            "Chọn dịch vụ",
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.left,
+                                            style: TextStyle(
+                                              color: ColorConstant.purple900,
+                                              fontSize: 13,
+                                              fontFamily: 'Roboto',
+                                              fontWeight: FontWeight.w400,
+                                              height: 1.00,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    ListView.separated(
+                                      padding: EdgeInsets.only(
+                                        top: size.height * 0.01,
+                                        left: size.width * 0.03,
+                                      ),
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: listSitterService.length,
+                                      separatorBuilder: (context, index) {
+                                        return SizedBox(
+                                            height: size.height * 0.02);
+                                      },
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        // final TextEditingController _servicePrice = TextEditingController();
+                                        // final TextEditingController _year = TextEditingController();
+
+                                        return Container(
+                                          padding:
+                                              EdgeInsets.all(size.width * 0.03),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            border: Border.all(
+                                              color: ColorConstant.purple900,
+                                              width: 2,
+                                            ),
+                                          ),
                                           child: Column(
                                             mainAxisAlignment:
                                                 MainAxisAlignment.start,
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Row(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        "Ảnh mặt trước",
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: ColorConstant
-                                                              .bluegray900,
-                                                          fontSize: 10,
-                                                          fontFamily: 'Outfit',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: size.width * 0.2,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            _getIDFrontImageFromGallery();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                ColorConstant
-                                                                    .purple900,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                            ),
-                                                          ),
-                                                          child: const Text(
-                                                              "Tải lên"),
-                                                        ),
-                                                      ),
-                                                      isIDFrontCheck == false
-                                                          ? Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8),
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        width:
-                                                                            1,
-                                                                      )),
-                                                            )
-                                                          : Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 1,
-                                                                ),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image: FileImage(
-                                                                      imageFileFrontID),
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: size.width * 0.1,
-                                                  ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        "Ảnh mặt sau",
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.center,
-                                                        style: TextStyle(
-                                                          color: ColorConstant
-                                                              .bluegray900,
-                                                          fontSize: 10,
-                                                          fontFamily: 'Outfit',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: size.width * 0.2,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            _getIDBackImageFromGallery();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                ColorConstant
-                                                                    .purple900,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                            ),
-                                                          ),
-                                                          child: const Text(
-                                                              "Tải lên"),
-                                                        ),
-                                                      ),
-                                                      isIDBackCheck == false
-                                                          ? Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8),
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        width:
-                                                                            1,
-                                                                      )),
-                                                            )
-                                                          : Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 1,
-                                                                ),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image: FileImage(
-                                                                      imageFileBackID),
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(
-                                                    width: size.width * 0.1,
-                                                  ),
-                                                  Column(
-                                                    children: [
-                                                      Text(
-                                                        "Ảnh khuôn mặt",
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: TextStyle(
-                                                          color: ColorConstant
-                                                              .bluegray900,
-                                                          fontSize: 10,
-                                                          fontFamily: 'Outfit',
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: size.width * 0.2,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            _getFaceImageFromGallery();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            primary:
-                                                                ColorConstant
-                                                                    .purple900,
-                                                            textStyle:
-                                                                TextStyle(
-                                                              fontSize:
-                                                                  size.width *
-                                                                      0.035,
-                                                            ),
-                                                          ),
-                                                          child: const Text(
-                                                              "Tải lên"),
-                                                        ),
-                                                      ),
-                                                      isFaceCheck == false
-                                                          ? Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8),
-                                                                      border:
-                                                                          Border
-                                                                              .all(
-                                                                        color: Colors
-                                                                            .black,
-                                                                        width:
-                                                                            1,
-                                                                      )),
-                                                            )
-                                                          : Container(
-                                                              width:
-                                                                  size.height *
-                                                                      0.12,
-                                                              height:
-                                                                  size.height *
-                                                                      0.12,
-                                                              alignment: Alignment
-                                                                  .bottomCenter,
-                                                              padding: EdgeInsets.only(
-                                                                  bottom:
-                                                                      size.height *
-                                                                          0.01),
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: Colors
-                                                                      .black,
-                                                                  width: 1,
-                                                                ),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image: FileImage(
-                                                                      imageFileFace),
-                                                                  fit: BoxFit
-                                                                      .fill,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                  height: size.height * 0.01),
-                                              snapshot.hasError
-                                                  ? Text(
-                                                      snapshot.error.toString(),
-                                                      style: const TextStyle(
-                                                        color:
-                                                            Color(0xffCB4847),
-                                                        fontSize: 13,
-                                                      ),
-                                                    )
-                                                  : const SizedBox(),
-                                            ],
-                                          ),
-                                        ),
-                                      );
-                                    }),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Địa chỉ",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: bloc.address,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller: _addressController,
-                                            decoration: InputDecoration(
-                                                hintText: "Địa chỉ",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     top: size.height*0.02,
-                                //   ),
-                                //   child: Text(
-                                //     "Quận/Huyện",
-                                //     overflow: TextOverflow.ellipsis,
-                                //     textAlign: TextAlign.left,
-                                //     style: TextStyle(
-                                //       color: ColorConstant.bluegray900,
-                                //       fontSize: 14,
-                                //       fontFamily: 'Outfit',
-                                //       fontWeight: FontWeight.w400,
-                                //     ),
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     top: size.height * 0.01,
-                                //   ),
-                                //   child: StreamBuilder(
-                                //     stream: null,
-                                //     builder: (context, snapshot) => TextField(
-                                //       style: TextStyle(
-                                //           fontSize: size.width * 0.04,
-                                //           color: Colors.black),
-                                //       // controller: _emailController,
-                                //       decoration: const InputDecoration(
-                                //         // errorText: snapshot.hasError
-                                //         //     ? snapshot.error.toString()
-                                //         //     : null,
-                                //         enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(color: Colors.black),
-                                //         ),
-                                //         focusedBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(color: Colors.black),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     top: size.height*0.02,
-//   ),
-                                //   child: Text(
-                                //     "Tỉnh/Thành phố",
-                                //     overflow: TextOverflow.ellipsis,
-                                //     textAlign: TextAlign.left,
-                                //     style: TextStyle(
-                                //       color: ColorConstant.bluegray900,
-                                //       fontSize: 14,
-                                //       fontFamily: 'Outfit',
-                                //       fontWeight: FontWeight.w400,
-                                //     ),
-                                //   ),
-                                // ),
-                                // Padding(
-                                //   padding: EdgeInsets.only(
-                                //     top: size.height * 0.01,
-                                //   ),
-                                //   child: StreamBuilder(
-                                //     stream: null,
-                                //     builder: (context, snapshot) => TextField(
-                                //       style: TextStyle(
-                                //           fontSize: size.width * 0.04,
-                                //           color: Colors.black),
-                                //       // controller: _emailController,
-                                //       decoration: const InputDecoration(
-                                //         // errorText: snapshot.hasError
-                                //         //     ? snapshot.error.toString()
-                                //         //     : null,
-                                //         enabledBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(color: Colors.black),
-                                //         ),
-                                //         focusedBorder: UnderlineInputBorder(
-                                //           borderSide: BorderSide(color: Colors.black),
-                                //         ),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Chứng chỉ chuyên môn (nếu có)",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.03,
-                                  ),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _addCertifiCate(context);
-                                      });
-                                    },
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Image.asset(
-                                          ImageConstant.imgIconAdd,
-                                          height: size.width * 0.03,
-                                          width: size.width * 0.03,
-                                        ),
-                                        SizedBox(width: size.width * 0.015),
-                                        Text(
-                                          "Thêm chứng chỉ",
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            color: ColorConstant.gray700,
-                                            fontSize: 13,
-                                            fontFamily: 'Roboto',
-                                            fontWeight: FontWeight.w400,
-                                            height: 1.00,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width*0.03,
-                                  ),
-                                  child: ListView.separated(
-                                    physics:
-                                    const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: listCert.length,
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(
-                                          height: size.height * 0.01);
-                                    },
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      // final TextEditingController _servicePrice = TextEditingController();
-                                      // final TextEditingController _year = TextEditingController();
-
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          Text(listCert[index].name),
-                                          SizedBox(width: size.width*0.05),
-                                          Text("Xóa",
-                                          style: TextStyle(
-                                            color: ColorConstant.purple900,
-                                          ),),
-                                        ],
-                                      );
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Dịch vụ có thể thực hiện",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.03,
-                                    top: size.height * 0.015,
-                                    right: size.width * 0.03,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            _chooseService(context);
-                                          });
-                                        },
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            Image.asset(
-                                              ImageConstant.imgIconAdd,
-                                              height: size.width * 0.03,
-                                              width: size.width * 0.03,
-                                            ),
-                                            SizedBox(width: size.width * 0.015),
-                                            Text(
-                                              "Thêm dịch vụ",
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.left,
-                                              style: TextStyle(
-                                                color: ColorConstant.gray700,
-                                                fontSize: 13,
-                                                fontFamily: 'Roboto',
-                                                fontWeight: FontWeight.w400,
-                                                height: 1.00,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-
-                                      ListView.separated(
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        shrinkWrap: true,
-                                        scrollDirection: Axis.vertical,
-                                        itemCount: listSelectedService.length,
-                                        separatorBuilder: (context, index) {
-                                          return SizedBox(
-                                              height: size.height * 0.01);
-                                        },
-                                        itemBuilder:
-                                            (BuildContext context, int index) {
-                                          // final TextEditingController _servicePrice = TextEditingController();
-                                          // final TextEditingController _year = TextEditingController();
-
-                                          return Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
                                               Text(
-                                                  '${listSelectedService[index].name}:'),
+                                                '*${listSelectedService.where((element) => element.id == listSitterService[index].id).toList()[0].name}:',
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                ),
+                                              ),
                                               Padding(
                                                 padding: EdgeInsets.only(
-                                                  left: size.width * 0.03,
                                                   top: size.height * 0.01,
+                                                  left: size.width * 0.03,
                                                 ),
                                                 child: Text(
-                                                    '(giá đề xuất)${listSelectedService[index].price.ceil().toString()}VNĐ/${listSelectedService[index].duration} phút'),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: size.width * 0.01,
-                                                    left: size.width * 0.03),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                        'Giá mong muốn:'),
-                                                    SizedBox(
-                                                        width:
-                                                            size.width * 0.03),
-                                                    SizedBox(
-                                                      height:
-                                                          size.height * 0.03,
-                                                      width: size.width * 0.25,
-                                                      child: TextField(
-                                                        controller:
-                                                            _listController[
-                                                                index * 2],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                        width:
-                                                            size.width * 0.03),
-                                                    const Text('VNĐ')
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: size.width * 0.01,
-                                                    left: size.width * 0.03),
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                        'Kinh nghiệm làm dịch vụ:'),
-                                                    SizedBox(
-                                                        width:
-                                                            size.width * 0.03),
-                                                    SizedBox(
-                                                      height:
-                                                          size.height * 0.03,
-                                                      width: size.width * 0.25,
-                                                      child: TextField(
-                                                        controller:
-                                                            _listController[
-                                                                index * 2 + 1],
-                                                      ),
-                                                    ),
-                                                    const Text('Năm'),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsets.only(
-                                                  left: size.width * 0.03,
-                                                ),
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      listSitterService.add(SitterServiceRequestModel(
-                                                          exp: int.parse(
-                                                              _listController[
-                                                                      index * 2 +
-                                                                          1]
-                                                                  .text),
-                                                          id: listSelectedService[
-                                                                  index]
-                                                              .id,
-                                                          servicePrice: int.parse(
-                                                              _listController[
-                                                                      index * 2]
-                                                                  .text)));
-                                                    });
-                                                  },
-                                                  child: Text(
-                                                    "Thêm",
-                                                    style: TextStyle(
-                                                      color: ColorConstant
-                                                          .purple900,
-                                                    ),
+                                                  'Giá: ${listSitterService[index].servicePrice} VNĐ/${listSelectedService.where((element) => element.id == listSitterService[index].id).toList()[0].duration} phút',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
                                                   ),
                                                 ),
                                               ),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: size.height * 0.01,
+                                                  left: size.width * 0.03,
+                                                ),
+                                                child: Text(
+                                                  'Kinh nghiệm làm việc: ${listSitterService[index].exp} năm',
+                                                  style: const TextStyle(
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                  padding: EdgeInsets.only(
+                                                    top: size.height * 0.01,
+                                                    left: size.width * 0.03,
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            _updateSitterService(
+                                                                context,
+                                                                listSitterService[
+                                                                    index]);
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          "Chỉnh sửa",
+                                                          style: TextStyle(
+                                                            color: ColorConstant
+                                                                .purple900,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(
+                                                          width: size.width *
+                                                              0.08),
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          setState(() {
+                                                            listSelectedService
+                                                                .removeWhere((element) =>
+                                                                    element
+                                                                        .id ==
+                                                                    listSitterService[
+                                                                            index]
+                                                                        .id);
+                                                            listSitterService
+                                                                .remove(
+                                                                    listSitterService[
+                                                                        index]);
+                                                          });
+                                                        },
+                                                        child: Text(
+                                                          "Xóa",
+                                                          style: TextStyle(
+                                                            color: ColorConstant
+                                                                .purple900,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )),
                                             ],
-                                          );
-                                        },
-                                      ),
-                                      //show elder
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Dịch vụ đã được thêm",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  ),
+                                  ],
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    left: size.width * 0.03,
-                                    // top: size.height * 0.015,
-                                    right: size.width * 0.03,
-                                  ),
-                                  child: ListView.separated(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: listSitterService.length,
-                                    separatorBuilder: (context, index) {
-                                      return SizedBox(
-                                          height: size.height * 0.01);
-                                    },
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
-                                      return Text(
-                                          '${listSelectedService[index].name}: ${listSitterService[index].servicePrice} VNĐ');
-                                    },
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                  ),
-                                  child: Text(
-                                    "Mô tả về bản thân",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.bluegray900,
-                                      fontSize: 14,
-                                      fontFamily: 'Outfit',
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                  ),
-                                  child: StreamBuilder(
-                                      stream: null,
-                                      builder: (context, snapshot) => TextField(
-                                            style: TextStyle(
-                                                fontSize: size.width * 0.04,
-                                                color: Colors.black),
-                                            controller:
-                                                _personalDescriptionController,
-                                            decoration: InputDecoration(
-                                                hintText: "",
-                                                errorText: snapshot.hasError
-                                                    ? snapshot.error.toString()
-                                                    : null,
-                                                border:
-                                                    const OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                            color: Color(
-                                                                0xffCED0D2),
-                                                            width: 1),
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                                Radius.circular(
-                                                                    6)))),
-                                          )),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-
-                      Container(
-                        height: 1,
-                        width: size.width,
-                        margin: EdgeInsets.only(
-                          left: size.width * 0.04,
-                          top: 0,
-                          right: size.width * 0.04,
-                        ),
-                        decoration: BoxDecoration(
-                          color: ColorConstant.bluegray50,
-                        ),
-                      ),
-
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.05,
-                          top: 29,
-                          right: size.width * 0.05,
-                        ),
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              signupClick();
-                              // if(!createSuccess){
-                              // }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              primary: ColorConstant.purple900,
-                              textStyle: TextStyle(
-                                fontSize: size.width * 0.045,
                               ),
-                            ),
-                            child: const Text("Đăng ký"),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.02,
+                                ),
+                                child: Text(
+                                  "Mô tả về bản thân",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.bluegray900,
+                                    fontSize: size.width * 0.04,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                ),
+                                child: StreamBuilder(
+                                    stream: bloc.description,
+                                    builder: (context, snapshot) => TextField(
+                                          style: TextStyle(
+                                              fontSize: size.width * 0.04,
+                                              color: Colors.black),
+                                          controller:
+                                              _personalDescriptionController,
+                                          decoration: InputDecoration(
+                                              hintText: "",
+                                              errorText: snapshot.hasError
+                                                  ? snapshot.error.toString()
+                                                  : null,
+                                              border: const OutlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                      color: Color(0xffCED0D2),
+                                                      width: 1),
+                                                  borderRadius:
+                                                      BorderRadius.all(
+                                                          Radius.circular(6)))),
+                                        )),
+                              ),
+                              Container(
+                                height: 1,
+                                width: size.width,
+                                margin: EdgeInsets.only(
+                                  left: size.width * 0.04,
+                                  top: 0,
+                                  right: size.width * 0.04,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: ColorConstant.bluegray50,
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.05,
+                                ),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      signupClick();
+                                      // if(!createSuccess){
+                                      // }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      primary: ColorConstant.purple900,
+                                      textStyle: TextStyle(
+                                        fontSize: size.width * 0.045,
+                                      ),
+                                    ),
+                                    child: const Text("Đăng ký"),
+                                  ),
+                                ),
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                  left: size.width * 0.05,
+                                  top: size.height * 0.03,
+                                  right: size.width * 0.05,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Đã có tài khoản? ',
+                                      style: TextStyle(
+                                        color: ColorConstant.gray700,
+                                        fontSize: size.width * 0.045,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, '/loginScreen');
+                                      },
+                                      child: Text(
+                                        'Đăng nhập',
+                                        style: TextStyle(
+                                          color: ColorConstant.black900,
+                                          fontSize: size.width * 0.045,
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: size.height * 0.1),
+                            ],
                           ),
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: size.width * 0.05,
-                          top: size.height * 0.03,
-                          right: size.width * 0.05,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Đã có tài khoản? ',
-                              style: TextStyle(
-                                color: ColorConstant.gray700,
-                                fontSize: size.width * 0.045,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, '/loginScreen');
-                              },
-                              child: Text(
-                                'Đăng nhập',
-                                style: TextStyle(
-                                  color: ColorConstant.gray700,
-                                  fontSize: size.width * 0.045,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.1),
                     ],
                   ),
                 ),
@@ -2076,44 +2232,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void signupClick() async {
-    for(SitterServiceRequestModel model in listSitterService){
-      print('${model.id}: ${model.exp} ${model.servicePrice} VNĐ');
+    String fullname = _fullnameController.text.trim();
+    String gender = _genderController.text.trim();
+    String phone = _phoneController.text.toString().trim();
+    String address = _addressController.text.trim();
+    String email = _emailController.text.trim();
+    String id = _idNumberController.text.trim();
+    String description = _personalDescriptionController.text.trim();
+    bool isValid = false;
+    bool createSuccess = false;
+    if (_isGenderMale = true) {
+      gender = "Nam";
+    } else {
+      gender = "Nữ";
     }
-    // String fullname = _fullnameController.text.trim();
-    // String gender = _genderController.text.trim();
-    // String phone = _phoneController.text.toString().trim();
-    // String address = _addressController.text.trim();
-    // String email = _emailController.text.trim();
-    // String id = _idNumberController.text.trim();
-    // bool isValid = false;
-    // bool createSuccess = false;
-    // if (_isGenderMale = true) {
-    //   gender = "Nam";
-    // } else {
-    //   gender = "Nữ";
-    // }
-    //
-    // uploadFileFrontID();
-    // uploadFileBackID();
-    // uploadFileFace();
-    // UserIDImageModel userIdImage = UserIDImageModel(
-    //     fontIdImgUrl: frontIDImage,
-    //     backIdImgUrl: backIDImage,
-    //     avatarImgUrl: avatarImage);
-    // isValid = bloc.isValidInput(
-    //     fullname, email, phone, dob, id, address, gender, userIdImage);
-    // if (isValid) {
-    //   createSuccess = await bloc.register(fullname, phone, email, gender, dob,
-    //       id, address, listSitterService, userIdImage, listCert);
-    //   if (createSuccess) {
-    //     // ignore: use_build_context_synchronously
-    //
-    //     showSuccessAlertDialog(context);
-    //   } else {
-    //     // ignore: use_build_context_synchronously
-    //     showFailAlertDialog(context);
-    //   }
-    // }
+
+    uploadFileFrontID();
+    uploadFileBackID();
+    uploadFileFace();
+    UserIDImageModel userIdImage = UserIDImageModel(
+        fontIdImgUrl: frontIDImage,
+        backIdImgUrl: backIDImage,
+        avatarImgUrl: avatarImage);
+    isValid = bloc.isValidInput(
+        fullname, email, phone, dob, id, address, gender, userIdImage, description);
+    if (isValid) {
+      createSuccess = await bloc.register(fullname, phone, email, gender, dob,
+          id, address, listSitterService, userIdImage, listCert, description);
+      if (createSuccess) {
+        // ignore: use_build_context_synchronously
+
+        showSuccessAlertDialog(context);
+      } else {
+        // ignore: use_build_context_synchronously
+        showFailAlertDialog(context);
+      }
+    }
   }
 
   void showSuccessAlertDialog(BuildContext context) {
@@ -2165,6 +2319,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
     AlertDialog alert = AlertDialog(
       content: const Text(
         "Đăng ký tài khoản thất bại, vui lòng nhập lại.",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showDupAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Dịch vụ này đã được thêm\nVui lòng chọn dịch vụ khác\nhoặc chuyển đến \"Dịch vụ có thể thực hiện\" để chỉnh sửa.",
       ),
       actions: [
         continueButton,

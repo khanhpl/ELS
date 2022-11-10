@@ -1,22 +1,26 @@
-
 import 'package:els_sitter/core/models/sitter_detail_data_model.dart';
 
 class SitterDetailModel {
-  var successCode;
-  var errorCode;
+
+  String successCode;
+  dynamic errorCode;
   SitterDetailDataModel data;
-  SitterDetailModel(
-      this.successCode,
-      this.errorCode,
-      this.data,
-      );
 
-  factory SitterDetailModel.fromJson(Map<String, dynamic> json) {
-    return SitterDetailModel(
-      (json['successCode']!= null) ? json['successCode'] : "",
-      (json['errorCode'] != null) ? json['errorCode'] : "",
-      SitterDetailDataModel.fromJson(json['data']),
-    );
-  }
+  SitterDetailModel({
+    required this.successCode,
+    this.errorCode,
+    required this.data,
+  });
+
+  factory SitterDetailModel.fromJson(Map<String, dynamic> json) => SitterDetailModel(
+    successCode: (json["successCode"] != null)? json["successCode"]: "",
+    errorCode: (json["errorCode"] != null) ? json["errorCode"] : "",
+    data: SitterDetailDataModel.fromJson(json["data"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "successCode": successCode,
+    "errorCode": errorCode,
+    "data": data.toJson(),
+  };
 }
-

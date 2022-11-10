@@ -17,7 +17,6 @@ class AddNewElderScreen extends StatefulWidget {
 class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _nameController = TextEditingController();
 
-  final TextEditingController _dobController = TextEditingController();
 
   final TextEditingController _genderController = TextEditingController();
 
@@ -26,7 +25,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _healthStatusController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
-
+  String dob = "Ngày sinh";
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
@@ -37,7 +36,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   void initState() {
     setState(() {
       _nameController.text = "";
-      _dobController.text = "";
       _noteController.text = "";
       _healthStatusController.text = "";
       _genderController.text = "";
@@ -51,96 +49,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     });
   }
 
-  // Widget getPickDateWidget(BuildContext context){
-  //   var size = MediaQuery.of(context).size;
-  //     return Column(
-  //       children: [
-  //         Padding(
-  //           padding: EdgeInsets.only(
-  //             top: size.height * 0.03,
-  //             left: size.width * 0.03,
-  //             right: size.width * 0.03,
-  //           ),
-  //           child: GestureDetector(
-  //             onTap: () {
-  //               DatePicker.showDatePicker(
-  //                   context, //showDateTime to pick time
-  //                   showTitleActions: true,
-  //                   minTime: DateTime.now(),
-  //                   maxTime: DateTime(2023, 12, 31),
-  //                   onChanged: (date) {}, onConfirm: (date) {
-  //                 String dateInput =
-  //                     '${date.year}-${(date.month >= 10)?date.month:'0'+date.month.toString()}-${(date.day >= 10)?date.day:'0'+date.day.toString()}';
-  //                 _changeWorkDate(dateInput);
-  //               },
-  //                   currentTime: DateTime.now(),
-  //                   locale: LocaleType.vi);
-  //             },
-  //             child: Container(
-  //               width: double.infinity,
-  //               height: size.height * 0.07,
-  //               decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(6),
-  //                 border:
-  //                 Border.all(color: Colors.black45, width: 1),
-  //               ),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.start,
-  //                 crossAxisAlignment: CrossAxisAlignment.center,
-  //                 children: [
-  //                   Padding(
-  //                     padding: EdgeInsets.only(
-  //                       left: size.width * 0.048,
-  //                       right: size.width * 0.048,
-  //                     ),
-  //                     child: Image.asset(ImageConstant.imgCalendar),
-  //                   ),
-  //                   Text(workDate),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //         Padding(
-  //           padding: EdgeInsets.only(
-  //             top: size.height * 0.03,
-  //             left: size.width * 0.03,
-  //             right: size.width * 0.03,
-  //           ),
-  //           child: GestureDetector(
-  //             onTap: () {
-  //               setState(() {
-  //                 _chooseTimeFrame(context);
-  //               });
-  //             },
-  //             child: Container(
-  //               width: double.infinity,
-  //               height: size.height * 0.07,
-  //               decoration: BoxDecoration(
-  //                 borderRadius: BorderRadius.circular(6),
-  //                 border:
-  //                 Border.all(color: Colors.black45, width: 1),
-  //               ),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.start,
-  //                 crossAxisAlignment: CrossAxisAlignment.center,
-  //                 children: [
-  //                   Padding(
-  //                     padding: EdgeInsets.only(
-  //                       left: size.width * 0.048,
-  //                       right: size.width * 0.048,
-  //                     ),
-  //                     child: Image.asset(ImageConstant.imgClock),
-  //                   ),
-  //                   Text(workTime),
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     );
-  // }
+
   void _changeDob(String date) async {
     setState(() {
       dob = date;
