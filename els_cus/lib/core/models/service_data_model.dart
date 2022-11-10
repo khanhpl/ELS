@@ -8,20 +8,21 @@ class ServiceDataModel {
   String name;
   double price;
   String description;
-  dynamic url;
+  String url;
   dynamic sitterRequirement;
   int duration;
+  int commission;
   String status;
   CategoryDataModel category;
-
   ServiceDataModel({
     required this.id,
     required this.name,
     required this.price,
     required this.description,
-    this.url,
+    required this.url,
     this.sitterRequirement,
     required this.duration,
+    required this.commission,
     required this.status,
     required this.category,
   });
@@ -32,13 +33,24 @@ class ServiceDataModel {
     name: json["name"],
     price: json["price"],
     description: json["description"],
-    url: (json["url"] != null)? json["url"] : "",
-    sitterRequirement: (json["sitterRequirement"] != null) ? json["sitterRequirement"] : "",
+    url: json["url"],
+    sitterRequirement: (json["sitterRequirement"] != null)?json["sitterRequirement"]:"",
     duration: json["duration"],
+    commission: json["commission"],
     status: json["status"],
     category: CategoryDataModel.fromJson(json["category"]),
-
   );
 
-
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "price": price,
+    "description": description,
+    "url": url,
+    "sitterRequirement": sitterRequirement,
+    "duration": duration,
+    "commission": commission,
+    "status": status,
+    "category": category.toJson(),
+  };
 }

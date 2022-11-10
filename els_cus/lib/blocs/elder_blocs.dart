@@ -49,12 +49,10 @@ class ElderBlocs{
     }
     return isValid;
   }
-
-
   Future<ElderModel> getAllElder() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder/${Globals.curUser!.data.email}");
+      Uri.parse("https://els12.herokuapp.com/elder/elders-by-customer/${Globals.curUser!.data.email}");
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -132,7 +130,7 @@ class ElderBlocs{
       print('test Allergy:'+ isAllergy.toString());
       print('test email: '+ email);
 
-      var url = Uri.parse("https://els12.herokuapp.com/elder");
+      var url = Uri.parse("https://els12.herokuapp.com/elder/add");
       final response = await http.post(
           url,
         headers: <String, String>{
@@ -152,6 +150,7 @@ class ElderBlocs{
           },
         ),
       );
+      print('Status: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
 
         return true;
@@ -170,9 +169,39 @@ class ElderBlocs{
       print('test note: '+ note);
       print('test Allergy:'+ isAllergy.toString());
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder");
+      Uri.parse("https://els12.herokuapp.com/elder/update");
       final response = await http.put(
           url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          'name': name,
+          'gender': gender,
+          "dob": dob,
+          "healthStatus": healthStatus,
+          "note": note,
+          "isAllergy": isAllergy,
+        }),
+      );
+      print('Status:'+response.statusCode.toString());
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    }
+    finally {}
+  }
+
+  Future<bool> removeElder(String name, String gender, String dob, String healthStatus, String note, bool isAllergy) async {
+    try{
+      var url =
+      Uri.parse("https://els12.herokuapp.com/elder");
+      final response = await http.put(
+        url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization' : Globals.curUser!.data.token,

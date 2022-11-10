@@ -7,7 +7,7 @@ class SitterBlocs{
   Future<List<SitterDataModel>> getAllSitter() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/sitter");
+      Uri.parse("https://els12.herokuapp.com/sitter/sitters");
       final response = await http.get(
         url,
         headers: <String, String>{
