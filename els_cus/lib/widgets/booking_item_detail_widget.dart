@@ -1,6 +1,6 @@
-
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
+import 'package:els_cus_mobile/blocs/payment_bloc.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/single_elder_model.dart';
@@ -24,26 +24,96 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   _BookingItemDetailWidgetState({required this.booking});
 
+  PaymentBloc _paymentBloc = PaymentBloc();
 
-  String getStatus(){
+  String getStatus() {
     String status = "";
-    if(booking.status == 'WAITING_FOR_SITTER'){
+    if (booking.status == 'WAITING_FOR_SITTER') {
       status = "Đang đợi chăm xóc viên xác nhận";
-    }else if(booking.status == 'STARTING'){
+    } else if (booking.status == 'STARTING') {
       status = "Đang thực hiện";
-    }else if(booking.status == 'DONE'){
+    } else if (booking.status == 'DONE') {
       status = "Đã xong";
-    }else if(booking.status == 'CANCEL'){
+    } else if (booking.status == 'CANCEL') {
       status = "Đã hủy";
-    }else if(booking.status == 'WAITING_FOR_DATE'){
+    } else if (booking.status == 'WAITING_FOR_DATE') {
       status = "Đang đợi đến ngày làm việc";
-    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+    } else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
       status = "Đang đợi thanh toán";
-    }else{
+    } else {
       status = "Chưa biết";
     }
     return status;
   }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/scheduleScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    // set up the buttons
+
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void showCancelAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -89,6 +159,55 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+
+  void showPaymentAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        onPaymentClick();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Thanh Toán",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn thanh toán cho lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void showCheckoutAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -205,10 +324,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-
         ],
       );
-    }else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
+    } else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -229,7 +347,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
+                    showPaymentAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -242,10 +360,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-
         ],
       );
-    }else if (booking.status == 'DONE') {
+    } else if (booking.status == 'DONE') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -279,10 +396,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-
         ],
       );
-    }else if (booking.status == 'STARTING') {
+    } else if (booking.status == 'STARTING') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -316,17 +432,18 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-
         ],
       );
     } else {
       return SizedBox();
     }
   }
-  Widget StatusIDWidget(BuildContext){
+
+  Widget StatusIDWidget(BuildContext) {
     var size = MediaQuery.of(context).size;
-    final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
-    if(booking.status == "WAITING_FOR_SITTER"){
+    final Future<BookingDetailModel> bookingDetail =
+        BookingBloc().getBookingDetailByBookingID(booking.id.toString());
+    if (booking.status == "WAITING_FOR_SITTER") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -371,7 +488,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    }else if (booking.status == "WAITING_FOR_CUS_PAYMENT"){
+    } else if (booking.status == "WAITING_FOR_CUS_PAYMENT") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -416,7 +533,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    } else if (booking.status == "WAITING_FOR_DATE"){
+    } else if (booking.status == "WAITING_FOR_DATE") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -461,7 +578,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    }else if (booking.status == "STARTING"){
+    } else if (booking.status == "STARTING") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -506,7 +623,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    }else if (booking.status == "CANCEL"){
+    } else if (booking.status == "CANCEL") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -551,7 +668,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    }else if (booking.status == "DONE"){
+    } else if (booking.status == "DONE") {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -596,7 +713,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ),
       );
-    }else{
+    } else {
       return Align(
         alignment: Alignment.center,
         child: Padding(
@@ -644,12 +761,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<SingleElderModel> elderList = ElderBlocs().getElderByID(booking.elderId);
-    final Future<BookingDetailModel> bookingDetail = BookingBloc().getBookingDetailByBookingID(booking.id.toString());
+    final Future<SingleElderModel> elderList =
+        ElderBlocs().getElderByID(booking.elder.id);
+    final Future<BookingDetailModel> bookingDetail =
+        BookingBloc().getBookingDetailByBookingID(booking.id.toString());
     void showAlertDialog(BuildContext context) {
       // set up the buttons
       Widget cancelButton = TextButton(
@@ -705,7 +823,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           automaticallyImplyLeading: false,
           backgroundColor: ColorConstant.whiteA700,
           leading: GestureDetector(
-            onTap: (){
+            onTap: () {
               Navigator.pop(context);
             },
             child: Image.asset(
@@ -1046,12 +1164,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   // itemCount: snapshot.data!.length,
                                   itemCount: snapshot.data!.data.length,
                                   separatorBuilder: (context, index) {
-                                    return SizedBox(height: size.height*0.01);
+                                    return SizedBox(height: size.height * 0.01);
                                   },
                                   itemBuilder:
                                       (BuildContext context, int index) {
                                     return Text(
-                                        snapshot.data!.data[index].service.name);
+                                        '${snapshot.data!.data[index].serviceName}: ${snapshot.data!.data[index].price.ceil()} - Thời gian làm: ${snapshot.data!.data[index].duration} phút');
                                   },
                                 );
                               } else {
@@ -1113,9 +1231,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
-                            
-                              return ElderItemOnBookingWidget(context, snapshot.data!.data, snapshot.data!.data.id.toString());
-                            
+                            return ElderItemOnBookingWidget(
+                                context,
+                                snapshot.data!.data,
+                                snapshot.data!.data.id.toString());
                           } else {
                             return const CircularProgressIndicator();
                           }
@@ -1440,7 +1559,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
-
-
-
+  onPaymentClick() async {
+    bool isPaid = false;
+    isPaid = await _paymentBloc.cusPayment(booking.id);
+    if (isPaid) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
+    }
+  }
 }

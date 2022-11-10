@@ -5,6 +5,7 @@ import 'package:els_sitter/presentation/forgot_password_screen/change_password_s
 import 'package:els_sitter/presentation/forgot_password_screen/forgot_password_screen.dart';
 import 'package:els_sitter/presentation/login_screen/login_screen.dart';
 import 'package:els_sitter/presentation/onboarding_screen/onboarding_screen.dart';
+import 'package:els_sitter/presentation/personal_screen/widget/service_and_certificate_screen.dart';
 import 'package:els_sitter/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
         '/personalScreen': (context) => PersonalScreen(),
         '/hístoryScreen': (context) => HistoryBookingScreen(),
         '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
+        '/ServiceAndCertificateScreen': (context) => ServiceAndSertificateScreen(),
       },
     );
   }
