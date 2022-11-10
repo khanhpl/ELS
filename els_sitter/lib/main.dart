@@ -36,7 +36,6 @@ class MyApp extends StatelessWidget {
         '/changePasswordScreen': (context) => ChangePasswordScreen(),
         '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
         '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
-        '/personalScreen': (context) => PersonalScreen(),
         '/hístoryScreen': (context) => HistoryBookingScreen(),
         '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
         '/ServiceAndCertificateScreen': (context) => ServiceAndSertificateScreen(),

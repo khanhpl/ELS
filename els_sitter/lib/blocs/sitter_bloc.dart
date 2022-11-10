@@ -8,7 +8,7 @@ class SitterBlocs{
   Future<SitterDetailModel> getSitterDetailByEmail() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/sitter/${Globals.curUser!.data.email}");
+      Uri.parse("https://els12.herokuapp.com/sitter/get-by-email/${Globals.curUser!.data.email}");
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -24,22 +24,34 @@ class SitterBlocs{
       }
     } finally {}
   }
-  Future<SitterDetailModel> updateSitterInfo(String fullname, String dob, String gender, String phone, String address, String email, String avatarImgUrl) async {
+  Future<bool> updateSitterInfo(String fullname, String dob, String gender, String phone, String address, String email, String avatarImgUrl) async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/sitter/update?fullName=$fullname&dob=$dob&gender=$phone&phone=$phone&address=$address&email=${Globals.curUser!.data.email}&avatarImgUrl=$avatarImgUrl");
-      final response = await http.get(
+      Uri.parse("https://els12.herokuapp.com/sitter/update");
+      final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           'Authorization' : Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
+        body: jsonEncode(
+          <String, String>{
+            "fullName": fullname,
+            "dob": dob,
+            "gender": gender,
+            "phone": phone,
+            "address": address,
+            "email": email,
+            "avatarImgUrl": avatarImgUrl
+          },
+        ),
       );
+      print('Status code updateSitterInfo: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
-        return SitterDetailModel.fromJson(json.decode(response.body));
+        return true;
       } else {
-        throw Exception('Unable to update sitter from the REST API');
+        return false;
       }
     } finally {}
   }
