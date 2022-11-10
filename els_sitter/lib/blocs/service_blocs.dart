@@ -7,7 +7,7 @@ class ServiceBlocs{
   Future<ServiceModel> getAllService() async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/service");
+      Uri.parse("https://els12.herokuapp.com/service/services-by-active");
       final response = await http.get(
         url,
         headers: <String, String>{

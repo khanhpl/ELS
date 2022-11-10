@@ -332,9 +332,41 @@ class _LoginScreenState extends State<LoginScreen> {
       if(isTrueAcc){
         Navigator.pushNamed(context, '/homeScreen');
       }else{
+        showAlertDialog(context);
       }
     }
 
+  }
+  void showAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Tài khoản hoặc mật khẩu không chính xác vui lòng nhập lại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
 

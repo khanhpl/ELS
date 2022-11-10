@@ -19,15 +19,14 @@ Widget ServiceItemBookingWidget(BuildContext context, ServiceDataModel service){
           ),
           child: Container(
             width: size.width*0.1,
-            height: size.width*0.1,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Image.network(service.url),
+            child: (service.url == '')?SizedBox():Image.network(service.url),
           ),
         ),
         SizedBox(
-          width: size.width*0.45,
+          width: size.width*0.4,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,6 +38,9 @@ Widget ServiceItemBookingWidget(BuildContext context, ServiceDataModel service){
                 child: Text(
                   service.name,
                   maxLines: 2,
+                  style: TextStyle(
+                    fontSize: 14
+                  ),
                 ),
               ),
               Padding(
@@ -47,9 +49,13 @@ Widget ServiceItemBookingWidget(BuildContext context, ServiceDataModel service){
                   bottom: size.height * 0.01,
                 ),
                 child: Text(
-                  service.price.ceil().toString(),
+                  '${service.price.ceil().toString()}VNĐ/${service.duration}phút',
+                  style: TextStyle(
+                      fontSize: 12
+                  ),
                 ),
               ),
+
             ],
           ),
         ),

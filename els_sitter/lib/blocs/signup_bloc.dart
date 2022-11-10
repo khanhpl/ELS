@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 import '../core/validators/validations.dart';
 
-class SignupBloc{
+class SignupBloc {
   final StreamController _fullNameController = StreamController();
   final StreamController _phoneController = StreamController();
   final StreamController _emailController = StreamController();
@@ -17,18 +17,36 @@ class SignupBloc{
   final StreamController _addressController = StreamController();
   final StreamController _genderController = StreamController();
   final StreamController _idImageController = StreamController();
-
+  final StreamController _descriptionController = StreamController();
 
   Stream get fullName => _fullNameController.stream;
+
   Stream get phone => _phoneController.stream;
+
   Stream get email => _emailController.stream;
+
   Stream get dob => _dobController.stream;
+
   Stream get id => _idNumberController.stream;
+
   Stream get address => _addressController.stream;
+
   Stream get gender => _genderController.stream;
+
   Stream get idImage => _idImageController.stream;
 
-  bool isValidInput(String fullname, String email, String phone, String dob, String id, String address, String gender, UserIDImageModel model){
+  Stream get description => _descriptionController.stream;
+
+  bool isValidInput(
+      String fullname,
+      String email,
+      String phone,
+      String dob,
+      String id,
+      String address,
+      String gender,
+      UserIDImageModel model,
+      String description) {
     bool isValid = false;
     bool fullnameValid = false;
     bool phoneValid = false;
@@ -38,20 +56,21 @@ class SignupBloc{
     bool genderValid = false;
     bool userValid = false;
     bool idImageValid = false;
+    bool descriptionValid = false;
 
-    if(fullname.isEmpty){
+    if (fullname.isEmpty) {
       _fullNameController.sink.addError("Họ và tên không thể để trống");
       fullnameValid = false;
-    }else{
+    } else {
       _fullNameController.sink.add("OK");
       fullnameValid = true;
     }
 
-    if(phone.isEmpty){
+    if (phone.isEmpty) {
       _phoneController.sink.addError("Số điện thoại không thể để trống");
       phoneValid = false;
-    }else{
-      if(!Validations.isValidPhone(phone)){
+    } else {
+      if (!Validations.isValidPhone(phone)) {
         _phoneController.sink.addError("Số điện thoại không hợp lệ");
         phoneValid = false;
       } else {
@@ -60,7 +79,7 @@ class SignupBloc{
       }
     }
 
-    if(address.isEmpty){
+    if (address.isEmpty) {
       _addressController.sink.addError("Địa chỉ không thể để trống");
       addressValid = false;
     } else {
@@ -68,11 +87,11 @@ class SignupBloc{
       addressValid = true;
     }
 
-    if(id.isEmpty){
+    if (id.isEmpty) {
       _idNumberController.sink.addError("Số CMND/CCCD không thể để trống");
       idValid = false;
     } else {
-      if(!Validations.isValidId(id)){
+      if (!Validations.isValidId(id)) {
         _idNumberController.sink.addError("Số CCCD/CMND không hợp lệ");
         idValid = false;
       } else {
@@ -81,21 +100,20 @@ class SignupBloc{
       }
     }
 
-    if(email.isEmpty){
+    if (email.isEmpty) {
       _emailController.sink.addError("Email không thể để trống");
       userValid = false;
     } else {
-      if(!Validations.isValidEmail(email)){
-
+      if (!Validations.isValidEmail(email)) {
         _emailController.sink.addError("Email không hợp lệ!");
         userValid = false;
-      }else{
+      } else {
         _emailController.sink.add("OK");
         userValid = true;
       }
     }
 
-    if(dob == "Chọn ngày"){
+    if (dob == "Chọn ngày") {
       _dobController.sink.addError("Ngày sinh không thể để trống");
       dobValid = false;
     } else {
@@ -103,7 +121,7 @@ class SignupBloc{
       dobValid = true;
     }
 
-    if(!Validations.isValidGender(gender)){
+    if (!Validations.isValidGender(gender)) {
       _genderController.sink.addError("Giới tính chỉ là Nam hoặc Nữ");
       genderValid = false;
     } else {
@@ -111,34 +129,61 @@ class SignupBloc{
       genderValid = true;
     }
 
-    if(model.avatarImgUrl.isEmpty || model.backIdImgUrl.isEmpty || model.fontIdImgUrl.isEmpty){
+    if (model.avatarImgUrl.isEmpty ||
+        model.backIdImgUrl.isEmpty ||
+        model.fontIdImgUrl.isEmpty) {
       _idImageController.sink.addError("Ba hình ảnh phải được tải lên đầy đủ");
       idImageValid = false;
-    }else{
+    } else {
       _idImageController.add("Ok");
       idImageValid = true;
     }
+    if (description.isEmpty) {
+      _descriptionController.addError("Hãy thêm mô tả về bản thân bạn");
+      descriptionValid = false;
+    } else {
+      _descriptionController.add("OK");
+      descriptionValid = true;
+    }
 
-    if(userValid && fullnameValid && phoneValid && genderValid && dobValid && addressValid && idValid && idImageValid){
+    if (userValid &&
+        fullnameValid &&
+        phoneValid &&
+        genderValid &&
+        dobValid &&
+        addressValid &&
+        idValid &&
+        idImageValid &&
+        descriptionValid) {
       isValid = true;
     }
     return isValid;
   }
 
-  Future<bool> register(String fullname, String phone, String email, String gender, String dob, String id, String address, List<SitterServiceRequestModel> listSitterService, UserIDImageModel userIDImage, List<CertificateModel> listCert) async {
+  Future<bool> register(
+      String fullname,
+      String phone,
+      String email,
+      String gender,
+      String dob,
+      String id,
+      String address,
+      List<SitterServiceRequestModel> listSitterService,
+      UserIDImageModel userIDImage,
+      List<CertificateModel> listCert,
+      String description) async {
     try {
-      print('test fullname: '+ fullname);
-      print('test email:'+ email);
+      print('test fullname: ' + fullname);
+      print('test email:' + email);
       print('test dob:' + dob);
       print('test phone:' + phone);
       print('test id:' + id);
       print('test address:' + address);
       print('test listSitterService' + listSitterService.length.toString());
-      print('test userIDImage '+ userIDImage.fontIdImgUrl.toString());
+      print('test userIDImage ' + userIDImage.fontIdImgUrl.toString());
       print('test gender:' + gender);
       print('test cert' + listCert.length.toString());
-      var url =
-      Uri.parse("https://els12.herokuapp.com/candidate");
+      var url = Uri.parse("https://els12.herokuapp.com/candidate/add");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -152,18 +197,25 @@ class SignupBloc{
             'gender': gender,
             'phone': phone,
             'address': address,
+            "frontIdImgUrl": userIDImage.fontIdImgUrl,
+            "backIdImgUrl": userIDImage.backIdImgUrl,
+            "avatarImgUrl": userIDImage.avatarImgUrl,
             'email': email,
-            'sitterServiceRequestDTOS': listSitterService,
-            'userImgDTO': userIDImage,
-            'idNumber': id,
+            'addSitterServiceRequestDTOList': listSitterService,
+            "idNumber": id,
+            "description": description,
             'certificateDTOS': listCert,
           },
         ),
       );
-      print('statusCode: ' + response.statusCode.toString());
+      print('statusCode register: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
-
-        return true;
+        if (json.decode(response.body)['errorCode'] == "ADD_CANDIDATE_FAIL") {
+          print('Error code regisger: ${json.decode(response.body)['errorCode']}');
+          return false;
+        } else {
+          return true;
+        }
       } else {
         return false;
       }
