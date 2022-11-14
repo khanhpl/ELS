@@ -130,6 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
+                          cursorColor: ColorConstant.purple900,
                           controller: _emailController,
                           decoration: InputDecoration(
                             hintText: "Email",
@@ -170,6 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       color: Colors.black,
                                     ),
                                     obscureText: !_showPass,
+                                    cursorColor: ColorConstant.purple900,
                                     controller: _passController,
                                     decoration: InputDecoration(
                                       errorText: snapshot.hasError

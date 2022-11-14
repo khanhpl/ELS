@@ -25,6 +25,8 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
 
   final TextEditingController _emailController = TextEditingController();
 
+  final TextEditingController _dobController = TextEditingController();
+
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
@@ -38,6 +40,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       _noteController.text = "";
       _healthStatusController.text = "";
       _genderController.text = "";
+      _dobController.text = dob;
       if (_isMale = true) {
         _genderController.text = "Nam";
       } else {
@@ -141,6 +144,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                       fontSize: size.width * 0.04,
                                       color: Colors.black),
                                   controller: _nameController,
+                                  cursorColor: ColorConstant.purple900,
                                   decoration: InputDecoration(
                                     errorText: snapshot.hasError
                                         ? snapshot.error.toString()
@@ -324,6 +328,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                       fontSize: size.width * 0.04,
                                       color: Colors.black),
                                   controller: _healthStatusController,
+                                  cursorColor: ColorConstant.purple900,
                                   decoration: InputDecoration(
                                       hintText:
                                           "Có bệnh nền như tiểu đường, Huyết áp cao",
@@ -404,6 +409,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                       fontSize: size.width * 0.04,
                                       color: Colors.black),
                                   controller: _noteController,
+                                  cursorColor: ColorConstant.purple900,
                                   decoration: InputDecoration(
                                       hintText: "Những lưu ý cho chăm sóc viên",
                                       errorText: snapshot.hasError
@@ -454,6 +460,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     String name = _nameController.text.trim();
     String statusHealth = _healthStatusController.text.trim();
     String note = _noteController.text.trim();
+    bool isAllergy = _isAllergy;
     String gender = "";
     if (_isMale) {
       gender = "Nam";
@@ -465,7 +472,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     if (isValidElder) {
       bool createSuccess = false;
       createSuccess = await bloc.addNewElder(
-          name, gender, dob, statusHealth, note, _isAllergy);
+          name, gender, dob, statusHealth, note, isAllergy);
       if (createSuccess) {
         print('tạo được rồi');
       } else {

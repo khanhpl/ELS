@@ -236,7 +236,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
       ),
       onPressed: () {
         removeElder();
-        Navigator.pushNamed(context, '/accountScreen');
       },
     );
 
@@ -778,9 +777,9 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     bool updateSuccess = false;
     updateSuccess = await bloc.updateElder(
         id, fullName, gender, dob, healthStatus, note, isAllergy);
-    if(updateSuccess){
+    if (updateSuccess) {
       showSuccessAlertDialog(context);
-    }else{
+    } else {
       showFailAlertDialog(context);
     }
   }
@@ -789,9 +788,9 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     int id = elder.id;
     bool removeSuccess = false;
     removeSuccess = await bloc.removeElderByID(id);
-    if(removeSuccess){
+    if (removeSuccess) {
       showDeleteSuccessAlertDialog(context);
-    }else{
+    } else {
       showDeleteFailAlertDialog(context);
     }
   }

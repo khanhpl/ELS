@@ -97,7 +97,7 @@ class ElderBlocs {
   Future<bool> addNewElder(String name, String gender, String dob,
       String healthStatus, String note, bool isAllergy) async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/elder");
+      var url = Uri.parse("https://els12.herokuapp.com/elder/add");
       final response = await http.post(
         url,
         headers: <String, String>{

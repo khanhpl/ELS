@@ -1,18 +1,27 @@
 import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
+import 'package:els_cus_mobile/core/models/customer_detail_data_model.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
+import '../../core/models/customer_detail_model.dart';
+
 class PersonalScreen extends StatefulWidget {
-  PersonalScreen({super.key});
+  CustomerDetailDataModel cus;
+
+  PersonalScreen({super.key, required this.cus});
 
   @override
-  State<PersonalScreen> createState() => _PersonalScreenState();
+  State<PersonalScreen> createState() => _PersonalScreenState(cus: this.cus);
 }
 
 class _PersonalScreenState extends State<PersonalScreen> {
+  CustomerDetailDataModel cus;
+
+  _PersonalScreenState({required this.cus});
+
   final TextEditingController _fullNameController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
@@ -25,28 +34,12 @@ class _PersonalScreenState extends State<PersonalScreen> {
 
   PersonalInfoBloc bloc = PersonalInfoBloc();
   String dob = "";
+  String name = "";
+  String email = "";
+  String address = "";
+  String phone = "";
   bool _isMale = false;
   bool _isFemale = false;
-
-  @override
-  void initState() {
-    setState(() {
-      _fullNameController.text = globals.curUser!.data.fullName;
-      _emailController.text = globals.curUser!.data.email;
-      _dobController.text = filterDob(globals.curUser!.data.dob.toString());
-      dob = _dobController.text;
-      _addressController.text = globals.curUser!.data.address;
-      _phoneController.text = globals.curUser!.data.phone;
-      if (globals.curUser!.data.gender == "Nam") {
-        _isMale = true;
-        _isFemale = false;
-      }
-      if (globals.curUser!.data.gender == "Nữ") {
-        _isMale = false;
-        _isFemale = true;
-      }
-    });
-  }
 
   filterDob(String dob) {
     var parts = dob.split(" ");
@@ -167,6 +160,26 @@ class _PersonalScreenState extends State<PersonalScreen> {
   }
 
   @override
+  void initState() {
+    setState(() {
+      _fullNameController.text = cus.fullName;
+      _emailController.text = cus.email;
+      _dobController.text = filterDob(cus.dob.toString());
+      dob = _dobController.text;
+      _addressController.text = cus.address;
+      _phoneController.text = cus.phone;
+      if (globals.curUser!.data.gender == "Nam") {
+        _isMale = true;
+        _isFemale = false;
+      }
+      if (globals.curUser!.data.gender == "Nữ") {
+        _isMale = false;
+        _isFemale = true;
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     // TODO: implement createState
@@ -251,6 +264,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _fullNameController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: InputDecoration(
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
@@ -303,6 +317,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _emailController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: InputDecoration(
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
@@ -485,17 +500,16 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     // Padding(
                     //   padding: EdgeInsets.only(
-                    //     top: size.height*0.02,
+                    //     top: size.height * 0.02,
                     //   ),
                     //   child: Text(
-                    //     "Quận/Huyện",
+                    //     "Số CCCD/CMND",
                     //     overflow: TextOverflow.ellipsis,
                     //     textAlign: TextAlign.left,
                     //     style: TextStyle(
-                    //       color: ColorConstant.bluegray900,
-                    //       fontSize: 14,
-                    //       fontFamily: 'Outfit',
-                    //       fontWeight: FontWeight.w400,
+                    //       color: ColorConstant.purple900,
+                    //       fontSize: 18,
+                    //       fontWeight: FontWeight.w500,
                     //     ),
                     //   ),
                     // ),
@@ -507,75 +521,36 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     //     stream: null,
                     //     builder: (context, snapshot) => TextField(
                     //       style: TextStyle(
-                    //           fontSize: size.width * 0.04,
-                    //           color: Colors.black),
-                    //       controller: _districtController,
-                    //       decoration: const InputDecoration(
-                    //         // errorText: snapshot.hasError
-                    //         //     ? snapshot.error.toString()
-                    //         //     : null,
-                    //         enabledBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: Colors.black),
-                    //         ),
-                    //         focusedBorder: UnderlineInputBorder(
-                    //           borderSide: BorderSide(color: Colors.black),
+                    //           fontSize: size.width * 0.04, color: Colors.black),
+                    //       // controller: _idController,
+                    //       cursorColor: ColorConstant.purple900,
+                    //       decoration: InputDecoration(
+                    //         errorText: snapshot.hasError
+                    //             ? snapshot.error.toString()
+                    //             : null,
+                    //         hintText: "",
+                    //         prefixIcon: SizedBox(
+                    //             width: size.width * 0.05,
+                    //             child: Image.asset(
+                    //               ImageConstant.imgUser,
+                    //               color: ColorConstant.purple900,
+                    //               height: size.height * 0.03,
+                    //             )),
+                    //         border: const OutlineInputBorder(
+                    //             borderSide: BorderSide(
+                    //                 color: Color(0xffCED0D2), width: 1),
+                    //             borderRadius:
+                    //                 BorderRadius.all(Radius.circular(6))),
+                    //         focusedBorder: OutlineInputBorder(
+                    //           borderSide: BorderSide(
+                    //             width: 1,
+                    //             color: ColorConstant.purple900,
+                    //           ),
                     //         ),
                     //       ),
                     //     ),
                     //   ),
                     // ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.02,
-                      ),
-                      child: Text(
-                        "Số CCCD/CMND",
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: ColorConstant.purple900,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: size.height * 0.01,
-                      ),
-                      child: StreamBuilder(
-                        stream: null,
-                        builder: (context, snapshot) => TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04, color: Colors.black),
-                          // controller: _idController,
-                          decoration: InputDecoration(
-                            errorText: snapshot.hasError
-                                ? snapshot.error.toString()
-                                : null,
-                            hintText: "",
-                            prefixIcon: SizedBox(
-                                width: size.width * 0.05,
-                                child: Image.asset(
-                                  ImageConstant.imgUser,
-                                  color: ColorConstant.purple900,
-                                  height: size.height * 0.03,
-                                )),
-                            border: const OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xffCED0D2), width: 1),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6))),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 1,
-                                color: ColorConstant.purple900,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: size.height * 0.02,
@@ -601,6 +576,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _addressController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: InputDecoration(
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
@@ -653,6 +629,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _phoneController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: InputDecoration(
                             errorText: snapshot.hasError
                                 ? snapshot.error.toString()
@@ -714,7 +691,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
 
   void _changeDob(String date) async {
     setState(() {
-      _dobController.text = date;
+      dob = date;
     });
   }
 

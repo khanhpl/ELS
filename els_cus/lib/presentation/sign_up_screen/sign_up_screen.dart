@@ -132,6 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             stream: bloc.fullnameStream,
                             builder: (context, snapshot) {
                               return TextField(
+                                cursorColor: ColorConstant.purple900,
                                 controller: _fullnameController,
                                 style: TextStyle(
                                     fontSize: size.width * 0.04,
@@ -172,6 +173,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             stream: bloc.emailStream,
                             builder: (context, snapshot) {
                               return TextField(
+                                cursorColor: ColorConstant.purple900,
                                 controller: _emailController,
                                 style: TextStyle(
                                     fontSize: size.width * 0.04,
@@ -212,6 +214,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 stream: bloc.passStream,
                                 builder: (context, snapshot) {
                                   return TextField(
+                                    cursorColor: ColorConstant.purple900,
                                     controller: _passController,
                                     style: TextStyle(
                                       fontSize: size.width * 0.04,
@@ -275,6 +278,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 stream: bloc.rePassStream,
                                 builder: (context, snapshot) {
                                   return TextField(
+                                    cursorColor: ColorConstant.purple900,
                                     controller: _rePassController,
                                     style: TextStyle(
                                       fontSize: size.width * 0.04,
