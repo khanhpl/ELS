@@ -9,6 +9,7 @@ import 'package:els_sitter/presentation/personal_screen/widget/service_and_certi
 import 'package:els_sitter/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:els_sitter/presentation/setting_screen/setting_screen.dart';
 import 'package:els_sitter/presentation/personal_screen/personal_screen.dart';
 import 'package:els_sitter/presentation/history_screen/booking_history_screen.dart';
 import 'package:provider/provider.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
         '/hístoryScreen': (context) => HistoryBookingScreen(),
         '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
         '/ServiceAndCertificateScreen': (context) => ServiceAndSertificateScreen(),
+        '/settingScreen': (context) => SettingScreen(),
       },
     );
   }

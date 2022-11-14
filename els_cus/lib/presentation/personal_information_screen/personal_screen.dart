@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class PersonalScreen extends StatefulWidget {
   PersonalScreen({super.key});
@@ -23,7 +24,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
   final TextEditingController _phoneController = TextEditingController();
 
   PersonalInfoBloc bloc = PersonalInfoBloc();
-
+  String dob = "";
   bool _isMale = false;
   bool _isFemale = false;
 
@@ -33,23 +34,136 @@ class _PersonalScreenState extends State<PersonalScreen> {
       _fullNameController.text = globals.curUser!.data.fullName;
       _emailController.text = globals.curUser!.data.email;
       _dobController.text = filterDob(globals.curUser!.data.dob.toString());
+      dob = _dobController.text;
       _addressController.text = globals.curUser!.data.address;
       _phoneController.text = globals.curUser!.data.phone;
-      if(globals.curUser!.data.gender == "Nam"){
+      if (globals.curUser!.data.gender == "Nam") {
         _isMale = true;
         _isFemale = false;
       }
-      if(globals.curUser!.data.gender == "Nữ"){
+      if (globals.curUser!.data.gender == "Nữ") {
         _isMale = false;
         _isFemale = true;
       }
     });
   }
 
-  filterDob(String dob){
+  filterDob(String dob) {
     var parts = dob.split(" ");
     var prefix = parts[0].trim();
     return prefix;
+  }
+
+  void showSaveAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        save();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "CẢNH BÁO",
+      ),
+      content: const Text(
+        "Xác nhận lưu thông tin vừa thay đổi",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/accountScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   @override
@@ -135,18 +249,30 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           controller: _fullNameController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                          decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            hintText: "",
+                            prefixIcon: SizedBox(
+                                width: size.width * 0.05,
+                                child: Image.asset(
+                                  ImageConstant.imgUser,
+                                  color: ColorConstant.purple900,
+                                  height: size.height * 0.03,
+                                )),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
                             ),
                           ),
                         ),
@@ -154,7 +280,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Email",
@@ -175,18 +301,31 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           controller: _emailController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                          decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            hintText: "",
+                            prefixIcon: SizedBox(
+                                width: size.width * 0.05,
+                                child: Image.asset(
+                                  ImageConstant.imgEmail,
+                                  color: ColorConstant.purple900,
+                                  height: size.height * 0.01,
+                                  width: size.width * 0.015,
+                                )),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
                             ),
                           ),
                         ),
@@ -194,7 +333,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Ngày sinh",
@@ -212,29 +351,80 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         top: size.height * 0.01,
                       ),
                       child: StreamBuilder(
-                        stream: null,
-                        builder: (context, snapshot) => TextField(
-                          style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
-                          controller: _dobController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      ),
+                          stream: null,
+                          builder: (context, snapshot) {
+                            return Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    DatePicker.showDatePicker(context,
+                                        //showDateTime to pick time
+                                        showTitleActions: true,
+                                        maxTime: DateTime.now(),
+                                        minTime: DateTime(1900),
+                                        onChanged: (date) {},
+                                        onConfirm: (date) {
+                                      String dateInput =
+                                          '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0${date.day}'}';
+                                      _changeDob(dateInput);
+                                    },
+                                        currentTime: DateTime.now(),
+                                        locale: LocaleType.vi);
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: size.height * 0.07,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          color: Colors.black45, width: 1),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: size.width * 0.048,
+                                            right: size.width * 0.048,
+                                          ),
+                                          child: Image.asset(
+                                            ImageConstant.imgCalendar,
+                                            color: ColorConstant.purple900,
+                                          ),
+                                        ),
+                                        Text(
+                                          dob,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: size.height * 0.01),
+                                snapshot.hasError
+                                    ? Text(
+                                        snapshot.error.toString(),
+                                        style: const TextStyle(
+                                          color: Color(0xffCB4847),
+                                          fontSize: 13,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                              ],
+                            );
+                          }),
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Giới tính",
@@ -336,7 +526,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     // ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Số CCCD/CMND",
@@ -357,18 +547,30 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           // controller: _idController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                          decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            hintText: "",
+                            prefixIcon: SizedBox(
+                                width: size.width * 0.05,
+                                child: Image.asset(
+                                  ImageConstant.imgUser,
+                                  color: ColorConstant.purple900,
+                                  height: size.height * 0.03,
+                                )),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
                             ),
                           ),
                         ),
@@ -376,7 +578,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Địa chỉ",
@@ -397,18 +599,30 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           controller: _addressController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                          decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            hintText: "",
+                            prefixIcon: SizedBox(
+                                width: size.width * 0.05,
+                                child: Image.asset(
+                                  ImageConstant.imgLocation16X13,
+                                  color: ColorConstant.purple900,
+                                  height: size.height * 0.03,
+                                )),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
                             ),
                           ),
                         ),
@@ -416,7 +630,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.02,
+                        top: size.height * 0.02,
                       ),
                       child: Text(
                         "Số điện thoại",
@@ -437,18 +651,30 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
-                              fontSize: size.width * 0.04,
-                              color: Colors.black),
+                              fontSize: size.width * 0.04, color: Colors.black),
                           controller: _phoneController,
-                          decoration: const InputDecoration(
-                            // errorText: snapshot.hasError
-                            //     ? snapshot.error.toString()
-                            //     : null,
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                          decoration: InputDecoration(
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            hintText: "",
+                            prefixIcon: SizedBox(
+                                width: size.width * 0.05,
+                                child: Image.asset(
+                                  ImageConstant.imgCall,
+                                  color: ColorConstant.purple900,
+                                  height: size.height * 0.02,
+                                )),
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
                             ),
                           ),
                         ),
@@ -457,14 +683,14 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     Padding(
                       padding: EdgeInsets.only(
                         left: size.width * 0.03,
-                        top: size.height*0.05,
+                        top: size.height * 0.05,
                         right: size.width * 0.03,
                       ),
                       child: SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            save();
+                            showSaveAlertDialog(context);
                           },
                           style: ElevatedButton.styleFrom(
                             primary: ColorConstant.purple900,
@@ -486,6 +712,12 @@ class _PersonalScreenState extends State<PersonalScreen> {
     ); //Scaffold
   }
 
+  void _changeDob(String date) async {
+    setState(() {
+      _dobController.text = date;
+    });
+  }
+
   save() async {
     String fullname = _fullNameController.text.trim();
     String email = _emailController.text.trim();
@@ -493,20 +725,22 @@ class _PersonalScreenState extends State<PersonalScreen> {
     String address = _addressController.text.trim();
     String phone = _phoneController.text.trim();
     String gender = "";
-    if(_isMale){
+    if (_isMale) {
       gender = "Nam";
-    }else {
+    } else {
       gender = "Nữ";
     }
     String frontIdImgUrl = "";
     String backIdImgUrl = "";
     String avatarImgUrl = "";
     bool updateSuccess = false;
-    print('test gender ${globals.curUser!.data.gender}');
-    bloc.printAll(fullname, email, dob, address, phone);
-    updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone, frontIdImgUrl, backIdImgUrl, avatarImgUrl);
-    if(updateSuccess){
+    updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone,
+        frontIdImgUrl, backIdImgUrl, avatarImgUrl);
+    if (updateSuccess) {
       globals.curUser!.data.setDob(DateTime.parse(dob));
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
     }
   }
 }

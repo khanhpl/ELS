@@ -137,19 +137,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     fontSize: size.width * 0.04,
                                     color: Colors.black),
                                 decoration: InputDecoration(
-                                    errorText: snapshot.hasError
-                                        ? snapshot.error.toString()
-                                        : null,
-                                    hintText: "Họ và tên",
-                                    prefixIcon: SizedBox(
-                                        width: size.width * 0.05,
-                                        child:
-                                            Image.asset(ImageConstant.imgUser)),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffCED0D2), width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)))),
+                                  errorText: snapshot.hasError
+                                      ? snapshot.error.toString()
+                                      : null,
+                                  hintText: "Họ và tên",
+                                  prefixIcon: SizedBox(
+                                      width: size.width * 0.05,
+                                      child:
+                                          Image.asset(ImageConstant.imgUser)),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6))),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: ColorConstant.purple900,
+                                    ),
+                                  ),
+                                ),
                               );
                             }),
                       ),
@@ -170,19 +177,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     fontSize: size.width * 0.04,
                                     color: Colors.black),
                                 decoration: InputDecoration(
-                                    errorText: snapshot.hasError
-                                        ? snapshot.error.toString()
-                                        : null,
-                                    hintText: "Email",
-                                    prefixIcon: SizedBox(
-                                        width: size.width * 0.05,
-                                        child:
-                                            Image.asset(ImageConstant.imgUser)),
-                                    border: const OutlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: Color(0xffCED0D2), width: 1),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(6)))),
+                                  errorText: snapshot.hasError
+                                      ? snapshot.error.toString()
+                                      : null,
+                                  hintText: "Email",
+                                  prefixIcon: SizedBox(
+                                      width: size.width * 0.05,
+                                      child:
+                                          Image.asset(ImageConstant.imgUser)),
+                                  border: const OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: Color(0xffCED0D2), width: 1),
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6))),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                      width: 1,
+                                      color: ColorConstant.purple900,
+                                    ),
+                                  ),
+                                ),
                               );
                             }),
                       ),
@@ -205,20 +219,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     obscureText: !_showPass,
                                     decoration: InputDecoration(
-                                        errorText: snapshot.hasError
-                                            ? snapshot.error.toString()
-                                            : null,
-                                        hintText: "Mật Khẩu",
-                                        prefixIcon: SizedBox(
-                                            width: size.width * 0.05,
-                                            child: Image.asset(
-                                                ImageConstant.imgLock)),
-                                        border: const OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xffCED0D2),
-                                                width: 1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(6)))),
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      hintText: "Mật Khẩu",
+                                      prefixIcon: SizedBox(
+                                          width: size.width * 0.05,
+                                          child: Image.asset(
+                                              ImageConstant.imgLock)),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6))),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 1,
+                                          color: ColorConstant.purple900,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 }),
                             Padding(
@@ -261,20 +282,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     obscureText: !_showPass,
                                     decoration: InputDecoration(
-                                        errorText: snapshot.hasError
-                                            ? snapshot.error.toString()
-                                            : null,
-                                        hintText: "Nhập lại mật khẩu",
-                                        prefixIcon: SizedBox(
-                                            width: size.width * 0.05,
-                                            child: Image.asset(
-                                                ImageConstant.imgLock)),
-                                        border: const OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xffCED0D2),
-                                                width: 1),
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(6)))),
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      hintText: "Nhập lại mật khẩu",
+                                      prefixIcon: SizedBox(
+                                          width: size.width * 0.05,
+                                          child: Image.asset(
+                                              ImageConstant.imgLock)),
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6))),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          width: 1,
+                                          color: ColorConstant.purple900,
+                                        ),
+                                      ),
+                                    ),
                                   );
                                 }),
                             Padding(
@@ -432,6 +460,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       _showPass = !_showPass;
     });
   }
+
   void showSuccessAlertDialog(BuildContext context) {
     Widget continueButton = TextButton(
       child: Text(
@@ -463,6 +492,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
     );
   }
+
   void showFailAlertDialog(BuildContext context) {
     Widget continueButton = TextButton(
       child: Text(
@@ -494,7 +524,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       },
     );
   }
-  void onSignUpClick() async{
+
+  void onSignUpClick() async {
     String fullname = _fullnameController.text.trim();
     String email = _emailController.text.trim();
     String pass = _passController.text.trim();
@@ -509,9 +540,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
       //         builder: (context) =>
       //             const VerificationCodeScreen(functionKey: "signUpScreen")));
       createSuccess = await bloc.createCus(fullname, email, pass);
-      if(createSuccess){
+      if (createSuccess) {
         showSuccessAlertDialog(context);
-      }else{
+      } else {
         showFailAlertDialog(context);
       }
     }

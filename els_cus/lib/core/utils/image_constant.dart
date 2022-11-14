@@ -158,6 +158,8 @@ class ImageConstant {
 
   static String imgTicket14X14 = 'assets/images/img_ticket_14X14.png';
 
+  static String imgEmail = 'assets/images/email.png';
+
   static String imgBubblePurple90076X269 =
       'assets/images/img_bubble_purple_900_76X269.svg';
 

@@ -31,9 +31,7 @@ class UserDataModel {
     address: (json["address"]) != null?json["address"]:"",
     dob: (json["dob"]  != null)?(DateTime.parse(json["dob"])): null,
     fullName: json["fullName"],
-
     gender: (json["gender"] != null)?json["gender"]:"",
-
     phone: (json["phone"] != null)?json["phone"]:"",
   );
 
