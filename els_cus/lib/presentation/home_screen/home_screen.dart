@@ -1,4 +1,5 @@
 import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
+import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/category_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
@@ -39,11 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            SizedBox(height: size.height*0.08),
+            SizedBox(height: size.height * 0.08),
             Container(
               width: size.width,
               margin: EdgeInsets.only(
-                left: size.width*0.03,
+                left: size.width * 0.03,
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -51,16 +52,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   CustomSearchView(
-                    width: size.width*0.8,
+                    width: size.width * 0.8,
                     focusNode: FocusNode(),
                     // controller: searchController,
                     hintText: "Tìm kiếm",
                     prefix: Container(
                       margin: EdgeInsets.only(
-                        left: size.width*0.03,
-                        top: size.height*0.01,
-                        right: size.width*0.03,
-                        bottom: size.height*0.01,
+                        left: size.width * 0.03,
+                        top: size.height * 0.01,
+                        right: size.width * 0.03,
+                        bottom: size.height * 0.01,
                       ),
                       child: Image.asset(ImageConstant.imgSearch),
                     ),
@@ -71,9 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      top: size.height*0.01,
-                      bottom: size.height*0.01,
-                      right: size.width*0.03,
+                      top: size.height * 0.01,
+                      bottom: size.height * 0.01,
+                      right: size.width * 0.03,
                     ),
                     child: Image.asset(
                       ImageConstant.imgCar,
@@ -97,12 +98,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       SizedBox(
-                        height: size.height*0.5,
+                        height: size.height * 0.5,
                         width: size.width,
                         child: ListView.builder(
                           padding: EdgeInsets.only(
-                            left: size.width*0.03,
-                            right: size.width*0.03,
+                            left: size.width * 0.03,
+                            right: size.width * 0.03,
                           ),
                           scrollDirection: Axis.horizontal,
                           physics: const BouncingScrollPhysics(),
@@ -116,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.centerRight,
                         child: Container(
                           margin: EdgeInsets.only(
-                            top: size.height*0.03,
+                            top: size.height * 0.03,
                           ),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -125,8 +126,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.03,
-                                  right: size.width*0.03,
+                                  left: size.width * 0.03,
+                                  right: size.width * 0.03,
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -147,11 +148,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(
-                                        left: size.width*0.61,
-                                        top: size.height*0.01,
-                                        bottom: size.height*0.01,
-                                        right: size.width*0.03
-                                      ),
+                                          left: size.width * 0.61,
+                                          top: size.height * 0.01,
+                                          bottom: size.height * 0.01,
+                                          right: size.width * 0.03),
                                       child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -172,8 +172,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           Padding(
                                             padding: EdgeInsets.only(
                                               left: 3,
-                                              top: size.height*0.003,
-                                              bottom: size.height*0.01,
+                                              top: size.height * 0.003,
+                                              bottom: size.height * 0.01,
                                             ),
                                             child: Image.asset(
                                               ImageConstant.imgArrowright,
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ],
                                       ),
-                                    )   ,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -254,7 +254,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               //   ),
                               // ),
 
-
                               // Padding(
                               //   padding: EdgeInsets.only(
                               //     left: size.width*0.03
@@ -297,9 +296,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         child: Container(
                           margin: EdgeInsets.only(
-                            left: size.width*0.03,
-                            top: size.height*0.03,
-                            right: size.width*0.03,
+                            left: size.width * 0.03,
+                            top: size.height * 0.03,
+                            right: size.width * 0.03,
                           ),
                           decoration: BoxDecoration(
                             color: ColorConstant.purple900,
@@ -314,20 +313,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.03,
-                                  top: size.height*0.02,
-                                  bottom: size.width*0.03,
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.02,
+                                  bottom: size.width * 0.03,
                                 ),
-                                child: Image.asset(ImageConstant.imgCheckmark32X32,
-                                width: 32,
-                                height: 32,
+                                child: Image.asset(
+                                  ImageConstant.imgCheckmark32X32,
+                                  width: 32,
+                                  height: 32,
                                 ),
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                  left: size.width*0.03,
-                                  top: size.height*0.015,
-                                  bottom: size.width*0.015,
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.015,
+                                  bottom: size.width * 0.015,
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                      width: size.width*0.75,
+                                      width: size.width * 0.75,
                                       child: Text(
                                         "Gặp gỡ nhân viên xuất sắc của chúng tôi",
                                         maxLines: null,
@@ -352,8 +352,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       alignment: Alignment.center,
                                       child: Padding(
                                         padding: EdgeInsets.only(
-                                          top: size.height*0.01,
-                                          bottom: size.height*0.01,
+                                          top: size.height * 0.01,
+                                          bottom: size.height * 0.01,
                                         ),
                                         child: Text(
                                           "Khả năng và kinh nghiệm đã được chứng minh",
@@ -380,9 +380,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         alignment: Alignment.center,
                         child: Container(
                           margin: EdgeInsets.only(
-                            left: size.width*0.03,
-                            top: size.height*0.03,
-                            right: size.width*0.03,
+                            left: size.width * 0.03,
+                            top: size.height * 0.03,
+                            right: size.width * 0.03,
                           ),
                           decoration: BoxDecoration(
                             color: ColorConstant.gray50,
@@ -401,20 +401,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.02,
-                                  top: size.height*0.01,
-                                  bottom: size.width*0.02,
+                                  left: size.width * 0.02,
+                                  top: size.height * 0.01,
+                                  bottom: size.width * 0.02,
                                 ),
-                                child: Image.asset(ImageConstant.imgStar1,
+                                child: Image.asset(
+                                  ImageConstant.imgStar1,
                                   width: 22,
                                   height: 22,
                                 ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.02,
-                                  top: size.height*0.01,
-                                  bottom: size.height*0.01,
+                                  left: size.width * 0.02,
+                                  top: size.height * 0.01,
+                                  bottom: size.height * 0.01,
                                 ),
                                 child: Text(
                                   "Được đánh giá cao",
@@ -430,10 +431,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               Container(
-                                height: size.height*0.04,
+                                height: size.height * 0.04,
                                 width: 1,
                                 margin: EdgeInsets.only(
-                                  left: size.width*0.02,
+                                  left: size.width * 0.02,
                                 ),
                                 decoration: BoxDecoration(
                                   color: ColorConstant.bluegray50,
@@ -441,18 +442,21 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.12,
-                                  top: size.height*0.01,
-                                  bottom: size.height*0.01,
+                                  left: size.width * 0.12,
+                                  top: size.height * 0.01,
+                                  bottom: size.height * 0.01,
                                 ),
-                                child: Image.asset(ImageConstant.imgFilter12X14,
-                                height: 12, width: 14,),
+                                child: Image.asset(
+                                  ImageConstant.imgFilter12X14,
+                                  height: 12,
+                                  width: 14,
+                                ),
                               ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                  left: size.width*0.02,
-                                  top: size.height*0.01,
-                                  bottom: size.height*0.01,
+                                  left: size.width * 0.02,
+                                  top: size.height * 0.01,
+                                  bottom: size.height * 0.01,
                                 ),
                                 child: Text(
                                   "Bộ lọc",
@@ -481,8 +485,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               alignment: Alignment.topCenter,
                               child: Container(
                                 margin: EdgeInsets.only(
-                                  left: size.width*0.03,
-                                  right: size.width*0.03,
+                                  left: size.width * 0.03,
+                                  right: size.width * 0.03,
                                   bottom: 0,
                                 ),
                                 child: Column(
@@ -554,7 +558,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ],
                         ),
                       ),
-                      SizedBox(height: size.height*0.1),
+                      SizedBox(height: size.height * 0.1),
                     ],
                   ),
                 ),

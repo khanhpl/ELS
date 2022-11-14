@@ -2,6 +2,7 @@ import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../blocs/elder_blocs.dart';
 import '../core/models/elder_model.dart';
@@ -33,6 +34,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
+  String dob = "";
 
   ElderBlocs bloc = ElderBlocs();
 
@@ -58,20 +60,147 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
       ),
       onPressed: () {
         save();
-        Navigator.pushNamed(context, '/accountScreen');
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text(
-        "Lưu thông tin người thân",
+        "CẢNH BÁO",
       ),
       content: const Text(
-        "Hủy chỉnh sửa thông tin người thân",
+        "Xác nhận lưu thông tin vừa thay đổi",
       ),
       actions: [
         cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/accountScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showDeleteSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/accountScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Xóa thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showDeleteFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thông tin vẫn chưa được xóa",
+      ),
+      actions: [
         continueButton,
       ],
     );
@@ -140,6 +269,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     setState(() {
       _nameController.text = elder.name;
       _dobController.text = filterDob(elder.dob.toString());
+      dob = _dobController.text;
       _noteController.text = elder.note;
       _healthStatusController.text = elder.healthStatus;
       _genderController.text = elder.gender.toString();
@@ -248,15 +378,21 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 fontSize: size.width * 0.04,
                                 color: Colors.black),
                             controller: _nameController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                            decoration: InputDecoration(
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              hintText: "",
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffCED0D2), width: 1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6))),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: ColorConstant.purple900,
+                                ),
                               ),
                             ),
                           ),
@@ -282,25 +418,76 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                           top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
-                          stream: null,
-                          builder: (context, snapshot) => TextField(
-                            style: TextStyle(
-                                fontSize: size.width * 0.04,
-                                color: Colors.black),
-                            controller: _dobController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                            ),
-                          ),
-                        ),
+                            stream: null,
+                            builder: (context, snapshot) {
+                              return Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      DatePicker.showDatePicker(context,
+                                          //showDateTime to pick time
+                                          showTitleActions: true,
+                                          maxTime: DateTime.now(),
+                                          minTime: DateTime(1900),
+                                          onChanged: (date) {},
+                                          onConfirm: (date) {
+                                        String dateInput =
+                                            '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0${date.day}'}';
+                                        _changeDob(dateInput);
+                                      },
+                                          currentTime: DateTime.now(),
+                                          locale: LocaleType.vi);
+                                    },
+                                    child: Container(
+                                      width: double.infinity,
+                                      height: size.height * 0.07,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        border: Border.all(
+                                            color: Colors.black45, width: 1),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                              left: size.width * 0.048,
+                                              right: size.width * 0.048,
+                                            ),
+                                            child: Image.asset(
+                                              ImageConstant.imgCalendar,
+                                              color: ColorConstant.purple900,
+                                            ),
+                                          ),
+                                          Text(
+                                            dob,
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w400,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(height: size.height * 0.01),
+                                  snapshot.hasError
+                                      ? Text(
+                                          snapshot.error.toString(),
+                                          style: const TextStyle(
+                                            color: Color(0xffCB4847),
+                                            fontSize: 13,
+                                          ),
+                                        )
+                                      : const SizedBox(),
+                                ],
+                              );
+                            }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -389,15 +576,21 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 fontSize: size.width * 0.04,
                                 color: Colors.black),
                             controller: _healthStatusController,
-                            decoration: const InputDecoration(
-                              // errorText: snapshot.hasError
-                              //     ? snapshot.error.toString()
-                              //     : null,
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.black),
+                            decoration: InputDecoration(
+                              errorText: snapshot.hasError
+                                  ? snapshot.error.toString()
+                                  : null,
+                              hintText: "",
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Color(0xffCED0D2), width: 1),
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6))),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: ColorConstant.purple900,
+                                ),
                               ),
                             ),
                           ),
@@ -470,17 +663,22 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                         child: StreamBuilder(
                             stream: null,
                             builder: (context, snapshot) => TextField(
-                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                              controller: _noteController,
-                              decoration: InputDecoration(
-                                  hintText: "Những lưu ý cho chăm sóc viên",
-                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                            )),
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _noteController,
+                                  decoration: InputDecoration(
+                                      hintText: "Những lưu ý cho chăm sóc viên",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
                       ),
                       Row(
                         children: [
@@ -503,15 +701,14 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                     showDeleteAlertDialog(context);
                                   },
                                   style: ElevatedButton.styleFrom(
-                                    primary: ColorConstant.whiteA700,
-                                    textStyle: TextStyle(
-                                      fontSize: size.width * 0.045,
-                                    ),
-                                    side: BorderSide(
-                                      width: 1.5,
-                                      color: ColorConstant.purple900,
-                                    )
-                                  ),
+                                      primary: ColorConstant.whiteA700,
+                                      textStyle: TextStyle(
+                                        fontSize: size.width * 0.045,
+                                      ),
+                                      side: BorderSide(
+                                        width: 1.5,
+                                        color: ColorConstant.purple900,
+                                      )),
                                   child: Text(
                                     "Xóa",
                                     style: TextStyle(
@@ -579,25 +776,29 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     int id = elder.id;
     bool isAllergy = _isAllergy;
     bool updateSuccess = false;
-
-    print('test fullname: ' + fullName);
-    print('test gender:' + gender);
-    print('test dob: ' + dob);
-    print('test healthStatus:' + healthStatus);
-    print('test note: ' + note);
-    print('test Allergy:' + isAllergy.toString());
     updateSuccess = await bloc.updateElder(
         id, fullName, gender, dob, healthStatus, note, isAllergy);
-    // if(updateSuccess){
-    //
-    // }else{
-    //
-    // }
+    if(updateSuccess){
+      showSuccessAlertDialog(context);
+    }else{
+      showFailAlertDialog(context);
+    }
   }
 
   void removeElder() async {
     int id = elder.id;
     bool removeSuccess = false;
     removeSuccess = await bloc.removeElderByID(id);
+    if(removeSuccess){
+      showDeleteSuccessAlertDialog(context);
+    }else{
+      showDeleteFailAlertDialog(context);
+    }
+  }
+
+  void _changeDob(String date) async {
+    setState(() {
+      _dobController.text = date;
+    });
   }
 }

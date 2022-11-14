@@ -19,9 +19,7 @@ import '../../core/utils/globals.dart' as Globals;
 import '../../widgets/update_service_button.dart';
 
 class AddWorkScreen extends StatefulWidget {
-  const AddWorkScreen
-
-  ({super.key});
+  const AddWorkScreen({super.key});
 
   @override
   State<AddWorkScreen> createState() => _AddWorkScreenState();
@@ -71,6 +69,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       workDate = date;
     });
   }
+
   void _changeWorkTime(String time) async {
     setState(() {
       workTime = time;
@@ -138,9 +137,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   _chooseService(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     AlertDialog alert = AlertDialog(
       contentPadding: const EdgeInsets.all(0),
       backgroundColor: ColorConstant.gray300,
@@ -185,7 +182,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     bool chkOccur = false;
                                     if (listSelectedService.isNotEmpty) {
                                       for (ServiceDataModel service
-                                      in listSelectedService) {
+                                          in listSelectedService) {
                                         if (service.id ==
                                             snapshot.data!.data[index].id) {
                                           chkOccur = true;
@@ -195,21 +192,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                         listSelectedService
                                             .remove(snapshot.data!.data[index]);
                                         listServiceObj.removeWhere(
-                                                (key, value) =>
-                                            key ==
+                                            (key, value) =>
+                                                key ==
                                                 snapshot.data!.data[index].id);
                                       } else {
                                         listSelectedService
                                             .add(snapshot.data!.data[index]);
                                         listServiceObj[
-                                        snapshot.data!.data[index].id] =
+                                                snapshot.data!.data[index].id] =
                                             snapshot.data!.data[index].duration;
                                       }
                                     } else {
                                       listSelectedService
                                           .add(snapshot.data!.data[index]);
                                       listServiceObj[
-                                      snapshot.data!.data[index].id] =
+                                              snapshot.data!.data[index].id] =
                                           snapshot.data!.data[index].duration;
                                     }
                                     Navigator.pop(context);
@@ -245,7 +242,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
     // set up the AlertDialog
   }
-
 
   void showSuccessAlertDialog(BuildContext context) {
     // set up the buttons
@@ -316,9 +312,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   }
 
   Widget getPickDateWidget(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     if (_isOneDay) {
       return Column(
         children: [
@@ -333,18 +327,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                     showTitleActions: true,
                     minTime: DateTime.now(),
                     maxTime: DateTime(2023, 12, 31),
-                    onChanged: (date) {},
-                    onConfirm: (date) {
-                      String dateInput =
-                          '${date.year}-${(date.month >= 10)
-                          ? date.month
-                          : '0' + date.month.toString()}-${(date.day >= 10)
-                          ? date.day
-                          : '0' + date.day.toString()}';
-                      _changeWorkDate(dateInput);
-                    },
-                    currentTime: DateTime.now(),
-                    locale: LocaleType.vi);
+                    onChanged: (date) {}, onConfirm: (date) {
+                  String dateInput =
+                      '${date.year}-${(date.month >= 10) ? date.month : '0' + date.month.toString()}-${(date.day >= 10) ? date.day : '0' + date.day.toString()}';
+                  _changeWorkDate(dateInput);
+                }, currentTime: DateTime.now(), locale: LocaleType.vi);
               },
               child: Container(
                 width: double.infinity,
@@ -389,15 +376,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
               onTap: () {
                 DatePicker.showTimePicker(context, //showDateTime to pick time
                     showTitleActions: true,
-                    onChanged: (time) {},
-                    onConfirm: (time) {
-                      String timeInput =
-                          '${time.hour}:${time.minute}';
-                      _changeWorkTime(timeInput);
-                      startDateTime = time;
-                    },
-                    currentTime: DateTime.now(),
-                    locale: LocaleType.vi);
+                    onChanged: (time) {}, onConfirm: (time) {
+                  String timeInput = '${time.hour}:${time.minute}';
+                  _changeWorkTime(timeInput);
+                  startDateTime = time;
+                }, currentTime: DateTime.now(), locale: LocaleType.vi);
               },
               child: Container(
                 width: double.infinity,
@@ -421,7 +404,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                       ),
                     ),
                     Text(
-                      (workTime != "Chọn thời gian làm việc") ? '${workTime.split(":")[0]} Giờ ${workTime.split(":")[1]} phút' : workTime,
+                      (workTime != "Chọn thời gian làm việc")
+                          ? '${workTime.split(":")[0]} Giờ ${workTime.split(":")[1]} phút'
+                          : workTime,
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 14,
@@ -441,9 +426,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery
-        .of(context)
-        .size;
+    var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorConstant.whiteA700,
@@ -792,9 +775,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                         )),
                                     child: Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                          MainAxisAlignment.start,
                                       crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           '${listSelectedService[index].name}:',
@@ -808,10 +791,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                             top: size.height * 0.01,
                                           ),
                                           child: Text(
-                                            '(giá đề xuất)${listSelectedService[index]
-                                                .price.ceil()
-                                                .toString()}VNĐ/${listSelectedService[index]
-                                                .duration} phút',
+                                            '(giá đề xuất)${listSelectedService[index].price.ceil().toString()}VNĐ/${listSelectedService[index].duration} phút',
                                             style: const TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w400),
@@ -823,17 +803,16 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                                 left: size.width * 0.03),
                                             child: Row(
                                               mainAxisAlignment:
-                                              MainAxisAlignment.start,
+                                                  MainAxisAlignment.start,
                                               crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  'Thời gian thực hiện: ${listServiceObj[listSelectedService[index]
-                                                      .id]} phút',
+                                                  'Thời gian thực hiện: ${listServiceObj[listSelectedService[index].id]} phút',
                                                   style: const TextStyle(
                                                       fontSize: 12,
                                                       fontWeight:
-                                                      FontWeight.w400),
+                                                          FontWeight.w400),
                                                 ),
                                                 SizedBox(
                                                     width: size.width * 0.03),
@@ -841,16 +820,16 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                                   onTap: () {
                                                     setState(() {
                                                       listServiceObj[
-                                                      listSelectedService[
-                                                      index]
-                                                          .id] =
-                                                      (listServiceObj[
-                                                      listSelectedService[
-                                                      index]
-                                                          .id] +
-                                                          listSelectedService[
-                                                          index]
-                                                              .duration);
+                                                              listSelectedService[
+                                                                      index]
+                                                                  .id] =
+                                                          (listServiceObj[
+                                                                  listSelectedService[
+                                                                          index]
+                                                                      .id] +
+                                                              listSelectedService[
+                                                                      index]
+                                                                  .duration);
                                                     });
                                                   },
                                                   child: Icon(
@@ -865,22 +844,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                                   onTap: () {
                                                     setState(() {
                                                       if (listServiceObj[
-                                                      listSelectedService[
-                                                      index]
-                                                          .id] >
+                                                              listSelectedService[
+                                                                      index]
+                                                                  .id] >
                                                           listSelectedService[
-                                                          index]
+                                                                  index]
                                                               .duration) {
                                                         listServiceObj[listSelectedService[
-                                                        index]
-                                                            .id] =
-                                                            listServiceObj[
-                                                            listSelectedService[
-                                                            index]
-                                                                .id] -
-                                                                listSelectedService[
                                                                 index]
-                                                                    .duration;
+                                                            .id] = listServiceObj[
+                                                                listSelectedService[
+                                                                        index]
+                                                                    .id] -
+                                                            listSelectedService[
+                                                                    index]
+                                                                .duration;
                                                       }
                                                     });
                                                   },
@@ -931,7 +909,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1007,7 +985,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1079,7 +1057,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
@@ -1244,12 +1222,11 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           direction: Axis.horizontal,
                           allowHalfRating: true,
                           itemCount: 5,
-                          itemBuilder: (context, _) =>
-                              Icon(
-                                Icons.star,
-                                color: ColorConstant.purple900,
-                                // size: 10.0,
-                              ),
+                          itemBuilder: (context, _) => Icon(
+                            Icons.star,
+                            color: ColorConstant.purple900,
+                            // size: 10.0,
+                          ),
                           onRatingUpdate: (rating) {},
                         ),
                       ),
@@ -1319,7 +1296,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     borderSide: BorderSide(
                                         color: Color(0xffCED0D2), width: 1),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(6)),
+                                        BorderRadius.all(Radius.circular(6)),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -1368,7 +1345,8 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     List<AddBookingServiceRequestDto> addBookingServiceRequestDtos = [];
     int totalDuration = 0;
     listServiceObj.forEach((key, value) {
-      addBookingServiceRequestDtos.add(AddBookingServiceRequestDto(id: key, duration: value));
+      addBookingServiceRequestDtos
+          .add(AddBookingServiceRequestDto(id: key, duration: value));
       totalDuration += (value) as int;
     });
     double total = calTotal();
@@ -1381,17 +1359,21 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
       place = "Tại nhà";
     }
 
-
     Duration duration = Duration(minutes: totalDuration);
     DateTime endDateTime = startDateTime.add(duration);
-    String startDateTimeStr = '${startDateTime.year}-${startDateTime.month}-${startDateTime.day}T${startDateTime.hour}:${startDateTime.minute}:00.000Z';
-    String endDateTimeStr = '${endDateTime.year}-${endDateTime.month}-${endDateTime.day}T${endDateTime.hour}:${endDateTime.minute}:00.000Z';
-    AddWorkingTimesDtoListElement addWorkingTimesDto = AddWorkingTimesDtoListElement(startDateTime: startDateTimeStr, endDateTime: endDateTimeStr);
-    List<AddWorkingTimesDtoListElement> addWorkingTimesDtoList =[];
+    String startDateTimeStr =
+        '${startDateTime.year}-${startDateTime.month}-${startDateTime.day}T${startDateTime.hour}:${startDateTime.minute}:00.000Z';
+    String endDateTimeStr =
+        '${endDateTime.year}-${endDateTime.month}-${endDateTime.day}T${endDateTime.hour}:${endDateTime.minute}:00.000Z';
+    AddWorkingTimesDtoListElement addWorkingTimesDto =
+        AddWorkingTimesDtoListElement(
+            startDateTime: startDateTimeStr, endDateTime: endDateTimeStr);
+    List<AddWorkingTimesDtoListElement> addWorkingTimesDtoList = [];
     addWorkingTimesDtoList.add(addWorkingTimesDto);
 
     bool isBooking = false;
-    BookingFormModel booking = BookingFormModel(address: address,
+    BookingFormModel booking = BookingFormModel(
+        address: address,
         description: description,
         elderId: int.parse(chooseElderID),
         place: place,

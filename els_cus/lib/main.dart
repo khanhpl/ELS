@@ -10,6 +10,8 @@ import 'package:els_cus_mobile/presentation/onboarding_screen/onboarding_screen.
 import 'package:els_cus_mobile/presentation/sign_up_screen/sign_up_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:els_cus_mobile/presentation/personal_information_screen/personal_screen.dart';
+import 'package:els_cus_mobile/presentation/setting_screen/setting_screen.dart';
+import 'package:els_cus_mobile/presentation/change_password_screen/change_password_screen.dart';
 import 'package:els_cus_mobile/presentation/account_screen/account_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,6 +49,7 @@ class MyApp extends StatelessWidget {
                 BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
             '/accountScreen': (context) =>
                 BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
+            '/settingScreen': (context) => SettingScreen(),
           },
         ),
       );

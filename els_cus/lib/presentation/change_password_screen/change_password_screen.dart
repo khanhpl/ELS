@@ -1,9 +1,9 @@
-import 'package:els_sitter/blocs/sitter_bloc.dart';
+import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
+import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
+import 'package:els_cus_mobile/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../../core/utils/color_constant.dart';
-import '../../core/utils/image_constant.dart';
-
+import 'package:els_cus_mobile/core/utils/color_constant.dart';
+import 'package:els_cus_mobile/core/utils/image_constant.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -17,7 +17,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final TextEditingController _curPassController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _rePassController = TextEditingController();
-  SitterBlocs bloc = SitterBlocs();
+  PersonalInfoBloc bloc = PersonalInfoBloc();
 
   @override
   Widget build(BuildContext context) {

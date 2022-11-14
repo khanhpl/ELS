@@ -142,16 +142,22 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                       color: Colors.black),
                                   controller: _nameController,
                                   decoration: InputDecoration(
-                                      hintText: "",
-                                      errorText: snapshot.hasError
-                                          ? snapshot.error.toString()
-                                          : null,
-                                      border: const UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: Color(0xffCED0D2),
-                                              width: 1),
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(6)))),
+                                    errorText: snapshot.hasError
+                                        ? snapshot.error.toString()
+                                        : null,
+                                    hintText: "",
+                                    border: const OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Color(0xffCED0D2), width: 1),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6))),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        width: 1,
+                                        color: ColorConstant.purple900,
+                                      ),
+                                    ),
+                                  ),
                                 )),
                       ),
                       Padding(
