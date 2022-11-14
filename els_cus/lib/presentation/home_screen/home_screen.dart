@@ -1,8 +1,6 @@
 import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/category_model.dart';
-import 'package:els_cus_mobile/core/models/service_data_model.dart';
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/home_screen/widgets/banner_item_widget.dart';

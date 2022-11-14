@@ -38,7 +38,7 @@ Widget ElderItemOnDetailWidget(BuildContext context, ElderDataModel elder) {
                 : "Bà: ${elder.name}",
             style: const TextStyle(
               fontSize: 14,
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w500,
             ),
           ),
           Padding(
@@ -48,7 +48,7 @@ Widget ElderItemOnDetailWidget(BuildContext context, ElderDataModel elder) {
             child: Text(
               "Tuổi: ${getAge()}",
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -60,7 +60,7 @@ Widget ElderItemOnDetailWidget(BuildContext context, ElderDataModel elder) {
             child: Text(
               "Tình trạng: ${elder.healthStatus}",
               style: const TextStyle(
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: FontWeight.w400,
               ),
             ),

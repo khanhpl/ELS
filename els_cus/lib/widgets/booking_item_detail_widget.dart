@@ -1,7 +1,9 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/payment_bloc.dart';
+import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
+import 'package:els_cus_mobile/core/models/single_sitter_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
@@ -23,7 +25,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   BookingDataModel booking;
 
   _BookingItemDetailWidgetState({required this.booking});
-
 
   String getStatus() {
     String status = "";
@@ -264,10 +265,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
             child: Container(
               width: size.width,
               padding: EdgeInsets.only(
-                left: size.width*0.03,
-                right: size.width*0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.05,
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
               ),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
@@ -453,6 +454,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         if (!snapshot.hasData) {
           return const SplashScreen();
         } else {
+          final Future<SingleSitterModel> sitter = SitterBlocs()
+              .getSitterDetailByEmail(snapshot.data!.data.sitterDto.email);
           return SafeArea(
             child: Scaffold(
               appBar: AppBar(
@@ -480,7 +483,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                   ),
                   child: Text(
                     "Chi tiết đặt lịch",
-
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -491,7 +493,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       height: 1.00,
                     ),
                   ),
-
                 ),
               ),
               body: Container(
@@ -578,15 +579,30 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
-
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
                                 right: size.width * 0.06,
-
+                                bottom: size.height * 0.02,
                               ),
-                              child: SitterItemOnBookingDetailWidget(sitter: snapshot.data!.data.sitterDto),
+                              child: FutureBuilder<SingleSitterModel>(
+                                future: sitter,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasError) print(snapshot.error);
+                                  if (!snapshot.hasData) {
+                                    return const SplashScreen();
+                                  } else {
+                                    return SitterItemOnBookingDetailWidget(
+                                        sitter: snapshot.data!.data);
+                                  }
+                                },
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -605,6 +621,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height * 0.02,
                               ),
                               child: Text(
                                 snapshot.data!.data.address,
@@ -613,6 +630,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -631,6 +653,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height * 0.02,
                               ),
                               child: Text(
                                 convertDate(snapshot.data!.data
@@ -642,6 +665,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -660,6 +688,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height * 0.02,
                               ),
                               child: Text(
                                 convertDate(snapshot.data!.data
@@ -671,6 +700,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -689,6 +723,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height*0.02,
                               ),
                               child: ListView.separated(
                                 shrinkWrap: true,
@@ -712,9 +747,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                         ),
                                       ),
                                       Padding(
-                                        padding:  EdgeInsets.only(
-                                          top: size.height*0.005,
-                                          left: size.width*0.03,
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.005,
+                                          left: size.width * 0.03,
                                         ),
                                         child: Text(
                                           "Giá tiền: ${snapshot.data!.data.bookingDetailResponseDtoList[index].price.ceil().toString()} VNĐ",
@@ -725,9 +760,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                         ),
                                       ),
                                       Padding(
-                                        padding:  EdgeInsets.only(
-                                          top: size.height*0.005,
-                                          left: size.width*0.03,
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.005,
+                                          left: size.width * 0.03,
                                         ),
                                         child: Text(
                                           "Thời gian thực hiện: ${snapshot.data!.data.bookingDetailResponseDtoList[index].duration.toString()} phút",
@@ -746,6 +781,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     .bookingDetailResponseDtoList.length,
                               ),
                             ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
@@ -763,6 +803,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height * 0.02,
                               ),
                               child: Text(
                                 "${snapshot.data!.data.totalPrice.ceil().toString()} VNĐ",
@@ -771,6 +812,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -789,6 +835,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
+                                bottom: size.height * 0.02,
                               ),
                               child: Text(
                                 snapshot.data!.data.paymentResponseDto
@@ -798,6 +845,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -846,6 +898,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+
   String convertDate(String inputDate) {
     String dateConverted = "";
     String date = inputDate.split("T")[0];
