@@ -1,11 +1,12 @@
 import 'package:els_sitter/blocs/booking_bloc.dart';
-import 'package:els_sitter/blocs/elder_blocs.dart';
+
 import 'package:els_sitter/core/models/booking_data_model.dart';
 import 'package:els_sitter/core/models/booking_detail_model.dart';
-import 'package:els_sitter/core/models/single_elder_model.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
-import 'package:els_sitter/widgets/elder_item_on_booking_widget.dart';
+import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
+import 'package:els_sitter/widgets/customer_item_on_detail_widget.dart';
+import 'package:els_sitter/widgets/elder_item_on_detail_widget.dart';
 import 'package:flutter/material.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
@@ -23,23 +24,23 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   _BookingItemDetailWidgetState({required this.booking});
 
-  BookingBloc bookBloc = BookingBloc();
+  final BookingBloc _bookingBloc = BookingBloc();
 
-  String getStatus(){
+  String getStatus() {
     String status = "";
-    if(booking.status == 'WAITING_FOR_SITTER'){
+    if (booking.status == 'WAITING_FOR_SITTER') {
       status = "Đang đợi chăm xóc viên xác nhận";
-    }else if(booking.status == 'STARTING'){
+    } else if (booking.status == 'STARTING') {
       status = "Đang thực hiện";
-    }else if(booking.status == 'DONE'){
+    } else if (booking.status == 'DONE') {
       status = "Đã xong";
-    }else if(booking.status == 'CANCEL'){
+    } else if (booking.status == 'CANCEL') {
       status = "Đã hủy";
-    }else if(booking.status == 'WAITING_FOR_DATE'){
+    } else if (booking.status == 'WAITING_FOR_DATE') {
       status = "Đang đợi đến ngày làm việc";
-    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+    } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       status = "Đang đợi thanh toán";
-    }else{
+    } else {
       status = "Chưa biết";
     }
     return status;
@@ -90,7 +91,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ),
       ),
       onPressed: () {
-        Navigator.pushNamed(context, '/scheduleScreen');
+        Navigator.pop(context);
       },
     );
 
@@ -143,7 +144,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         "Xác Nhận Đặt Lịch",
       ),
       content: const Text(
-        "Bạn xác nhận muốn nhận đặt lịch chăm sóc này",
+        "Bạn xác nhận muốn nhận đặt lịch này",
       ),
       actions: [
         cancelButton,
@@ -159,7 +160,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
-
   void showCancelAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -180,18 +180,16 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {
-        onCancelClick();
-      },
+      onPressed: () {},
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text(
-        "Xác Nhận Từ Chối Đặt Lịch",
+        "Xác Nhận Hủy Đặt Lịch",
       ),
       content: const Text(
-        "Bạn xác nhận muốn từ chối đặt lịch chăm sóc này",
+        "Bạn xác nhận muốn hủy đặt lịch này",
       ),
       actions: [
         cancelButton,
@@ -207,6 +205,55 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+
+  void showPaymentAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        onPaymentClick();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Thanh Toán",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn thanh toán cho lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   void showCheckoutAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -257,18 +304,20 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     var size = MediaQuery.of(context).size;
     if (booking.status == 'WAITING_FOR_SITTER') {
       return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
-              decoration: BoxDecoration(
-                color: ColorConstant.whiteA700,
+              width: size.width*0.4,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -282,23 +331,24 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Từ chối"),
+                  child: const Text("Hủy"),
                 ),
               ),
             ),
           ),
-          SizedBox(width: size.width * 0.05),
+          SizedBox(width: size.width*0.1,),
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
-              decoration: BoxDecoration(
-                color: ColorConstant.whiteA700,
+              width: size.width*0.4,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -319,7 +369,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ],
       );
-    } else if (booking.status == 'STARTING') {
+    } else if (booking.status == 'WAITING_FOR_DATE') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -333,8 +383,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                   right: size.width * 0.03,
                   top: size.height * 0.02,
                   bottom: size.height * 0.02),
-              decoration: BoxDecoration(
-                color: ColorConstant.whiteA700,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -348,15 +398,14 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Xác nhận xong"),
+                  child: const Text("Hủy"),
                 ),
               ),
             ),
           ),
-
         ],
       );
-    } else {
+    } else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -370,8 +419,44 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                   right: size.width * 0.03,
                   top: size.height * 0.02,
                   bottom: size.height * 0.02),
-              decoration: BoxDecoration(
-                color: ColorConstant.whiteA700,
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showPaymentAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Thanh Toán"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (booking.status == 'DONE') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
               ),
               child: SizedBox(
                 width: double.infinity,
@@ -390,772 +475,516 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-
         ],
       );
+    } else if (booking.status == 'STARTING') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Xác nhận xong"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    } else {
+      return SizedBox();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<SingleElderModel> elderList =
-        ElderBlocs().getElderByID(booking.elder!.id);
     final Future<BookingDetailModel> bookingDetail =
         BookingBloc().getBookingDetailByBookingID(booking.id.toString());
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorConstant.whiteA700,
-        body: SizedBox(
-          width: size.width,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
+    return FutureBuilder<BookingDetailModel>(
+      future: bookingDetail,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) print(snapshot.error);
+        if (!snapshot.hasData) {
+          return const SplashScreen();
+        } else {
+          return SafeArea(
+            child: Scaffold(
+              appBar: AppBar(
+                toolbarHeight: size.height * 0.08,
+                // bottomOpacity: 0.0,
+                elevation: 0.0,
+                automaticallyImplyLeading: false,
+                backgroundColor: ColorConstant.purple900,
+                leading: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Image.asset(
+                    ImageConstant.imgArrowleft,
+                    height: size.height * 0.024,
+                    width: size.width * 0.03,
+                    color: ColorConstant.whiteA700,
+                  ),
+                ),
+                title: Container(
+                  color: ColorConstant.purple900,
+                  margin: EdgeInsets.only(
+                    top: size.height * 0.01,
+                    bottom: size.height * 0.01,
+                  ),
+                  child: Text(
+                    "Chi tiết đặt lịch",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
                       color: ColorConstant.whiteA700,
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: size.width * 0.03,
-                              top: size.height * 0.02,
-                              right: size.width * 0.03,
-                            ),
-                            child: Image.asset(
-                              ImageConstant.imgArrowleft,
-                              height: size.width * 0.03,
-                              width: size.width * 0.03,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            "Chi tiết đặt lịch",
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: 34,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                      ],
+                      fontSize: 30,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w700,
+                      height: 1.00,
                     ),
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Thời gian và Ngày tháng",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              booking.startDateTime.toString(),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.black900,
-                                fontSize: 17,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w500,
-                                height: 1.00,
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                ),
-                                child: Text(
-                                  booking.endDateTime.toString(),
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 17,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w500,
-                                    height: 1.00,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Image.asset(
-                                ImageConstant.imgArrowrightGray400,
-                                height: size.width * 0.03,
-                                width: size.width * 0.03,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Trạng thái:",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              getStatus(),
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.black900,
-                                fontSize: 17,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w500,
-                                height: 1.00,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Image.asset(
-                                ImageConstant.imgArrowrightGray400,
-                                height: size.width * 0.03,
-                                width: size.width * 0.03,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Người đặt lịch",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              booking.cus!.fullname,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.black900,
-                                fontSize: 17,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w500,
-                                height: 1.00,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Image.asset(
-                                ImageConstant.imgArrowrightGray400,
-                                height: size.width * 0.03,
-                                width: size.width * 0.03,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Dịch vụ",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.height * 0.015,
-                    right: size.width * 0.03,
-                  ),
+              ),
+              body: Container(
+                color: ColorConstant.gray300,
+                width: size.width,
+                height: size.height,
+                child: SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          top: size.height * 0.015,
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      Container(
+                        width: size.width,
+                        margin: EdgeInsets.all(size.width * 0.03),
+                        decoration: BoxDecoration(
+                          color: ColorConstant.whiteA700,
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: FutureBuilder<BookingDetailModel>(
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) print(snapshot.error);
-                              if (snapshot.hasData) {
-                                return ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  scrollDirection: Axis.vertical,
-                                  // itemCount: snapshot.data!.length,
-                                  itemCount: snapshot.data!.data.length,
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(height: size.height*0.01);
-                                  },
-                                  itemBuilder:
-                                      (BuildContext context, int index) {
-                                    return Text('${snapshot.data!.data[index].serviceName}: ${snapshot.data!.data[index].price.ceil()} - Thời gian làm: ${snapshot.data!.data[index].duration} phút');
-                                  },
-                                );
-                              } else {
-                                return const CircularProgressIndicator();
-                              }
-                            },
-                            future: bookingDetail,
-                          ),
-                        ),
-                        //show elder
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Người được chăm sóc",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.015,
-                      right: size.width * 0.03,
-                    ),
-                    child: SizedBox(
-                      height: size.height * 0.08,
-                      child: FutureBuilder<SingleElderModel>(
-                        builder: (context, snapshot) {
-                          if (snapshot.hasError) print(snapshot.error);
-                          if (snapshot.hasData) {
-                            return ElderItemOnBookingWidget(
-                                context,
-                                snapshot.data!.data,
-                                snapshot.data!.data.id.toString());
-                          } else {
-                            return const CircularProgressIndicator();
-                          }
-                        },
-                        future: elderList,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Địa chỉ thực hiện",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
+                        child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              booking.address,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.black900,
-                                fontSize: 17,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w500,
-                                height: 1.00,
-                              ),
-                            ),
-                            // Align(
-                            //   alignment: Alignment.centerLeft,
-                            //   child: Padding(
-                            //     padding: EdgeInsets.only(
-                            //       top: size.height * 0.01,
-                            //     ),
-                            //     child: Text(
-                            //       "0.31 Km",
-                            //       overflow: TextOverflow.ellipsis,
-                            //       textAlign: TextAlign.left,
-                            //       style: TextStyle(
-                            //         color: ColorConstant.black900,
-                            //         fontSize: 13,
-                            //         fontFamily: 'Roboto',
-                            //         fontWeight: FontWeight.w500,
-                            //         height: 1.00,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                        Expanded(
-                          child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Image.asset(
-                                ImageConstant.imgArrowrightGray400,
-                                height: size.width * 0.03,
-                                width: size.width * 0.03,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Phương thức thanh toán",
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                color: ColorConstant.gray700,
-                                fontSize: 13,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w400,
-                                height: 1.00,
-                              ),
-                            ),
                             Padding(
                               padding: EdgeInsets.only(
-                                top: size.height * 0.015,
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image.asset(
-                                    ImageConstant.imgIconAdd,
-                                    height: size.width * 0.03,
-                                    width: size.width * 0.03,
-                                  ),
-                                  SizedBox(width: size.width * 0.015),
-                                  Text(
-                                    "Thêm phương thức thanh toán",
-                                    overflow: TextOverflow.ellipsis,
-                                    textAlign: TextAlign.left,
-                                    style: TextStyle(
-                                      color: ColorConstant.gray700,
-                                      fontSize: 13,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.00,
-                                    ),
-                                  ),
-                                ],
+                              child: const Text(
+                                "Mã đặt lịch:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
                             ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
+                                left: size.width * 0.06,
                               ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Container(
-                                    height: size.height * 0.07,
-                                    width: size.width * 0.15,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: ColorConstant.black900,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    child: Stack(
-                                      children: [
-                                        Align(
-                                          alignment: Alignment.center,
-                                          child: Image.asset(
-                                              ImageConstant.imgMomo,
-                                              fit: BoxFit.fill),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: size.width * 0.03,
-                                    ),
-                                    child: Container(
-                                      height: size.height * 0.07,
-                                      width: size.width * 0.15,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: ColorConstant.black900,
-                                          width: 1,
-                                        ),
-                                      ),
-                                      child: Stack(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.center,
-                                            child: Image.asset(
-                                                ImageConstant.imgZalopay,
-                                                fit: BoxFit.fill),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                              child: Text(
+                                booking.name,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Người được chăm sóc:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                right: size.width * 0.06,
+                              ),
+                              child: ElderItemOnDetailWidget(
+                                  context, snapshot.data!.data.elder),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Người đặt lịch:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                                padding: EdgeInsets.only(
+                                  top: size.height * 0.01,
+                                  left: size.width * 0.06,
+                                  right: size.width * 0.06,
+                                  bottom: size.height * 0.02,
+                                ),
+                                child: CusItemOnDetailWidget(cus: snapshot.data!.data.cusDto),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Địa chỉ thực hiện:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: Text(
+                                snapshot.data!.data.address,
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Thời gian bắt đầu:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: Text(
+                                convertDate(snapshot.data!.data
+                                    .workingTimeResponseDtoList[0].startDateTime
+                                    .toString()),
+                                style: const TextStyle(
+                                  height: 1.5,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Thời gian kết thúc:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: Text(
+                                convertDate(snapshot.data!.data
+                                    .workingTimeResponseDtoList[0].endDateTime
+                                    .toString()),
+                                style: const TextStyle(
+                                  height: 1.5,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Dịch vụ được chọn:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                scrollDirection: Axis.vertical,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        snapshot
+                                            .data!
+                                            .data
+                                            .bookingDetailResponseDtoList[index]
+                                            .serviceName,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.005,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: Text(
+                                          "Giá tiền: ${snapshot.data!.data.bookingDetailResponseDtoList[index].price.ceil().toString()} VNĐ",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.005,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: Text(
+                                          "Thời gian thực hiện: ${snapshot.data!.data.bookingDetailResponseDtoList[index].duration.toString()} phút",
+                                          style: const TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(),
+                                itemCount: snapshot.data!.data
+                                    .bookingDetailResponseDtoList.length,
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Tổng giá tiền:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: Text(
+                                "${snapshot.data!.data.totalPrice.ceil().toString()} VNĐ",
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Phương thức thanh toán:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: Text(
+                                snapshot.data!.data.paymentResponseDto
+                                    .toString(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: size.width,
+                              height: 1,
+                              color: ColorConstant.gray300,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.02,
+                                left: size.width * 0.03,
+                              ),
+                              child: const Text(
+                                "Trạng thái:",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                              ),
+                              child: Text(
+                                getStatus(),
+                                style: const TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: size.height * 0.02),
                           ],
                         ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 1,
-                  width: double.infinity,
-                  margin: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.width * 0.03,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.bluegray50,
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Text(
-                      "Giá tiền",
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        color: ColorConstant.gray700,
-                        fontSize: 13,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w400,
-                        height: 1.00,
                       ),
-                    ),
+                      SizedBox(
+                        width: size.width,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: getButton(context),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: size.width * 0.03,
-                      top: size.height * 0.02,
-                      right: size.width * 0.03,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Text(
-                          "Tổng cộng",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.black900,
-                            fontSize: 13,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w500,
-                            height: 1.00,
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            booking.totalPrice.ceil().toString(),
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: ColorConstant.black900,
-                              fontSize: 13,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w400,
-                              height: 1.00,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                getButton(context),
-              ],
+              ),
             ),
-          ),
-        ),
-      ),
+          );
+        }
+      },
     );
   }
 
+  String convertDate(String inputDate) {
+    String dateConverted = "";
+    String date = inputDate.split("T")[0];
+    String time = inputDate.split("T")[1];
+    dateConverted =
+        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]}\nLúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+    return dateConverted;
+  }
+
+  onPaymentClick() async {
+    bool isPaid = false;
+    // isPaid = await _paymentBloc.cusPayment(booking.id);
+
+    if (isPaid) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
+    }
+  }
   onAcceptClick() async {
     bool isAccept = false;
-    isAccept = await bookBloc.sitterAcceptAction(booking.id);
+    isAccept = await _bookingBloc.sitterAcceptAction(booking.id);
 
     if (isAccept) {
       showSuccessAlertDialog(context);
@@ -1165,7 +994,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   }
   onCancelClick() async{
     bool isCancel = false;
-    isCancel = await bookBloc.sitterCancelAction(booking.id);
+    isCancel = await _bookingBloc.sitterCancelAction(booking.id);
 
     if (isCancel) {
       showSuccessAlertDialog(context);

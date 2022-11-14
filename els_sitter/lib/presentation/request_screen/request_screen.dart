@@ -1,3 +1,5 @@
+import 'package:els_sitter/core/models/booking_info_model.dart';
+import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
 import 'package:els_sitter/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class RequestScreen extends StatefulWidget {
 }
 
 class _RequestScreenState extends State<RequestScreen>{
-  final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
+  final Future<BookingInfoModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -81,7 +83,7 @@ class _RequestScreenState extends State<RequestScreen>{
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: FutureBuilder<BookingModel>(
+                          child: FutureBuilder<BookingInfoModel>(
                             builder: (context, snapshot) {
                               if (snapshot.hasError) print(snapshot.error);
                               if (snapshot.hasData) {
@@ -89,7 +91,7 @@ class _RequestScreenState extends State<RequestScreen>{
                                   return Container(
                                     height: size.height*0.5,
                                     alignment: Alignment.center,
-                                    child: Text(
+                                    child: const Text(
                                       "Chưa có đặt lịch",
                                       textAlign: TextAlign.center,
                                     ),
@@ -102,13 +104,7 @@ class _RequestScreenState extends State<RequestScreen>{
                                     // itemCount: snapshot.data!.length,
                                     itemCount: snapshot.data!.data.length,
                                     separatorBuilder: (context, index) {
-                                      return Container(
-                                        height: 1,
-                                        width: size.width,
-                                        decoration: BoxDecoration(
-                                          color: ColorConstant.bluegray50,
-                                        ),
-                                      );
+                                      return SizedBox(height: size.height*0.02);
                                     },
                                     itemBuilder: (BuildContext context,
                                         int index) {
@@ -128,7 +124,7 @@ class _RequestScreenState extends State<RequestScreen>{
                                   );
                                 }
                               } else {
-                                return const CircularProgressIndicator();
+                                return const SplashScreen();
                               }
                             },
                             future: bookingList,

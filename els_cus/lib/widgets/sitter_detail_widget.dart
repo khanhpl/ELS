@@ -158,7 +158,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "92",
+                                    sitter.ratingStar.toString(),
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -173,7 +173,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                     height: size.height * 0.01,
                                   ),
                                   Text(
-                                    "Xếp hạng",
+                                    "Sao",
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -193,7 +193,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "147",
+                                    "0",
                                     overflow: TextOverflow.ellipsis,
                                     textAlign: TextAlign.left,
                                     style: TextStyle(
@@ -450,7 +450,7 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        "362",
+                                        "0",
                                         overflow: TextOverflow.ellipsis,
                                         textAlign: TextAlign.left,
                                         style: TextStyle(

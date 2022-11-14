@@ -194,12 +194,28 @@ class SitterItemOnBookingDetailWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         children: [
 
-                          Padding(
+                          (sitter.ratingStar == 0) ? Padding(
                             padding: EdgeInsets.only(
                               right: size.width * 0.01,
                             ),
                             child: Text(
-                              "${sitter.ratingStart}",
+                              "${sitter.ratingStar}",
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: ColorConstant.black900,
+                                fontSize: 12,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w400,
+                                height: 1.00,
+                              ),
+                            ),
+                          ) : Padding(
+                            padding: EdgeInsets.only(
+                              right: size.width * 0.01,
+                            ),
+                            child: Text(
+                              "Chưa có đánh giá",
                               overflow: TextOverflow.ellipsis,
                               textAlign: TextAlign.left,
                               style: TextStyle(

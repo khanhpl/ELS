@@ -1,3 +1,5 @@
+import 'package:els_sitter/core/models/booking_info_model.dart';
+import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
 import 'package:els_sitter/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +16,8 @@ class HistoryBookingScreen extends StatefulWidget {
 }
 
 class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
-  final Future<BookingModel> doneList = BookingBloc().getBookingByStatusName('DONE');
-  final Future<BookingModel> cancelList = BookingBloc().getBookingByStatusName('CANCEL');
+  final Future<BookingInfoModel> doneList = BookingBloc().getBookingByStatusName('DONE');
+  final Future<BookingInfoModel> cancelList = BookingBloc().getBookingByStatusName('CANCEL');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -91,62 +93,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                         ),
                         Align(
                           alignment: Alignment.centerLeft,
-                          child: FutureBuilder<BookingModel>(
-                            builder: (context, snapshot) {
-                              if (snapshot.hasError) print(snapshot.error);
-                              if (snapshot.hasData) {
-                                if(snapshot.data!.data.isEmpty){
-                                  return Container(
-                                    height: size.height*0.5,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      "Chưa có lịch sử đặt lịch",
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  );
-                                } else {
-                                  return ListView.separated(
-                                    physics: const BouncingScrollPhysics(),
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    // itemCount: snapshot.data!.length,
-                                    itemCount: snapshot.data!.data.length,
-                                    separatorBuilder: (context, index) {
-                                      return Container(
-                                        height: 1,
-                                        width: size.width,
-                                        decoration: BoxDecoration(
-                                          color: ColorConstant.bluegray50,
-                                        ),
-                                      );
-                                    },
-                                    itemBuilder: (BuildContext context,
-                                        int index) {
-                                      return GestureDetector(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        BookingItemDetailWidget(
-                                                            booking: snapshot
-                                                                .data!
-                                                                .data[index])));
-                                          },
-                                          child: bookingItemWidget(
-                                              context, snapshot.data!.data[index]));
-                                    },
-                                  );
-                                }
-                              } else {
-                                return const CircularProgressIndicator();
-                              }
-                            },
-                            future: doneList,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: FutureBuilder<BookingModel>(
+                          child: FutureBuilder<BookingInfoModel>(
                             builder: (context, snapshot) {
                               if (snapshot.hasError) print(snapshot.error);
                               if (snapshot.hasData) {
@@ -157,13 +104,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                   // itemCount: snapshot.data!.length,
                                   itemCount: snapshot.data!.data.length,
                                   separatorBuilder: (context, index) {
-                                    return Container(
-                                      height: 1,
-                                      width: size.width,
-                                      decoration: BoxDecoration(
-                                        color: ColorConstant.bluegray50,
-                                      ),
-                                    );
+                                    return SizedBox(height: size.height*0.02);
                                   },
                                   itemBuilder: (BuildContext context,
                                       int index) {
@@ -182,7 +123,45 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                                   },
                                 );
                               } else {
-                                return const CircularProgressIndicator();
+                                return const SplashScreen();
+                              }
+                            },
+                            future: doneList,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: FutureBuilder<BookingInfoModel>(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) print(snapshot.error);
+                              if (snapshot.hasData) {
+                                return ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.vertical,
+                                  // itemCount: snapshot.data!.length,
+                                  itemCount: snapshot.data!.data.length,
+                                  separatorBuilder: (context, index) {
+                                    return SizedBox(height: size.height*0.02);
+                                  },
+                                  itemBuilder: (BuildContext context,
+                                      int index) {
+                                    return GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      BookingItemDetailWidget(
+                                                          booking: snapshot
+                                                              .data!
+                                                              .data[index])));
+                                        },
+                                        child: bookingItemWidget(
+                                            context, snapshot.data!.data[index]));
+                                  },
+                                );
+                              } else {
+                                return const SplashScreen();
                               }
                             },
                             future: cancelList,

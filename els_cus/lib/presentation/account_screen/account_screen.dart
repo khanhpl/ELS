@@ -28,19 +28,7 @@ class _AccountScreenState extends State<AccountScreen> {
   final Future<CustomerDetailModel> customer =
       PersonalInfoBloc().getCustomerDetailByEmail();
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   setState(() {
-  //     // getImageFromFireBase();
-  //     if (FirebaseAuth.instance.currentUser != null) {
-  //       fullname = FirebaseAuth.instance.currentUser!.displayName.toString();
-  //     } else {
-  //       fullname = globals.curUser!.data.fullName;
-  //     }
-  //   });
-  // }
+
 
   @override
   Widget build(BuildContext context) {
