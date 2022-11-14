@@ -28,6 +28,15 @@ class ElderDataModel {
     isAllergy: json["isAllergy"],
   );
 
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "gender": gender,
+    "dob": dob,
+    "healthStatus": healthStatus,
+    "note": note,
+    "isAllergy": isAllergy,
+  };
 
 }
 

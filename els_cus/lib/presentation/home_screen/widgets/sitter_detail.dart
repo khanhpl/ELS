@@ -1,7 +1,6 @@
 
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/presentation/booking_screen/widget/review_booking_screen.dart';
 import 'package:flutter/material.dart';
 
 class SitterDetailScreen extends StatelessWidget {
@@ -1246,7 +1245,7 @@ class SitterDetailScreen extends StatelessWidget {
                             width: double.infinity,
                             child: ElevatedButton(
                               onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewBookingScreen()));
+                                // Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewBookingScreen()));
                               },
                               style: ElevatedButton.styleFrom(
                                 primary: ColorConstant.purple900,

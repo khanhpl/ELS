@@ -8,7 +8,7 @@ class BookingFormModel {
   String place;
   String email;
   double totalPrice;
-  List<AddWorkingTimesDtoList> addWorkingTimesDtoList;
+  List<AddWorkingTimesDtoListElement> addWorkingTimesDtoList;
   List<AddBookingServiceRequestDto> addBookingServiceRequestDtos;
 
   BookingFormModel({
@@ -31,7 +31,7 @@ class BookingFormModel {
     place: json["place"],
     email: json["email"],
     totalPrice: json["totalPrice"],
-    addWorkingTimesDtoList: List<AddWorkingTimesDtoList>.from(json["addWorkingTimesDTOList"].map((x) => AddWorkingTimesDtoList.fromJson(x))),
+    addWorkingTimesDtoList: List<AddWorkingTimesDtoListElement>.from(json["addWorkingTimesDTOList"].map((x) => AddWorkingTimesDtoListElement.fromJson(x))),
     addBookingServiceRequestDtos: List<AddBookingServiceRequestDto>.from(json["addBookingServiceRequestDTOS"].map((x) => AddBookingServiceRequestDto.fromJson(x))),
   );
 
@@ -45,4 +45,9 @@ class BookingFormModel {
     "addWorkingTimesDTOList": List<dynamic>.from(addWorkingTimesDtoList.map((x) => x.toJson())),
     "addBookingServiceRequestDTOS": List<dynamic>.from(addBookingServiceRequestDtos.map((x) => x.toJson())),
   };
+
+  @override
+  String toString() {
+    return 'BookingFormModel{address: $address, description: $description, elderId: $elderId, place: $place, email: $email, totalPrice: $totalPrice, addWorkingTimesDtoList: $addWorkingTimesDtoList, addBookingServiceRequestDtos: $addBookingServiceRequestDtos}';
+  }
 }

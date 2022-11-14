@@ -17,7 +17,6 @@ class AddNewElderScreen extends StatefulWidget {
 class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _nameController = TextEditingController();
 
-
   final TextEditingController _genderController = TextEditingController();
 
   final TextEditingController _noteController = TextEditingController();
@@ -25,7 +24,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _healthStatusController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
-  String dob = "Ngày sinh";
+
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
@@ -48,7 +47,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       _emailController.text = globals.curUser!.data.email;
     });
   }
-
 
   void _changeDob(String date) async {
     setState(() {

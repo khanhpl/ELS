@@ -1,6 +1,6 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
-import 'package:els_cus_mobile/core/models/booking_model.dart';
+import 'package:els_cus_mobile/core/models/booking_info_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
 import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
@@ -16,12 +16,13 @@ class UpcommingWidget extends StatefulWidget {
 }
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
-  final Future<BookingModel> bookingList =
+  final Future<BookingInfoModel> bookingList =
       BookingBloc().getBookingByStatusName('WAITING_FOR_SITTER');
-  final Future<BookingModel> waitingList =
+  final Future<BookingInfoModel> waitingList =
       BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
-  final Future<BookingModel> paymentList =
+  final Future<BookingInfoModel> paymentList =
       BookingBloc().getBookingByStatusName('WAITING_FOR_CUS_PAYMENT');
+
   BookingBloc bloc = BookingBloc();
 
   @override
@@ -43,27 +44,17 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Container(
-                      height: 1,
-                      width: size.width,
-                      margin: EdgeInsets.only(
-                        top: size.width * 0.03,
-                      ),
-                      decoration: BoxDecoration(
-                        color: ColorConstant.bluegray50,
-                      ),
-                    ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: FutureBuilder<BookingModel>(
+                      child: FutureBuilder<BookingInfoModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
-                            if (snapshot.data!.data.length == 0) {
+                            if (snapshot.data!.data.isEmpty) {
                               return Container(
                                 height: size.height * 0.01,
                                 alignment: Alignment.center,
-                                child: Text(
+                                child: const Text(
                                   "",
                                   textAlign: TextAlign.center,
                                 ),
@@ -87,13 +78,12 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                       onTap: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BookingItemDetailWidget(
-                                                        booking: snapshot.data!
-                                                            .data[index])));
+                                        // Navigator.push(context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             BookingItemDetailWidget(
+                                        //                 booking: snapshot.data!
+                                        //                     .data[index])));
                                       },
                                       child: bookingItemWidget(
                                           context, snapshot.data!.data[index]));
@@ -109,7 +99,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: FutureBuilder<BookingModel>(
+                      child: FutureBuilder<BookingInfoModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
@@ -130,12 +120,8 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                                 // itemCount: snapshot.data!.length,
                                 itemCount: snapshot.data!.data.length,
                                 separatorBuilder: (context, index) {
-                                  return Container(
-                                    height: 1,
-                                    width: size.width,
-                                    decoration: BoxDecoration(
-                                      color: ColorConstant.bluegray50,
-                                    ),
+                                  return SizedBox(
+                                    height: size.height * 0.02,
                                   );
                                 },
                                 itemBuilder: (BuildContext context, int index) {
@@ -163,7 +149,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: FutureBuilder<BookingModel>(
+                      child: FutureBuilder<BookingInfoModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
@@ -174,24 +160,17 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               // itemCount: snapshot.data!.length,
                               itemCount: snapshot.data!.data.length,
                               separatorBuilder: (context, index) {
-                                return Container(
-                                  height: 1,
-                                  width: size.width,
-                                  decoration: BoxDecoration(
-                                    color: ColorConstant.bluegray50,
-                                  ),
-                                );
+                                return SizedBox(height: size.height * 0.01);
                               },
                               itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BookingItemDetailWidget(
-                                                      booking: snapshot
-                                                          .data!.data[index])));
+                                      // Navigator.push(context,
+                                      //     MaterialPageRoute(
+                                      //         builder: (context) =>
+                                      //             BookingItemDetailWidget(
+                                      //                 booking: snapshot.data!
+                                      //                     .data[index])));
                                     },
                                     child: bookingItemWidget(
                                         context, snapshot.data!.data[index]));
