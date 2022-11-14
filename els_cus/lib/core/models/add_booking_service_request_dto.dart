@@ -17,4 +17,9 @@ class AddBookingServiceRequestDto {
     "id": id,
     "duration": duration,
   };
+
+  @override
+  String toString() {
+    return 'AddBookingServiceRequestDto{id: $id, duration: $duration}';
+  }
 }

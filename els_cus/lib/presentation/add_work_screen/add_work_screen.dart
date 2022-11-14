@@ -8,16 +8,15 @@ import 'package:els_cus_mobile/core/models/elder_model.dart';
 import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import 'package:els_cus_mobile/core/models/service_model.dart';
-import 'package:els_cus_mobile/core/models/time.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/presentation/booking_screen/widget/elder_item_on_booking_widget.dart';
-import 'package:els_cus_mobile/presentation/booking_screen/widget/update_service_button.dart';
+import 'package:els_cus_mobile/widgets/elder_item_on_booking_widget.dart';
 import 'package:els_cus_mobile/widgets/service_item_booking_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../core/utils/globals.dart' as Globals;
+import '../../widgets/update_service_button.dart';
 
 class AddWorkScreen extends StatefulWidget {
   const AddWorkScreen
@@ -1381,16 +1380,17 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     } else {
       place = "Tại nhà";
     }
-    bool isBooking = false;
+
 
     Duration duration = Duration(minutes: totalDuration);
     DateTime endDateTime = startDateTime.add(duration);
-    Time startTime = Time(hour: int.parse(workTime.split(":")[0]), minute: int.parse(workTime.split(":")[1]), second: 0, nano: 0);
-    Time endTime = Time(hour: endDateTime.hour, minute: endDateTime.minute, second: 0, nano: 0);
-    AddWorkingTimesDtoList addWorkingTimesDto = AddWorkingTimesDtoList(
-        localDate: workDate, startTime: startTime, endTime: endTime);
-    List<AddWorkingTimesDtoList> addWorkingTimesDtoList =[];
+    String startDateTimeStr = '${startDateTime.year}-${startDateTime.month}-${startDateTime.day}T${startDateTime.hour}:${startDateTime.minute}:00.000Z';
+    String endDateTimeStr = '${endDateTime.year}-${endDateTime.month}-${endDateTime.day}T${endDateTime.hour}:${endDateTime.minute}:00.000Z';
+    AddWorkingTimesDtoListElement addWorkingTimesDto = AddWorkingTimesDtoListElement(startDateTime: startDateTimeStr, endDateTime: endDateTimeStr);
+    List<AddWorkingTimesDtoListElement> addWorkingTimesDtoList =[];
     addWorkingTimesDtoList.add(addWorkingTimesDto);
+
+    bool isBooking = false;
     BookingFormModel booking = BookingFormModel(address: address,
         description: description,
         elderId: int.parse(chooseElderID),
@@ -1399,6 +1399,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         totalPrice: total,
         addWorkingTimesDtoList: addWorkingTimesDtoList,
         addBookingServiceRequestDtos: addBookingServiceRequestDtos);
+    print(booking.toString());
     isBooking = await bloc.createBooking(booking);
     if (isBooking) {
       showSuccessAlertDialog(context);

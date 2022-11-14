@@ -4,7 +4,6 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:els_cus_mobile/core/models/elder_model.dart';
-import 'package:els_cus_mobile/core/models/single_elder_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ElderBlocs{
@@ -69,10 +68,10 @@ class ElderBlocs{
       }
     } finally {}
   }
-  Future<SingleElderModel> getElderByID(int elderID) async {
+  Future<ElderModel> getElderByID(int elderID) async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/elder/getBy/${elderID}");
+      Uri.parse("https://els12.herokuapp.com/elder/get-by-id/${elderID}");
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -82,7 +81,7 @@ class ElderBlocs{
         },
       );
       if (response.statusCode.toString() == '200') {
-        return SingleElderModel.fromJson(json.decode(response.body));
+        return ElderModel.fromJson(json.decode(response.body));
       } else {
         throw Exception('Unable to fetch elder from the REST API');
       }

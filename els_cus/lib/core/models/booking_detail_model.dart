@@ -4,7 +4,7 @@ class BookingDetailModel {
 
   dynamic successCode;
   dynamic errorCode;
-  List<BookingDetailDataModel> data;
+  BookingDetailDataModel data;
   BookingDetailModel({
     this.successCode,
     this.errorCode,
@@ -15,7 +15,7 @@ class BookingDetailModel {
   factory BookingDetailModel.fromJson(Map<String, dynamic> json) => BookingDetailModel(
     successCode: (json["successCode"] != null) ? json["successCode"] : "",
     errorCode: (json["errorCode"] != null) ? json["errorCode"] : "",
-    data: List<BookingDetailDataModel>.from(json["data"].map((x) => BookingDetailDataModel.fromJson(x))),
+    data: BookingDetailDataModel.fromJson(json["data"]),
   );
 
 }

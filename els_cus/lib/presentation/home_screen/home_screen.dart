@@ -25,9 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    final Future<List<SitterDataModel>> sitterList = SitterBlocs().getAllSitter();
-    final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
-    final Future<CategoryModel> categoryList = CategoryBloc().getAllCategory();
+    // final Future<List<SitterDataModel>> sitterList = SitterBlocs().getAllSitter();
+    // final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
+    // final Future<CategoryModel> categoryList = CategoryBloc().getAllCategory();
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
       body: Container(
@@ -251,40 +251,42 @@ class _HomeScreenState extends State<HomeScreen> {
                               //     ],
                               //   ),
                               // ),
-                              Padding(
-                                padding: EdgeInsets.only(
-                                  left: size.width*0.03
-                                ),
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  height: size.height*0.1,
-                                  child: FutureBuilder<CategoryModel>(
-                                    builder: (context, snapshot) {
-                                      if (snapshot.hasError) print(snapshot.error);
-                                      if (snapshot.hasData) {
-                                        return ListView.separated(
-                                          physics: const BouncingScrollPhysics(),
-                                          shrinkWrap: true,
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: snapshot.data!.data.length,
-                                          separatorBuilder: (context, index) {
-                                            return SizedBox(
-                                              width: size.width*0.05,
-                                            );
-                                          },
-                                          itemBuilder: (BuildContext context, int index) {
-                                            return CategoryItemHomeWidget(
-                                                category: snapshot.data!.data[index]);
-                                          },
-                                        );
-                                      } else {
-                                        return const CircularProgressIndicator();
-                                      }
-                                    },
-                                    future: categoryList,
-                                  ),
-                                ),
-                              ),
+
+
+                              // Padding(
+                              //   padding: EdgeInsets.only(
+                              //     left: size.width*0.03
+                              //   ),
+                              //   child: SizedBox(
+                              //     width: double.infinity,
+                              //     height: size.height*0.1,
+                              //     child: FutureBuilder<CategoryModel>(
+                              //       builder: (context, snapshot) {
+                              //         if (snapshot.hasError) print(snapshot.error);
+                              //         if (snapshot.hasData) {
+                              //           return ListView.separated(
+                              //             physics: const BouncingScrollPhysics(),
+                              //             shrinkWrap: true,
+                              //             scrollDirection: Axis.horizontal,
+                              //             itemCount: snapshot.data!.data.length,
+                              //             separatorBuilder: (context, index) {
+                              //               return SizedBox(
+                              //                 width: size.width*0.05,
+                              //               );
+                              //             },
+                              //             itemBuilder: (BuildContext context, int index) {
+                              //               return CategoryItemHomeWidget(
+                              //                   category: snapshot.data!.data[index]);
+                              //             },
+                              //           );
+                              //         } else {
+                              //           return const CircularProgressIndicator();
+                              //         }
+                              //       },
+                              //       future: categoryList,
+                              //     ),
+                              //   ),
+                              // ),
                             ],
                           ),
                         ),
@@ -506,35 +508,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                     //     },
                                     //   ),
                                     // ),
-                                    FutureBuilder<List<SitterDataModel>>(
-                                      builder: (context, snapshot) {
-                                        if (snapshot.hasError) print(snapshot.error);
-                                        if (snapshot.hasData) {
-                                          return ListView.separated(
-                                            physics: const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemCount: snapshot.data!.length,
-                                                separatorBuilder: (context, index) {
-                                                  return Container(
-                                                    height: 1,
-                                                    width: size.width,
-                                                    decoration: BoxDecoration(
-                                                      color: ColorConstant.bluegray50,
-                                                    ),
-                                                  );
-                                                },
-                                            itemBuilder: (BuildContext context, int index) {
-                                              return SitterItemWidget(
-                                                  sitter: snapshot.data![index]);
-                                            },
-                                          );
-                                        } else {
-                                          return const CircularProgressIndicator();
-                                        }
-                                      },
-                                      future: sitterList,
-                                    ),
+
+                                    // FutureBuilder<List<SitterDataModel>>(
+                                    //   builder: (context, snapshot) {
+                                    //     if (snapshot.hasError) print(snapshot.error);
+                                    //     if (snapshot.hasData) {
+                                    //       return ListView.separated(
+                                    //         physics: const NeverScrollableScrollPhysics(),
+                                    //         shrinkWrap: true,
+                                    //         scrollDirection: Axis.vertical,
+                                    //         itemCount: snapshot.data!.length,
+                                    //             separatorBuilder: (context, index) {
+                                    //               return Container(
+                                    //                 height: 1,
+                                    //                 width: size.width,
+                                    //                 decoration: BoxDecoration(
+                                    //                   color: ColorConstant.bluegray50,
+                                    //                 ),
+                                    //               );
+                                    //             },
+                                    //         itemBuilder: (BuildContext context, int index) {
+                                    //           return SitterItemWidget(
+                                    //               sitter: snapshot.data![index]);
+                                    //         },
+                                    //       );
+                                    //     } else {
+                                    //       return const CircularProgressIndicator();
+                                    //     }
+                                    //   },
+                                    //   future: sitterList,
+                                    // ),
                                     Container(
                                       height: 1,
                                       width: size.width,

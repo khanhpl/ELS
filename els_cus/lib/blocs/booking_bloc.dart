@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:els_cus_mobile/core/models/add_booking_service_request_dto.dart';
+import 'package:els_cus_mobile/core/models/add_working_times_dto_list.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/booking_form_model.dart';
-import 'package:els_cus_mobile/core/models/booking_model.dart';
+import 'package:els_cus_mobile/core/models/booking_info_model.dart';
 import 'package:els_cus_mobile/core/models/service_booking_request_model.dart';
 import 'package:els_cus_mobile/core/models/service_data_model.dart';
 import '../core/utils/globals.dart' as Globals;
@@ -36,11 +38,9 @@ class BookingBloc {
     return listID;
   }
 
-  Future<bool> createBooking(BookingFormModel bookingModel) async {
+  Future<bool> createBooking(BookingFormModel BookingInfoModel) async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/booking/add");
-      print(
-          'Test start time: ${bookingModel.addWorkingTimesDtoList[0].startTime.hour} giờ ${bookingModel.addWorkingTimesDtoList[0].startTime.minute} phút ${bookingModel.addWorkingTimesDtoList[0].startTime.second} giây ${bookingModel.addWorkingTimesDtoList[0].startTime.nano}');
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -49,18 +49,16 @@ class BookingBloc {
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, dynamic>{
-            "address": bookingModel.address,
-            "description": bookingModel.description,
-            "elderId": bookingModel.elderId,
-            "place": bookingModel.place,
-            "email": bookingModel.email,
-            "totalPrice": bookingModel.totalPrice,
-            "addWorkingTimesDTOList": List<dynamic>.from(
-                bookingModel.addWorkingTimesDtoList.map((x) => x.toJson())),
-            "addBookingServiceRequestDTOS": List<dynamic>.from(bookingModel
-                .addBookingServiceRequestDtos
-                .map((x) => x.toJson())),
+          <dynamic, dynamic>{
+            "address": BookingInfoModel.address,
+            "description": BookingInfoModel.description,
+            "elderId": BookingInfoModel.elderId,
+            "place": BookingInfoModel.place,
+            "email": BookingInfoModel.email,
+            "totalPrice": BookingInfoModel.totalPrice,
+            "addWorkingTimesDTOList": BookingInfoModel.addWorkingTimesDtoList,
+            "addBookingServiceRequestDTOS":
+                BookingInfoModel.addBookingServiceRequestDtos,
           },
         ),
       );
@@ -73,30 +71,10 @@ class BookingBloc {
     } finally {}
   }
 
-  Future<BookingModel> getBookingByCusEmail() async {
-    try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/booking/customer/${Globals.curUser!.data.email}");
-      final response = await http.get(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization': Globals.curUser!.data.token,
-          'Accept': 'application/json; charset=UTF-8',
-        },
-      );
-      if (response.statusCode.toString() == '200') {
-        return BookingModel.fromJson(json.decode(response.body));
-      } else {
-        throw Exception('Unable to booking Service from the REST API');
-      }
-    } finally {}
-  }
 
-  Future<BookingModel> getBookingByStatusName(String statusName) async {
+  Future<BookingInfoModel> getBookingByStatusName(String statusName) async {
     try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/booking/customer/${Globals.curUser!.data.email}/${statusName}");
+      var url = Uri.parse("https://els12.herokuapp.com/booking/bookings-by-customer-email/${Globals.curUser!.data.email}/$statusName");
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -105,14 +83,11 @@ class BookingBloc {
           'Accept': 'application/json; charset=UTF-8',
         },
       );
-      print('Test status name: ${statusName}');
-      print('Test email: ${Globals.curUser!.data.email}');
-      print(
-          'Response getBookingByStatusName Code: ${response.statusCode.toString()} ');
+
       if (response.statusCode.toString() == '200') {
-        return BookingModel.fromJson(json.decode(response.body));
+        return BookingInfoModel.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Unable to booking Service from the REST API');
+        throw Exception('Unable to fetch booking from the REST API');
       }
     } finally {}
   }
@@ -120,7 +95,7 @@ class BookingBloc {
   Future<BookingDetailModel> getBookingDetailByBookingID(String id) async {
     try {
       var url =
-          Uri.parse("https://els12.herokuapp.com/booking/bookingDetail/${id}");
+          Uri.parse("https://els12.herokuapp.com/booking/get-by-id/$id");
       final response = await http.get(
         url,
         headers: <String, String>{

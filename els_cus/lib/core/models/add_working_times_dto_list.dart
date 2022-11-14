@@ -1,27 +1,25 @@
-import 'package:els_cus_mobile/core/models/time.dart';
+class AddWorkingTimesDtoListElement {
 
-class AddWorkingTimesDtoList {
-
-  String localDate;
-  Time startTime;
-  Time endTime;
-
-  AddWorkingTimesDtoList({
-    required this.localDate,
-    required this.startTime,
-    required this.endTime,
+  String startDateTime;
+  String endDateTime;
+  AddWorkingTimesDtoListElement({
+    required this.startDateTime,
+    required this.endDateTime,
   });
 
 
-  factory AddWorkingTimesDtoList.fromJson(Map<String, dynamic> json) => AddWorkingTimesDtoList(
-    localDate: json["localDate"],
-    startTime: Time.fromJson(json["startTime"]),
-    endTime: Time.fromJson(json["endTime"]),
+  factory AddWorkingTimesDtoListElement.fromJson(Map<String, dynamic> json) => AddWorkingTimesDtoListElement(
+    startDateTime: json["startDateTime"],
+    endDateTime: json["endDateTime"],
   );
 
   Map<String, dynamic> toJson() => {
-    "localDate": localDate,
-    "startTime": startTime.toJson(),
-    "endTime": endTime.toJson(),
+    "startDateTime": startDateTime,
+    "endDateTime": endDateTime,
   };
+
+  @override
+  String toString() {
+    return 'AddWorkingTimesDtoListElement{startDateTime: $startDateTime, endDateTime: $endDateTime}';
+  }
 }

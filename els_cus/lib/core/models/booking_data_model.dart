@@ -1,50 +1,40 @@
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
-
 class BookingDataModel {
 
   int id;
   String name;
-  String description;
-  double totalPrice;
-  DateTime startDateTime;
-  DateTime endDateTime;
-  ElderDataModel elder;
-  SitterDataModel? sitter;
-  String address;
+  String sitterName;
   String place;
+  double totalPrice;
   String status;
-  dynamic payment;
+  double deposit;
   BookingDataModel({
     required this.id,
     required this.name,
-    required this.description,
-    required this.totalPrice,
-    required this.startDateTime,
-    required this.endDateTime,
-    required this.elder,
-    this.sitter,
-    required this.address,
+    required this.sitterName,
     required this.place,
+    required this.totalPrice,
     required this.status,
-    this.payment,
+    required this.deposit,
   });
 
 
   factory BookingDataModel.fromJson(Map<String, dynamic> json) => BookingDataModel(
     id: json["id"],
     name: json["name"],
-    description: json["description"],
-    totalPrice: json["totalPrice"],
-    startDateTime: DateTime.parse(json["startDateTime"]),
-    endDateTime: DateTime.parse(json["endDateTime"]),
-    elder: ElderDataModel.fromJson(json["elder"]),
-    sitter: json["sitter"] == null ? null : SitterDataModel.fromJson(json["sitter"]),
-    address: json["address"],
+    sitterName: json["sitterName"],
     place: json["place"],
+    totalPrice: json["totalPrice"],
     status: json["status"],
-    payment: json["payment"],
+    deposit: json["deposit"],
   );
 
-
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "sitterName": sitterName,
+    "place": place,
+    "totalPrice": totalPrice,
+    "status": status,
+    "deposit": deposit,
+  };
 }

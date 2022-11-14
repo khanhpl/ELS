@@ -1,7 +1,7 @@
 
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
-import 'package:els_cus_mobile/core/models/booking_model.dart';
+import 'package:els_cus_mobile/core/models/booking_info_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
 import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
@@ -16,7 +16,7 @@ class InprogressWidget extends StatefulWidget {
 }
 
 class _InprogressWidgetState extends State<InprogressWidget> {
-  final Future<BookingModel> bookingList = BookingBloc().getBookingByStatusName('STARTING');
+  final Future<BookingInfoModel> bookingList = BookingBloc().getBookingByStatusName('STARTING');
   BookingBloc bloc = BookingBloc();
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class _InprogressWidgetState extends State<InprogressWidget> {
                     ),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: FutureBuilder<BookingModel>(
+                      child: FutureBuilder<BookingInfoModel>(
                         builder: (context, snapshot) {
                           if (snapshot.hasError) print(snapshot.error);
                           if (snapshot.hasData) {
@@ -81,12 +81,12 @@ class _InprogressWidgetState extends State<InprogressWidget> {
                                 itemBuilder: (BuildContext context, int index) {
                                   return GestureDetector(
                                       onTap: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BookingItemDetailWidget(
-                                                        booking: snapshot.data!
-                                                            .data[index])));
+                                        // Navigator.push(context,
+                                        //     MaterialPageRoute(
+                                        //         builder: (context) =>
+                                        //             BookingItemDetailWidget(
+                                        //                 booking: snapshot.data!
+                                        //                     .data[index])));
                                       },
                                       child: bookingItemWidget(
                                           context, snapshot.data!.data[index]));
