@@ -1,5 +1,4 @@
 class BookingDataModel {
-
   int id;
   String name;
   String sitterName;
@@ -7,6 +6,8 @@ class BookingDataModel {
   double totalPrice;
   String status;
   double deposit;
+  dynamic payment;
+
   BookingDataModel({
     required this.id,
     required this.name,
@@ -38,3 +39,4 @@ class BookingDataModel {
     "deposit": deposit,
   };
 }
+

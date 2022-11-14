@@ -25,9 +25,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+
     // final Future<List<SitterDataModel>> sitterList = SitterBlocs().getAllSitter();
     // final Future<ServiceModel> serviceList = ServiceBlocs().getAllService();
     // final Future<CategoryModel> categoryList = CategoryBloc().getAllCategory();
+
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
       body: Container(

@@ -4,6 +4,7 @@ import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/models/sitter_response_dto.dart';
 
 class BookingDetailDataModel {
+
   String address;
   String description;
   ElderDataModel elder;
@@ -63,3 +64,4 @@ class BookingDetailDataModel {
     "paymentResponseDTO": paymentResponseDto,
   };
 }
+

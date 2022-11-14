@@ -7,7 +7,6 @@ import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:get/get.dart';
 
-
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
 
@@ -18,7 +17,6 @@ class AddNewElderScreen extends StatefulWidget {
 class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _nameController = TextEditingController();
 
-
   final TextEditingController _genderController = TextEditingController();
 
   final TextEditingController _noteController = TextEditingController();
@@ -26,11 +24,11 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
   final TextEditingController _healthStatusController = TextEditingController();
 
   final TextEditingController _emailController = TextEditingController();
-  String dob = "Ngày sinh";
+
   bool _isAllergy = false;
   bool _isMale = false;
   bool _isFemale = false;
-
+  String dob = "Ngày sinh";
   ElderBlocs bloc = ElderBlocs();
 
   @override
@@ -40,7 +38,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       _noteController.text = "";
       _healthStatusController.text = "";
       _genderController.text = "";
-      if(_isMale = true){
+      if (_isMale = true) {
         _genderController.text = "Nam";
       } else {
         _genderController.text = "Nữ";
@@ -67,7 +65,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
           // bottomOpacity: 0.0,
           elevation: 0.0,
           automaticallyImplyLeading: false,
-          backgroundColor: ColorConstant.whiteA700,
+          backgroundColor: ColorConstant.purple900,
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
@@ -76,11 +74,12 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
               ImageConstant.imgArrowleft,
               height: size.height * 0.024,
               width: size.width * 0.03,
+              color: ColorConstant.whiteA700,
             ),
           ),
           title: Container(
             decoration: BoxDecoration(
-              color: ColorConstant.whiteA700,
+              color: ColorConstant.purple900,
             ),
             child: Container(
               margin: EdgeInsets.only(
@@ -92,7 +91,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: ColorConstant.black900,
+                  color: ColorConstant.whiteA700,
                   fontSize: 24,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
@@ -126,10 +125,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -139,31 +137,35 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         child: StreamBuilder(
                             stream: bloc.nameStream,
                             builder: (context, snapshot) => TextField(
-                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                              controller: _nameController,
-                              decoration: InputDecoration(
-                                  hintText: "",
-                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  border: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                            )),
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _nameController,
+                                  decoration: InputDecoration(
+                                      hintText: "",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.02,
+                          top: size.height * 0.02,
                         ),
                         child: Text(
                           "Năm sinh",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -233,21 +235,19 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                 ],
                               );
                             }),
-
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.02,
+                          top: size.height * 0.02,
                         ),
                         child: Text(
                           "Giới tính",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -302,10 +302,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -315,31 +314,36 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         child: StreamBuilder(
                             stream: bloc.healthStatusStream,
                             builder: (context, snapshot) => TextField(
-                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                              controller: _healthStatusController,
-                              decoration: InputDecoration(
-                                  hintText: "Có bệnh nền như tiểu đường, Huyết áp cao",
-                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  border: const UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                            )),
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _healthStatusController,
+                                  decoration: InputDecoration(
+                                      hintText:
+                                          "Có bệnh nền như tiểu đường, Huyết áp cao",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.02,
+                          top: size.height * 0.02,
                         ),
                         child: Text(
                           "Dị ứng",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
-                            color: ColorConstant.bluegray900,
-                            fontSize: 14,
-                            fontFamily: 'Outfit',
-                            fontWeight: FontWeight.w400,
+                            color: ColorConstant.purple900,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -353,9 +357,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                               value: _isAllergy,
                               onChanged: (value) {
                                 setState(() {
-                                  if(_isAllergy){
+                                  if (_isAllergy) {
                                     _isAllergy = false;
-                                  }else{
+                                  } else {
                                     _isAllergy = true;
                                   }
                                 });
@@ -378,10 +382,9 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.left,
                         style: TextStyle(
-                          color: ColorConstant.bluegray900,
-                          fontSize: 14,
-                          fontFamily: 'Outfit',
-                          fontWeight: FontWeight.w400,
+                          color: ColorConstant.purple900,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                       Padding(
@@ -391,31 +394,34 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                         child: StreamBuilder(
                             stream: bloc.noteStream,
                             builder: (context, snapshot) => TextField(
-                              style: TextStyle(fontSize: size.width * 0.04, color: Colors.black),
-                              controller: _noteController,
-                              decoration: InputDecoration(
-                                  hintText: "",
-                                  errorText: snapshot.hasError ? snapshot.error.toString() : null,
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Color(0xffCED0D2), width: 1),
-                                      borderRadius:
-                                      BorderRadius.all(Radius.circular(6)))),
-                            )),
+                                  style: TextStyle(
+                                      fontSize: size.width * 0.04,
+                                      color: Colors.black),
+                                  controller: _noteController,
+                                  decoration: InputDecoration(
+                                      hintText: "Những lưu ý cho chăm sóc viên",
+                                      errorText: snapshot.hasError
+                                          ? snapshot.error.toString()
+                                          : null,
+                                      border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xffCED0D2),
+                                              width: 1),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(6)))),
+                                )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.03,
-                          top: size.height*0.05,
+                          top: size.height * 0.05,
                           right: size.width * 0.03,
                         ),
                         child: SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-
                               onAddNewElderClick();
-
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -437,7 +443,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       ),
     );
   }
-
 
   onAddNewElderClick() async {
     String name = _nameController.text.trim();
@@ -461,6 +466,5 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
         print('chưa được');
       }
     } else {}
-
   }
 }

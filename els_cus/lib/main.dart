@@ -1,4 +1,3 @@
-
 import 'package:els_cus_mobile/fire_base/login_with_google_nav.dart';
 import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
 import 'package:els_cus_mobile/presentation/bottom_bar_navigation/bottom_bar_navigation.dart';
@@ -16,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future main() async{
+Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -25,28 +24,30 @@ Future main() async{
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ChangeNotifierProvider(
-    create: (context) => GoogleSignInProvider(),
-    child: MaterialApp(
-      initialRoute: '/',
-      routes: <String, WidgetBuilder>{
-        // '/': (context) =>  const SplashScreen(),
-        '/': (context) =>  OnboardingScreen(),
-        // '/': (context) =>  LoginWithGoogleNav(),
-        '/splashScreen': (context) => const SplashScreen(),
-        '/loginScreen': (context) => const LoginScreen(),
-        '/signUpScreen': (context) => const SignUpScreen(),
-        '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
-        '/changePasswordScreen': (context) => ChangePasswordScreen(),
-        '/homeScreen': (context) => BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
-        '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
-        '/elderScreen': (context) => ElderScreen(),
-        '/addNewElderScreen': (context) => AddNewElderScreen(),
-        '/personalScreen': (context) => PersonalScreen(),
-        '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
-        '/accountScreen': (context) => BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
-
-
-      },
-    ),
-  );
+        create: (context) => GoogleSignInProvider(),
+        child: MaterialApp(
+          initialRoute: '/',
+          routes: <String, WidgetBuilder>{
+            // '/': (context) =>  const SplashScreen(),
+            '/': (context) => OnboardingScreen(),
+            // '/': (context) =>  LoginWithGoogleNav(),
+            '/splashScreen': (context) => const SplashScreen(),
+            '/loginScreen': (context) => const LoginScreen(),
+            '/signUpScreen': (context) => const SignUpScreen(),
+            '/forgotPasswordScreen': (context) => ForgotPasswordScreen(),
+            '/changePasswordScreen': (context) => ChangePasswordScreen(),
+            '/homeScreen': (context) =>
+                BottomBarNavigation(selectedIndex: 0, isBottomNav: true),
+            '/loginWithGoogleNav': (context) => const LoginWithGoogleNav(),
+            '/elderScreen': (context) => ElderScreen(),
+            '/addNewElderScreen': (context) => AddNewElderScreen(),
+            '/personalScreen': (context) => PersonalScreen(),
+            // '/hístoryScreen': (context) => HistoryBookingScreen(),
+            '/scheduleScreen': (context) =>
+                BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
+            '/accountScreen': (context) =>
+                BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
+          },
+        ),
+      );
 }

@@ -24,6 +24,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   _BookingItemDetailWidgetState({required this.booking});
 
+
   String getStatus() {
     String status = "";
     if (booking.status == 'WAITING_FOR_SITTER') {
@@ -479,6 +480,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                   ),
                   child: Text(
                     "Chi tiết đặt lịch",
+
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -489,6 +491,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       height: 1.00,
                     ),
                   ),
+
                 ),
               ),
               body: Container(
@@ -575,11 +578,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
+
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.01,
                                 left: size.width * 0.06,
                                 right: size.width * 0.06,
+
                               ),
                               child: SitterItemOnBookingDetailWidget(sitter: snapshot.data!.data.sitterDto),
                             ),
@@ -841,7 +846,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
-
   String convertDate(String inputDate) {
     String dateConverted = "";
     String date = inputDate.split("T")[0];
@@ -854,6 +858,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   onPaymentClick() async {
     bool isPaid = false;
     // isPaid = await _paymentBloc.cusPayment(booking.id);
+
     if (isPaid) {
       showSuccessAlertDialog(context);
     } else {
