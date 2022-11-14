@@ -1,4 +1,6 @@
-import 'package:els_sitter/core/models/sitter_service_response_dto.dart';
+
+
+import 'package:els_cus_mobile/core/models/sitter_service_response_dto.dart';
 
 class SitterDetailDataModel {
 

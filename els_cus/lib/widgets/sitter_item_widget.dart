@@ -17,7 +17,7 @@ class SitterItemWidget extends StatelessWidget {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => SitterDetailWidget(sitter: sitter)),);
+        // Navigator.push(context, MaterialPageRoute(builder: (context) => SitterDetailWidget(sitter: sitter)),);
       },
       child: Align(
         alignment: Alignment.centerLeft,
