@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/scheduleScreen':(context) => BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
         '/ServiceAndCertificateScreen': (context) => ServiceAndSertificateScreen(),
         '/settingScreen': (context) => SettingScreen(),
+        '/accountScreen':(context) => BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
       },
     );
   }
