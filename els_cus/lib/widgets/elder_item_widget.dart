@@ -18,10 +18,7 @@ class ElderItemWidget extends StatelessWidget {
       margin: EdgeInsets.all(size.width * 0.03),
       decoration: BoxDecoration(
         border: Border.all(
-            color: ColorConstant.BG,
-            width: 5.0,
-            style: BorderStyle.solid
-        ),
+            color: ColorConstant.BG, width: 5.0, style: BorderStyle.solid),
         borderRadius: BorderRadius.circular(15),
         color: ColorConstant.BG,
       ),
@@ -119,7 +116,7 @@ class ElderItemWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
-                                  fontSize: 13,
+                                  fontSize: 18,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w400,
                                 ),
@@ -163,7 +160,7 @@ class ElderItemWidget extends StatelessWidget {
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: ColorConstant.gray700,
-                                  fontSize: 13,
+                                  fontSize: 18,
                                   fontFamily: 'Roboto',
                                   fontWeight: FontWeight.w400,
                                   height: 1.00,

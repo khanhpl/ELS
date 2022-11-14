@@ -83,10 +83,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.03,
-                          right: size.width*0.05,
-                          left: size.width*0.05,
-                          bottom: size.height*0.03,
+                          top: size.height * 0.03,
+                          right: size.width * 0.05,
+                          left: size.width * 0.05,
+                          bottom: size.height * 0.03,
                         ),
                         child: Stack(
                           alignment: AlignmentDirectional.centerEnd,
@@ -96,6 +96,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 builder: (context, snapshot) {
                                   return TextField(
                                     controller: _curPassController,
+                                    cursorColor: ColorConstant.purple900,
                                     style: TextStyle(
                                       fontSize: size.width * 0.04,
                                       color: Colors.black,
@@ -127,7 +128,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -158,6 +159,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 builder: (context, snapshot) {
                                   return TextField(
                                     controller: _passController,
+                                    cursorColor: ColorConstant.purple900,
                                     style: TextStyle(
                                       fontSize: size.width * 0.04,
                                       color: Colors.black,
@@ -189,7 +191,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -209,7 +211,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ],
                         ),
                       ),
-
                       Padding(
                         padding: EdgeInsets.fromLTRB(size.width * 0.05, 0,
                             size.width * 0.05, size.height * 0.03),
@@ -221,6 +222,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 builder: (context, snapshot) {
                                   return TextField(
                                     controller: _rePassController,
+                                    cursorColor: ColorConstant.purple900,
                                     style: TextStyle(
                                       fontSize: size.width * 0.04,
                                       color: Colors.black,
@@ -252,7 +254,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -272,7 +274,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ],
                         ),
                       ),
-
                       Container(
                         height: 1,
                         width: size.width,
@@ -285,7 +286,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: ColorConstant.bluegray50,
                         ),
                       ),
-
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.05,

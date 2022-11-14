@@ -5,6 +5,28 @@ import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 class ServiceBlocs{
+
+  Future<ServiceModel> getServiceByCate(int id) async {
+    try{
+      var url =
+      Uri.parse("https://els12.herokuapp.com/service/services-by-category-id/${id}");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization' : Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      );
+
+      if (response.statusCode.toString() == '200') {
+        return ServiceModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to fetch Service by Caterory id from the REST API');
+      }
+  } finally {}
+}
+
   Future<ServiceModel> getAllService() async {
     try {
       var url =

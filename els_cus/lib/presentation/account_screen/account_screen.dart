@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:els_cus_mobile/blocs/image_bloc.dart';
 import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
+import 'package:els_cus_mobile/presentation/personal_information_screen/personal_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
@@ -215,7 +216,12 @@ class _AccountScreenState extends State<AccountScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                Navigator.pushNamed(context, '/personalScreen');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => PersonalScreen(
+                                          cus: snapshot.data!.data),
+                                    ));
                               },
                               child: Padding(
                                 padding: EdgeInsets.only(
@@ -695,7 +701,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               ),
                             ),
                             GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.pushNamed(context, '/settingScreen');
                               },
                               child: Padding(
