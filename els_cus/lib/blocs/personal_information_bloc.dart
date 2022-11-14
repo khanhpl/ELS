@@ -87,7 +87,6 @@ class PersonalInfoBloc {
           'Accept': 'application/json; charset=UTF-8',
         },
       );
-      print('Status: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return CustomerDetailModel.fromJson(json.decode(response.body));
       } else {
@@ -106,9 +105,6 @@ class PersonalInfoBloc {
       String backIdImgUrl,
       String avatarImgUrl) async {
     try {
-      print('test fullname: ' + name);
-      print('test gender:' + gender);
-      print('test dob: ' + dob);
       var url = Uri.parse("https://els12.herokuapp.com/customer/update");
       final response = await http.put(
         url,
@@ -129,7 +125,6 @@ class PersonalInfoBloc {
           "avatarImgUrl": avatarImgUrl
         }),
       );
-      print('Status updateInfo:' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         // Globals.curUser=UserDataModel(email: Globals.curUser!.data.email, role: Globals.curUser!.data.role, token: Globals.curUser!.data.token, address: address, dob: dob, fullName: name, gender: gender, phone: phone);
         return true;
@@ -156,7 +151,6 @@ class PersonalInfoBloc {
           "newPassword": newPass
         }),
       );
-      print('Status updateInfo:' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         // Globals.curUser=UserDataModel(email: Globals.curUser!.data.email, role: Globals.curUser!.data.role, token: Globals.curUser!.data.token, address: address, dob: dob, fullName: name, gender: gender, phone: phone);
         return true;

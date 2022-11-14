@@ -1,11 +1,11 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
-import 'package:els_cus_mobile/blocs/payment_bloc.dart';
 import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/single_sitter_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/presentation/rating_screen/rating_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:els_cus_mobile/widgets/elder_item_on_detail_widget.dart';
 import 'package:els_cus_mobile/widgets/sitter_item_on_booing_detail_widget.dart';
@@ -38,7 +38,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đã hủy";
     } else if (booking.status == 'WAITING_FOR_DATE') {
       status = "Đang đợi đến ngày làm việc";
-    } else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
+    } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       status = "Đang đợi thanh toán";
     } else {
       status = "Chưa biết";
@@ -134,7 +134,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RatingScreen(),));
+      },
     );
 
     // set up the AlertDialog
@@ -328,20 +330,51 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           ),
         ],
       );
-    } else if (booking.status == 'WAITING_FOR_CUS_PAYMENT') {
+    } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
+              width: size.width*0.4,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCancelAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Hủy"),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(width: size.width*0.1,),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width*0.4,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -445,7 +478,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     final Future<BookingDetailModel> bookingDetail =
-        BookingBloc().getBookingDetailByBookingID(booking.id.toString());
+    BookingBloc().getBookingDetailByBookingID(booking.id.toString());
 
     return FutureBuilder<BookingDetailModel>(
       future: bookingDetail,
@@ -733,7 +766,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   return Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         snapshot
@@ -904,7 +937,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     String date = inputDate.split("T")[0];
     String time = inputDate.split("T")[1];
     dateConverted =
-        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]}\nLúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+    "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]}\nLúc: ${time.split(":")[0]}:${time.split(":")[1]}";
     return dateConverted;
   }
 

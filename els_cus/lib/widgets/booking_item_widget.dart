@@ -21,7 +21,7 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       status = "Đã hủy";
     }else if(booking.status == 'WAITING_FOR_DATE'){
       status = "Đang đợi đến ngày làm việc";
-    }else if(booking.status == 'WAITING_FOR_CUS_PAYMENT'){
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT'){
       status = "Đang đợi thanh toán";
     }else{
       status = "Đang tải";

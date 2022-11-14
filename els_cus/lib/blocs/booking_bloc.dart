@@ -115,4 +115,31 @@ class BookingBloc {
       }
     } finally {}
   }
+  Future<bool> createPayment(String paymentType, String email, int amount, int bookingId) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/payment/paid");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "paymentType": paymentType,
+            "email": email,
+            "amount": amount,
+            "bookingId": bookingId
+          },
+        ),
+      );
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }

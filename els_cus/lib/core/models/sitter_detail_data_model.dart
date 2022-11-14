@@ -17,7 +17,7 @@ class SitterDetailDataModel {
   String avatarUrl;
   String frontIdImgUrl;
   String backIdImgUrl;
-  double ratingStart;
+  double ratingStar;
   List<dynamic> certificatesResponseDtos;
   List<SitterServicesResponseDto> sitterServicesResponseDtos;
   SitterDetailDataModel({
@@ -34,7 +34,7 @@ class SitterDetailDataModel {
     required this.avatarUrl,
     required this.frontIdImgUrl,
     required this.backIdImgUrl,
-    required this.ratingStart,
+    required this.ratingStar,
     required this.certificatesResponseDtos,
     required this.sitterServicesResponseDtos,
   });
@@ -54,7 +54,7 @@ class SitterDetailDataModel {
     avatarUrl: json["avatarUrl"],
     frontIdImgUrl: json["frontIdImgUrl"],
     backIdImgUrl: json["backIdImgUrl"],
-    ratingStart: json["ratingStart"],
+    ratingStar: json["ratingStar"],
     certificatesResponseDtos: List<dynamic>.from(json["certificatesResponseDTOS"].map((x) => x)),
     sitterServicesResponseDtos: List<SitterServicesResponseDto>.from(json["sitterServicesResponseDTOS"].map((x) => SitterServicesResponseDto.fromJson(x))),
   );
@@ -73,7 +73,7 @@ class SitterDetailDataModel {
     "avatarUrl": avatarUrl,
     "frontIdImgUrl": frontIdImgUrl,
     "backIdImgUrl": backIdImgUrl,
-    "ratingStart": ratingStart,
+    "ratingStar": ratingStar,
     "certificatesResponseDTOS": List<dynamic>.from(certificatesResponseDtos.map((x) => x)),
     "sitterServicesResponseDTOS": List<dynamic>.from(sitterServicesResponseDtos.map((x) => x.toJson())),
   };

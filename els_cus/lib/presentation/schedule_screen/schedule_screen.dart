@@ -25,7 +25,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
           Container(
             width: size.width*0.45,
             child: const Text(
-              "Sắp diễn ra ",
+              "Đang đợi",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,

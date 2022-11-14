@@ -1,21 +1,23 @@
 import 'dart:convert';
 import 'package:els_sitter/core/models/booking_detail_model.dart';
+import 'package:els_sitter/core/models/booking_info_model.dart';
 import 'package:els_sitter/core/models/booking_model.dart';
 
 import '../core/utils/globals.dart' as Globals;
 import 'package:http/http.dart' as http;
-class BookingBloc{
+
+class BookingBloc {
   Future<BookingModel> getBookingBySitterEmail() async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking/sitter/${Globals.curUser!.data.email}");
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking/sitter/${Globals.curUser!.data.email}");
       final response = await http.get(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
-
       );
       if (response.statusCode.toString() == '200') {
         return BookingModel.fromJson(json.decode(response.body));
@@ -24,20 +26,19 @@ class BookingBloc{
       }
     } finally {}
   }
+
   Future<BookingDetailModel> getBookingDetailByBookingID(String id) async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking/bookingDetail/${id}");
+      var url =
+          Uri.parse("https://els12.herokuapp.com/booking/get-by-id/$id");
       final response = await http.get(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
-
       );
-      print('Test booking: ${id}');
-      print('TEst getBookingDetailByBookingID ${response.statusCode}');
       if (response.statusCode.toString() == '200') {
         return BookingDetailModel.fromJson(json.decode(response.body));
       } else {
@@ -45,40 +46,41 @@ class BookingBloc{
       }
     } finally {}
   }
-  Future<BookingModel> getBookingByStatusName(String statusName) async {
+
+  Future<BookingInfoModel> getBookingByStatusName(String statusName) async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking/sitter/${Globals.curUser!.data.email}/${statusName}");
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking/bookings-by-status/$statusName");
       final response = await http.get(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
-
       );
-      // print('Test status name: ${statusName}');
-      // print('TEst getBookingByStatusName ${response.statusCode}');
+
       if (response.statusCode.toString() == '200') {
-        return BookingModel.fromJson(json.decode(response.body));
+        return BookingInfoModel.fromJson(json.decode(response.body));
       } else {
-        throw Exception('Unable to booking Service from the REST API');
+        throw Exception('Unable to fetch booking from the REST API');
       }
     } finally {}
   }
+
   Future<bool> sitterAcceptAction(int bookingID) async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking/acceptBySitter/${bookingID}");
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking/accept/$bookingID");
       final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, String>{
-          },
+          <String, String>{},
         ),
       );
       print('test accept status: ${response.statusCode.toString()}');
@@ -92,17 +94,17 @@ class BookingBloc{
 
   Future<bool> sitterCancelAction(int bookingID) async {
     try {
-      var url = Uri.parse("https://els12.herokuapp.com/booking/${bookingID}/${Globals.curUser!.data.email}");
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking/${bookingID}/${Globals.curUser!.data.email}");
       final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, String>{
-          },
+          <String, String>{},
         ),
       );
       print('test accept status: ${response.statusCode.toString()}');
@@ -113,5 +115,4 @@ class BookingBloc{
       }
     } finally {}
   }
-
 }

@@ -1,11 +1,10 @@
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_sitter/core/models/elder_data_model.dart';
+import 'package:els_sitter/core/utils/color_constant.dart';
+import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../blocs/elder_blocs.dart';
-import '../core/models/elder_model.dart';
 
 class ElderDetailWidget extends StatefulWidget {
   ElderDataModel elder;
@@ -35,233 +34,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
   bool _isMale = false;
   bool _isFemale = false;
   String dob = "";
-
-  ElderBlocs bloc = ElderBlocs();
-
-  void showSaveAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text(
-        "Hủy",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        save();
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text(
-        "CẢNH BÁO",
-      ),
-      content: const Text(
-        "Xác nhận lưu thông tin vừa thay đổi",
-      ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showDeleteSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Xóa thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showDeleteFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thông tin vẫn chưa được xóa",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showDeleteAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text(
-        "Hủy",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        removeElder();
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text(
-        "Cảnh báo",
-      ),
-      content: const Text(
-        "Xác nhận xóa thông tin của người thân này",
-      ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
 
   @override
   void initState() {
@@ -324,7 +96,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                 bottom: size.height * 0.01,
               ),
               child: Text(
-                "Thông tin người thân",
+                "Thông tin chi tiết",
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -357,6 +129,20 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+                      SizedBox(
+                        width: size.width,
+                        child: Text(
+                          "Thông Tin\nNgười Người được chăm sóc",
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: ColorConstant.purple900,
+                            fontSize: 24,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: size.height * 0.03,),
                       Text(
                         "Họ và Tên",
                         overflow: TextOverflow.ellipsis,
@@ -378,6 +164,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 fontSize: size.width * 0.04,
                                 color: Colors.black),
                             controller: _nameController,
+                            enabled: false,
                             decoration: InputDecoration(
                               errorText: snapshot.hasError
                                   ? snapshot.error.toString()
@@ -424,55 +211,38 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      DatePicker.showDatePicker(context,
-                                          //showDateTime to pick time
-                                          showTitleActions: true,
-                                          maxTime: DateTime.now(),
-                                          minTime: DateTime(1900),
-                                          onChanged: (date) {},
-                                          onConfirm: (date) {
-                                        String dateInput =
-                                            '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0${date.day}'}';
-                                        _changeDob(dateInput);
-                                      },
-                                          currentTime: DateTime.now(),
-                                          locale: LocaleType.vi);
-                                    },
-                                    child: Container(
-                                      width: double.infinity,
-                                      height: size.height * 0.07,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
-                                        border: Border.all(
-                                            color: Colors.black45, width: 1),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                              left: size.width * 0.048,
-                                              right: size.width * 0.048,
-                                            ),
-                                            child: Image.asset(
-                                              ImageConstant.imgCalendar,
-                                              color: ColorConstant.purple900,
-                                            ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: size.height * 0.07,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          color: Colors.black12, width: 1),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            left: size.width * 0.048,
+                                            right: size.width * 0.048,
                                           ),
-                                          Text(
-                                            dob,
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 14,
-                                            ),
+                                          child: Image.asset(
+                                            ImageConstant.imgCalendar,
+                                            color: ColorConstant.purple900,
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Text(
+                                          dob,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   SizedBox(height: size.height * 0.01),
@@ -513,10 +283,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                             Checkbox(
                               value: _isMale,
                               onChanged: (value) {
-                                setState(() {
-                                  _isMale = true;
-                                  _isFemale = false;
-                                });
                               },
                               checkColor: ColorConstant.purple900,
                               activeColor: Colors.white,
@@ -532,10 +298,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                             Checkbox(
                               value: _isFemale,
                               onChanged: (value) {
-                                setState(() {
-                                  _isMale = false;
-                                  _isFemale = true;
-                                });
                               },
                               checkColor: ColorConstant.purple900,
                               activeColor: Colors.white,
@@ -576,6 +338,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                 fontSize: size.width * 0.04,
                                 color: Colors.black),
                             controller: _healthStatusController,
+                            enabled: false,
                             decoration: InputDecoration(
                               errorText: snapshot.hasError
                                   ? snapshot.error.toString()
@@ -620,13 +383,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                             Checkbox(
                               value: _isAllergy,
                               onChanged: (value) {
-                                setState(() {
-                                  if (_isAllergy) {
-                                    _isAllergy = false;
-                                  } else {
-                                    _isAllergy = true;
-                                  }
-                                });
                               },
                               checkColor: ColorConstant.purple900,
                               activeColor: Colors.white,
@@ -667,6 +423,7 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                       fontSize: size.width * 0.04,
                                       color: Colors.black),
                                   controller: _noteController,
+                                  enabled: false,
                                   decoration: InputDecoration(
                                       hintText: "Những lưu ý cho chăm sóc viên",
                                       errorText: snapshot.hasError
@@ -680,77 +437,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
                                               Radius.circular(6)))),
                                 )),
                       ),
-                      Row(
-                        children: [
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: size.width * 0.375,
-                              margin: EdgeInsets.only(
-                                  left: size.width * 0.025,
-                                  right: size.width * 0.025,
-                                  top: size.height * 0.02,
-                                  bottom: size.height * 0.02),
-                              decoration: BoxDecoration(
-                                color: ColorConstant.whiteA700,
-                              ),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showDeleteAlertDialog(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                      primary: ColorConstant.whiteA700,
-                                      textStyle: TextStyle(
-                                        fontSize: size.width * 0.045,
-                                      ),
-                                      side: BorderSide(
-                                        width: 1.5,
-                                        color: ColorConstant.purple900,
-                                      )),
-                                  child: Text(
-                                    "Xóa",
-                                    style: TextStyle(
-                                      color: ColorConstant.purple900,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: size.width * 0.05),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Container(
-                              width: size.width * 0.375,
-                              margin: EdgeInsets.only(
-                                  left: size.width * 0.025,
-                                  right: size.width * 0.025,
-                                  top: size.height * 0.02,
-                                  bottom: size.height * 0.02),
-                              decoration: BoxDecoration(
-                                color: ColorConstant.whiteA700,
-                              ),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    showSaveAlertDialog(context);
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    primary: ColorConstant.purple900,
-                                    textStyle: TextStyle(
-                                      fontSize: size.width * 0.045,
-                                    ),
-                                  ),
-                                  child: const Text("Lưu"),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
                   ),
                 ],
@@ -760,40 +446,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
         ),
       ),
     );
-  }
-
-  void save() async {
-    String fullName = _nameController.text.trim();
-    String gender = "";
-    if (_isMale) {
-      gender = "Nam";
-    } else {
-      gender = "Nữ";
-    }
-    String dob = _dobController.text.trim();
-    String healthStatus = _healthStatusController.text.trim();
-    String note = _noteController.text.trim();
-    int id = elder.id;
-    bool isAllergy = _isAllergy;
-    bool updateSuccess = false;
-    updateSuccess = await bloc.updateElder(
-        id, fullName, gender, dob, healthStatus, note, isAllergy);
-    if(updateSuccess){
-      showSuccessAlertDialog(context);
-    }else{
-      showFailAlertDialog(context);
-    }
-  }
-
-  void removeElder() async {
-    int id = elder.id;
-    bool removeSuccess = false;
-    removeSuccess = await bloc.removeElderByID(id);
-    if(removeSuccess){
-      showDeleteSuccessAlertDialog(context);
-    }else{
-      showDeleteFailAlertDialog(context);
-    }
   }
 
   void _changeDob(String date) async {
