@@ -5,6 +5,7 @@ import 'package:els_cus_mobile/presentation/elder_screen/add_new_elder_screen.da
 import 'package:els_cus_mobile/presentation/elder_screen/elder_screen.dart';
 import 'package:els_cus_mobile/presentation/forgot_password_screen/change_password_screen.dart';
 import 'package:els_cus_mobile/presentation/forgot_password_screen/forgot_password_screen.dart';
+import 'package:els_cus_mobile/presentation/history_screen/booking_history_screen.dart';
 import 'package:els_cus_mobile/presentation/login_screen/login_screen.dart';
 import 'package:els_cus_mobile/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:els_cus_mobile/presentation/sign_up_screen/sign_up_screen.dart';
@@ -44,7 +45,7 @@ class MyApp extends StatelessWidget {
             '/elderScreen': (context) => ElderScreen(),
             '/addNewElderScreen': (context) => AddNewElderScreen(),
             // '/personalScreen': (context) => PersonalScreen(),
-            // '/hístoryScreen': (context) => HistoryBookingScreen(),
+            '/historyScreen': (context) => HistoryBookingScreen(),
             '/scheduleScreen': (context) =>
                 BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
             '/accountScreen': (context) =>

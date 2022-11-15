@@ -1,13 +1,21 @@
+import 'dart:io';
+
 import 'package:els_sitter/blocs/booking_bloc.dart';
 
 import 'package:els_sitter/core/models/booking_data_model.dart';
 import 'package:els_sitter/core/models/booking_detail_model.dart';
+import 'package:els_sitter/core/models/booking_img_response_dto.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
+import 'package:els_sitter/presentation/schedule_screen/widget/check_in_screen.dart';
+import 'package:els_sitter/presentation/schedule_screen/widget/check_out_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:els_sitter/widgets/customer_item_on_detail_widget.dart';
 import 'package:els_sitter/widgets/elder_item_on_detail_widget.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:image_picker/image_picker.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
   BookingDataModel booking;
@@ -113,6 +121,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+
   void showAcceptAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -160,6 +169,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       },
     );
   }
+
   void showCancelAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -206,54 +216,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
-  void showPaymentAlertDialog(BuildContext context) {
-    // set up the buttons
-    Widget cancelButton = TextButton(
-      child: Text(
-        "Hủy",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        onPaymentClick();
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      title: const Text(
-        "Xác Nhận Thanh Toán",
-      ),
-      content: const Text(
-        "Bạn xác nhận muốn thanh toán cho lịch chăm sóc này",
-      ),
-      actions: [
-        cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void showCheckoutAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -274,7 +236,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutScreen(bookingID: booking.id),));
+      },
     );
 
     // set up the AlertDialog
@@ -300,6 +264,58 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
+  void showCheckInAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CheckInScreen(bookingID: booking.id),
+            ));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Bắt Đầu",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn bắt đầu thực hiện lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   Widget getButton(BuildContext context) {
     var size = MediaQuery.of(context).size;
     if (booking.status == 'WAITING_FOR_SITTER') {
@@ -309,7 +325,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width*0.4,
+              width: size.width * 0.4,
               padding: EdgeInsets.only(
                 left: size.width * 0.03,
                 right: size.width * 0.03,
@@ -336,11 +352,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
               ),
             ),
           ),
-          SizedBox(width: size.width*0.1,),
+          SizedBox(
+            width: size.width * 0.1,
+          ),
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width*0.4,
+              width: size.width * 0.4,
               padding: EdgeInsets.only(
                 left: size.width * 0.03,
                 right: size.width * 0.03,
@@ -378,11 +396,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
             alignment: Alignment.center,
             child: Container(
               width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -390,7 +409,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
+                    showCancelAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -399,6 +418,39 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                     ),
                   ),
                   child: const Text("Hủy"),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: size.width * 0.1,
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width * 0.4,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showCheckInAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Bắt đầu"),
                 ),
               ),
             ),
@@ -413,12 +465,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
+              width: size.width,
+              padding: EdgeInsets.only(
+                left: size.width * 0.03,
+                right: size.width * 0.03,
+                top: size.height * 0.02,
+                bottom: size.height * 0.05,
+              ),
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -426,7 +479,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showPaymentAlertDialog(context);
+                    showCancelAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -434,7 +487,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Thanh Toán"),
+                  child: const Text("Hủy"),
                 ),
               ),
             ),
@@ -485,7 +538,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
+              width: size.width * 0.94,
               margin: EdgeInsets.only(
                   left: size.width * 0.03,
                   right: size.width * 0.03,
@@ -506,7 +559,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Xác nhận xong"),
+                  child: const Text("Xác nhận hoàn thành"),
                 ),
               ),
             ),
@@ -516,6 +569,32 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     } else {
       return SizedBox();
     }
+  }
+  String processImage = "";
+  late File imageFileProcess;
+  XFile? pickedFileProcess;
+  UploadTask? uploadTaskProcess;
+  bool isProcessCheck = false;
+  Future _getIDFrontImageFromGallery() async {
+    pickedFileProcess = (await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    ));
+    if (pickedFileProcess != null) {
+      setState(() {
+        imageFileProcess = File(pickedFileProcess!.path);
+        isProcessCheck = true;
+      });
+    }
+    //upload
+    final path = 'els_images/${pickedFileProcess!.name}';
+    final file = File(pickedFileProcess!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskProcess = ref.putFile(file);
+
+    final snapshot = await uploadTaskProcess!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    processImage = urlDownload;
+    print('Download link processImg: ${urlDownload}');
   }
 
   @override
@@ -655,13 +734,14 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               ),
                             ),
                             Padding(
-                                padding: EdgeInsets.only(
-                                  top: size.height * 0.01,
-                                  left: size.width * 0.06,
-                                  right: size.width * 0.06,
-                                  bottom: size.height * 0.02,
-                                ),
-                                child: CusItemOnDetailWidget(cus: snapshot.data!.data.cusDto),
+                              padding: EdgeInsets.only(
+                                top: size.height * 0.01,
+                                left: size.width * 0.06,
+                                right: size.width * 0.06,
+                                bottom: size.height * 0.02,
+                              ),
+                              child: CusItemOnDetailWidget(
+                                  cus: snapshot.data!.data.cusDto),
                             ),
                             Container(
                               width: size.width,
@@ -915,6 +995,177 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               height: 1,
                               color: ColorConstant.gray300,
                             ),
+                            (snapshot.data!.data.bookingImgResponseDtoList
+                                    .toString()
+                                    .isEmpty)
+                                ? const SizedBox()
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.02,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: const Text(
+                                          "Hình ảnh xác nhận bắt đầu:",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.01,
+                                          left: size.width * 0.06,
+                                          bottom: size.height * 0.02,
+                                        ),
+                                        child: Container(
+                                          width: size.width * 0.24,
+                                          height: size.width * 0.24,
+                                          alignment: Alignment.bottomCenter,
+                                          padding: EdgeInsets.only(
+                                              bottom: size.height * 0.01),
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            border: Border.all(
+                                              color: Colors.black,
+                                              width: 1,
+                                            ),
+                                            image: DecorationImage(
+                                              image: NetworkImage(((snapshot
+                                                          .data!
+                                                          .data
+                                                          .bookingImgResponseDtoList)
+                                                      as List<
+                                                          BookingImgResponseDtoList>)[0]
+                                                  .url),
+                                              fit: BoxFit.fill,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        width: size.width,
+                                        height: 1,
+                                        color: ColorConstant.gray300,
+                                      ),
+                                    ],
+                                  ),
+                            (snapshot.data!.data.status != "STARTING")
+                                ? const SizedBox()
+                                : Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.02,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: const Text(
+                                          "Hình ảnh quá trình làm việc:",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                      ),
+                                      Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            left: size.width * 0.06,
+                                            bottom: size.height * 0.02,
+                                          ),
+                                          child: GestureDetector(
+                                            onTap: (){
+
+                                            },
+                                            child: DottedBorder(
+                                              radius: const Radius.circular(8),
+                                              padding: EdgeInsets.all(
+                                                  size.width * 0.02),
+                                              color: ColorConstant.purple900,
+                                              strokeWidth: 2,
+                                              borderType: BorderType.RRect,
+                                              child: Icon(
+                                                Icons.add,
+                                                size: size.width * 0.2,
+                                                color: ColorConstant.purple900,
+                                              ),
+                                            ),
+                                          )),
+                                      Container(
+                                        width: size.width,
+                                        height: 1,
+                                        color: ColorConstant.gray300,
+                                      ),
+                                    ],
+                                  ),
+                            (snapshot.data!.data.status != "DONE")
+                                ? const SizedBox()
+                                : Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.02,
+                                    left: size.width * 0.03,
+                                  ),
+                                  child: const Text(
+                                    "Hình ảnh xác nhận hoàn thành:",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    top: size.height * 0.01,
+                                    left: size.width * 0.06,
+                                    bottom: size.height * 0.02,
+                                  ),
+                                  child: Container(
+                                    width: size.width * 0.24,
+                                    height: size.width * 0.24,
+                                    alignment: Alignment.bottomCenter,
+                                    padding: EdgeInsets.only(
+                                        bottom: size.height * 0.01),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                      BorderRadius.circular(8),
+                                      border: Border.all(
+                                        color: Colors.black,
+                                        width: 1,
+                                      ),
+                                      image: DecorationImage(
+                                        image: NetworkImage(((snapshot
+                                            .data!
+                                            .data
+                                            .bookingImgResponseDtoList)
+                                        as List<
+                                            BookingImgResponseDtoList>)[1]
+                                            .url),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: size.width,
+                                  height: 1,
+                                  color: ColorConstant.gray300,
+                                ),
+                              ],
+                            ),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
@@ -972,16 +1223,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     return dateConverted;
   }
 
-  onPaymentClick() async {
-    bool isPaid = false;
-    // isPaid = await _paymentBloc.cusPayment(booking.id);
-
-    if (isPaid) {
-      showSuccessAlertDialog(context);
-    } else {
-      showFailAlertDialog(context);
-    }
-  }
   onAcceptClick() async {
     bool isAccept = false;
     isAccept = await _bookingBloc.sitterAcceptAction(booking.id);
@@ -992,7 +1233,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       showFailAlertDialog(context);
     }
   }
-  onCancelClick() async{
+
+  onCancelClick() async {
     bool isCancel = false;
     isCancel = await _bookingBloc.sitterCancelAction(booking.id);
 

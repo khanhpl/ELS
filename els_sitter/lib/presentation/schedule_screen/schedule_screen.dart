@@ -117,7 +117,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: const [
-                      // InprogressWidget(),
+                      InprogressWidget(),
                     ],
                   ),
                 ),

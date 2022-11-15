@@ -1,6 +1,5 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/core/models/booking_info_model.dart';
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
 import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
