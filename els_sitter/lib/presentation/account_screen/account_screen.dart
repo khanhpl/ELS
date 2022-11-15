@@ -264,6 +264,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
+
                               Navigator.pushNamed(context, '/elderScreen');
                             },
                             child: Padding(
@@ -318,6 +319,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, '/historyScreen');
+
                             },
                             child: Padding(
                               padding: EdgeInsets.only(

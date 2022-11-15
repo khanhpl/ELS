@@ -239,6 +239,56 @@ class _PersonalScreenState extends State<PersonalScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Container(
+                  width: size.width * 0.3,
+                  height: size.width * 0.3,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(cus.avatarUrl),
+                      fit: BoxFit.fill,
+                    ),
+                    color: ColorConstant.gray400,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: 0,
+                      margin: EdgeInsets.only(
+                        left: size.width * 0.03,
+                        top: size.height * 0.1,
+                      ),
+                      color: ColorConstant.purple900,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        height: size.width * 0.06,
+                        width: size.width * 0.06,
+                        decoration: BoxDecoration(
+                          color: ColorConstant.purple900,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.all(size.width * 0.01),
+                                child: Image.asset(
+                                  ImageConstant.imgTicket14X14,
+                                  width: size.width * 0.02,
+                                  height: size.width * 0.02,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,

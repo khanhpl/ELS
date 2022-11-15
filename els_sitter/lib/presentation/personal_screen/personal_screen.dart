@@ -63,7 +63,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
         backgroundColor: ColorConstant.whiteA700,
         leading: GestureDetector(
           onTap: () {
-            Navigator.pop(context);
+            Navigator.pushNamed(context, '/accountScreen');
           },
           child: Image.asset(
             ImageConstant.imgArrowleft,
@@ -504,8 +504,74 @@ class _PersonalScreenState extends State<PersonalScreen> {
     isSave = await blocs.updateSitterInfo(fullname, dob, gender, phone, address, email, sitter.avatarUrl);
     if(isSave){
       print('Thành công');
+      showSuccessAlertDialog(context);
     }else{
       print('Thất bại');
+      showFailAlertDialog(context);
     }
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/accountScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thành công",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thay đổi thông tin thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
