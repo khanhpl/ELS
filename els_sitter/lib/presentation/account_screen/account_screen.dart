@@ -264,7 +264,62 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(context, '/hístoryScreen');
+
+                              Navigator.pushNamed(context, '/elderScreen');
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: size.width * 0.03,
+                                top: size.height * 0.02,
+                                right: size.width * 0.03,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    "Người thân",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: ColorConstant.black900,
+                                      fontSize: 17,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.00,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: Image.asset(
+                                        ImageConstant.imgArrowrightGray400,
+                                        width: size.width * 0.02,
+                                        height: size.width * 0.03,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                            height: 1,
+                            width: size.width,
+                            margin: EdgeInsets.only(
+                              left: size.width * 0.015,
+                              top: size.height * 0.015,
+                              right: size.width * 0.015,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ColorConstant.bluegray50,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/historyScreen');
+
                             },
                             child: Padding(
                               padding: EdgeInsets.only(

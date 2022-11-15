@@ -16,7 +16,7 @@ class UpcommingWidget extends StatefulWidget {
 }
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
-  final Future<BookingInfoModel> bookingList = BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
+  final Future<BookingInfoModel> dateList = BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
   final Future<BookingInfoModel> paymentList = BookingBloc().getBookingByStatusName('WAITING_FOR_CUSTOMER_PAYMENT');
   BookingBloc bloc = BookingBloc();
   @override
@@ -70,10 +70,10 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               },
                             );
                           } else {
-                            return const SplashScreen();
+                            return const CircularProgressIndicator();
                           }
                         },
-                        future: bookingList,
+                        future: dateList,
                       ),
                     ),
 
@@ -110,7 +110,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               },
                             );
                           } else {
-                            return const SplashScreen();
+                            return const CircularProgressIndicator();
                           }
                         },
                         future: paymentList,

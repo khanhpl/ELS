@@ -1,4 +1,5 @@
 import 'package:els_cus_mobile/core/models/add_working_times_dto_list.dart';
+import 'package:els_cus_mobile/core/models/booking_img_response_dto.dart';
 import 'package:els_cus_mobile/core/models/booking_service_detail_response_dto.dart';
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/models/sitter_response_dto.dart';
@@ -26,7 +27,7 @@ class BookingDetailDataModel {
     required this.totalPrice,
     required this.deposit,
     required this.status,
-    this.bookingImgResponseDtoList,
+    required this.bookingImgResponseDtoList,
     required this.workingTimeResponseDtoList,
     required this.bookingDetailResponseDtoList,
     this.paymentResponseDto,
@@ -43,7 +44,7 @@ class BookingDetailDataModel {
     totalPrice: json["totalPrice"],
     deposit: json["deposit"],
     status: json["status"],
-    bookingImgResponseDtoList: (json["bookingImgResponseDTOList"] != null) ? json["bookingImgResponseDTOList"] : "",
+    bookingImgResponseDtoList:(json["bookingImgResponseDTOList"] != null) ? List<BookingImgResponseDtoList>.from(json["bookingImgResponseDTOList"].map((x) => BookingImgResponseDtoList.fromJson(x))) : "",
     workingTimeResponseDtoList: List<AddWorkingTimesDtoListElement>.from(json["workingTimeResponseDTOList"].map((x) => AddWorkingTimesDtoListElement.fromJson(x))),
     bookingDetailResponseDtoList: List<BookingDetailResponseDtoList>.from(json["bookingDetailResponseDTOList"].map((x) => BookingDetailResponseDtoList.fromJson(x))),
     paymentResponseDto: (json["paymentResponseDTO"] != null) ? json["paymentResponseDTO"] : "",
@@ -58,7 +59,7 @@ class BookingDetailDataModel {
     "totalPrice": totalPrice,
     "deposit": deposit,
     "status": status,
-    "bookingImgResponseDTOList": bookingImgResponseDtoList,
+    "bookingImgResponseDTOList": List<dynamic>.from(bookingImgResponseDtoList.map((x) => x.toJson())),
     "workingTimeResponseDTOList": List<dynamic>.from(workingTimeResponseDtoList.map((x) => x.toJson())),
     "bookingDetailResponseDTOList": List<dynamic>.from(bookingDetailResponseDtoList.map((x) => x.toJson())),
     "paymentResponseDTO": paymentResponseDto,

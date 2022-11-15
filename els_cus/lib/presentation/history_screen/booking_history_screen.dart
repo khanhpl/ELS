@@ -1,11 +1,10 @@
-import 'package:els_sitter/core/models/booking_info_model.dart';
-import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
-import 'package:els_sitter/widgets/booking_item_detail_widget.dart';
-import 'package:els_sitter/widgets/booking_item_widget.dart';
+
+import 'package:els_cus_mobile/core/models/booking_info_model.dart';
+import 'package:els_cus_mobile/widgets/booking_item_detail_widget.dart';
+import 'package:els_cus_mobile/widgets/booking_item_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/booking_bloc.dart';
-import '../../core/models/booking_model.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
 
