@@ -1,5 +1,6 @@
 
 import 'package:els_sitter/core/models/add_working_times_dto_list.dart';
+import 'package:els_sitter/core/models/booking_img_response_dto.dart';
 import 'package:els_sitter/core/models/booking_service_detail_response_dto.dart';
 import 'package:els_sitter/core/models/cus_response_dto.dart';
 import 'package:els_sitter/core/models/elder_data_model.dart';
@@ -27,7 +28,7 @@ class BookingDetailDataModel {
     required this.totalPrice,
     required this.deposit,
     required this.status,
-    this.bookingImgResponseDtoList,
+    required this.bookingImgResponseDtoList,
     required this.workingTimeResponseDtoList,
     required this.bookingDetailResponseDtoList,
     this.paymentResponseDto,
@@ -44,7 +45,7 @@ class BookingDetailDataModel {
     totalPrice: json["totalPrice"],
     deposit: json["deposit"],
     status: json["status"],
-    bookingImgResponseDtoList: (json["bookingImgResponseDTOList"] != null) ? json["bookingImgResponseDTOList"] : "",
+    bookingImgResponseDtoList:(json["bookingImgResponseDTOList"] != null) ? List<BookingImgResponseDtoList>.from(json["bookingImgResponseDTOList"].map((x) => BookingImgResponseDtoList.fromJson(x))) : "",
     workingTimeResponseDtoList: List<AddWorkingTimesDtoListElement>.from(json["workingTimeResponseDTOList"].map((x) => AddWorkingTimesDtoListElement.fromJson(x))),
     bookingDetailResponseDtoList: List<BookingDetailResponseDtoList>.from(json["bookingDetailResponseDTOList"].map((x) => BookingDetailResponseDtoList.fromJson(x))),
     paymentResponseDto: (json["paymentResponseDTO"] != null) ? json["paymentResponseDTO"] : "",

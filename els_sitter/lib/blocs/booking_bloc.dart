@@ -115,4 +115,56 @@ class BookingBloc {
       }
     } finally {}
   }
+  Future<bool> sitterCheckInAction(int bookingID, String imgUrl) async {
+    try {
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking-img/check-in");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "bookingId": bookingID,
+            "url": imgUrl,
+          },
+        ),
+      );
+      print('test checkin status: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
+  Future<bool> sitterCheckOutAction(int bookingID, String imgUrl) async {
+    try {
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/booking-img/check-out");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "bookingId": bookingID,
+            "url": imgUrl,
+          },
+        ),
+      );
+      print('test checkout status: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }
