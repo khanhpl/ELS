@@ -11,6 +11,7 @@ import 'package:provider/provider.dart';
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/globals.dart' as globals;
 import '../../core/utils/image_constant.dart';
+import '../adjust_service_screen/adjust_service_screen.dart';
 
 class AccountScreen extends StatefulWidget {
   const AccountScreen({super.key});
@@ -370,40 +371,45 @@ class _AccountScreenState extends State<AccountScreen> {
                               color: ColorConstant.bluegray50,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: size.width * 0.03,
-                              top: size.height * 0.02,
-                              right: size.width * 0.03,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  "Yêu Thích",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 17,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.00,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    child: Image.asset(
-                                      ImageConstant.imgArrowrightGray400,
-                                      width: size.width * 0.02,
-                                      height: size.width * 0.03,
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => AdjustServiceScreen(sitter: snapshot.data!.data),));
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: size.width * 0.03,
+                                top: size.height * 0.02,
+                                right: size.width * 0.03,
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    "Điều chỉnh dịch vụ",
+                                    overflow: TextOverflow.ellipsis,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                      color: ColorConstant.black900,
+                                      fontSize: 17,
+                                      fontFamily: 'Roboto',
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.00,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  Expanded(
+                                    child: Container(
+                                      alignment: Alignment.centerRight,
+                                      child: Image.asset(
+                                        ImageConstant.imgArrowrightGray400,
+                                        width: size.width * 0.02,
+                                        height: size.width * 0.03,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                           Container(
