@@ -60,9 +60,16 @@ class LoginBloc {
       );
       print('Response Login Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
-        Globals.curUser = UserModel.fromJson(json.decode(response.body));
-
-        return true;
+        if (UserModel.fromJson(json.decode(response.body))
+                .data
+                .role
+                .toUpperCase() ==
+            "CUSTOMER") {
+          Globals.curUser = UserModel.fromJson(json.decode(response.body));
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

@@ -196,10 +196,11 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                           context, //showDateTime to pick time
                                           showTitleActions: true,
                                           maxTime: DateTime.now(),
+                                          minTime: DateTime(1900),
                                           onChanged: (date) {},
                                           onConfirm: (date) {
                                         String dateInput =
-                                            '${date.year}-${date.month}-${date.day}';
+                                            '${date.year}-${(date.month >= 10) ? date.month : '0' + date.month.toString()}-${(date.day >= 10) ? date.day : '0' + date.day.toString()}';
                                         _changeDob(dateInput);
                                       },
                                           currentTime: DateTime.now(),

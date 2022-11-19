@@ -764,7 +764,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
     updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone,
         frontIdImgUrl, backIdImgUrl, avatarImgUrl);
     if (updateSuccess) {
-      globals.curUser!.data.setDob(DateTime.parse(dob));
+      globals.curUser!.data.setDob(dob);
       showSuccessAlertDialog(context);
     } else {
       showFailAlertDialog(context);
