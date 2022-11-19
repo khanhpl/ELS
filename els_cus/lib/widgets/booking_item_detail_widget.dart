@@ -42,6 +42,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đang đợi đến ngày làm việc";
     } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       status = "Đang đợi thanh toán";
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
+      status = "Đang đợi xác nhận hoàn thành";
     } else {
       status = "Chưa biết";
     }
@@ -137,7 +139,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => RatingScreen(),));
+
       },
     );
 
@@ -212,7 +214,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
-  void showCheckoutAlertDialog(BuildContext context) {
+  void showConfirmCheckoutAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
       child: Text(
@@ -232,7 +234,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        cusConfirmCheckout();
+      },
     );
 
     // set up the AlertDialog
@@ -242,6 +246,53 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
       content: const Text(
         "Bạn xác nhận muốn hoàn thành lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+  void showRatingAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => RatingScreen(bookingID: booking.id),));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Đánh giá",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn tạo đánh giá cho đặt lịch này.",
       ),
       actions: [
         cancelButton,
@@ -409,10 +460,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
+              width: size.width * 0.94,
               margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
                   top: size.height * 0.02,
                   bottom: size.height * 0.02),
               decoration: const BoxDecoration(
@@ -422,7 +471,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
+                    showRatingAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -445,7 +494,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
+              width: size.width,
               margin: EdgeInsets.only(
                   left: size.width * 0.03,
                   right: size.width * 0.03,
@@ -458,7 +507,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,
@@ -466,14 +514,50 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Xác nhận xong"),
+                  child: const Text("Hủy"),
                 ),
               ),
             ),
           ),
         ],
       );
-    } else {
+    } else if (booking.status == 'WAITING_FOR_CUSTOMER_CHECK') {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: size.width*0.94,
+              margin: EdgeInsets.only(
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02),
+              decoration: const BoxDecoration(
+                color: Colors.transparent,
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    showConfirmCheckoutAlertDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    primary: ColorConstant.purple900,
+                    textStyle: TextStyle(
+                      fontSize: size.width * 0.045,
+                    ),
+                  ),
+                  child: const Text("Xác nhận hoàn thành"),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    }else {
       return SizedBox();
     }
   }
@@ -949,9 +1033,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ],
                             ),
-                            (snapshot.data!.data.status != "DONE")
-                                ? const SizedBox()
-                                : Column(
+                            (snapshot.data!.data.status == "DONE" || snapshot.data!.data.status == "WAITING_FOR_CUSTOMER_CHECK" )
+                                ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment:
                               CrossAxisAlignment.start,
@@ -1007,7 +1090,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   color: ColorConstant.gray300,
                                 ),
                               ],
-                            ),
+                            ) : const SizedBox(),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
@@ -1070,6 +1153,16 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isPaid = await _bookingBloc.createPayment("DirectPayment", globals.curUser!.data.email, booking.totalPrice.ceil(), booking.id);
 
     if (isPaid) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
+    }
+  }
+  cusConfirmCheckout() async {
+    bool isConfirm = false;
+    isConfirm = await _bookingBloc.cusConfirmCheckOut(booking.id);
+
+    if (isConfirm) {
       showSuccessAlertDialog(context);
     } else {
       showFailAlertDialog(context);

@@ -142,4 +142,52 @@ class BookingBloc {
       }
     } finally {}
   }
+  Future<bool> cusConfirmCheckOut(int bookingId) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/booking/check-booking-customer/$bookingId");
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{}
+        ),
+      );
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
+  Future<bool> cusRating(int bookingId, double star, String comment) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/rating/rate");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+            <String, dynamic>{
+              "bookingId": bookingId,
+              "star": star,
+              "comment": comment
+            }
+        ),
+      );
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }
