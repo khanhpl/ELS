@@ -95,8 +95,8 @@ class BookingBloc {
   Future<bool> sitterCancelAction(int bookingID) async {
     try {
       var url = Uri.parse(
-          "https://els12.herokuapp.com/booking/${bookingID}/${Globals.curUser!.data.email}");
-      final response = await http.put(
+          "https://els12.herokuapp.com/sitter-cancel/cancel-booking/$bookingID");
+      final response = await http.post(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
@@ -107,7 +107,7 @@ class BookingBloc {
           <String, String>{},
         ),
       );
-      print('test accept status: ${response.statusCode.toString()}');
+      print('test cancel status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -167,4 +167,5 @@ class BookingBloc {
       }
     } finally {}
   }
+
 }

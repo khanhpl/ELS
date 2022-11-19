@@ -977,54 +977,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     // set up the AlertDialog
   }
 
-  Future uploadFileCert() async {
-    final path = 'els_images/${pickedFileCert!.name}';
-    final file = File(pickedFileCert!.path);
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTaskCert = ref.putFile(file);
-
-    final snapshot = await uploadTaskCert!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    certURL = urlDownload;
-    print('Download link Cert: ${urlDownload}');
-  }
-
-  Future uploadFileFrontID() async {
-    final path = 'els_images/${pickedFileFrontID!.name}';
-    final file = File(pickedFileFrontID!.path);
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTaskFrontID = ref.putFile(file);
-
-    final snapshot = await uploadTaskFrontID!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    frontIDImage = urlDownload;
-    print('Download link frontID: ${urlDownload}');
-  }
-
-  Future uploadFileBackID() async {
-    final path = 'els_images/${pickedFileBackID!.name}';
-    final file = File(pickedFileBackID!.path);
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTaskBackID = ref.putFile(file);
-
-    final snapshot = await uploadTaskBackID!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    backIDImage = urlDownload;
-    print('Download link BackID: ${urlDownload}');
-  }
-
-  Future uploadFileFace() async {
-    final path = 'els_images/${pickedFileFace!.name}';
-    final file = File(pickedFileFace!.path);
-    final ref = FirebaseStorage.instance.ref().child(path);
-    uploadTaskFace = ref.putFile(file);
-
-    final snapshot = await uploadTaskFace!.whenComplete(() {});
-    final urlDownload = await snapshot.ref.getDownloadURL();
-    avatarImage = urlDownload;
-    print('Download link Face: ${urlDownload}');
-  }
-
   Future<void> initPlatformState() async {
     String platformVersion;
     try {
@@ -1069,6 +1021,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isCertCheck = true;
       });
     }
+    final path = 'els_images/${pickedFileCert!.name}';
+    final file = File(pickedFileCert!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskCert = ref.putFile(file);
+
+    final snapshot = await uploadTaskCert!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    certURL = urlDownload;
+    print('Download link Cert: ${urlDownload}');
   }
 
   _getIDFrontImageFromGallery() async {
@@ -1081,6 +1042,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isIDFrontCheck = true;
       });
     }
+
+    final path = 'els_images/${pickedFileFrontID!.name}';
+    final file = File(pickedFileFrontID!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskFrontID = ref.putFile(file);
+
+    final snapshot = await uploadTaskFrontID!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    frontIDImage = urlDownload;
+    print('Download link frontID: ${urlDownload}');
   }
 
   _getIDBackImageFromGallery() async {
@@ -1093,6 +1064,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isIDBackCheck = true;
       });
     }
+    final path = 'els_images/${pickedFileBackID!.name}';
+    final file = File(pickedFileBackID!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskBackID = ref.putFile(file);
+
+    final snapshot = await uploadTaskBackID!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    backIDImage = urlDownload;
+    print('Download link BackID: ${urlDownload}');
   }
 
   _getFaceImageFromGallery() async {
@@ -1105,6 +1085,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         isFaceCheck = true;
       });
     }
+    final path = 'els_images/${pickedFileFace!.name}';
+    final file = File(pickedFileFace!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskFace = ref.putFile(file);
+
+    final snapshot = await uploadTaskFace!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    avatarImage = urlDownload;
+    print('Download link Face: ${urlDownload}');
   }
 
   @override
@@ -2247,9 +2236,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       gender = "Nữ";
     }
 
-    uploadFileFrontID();
-    uploadFileBackID();
-    uploadFileFace();
     UserIDImageModel userIdImage = UserIDImageModel(
         fontIdImgUrl: frontIDImage,
         backIdImgUrl: backIDImage,

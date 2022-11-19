@@ -7,6 +7,7 @@ import 'package:els_sitter/core/models/booking_detail_model.dart';
 import 'package:els_sitter/core/models/booking_img_response_dto.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
+import 'package:els_sitter/presentation/report_screen/report_screen.dart';
 import 'package:els_sitter/presentation/schedule_screen/widget/check_in_screen.dart';
 import 'package:els_sitter/presentation/schedule_screen/widget/check_out_screen.dart';
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
@@ -192,7 +193,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           color: ColorConstant.purple900,
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        onCancelClick();
+      },
     );
 
     // set up the AlertDialog
@@ -302,6 +305,54 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       ),
       content: const Text(
         "Bạn xác nhận muốn bắt đầu thực hiện lịch chăm sóc này",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showReportAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportScreen(bookingID: booking.id),));
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "Xác Nhận Hoàn Thành Đặt Lịch",
+      ),
+      content: const Text(
+        "Bạn xác nhận muốn hoàn thành lịch chăm sóc này",
       ),
       actions: [
         cancelButton,
@@ -517,7 +568,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-                    showCheckoutAlertDialog(context);
+                    showReportAlertDialog(context);
                   },
                   style: ElevatedButton.styleFrom(
                     primary: ColorConstant.purple900,

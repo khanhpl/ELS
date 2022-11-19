@@ -79,7 +79,6 @@ class SignUpBloc {
           },
         ),
       );
-      // print('Status: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         if (json.decode(response.body)["errorCode"] != "DUPLICATE_EMAIL") {
           return true;
