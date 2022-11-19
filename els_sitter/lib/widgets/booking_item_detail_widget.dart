@@ -48,6 +48,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đang đợi đến ngày làm việc";
     } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       status = "Đang đợi thanh toán";
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
+      status = "Đang đợi khách hàng xác nhận hoàn thành";
     } else {
       status = "Chưa biết";
     }

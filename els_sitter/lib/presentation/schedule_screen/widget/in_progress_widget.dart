@@ -1,5 +1,3 @@
-
-
 // ignore_for_file: must_be_immutable
 import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/core/models/booking_info_model.dart';
@@ -11,13 +9,18 @@ import 'package:flutter/material.dart';
 
 class InprogressWidget extends StatefulWidget {
   const InprogressWidget({super.key});
+
   @override
   State<InprogressWidget> createState() => _InprogressWidgetState();
 }
 
 class _InprogressWidgetState extends State<InprogressWidget> {
-  final Future<BookingInfoModel> startList = BookingBloc().getBookingByStatusName('STARTING');
+  final Future<BookingInfoModel> startList =
+      BookingBloc().getBookingByStatusName('STARTING');
+  final Future<BookingInfoModel> checkList =
+      BookingBloc().getBookingByStatusName('WAITING_FOR_CUSTOMER_CHECK');
   BookingBloc bloc = BookingBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -30,8 +33,8 @@ class _InprogressWidgetState extends State<InprogressWidget> {
               child: Container(
                 width: size.width,
                 margin: EdgeInsets.only(
-                  left: size.width*0.03,
-                  right: size.width*0.03,
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -50,19 +53,18 @@ class _InprogressWidgetState extends State<InprogressWidget> {
                               // itemCount: snapshot.data!.length,
                               itemCount: snapshot.data!.data.length,
                               separatorBuilder: (context, index) {
-                                return SizedBox(height: size.height*0.02);
+                                return SizedBox(height: size.height * 0.02);
                               },
-                              itemBuilder: (BuildContext context,
-                                  int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
+                                      Navigator.push(
+                                          context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   BookingItemDetailWidget(
                                                       booking: snapshot
-                                                          .data!
-                                                          .data[index])));
+                                                          .data!.data[index])));
                                     },
                                     child: bookingItemWidget(
                                         context, snapshot.data!.data[index]));
@@ -75,7 +77,44 @@ class _InprogressWidgetState extends State<InprogressWidget> {
                         future: startList,
                       ),
                     ),
-
+                    SizedBox(height: size.height * 0.02),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<BookingInfoModel>(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          if (snapshot.hasData) {
+                            return ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              // itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data!.data.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(height: size.height * 0.02);
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BookingItemDetailWidget(
+                                                      booking: snapshot
+                                                          .data!.data[index])));
+                                    },
+                                    child: bookingItemWidget(
+                                        context, snapshot.data!.data[index]));
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                        future: checkList,
+                      ),
+                    ),
                   ],
                 ),
               ),

@@ -22,6 +22,8 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       status = "Đang đợi đến ngày làm việc";
     }else if(booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT'){
       status = "Đang đợi thanh toán";
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
+      status = "Đang đợi khách hàng xác nhận hoàn thành";
     }else{
       status = "Đang tải";
     }
