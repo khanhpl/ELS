@@ -60,12 +60,10 @@ class LoginBloc {
       );
       print('Response Login Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
-
         if (UserModel.fromJson(json.decode(response.body))
                 .data
                 .role
                 .toUpperCase() ==
-
             "CUSTOMER") {
           Globals.curUser = UserModel.fromJson(json.decode(response.body));
           return true;
@@ -77,32 +75,42 @@ class LoginBloc {
       }
     } finally {}
   }
-   Future<bool> checkCurGmailUser(String email, String fullName, String dob, String gender) async {
-    try {
-      var url = Uri.parse("https://els12.herokuapp.com/auth/login-gmail");
-      final response = await http.post(
-  <String, String>{
-            "email": email,
-            "fullName": fullName,
-            "dob": dob,
-            "gender": gender
-          },
-        ),
-      );
-      print('Response Login Gmail Code: ${response.statusCode.toString()} ');
-      if (response.statusCode.toString() == '200') {
 
-        if (UserModel.fromJson(json.decode(response.body))
-            .data
-            .role
-            .toUpperCase() ==
+  Future<bool> checkCurGmailUser(
+      String email, String fullName, String dob, String gender) async {
+    var url = Uri.parse("https://els12.herokuapp.com/auth/login-gmail");
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+        <String, String>{
+          "email": email,
+          "fullName": fullName,
+          "dob": dob,
+          "gender": gender
+        },
+      ),
+    );
+    print('Response Login Gmail Code: ${response.statusCode.toString()} ');
+    if (response.statusCode.toString() == '200') {
+      if (UserModel.fromJson(json.decode(response.body))
+              .data
+              .role
+              .toUpperCase() ==
+          "CUSTOMER") {
+        Globals.curUser = UserModel.fromJson(json.decode(response.body));
+        return true;
+      } else {
+        return false;
+      }
+    }else{
+      return false;
+    }
+  }
 
-            "CUSTOMER") {
-          Globals.curUser = UserModel.fromJson(json.decode(response.body));
-          return true;
-        } else {
-          return false;
-        }
   Future<bool> forgotPassword(String email) async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/auth/forgot-password");
