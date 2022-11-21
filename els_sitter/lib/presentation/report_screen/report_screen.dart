@@ -1,10 +1,10 @@
-
 import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 
 class ReportScreen extends StatefulWidget {
   int bookingID;
+
   ReportScreen({super.key, required this.bookingID});
 
   @override
@@ -13,10 +13,12 @@ class ReportScreen extends StatefulWidget {
 
 class _ReportScreenState extends State<ReportScreen> {
   int bookingID;
+
   _ReportScreenState({required this.bookingID});
 
   final TextEditingController descriptionController = TextEditingController();
   BookingBloc _bookingBloc = BookingBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -41,7 +43,7 @@ class _ReportScreenState extends State<ReportScreen> {
       ),
       body: Container(
         padding:
-        EdgeInsets.fromLTRB(size.width * 0.03, 0, size.width * 0.03, 0),
+            EdgeInsets.fromLTRB(size.width * 0.03, 0, size.width * 0.03, 0),
         color: ColorConstant.whiteA700,
         child: SingleChildScrollView(
           child: Column(
@@ -74,7 +76,7 @@ class _ReportScreenState extends State<ReportScreen> {
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                          (states) => ColorConstant.purple900),
+                      (states) => ColorConstant.purple900),
                 ),
                 onPressed: () {
                   _showConfirmDialog();
@@ -90,6 +92,18 @@ class _ReportScreenState extends State<ReportScreen> {
         ),
       ),
     );
+  }
+
+  sitterConfirmReport() async {
+    bool isReported = false;
+    isReported = await _bookingBloc.sitterReportCus(
+        bookingID, descriptionController.text.trim());
+
+    if (isReported) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
+    }
   }
 
   void showSuccessAlertDialog(BuildContext context) {
@@ -159,13 +173,14 @@ class _ReportScreenState extends State<ReportScreen> {
       },
     );
   }
+
   _showConfirmDialog() {
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Xác nhận đánh giá'),
+          title: Text('Xác nhận báo cáo'),
           content: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -176,19 +191,20 @@ class _ReportScreenState extends State<ReportScreen> {
           actions: <Widget>[
             TextButton(
               child: Text(
-                'Xác nhận',
-                style: TextStyle(color: ColorConstant.purple900),
-              ),
-              onPressed: () {
-              },
-            ),
-            TextButton(
-              child: Text(
                 'Hủy',
                 style: TextStyle(color: ColorConstant.purple900),
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text(
+                'Xác nhận',
+                style: TextStyle(color: ColorConstant.purple900),
+              ),
+              onPressed: () {
+                sitterConfirmReport();
               },
             ),
           ],

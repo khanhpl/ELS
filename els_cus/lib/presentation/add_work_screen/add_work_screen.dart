@@ -43,10 +43,12 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
   bool isHospital = false;
   bool isHouse = true;
   BookingBloc bloc = BookingBloc();
+  late StateSetter _stateSetter;
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final Map<dynamic, dynamic> listServiceObj = {};
   DateTime startDateTime = DateTime.now();
+  List<String> startMultiDateTimeList = [];
 
   @override
   double calTotal() {
@@ -329,7 +331,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                     maxTime: DateTime(2023, 12, 31),
                     onChanged: (date) {}, onConfirm: (date) {
                   String dateInput =
-                      '${date.year}-${(date.month >= 10) ? date.month : '0' + date.month.toString()}-${(date.day >= 10) ? date.day : '0' + date.day.toString()}';
+                      '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0' + date.day.toString()}';
                   _changeWorkDate(dateInput);
                 }, currentTime: DateTime.now(), locale: LocaleType.vi);
               },
@@ -420,8 +422,248 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         ],
       );
     } else {
-      return SizedBox();
+      return Padding(
+        padding: EdgeInsets.only(
+          left: size.width * 0.06,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _chooseMultiDateDialog(context);
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImageConstant.imgIconAdd,
+                    height: size.width * 0.03,
+                    width: size.width * 0.03,
+                    color: ColorConstant.purple900,
+                  ),
+                  SizedBox(width: size.width * 0.015),
+                  Text(
+                    "Thêm ngày và thời gian làm việc",
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      color: ColorConstant.purple900,
+                      fontSize: 13,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w400,
+                      height: 1.00,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            ListView.separated(
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Text(convertDate(startMultiDateTimeList[index]));
+                },
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: size.height * 0.01),
+                itemCount: startMultiDateTimeList.length),
+          ],
+        ),
+      );
     }
+  }
+
+  _chooseMultiDateDialog(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    String workMultiDate = "Chọn ngày làm việc";
+    String workMultiTime = "Chọn giờ làm việc";
+    DateTime startMultiDateTime = DateTime.now();
+
+    Widget confirmButton = TextButton(
+      child: Text(
+        "Thêm",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        setState(() {
+          String startMultiDateTimeStr =
+              '${workMultiDate.split("-")[0]}-${(int.parse(workMultiDate.split("-")[1]) < 10) ? '0${workMultiDate.split("-")[1]}' : workMultiDate.split("-")[1]}-${(int.parse(workMultiDate.split("-")[2]) < 10) ? '0${workMultiDate.split("-")[2]}' : workMultiDate.split("-")[2]}T${(int.parse(workMultiTime.split(":")[0]) < 10) ? '0${workMultiTime.split(":")[0]}' : workMultiTime.split(":")[0]}:${(int.parse(workMultiTime.split(":")[1]) < 10) ? '0${workMultiTime.split(":")[1]}' : workMultiTime.split(":")[1]}:00.000Z';
+          startMultiDateTimeList.add(startMultiDateTimeStr);
+        });
+      },
+    );
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    AlertDialog alert = AlertDialog(
+      contentPadding: const EdgeInsets.all(0),
+      backgroundColor: ColorConstant.whiteA700,
+      actions: [
+        confirmButton,
+      ],
+      content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          _stateSetter = setState;
+
+          void _changeWorkMultiDate(String date) async {
+            setState(() {
+              workMultiDate = date;
+            });
+          }
+
+          void _changeWorkMultiTime(String time) async {
+            setState(() {
+              workMultiTime = time;
+            });
+          }
+
+          return Container(
+            decoration: BoxDecoration(
+              color: ColorConstant.whiteA700,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: size.height * 0.02),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: size.width * 0.03,
+                      right: size.width * 0.03,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        DatePicker.showDatePicker(context,
+                            //showDateTime to pick time
+                            showTitleActions: true,
+                            minTime: DateTime.now(),
+                            maxTime: DateTime(2023, 12, 31),
+                            onChanged: (date) {}, onConfirm: (date) {
+                          String dateInput =
+                              '${date.year}-${(date.month >= 10) ? date.month : '0${date.month}'}-${(date.day >= 10) ? date.day : '0' + date.day.toString()}';
+                          _changeWorkMultiDate(dateInput);
+                        }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: size.height * 0.07,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: Colors.black45, width: 1),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: size.width * 0.048,
+                                right: size.width * 0.048,
+                              ),
+                              child: Image.asset(
+                                ImageConstant.imgCalendar,
+                                color: ColorConstant.purple900,
+                              ),
+                            ),
+                            Text(
+                              workMultiDate,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: size.height * 0.03,
+                      left: size.width * 0.03,
+                      right: size.width * 0.03,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        DatePicker.showTimePicker(
+                            context, //showDateTime to pick time
+                            showTitleActions: true,
+                            onChanged: (time) {}, onConfirm: (time) {
+                          String timeInput = '${time.hour}:${time.minute}';
+                          _changeWorkMultiTime(timeInput);
+                        }, currentTime: DateTime.now(), locale: LocaleType.vi);
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        height: size.height * 0.07,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(color: Colors.black45, width: 1),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: size.width * 0.048,
+                                right: size.width * 0.048,
+                              ),
+                              child: Image.asset(
+                                ImageConstant.imgClock,
+                                color: ColorConstant.purple900,
+                              ),
+                            ),
+                            Text(
+                              (workMultiTime != "Chọn giờ làm việc")
+                                  ? '${workMultiTime.split(":")[0]} Giờ ${workMultiTime.split(":")[1]} phút'
+                                  : workMultiTime,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+
+    // set up the AlertDialog
   }
 
   @override
@@ -1341,6 +1583,15 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     );
   }
 
+  String convertDate(String inputDate) {
+    String dateConverted = "";
+    String date = inputDate.split("T")[0];
+    String time = inputDate.split("T")[1];
+    dateConverted =
+        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]} Lúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+    return dateConverted;
+  }
+
   _onBookingClick() async {
     List<AddBookingServiceRequestDto> addBookingServiceRequestDtos = [];
     int totalDuration = 0;
@@ -1358,19 +1609,31 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     } else {
       place = "Tại nhà";
     }
-
-    Duration duration = Duration(minutes: totalDuration);
-    DateTime endDateTime = startDateTime.add(duration);
-    String startDateTimeStr =
-        '${startDateTime.year}-${startDateTime.month}-${startDateTime.day}T${startDateTime.hour}:${startDateTime.minute}:00.000Z';
-    String endDateTimeStr =
-        '${endDateTime.year}-${endDateTime.month}-${endDateTime.day}T${endDateTime.hour}:${endDateTime.minute}:00.000Z';
-    AddWorkingTimesDtoListElement addWorkingTimesDto =
-        AddWorkingTimesDtoListElement(
-            startDateTime: startDateTimeStr, endDateTime: endDateTimeStr);
     List<AddWorkingTimesDtoListElement> addWorkingTimesDtoList = [];
-    addWorkingTimesDtoList.add(addWorkingTimesDto);
-
+    if (_isOneDay) {
+      Duration duration = Duration(minutes: totalDuration);
+      DateTime endDateTime = startDateTime.add(duration);
+      String startDateTimeStr =
+          '${startDateTime.year}-${(startDateTime.month < 10) ? '0${startDateTime.month}' : startDateTime.month}-${(startDateTime.day < 10) ? '0${startDateTime.day}' : startDateTime.day}T${(startDateTime.hour < 10) ? '0${startDateTime.hour}' : startDateTime.hour}:${(startDateTime.minute < 10) ? '0${startDateTime.minute}' : startDateTime.minute}:00.000Z';
+      String endDateTimeStr =
+          '${endDateTime.year}-${(endDateTime.month < 10) ? '0${endDateTime.month}' : endDateTime.month}-${(endDateTime.day < 10) ? '0${endDateTime.day}' : endDateTime.day}T${(endDateTime.hour < 10) ? '0${endDateTime.hour}' : endDateTime.hour}:${(endDateTime.minute < 10) ? '0${endDateTime.minute}' : endDateTime.minute}:00.000Z';
+      AddWorkingTimesDtoListElement addWorkingTimesDto =
+          AddWorkingTimesDtoListElement(
+              startDateTime: startDateTimeStr, endDateTime: endDateTimeStr);
+      addWorkingTimesDtoList.add(addWorkingTimesDto);
+    }
+    if (_isMiltiDates) {
+      Duration duration = Duration(minutes: totalDuration);
+      for (String startDate in startMultiDateTimeList) {
+        DateTime endDateTime = DateTime.parse(startDate).add(duration);
+        String endDateTimeStr =
+            '${endDateTime.year}-${(endDateTime.month < 10) ? '0${endDateTime.month}' : endDateTime.month}-${(endDateTime.day < 10) ? '0${endDateTime.day}' : endDateTime.day}T${(endDateTime.hour < 10) ? '0${endDateTime.hour}' : endDateTime.hour}:${(endDateTime.minute < 10) ? '0${endDateTime.minute}' : endDateTime.minute}:00.000Z';
+        AddWorkingTimesDtoListElement addWorkingTimesDto =
+            AddWorkingTimesDtoListElement(
+                startDateTime: startDate, endDateTime: endDateTimeStr);
+        addWorkingTimesDtoList.add(addWorkingTimesDto);
+      }
+    }
     bool isBooking = false;
     BookingFormModel booking = BookingFormModel(
         address: address,
@@ -1381,7 +1644,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         totalPrice: total,
         addWorkingTimesDtoList: addWorkingTimesDtoList,
         addBookingServiceRequestDtos: addBookingServiceRequestDtos);
-    print(booking.toString());
+
     isBooking = await bloc.createBooking(booking);
     if (isBooking) {
       showSuccessAlertDialog(context);

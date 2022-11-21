@@ -22,11 +22,11 @@ class BookingDataModel {
   factory BookingDataModel.fromJson(Map<String, dynamic> json) => BookingDataModel(
     id: json["id"],
     name: json["name"],
-    sitterName: json["sitterName"],
+    sitterName: (json["sitterName"] != null) ? json["sitterName"] : "",
     place: json["place"],
-    totalPrice: json["totalPrice"],
+    totalPrice: (json["totalPrice"] != null) ? json["totalPrice"] : 0,
     status: json["status"],
-    deposit: json["deposit"],
+    deposit: (json["deposit"] != null) ? json["deposit"] : 0,
   );
 
   Map<String, dynamic> toJson() => {

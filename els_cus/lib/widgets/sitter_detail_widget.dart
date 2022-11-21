@@ -1,10 +1,11 @@
-import 'package:els_cus_mobile/core/models/sitter_data_model.dart';
+
 import 'package:els_cus_mobile/core/models/sitter_detail_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SitterDetailWidget extends StatefulWidget {
   SitterDetailDataModel sitter;
@@ -82,15 +83,21 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Image.asset(
-                              ImageConstant.imgGlobe,
-                              height: size.width * 0.15,
-                              width: size.width * 0.15,
+                            GestureDetector(
+                              onTap:() async{
+                                
+                                launchUrl(Uri.parse("tel://${sitter.phone}"));
+                              },
+                              child: Icon(
+                                Icons.phone,
+                                size: size.width*0.05,
+                                color: Colors.green,
+                              ),
                             ),
                             Container(
                               margin: EdgeInsets.only(
-                                left: size.width * 0.03,
-                                right: size.width * 0.03,
+                                left: size.width * 0.06,
+                                right: size.width * 0.06,
                               ),
                               height: size.width * 0.2,
                               width: size.width * 0.2,
@@ -103,10 +110,16 @@ class _SitterDetailWidgetState extends State<SitterDetailWidget> {
                                 ),
                               ),
                             ),
-                            Image.asset(
-                              ImageConstant.imgFavorite,
-                              height: size.width * 0.15,
-                              width: size.width * 0.15,
+                            GestureDetector(
+                              onTap:() async{
+
+                                launchUrl(Uri.parse("sms://${sitter.phone}"));
+                              },
+                              child: Icon(
+                                Icons.sms,
+                                size: size.width*0.05,
+                                color: Colors.green,
+                              ),
                             ),
                           ],
                         ),

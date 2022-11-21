@@ -494,12 +494,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
+              width: size.width*0.94,
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -770,23 +765,31 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.06,
-                                bottom: size.height * 0.02,
-                              ),
-                              child: Text(
-                                convertDate(snapshot.data!.data
-                                    .workingTimeResponseDtoList[0].startDateTime
-                                    .toString()),
-                                style: const TextStyle(
-                                  height: 1.5,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+                            ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                      left: size.width * 0.06,
+                                      bottom: size.height * 0.02,
+                                    ),
+                                    child: Text(
+                                      convertDate(snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].startDateTime
+                                          .toString()),
+                                      style: const TextStyle(
+                                        height: 1.5,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
+                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -805,23 +808,31 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.06,
-                                bottom: size.height * 0.02,
-                              ),
-                              child: Text(
-                                convertDate(snapshot.data!.data
-                                    .workingTimeResponseDtoList[0].endDateTime
-                                    .toString()),
-                                style: const TextStyle(
-                                  height: 1.5,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+                            ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                      left: size.width * 0.06,
+                                      bottom: size.height * 0.02,
+                                    ),
+                                    child: Text(
+                                      convertDate(snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].endDateTime
+                                          .toString()),
+                                      style: const TextStyle(
+                                        height: 1.5,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
+                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -994,37 +1005,56 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                    left: size.width * 0.06,
-                                    bottom: size.height * 0.02,
-                                  ),
-                                  child: Container(
-                                    width: size.width * 0.24,
-                                    height: size.width * 0.24,
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.only(
-                                        bottom: size.height * 0.01),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(((snapshot
-                                            .data!
-                                            .data
-                                            .bookingImgResponseDtoList)
-                                        as List<
-                                            BookingImgResponseDtoList>)[0]
-                                            .url),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: size.height * 0.15,
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            left: size.width * 0.06,
+                                            bottom: size.height * 0.02,
+                                          ),
+                                          child: Container(
+                                            width: size.width * 0.24,
+                                            height: size.width * 0.24,
+                                            alignment:
+                                            Alignment.bottomCenter,
+                                            padding: EdgeInsets.only(
+                                                bottom:
+                                                size.height * 0.01),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  8),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              image: DecorationImage(
+                                                image: NetworkImage(((snapshot
+                                                    .data!
+                                                    .data
+                                                    .bookingImgResponseDtoList)
+                                                as List<
+                                                    BookingImgResponseDtoList>)[index]
+                                                    .checkInUrl),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (context, index) => SizedBox(
+                                          width: size.width * 0.03),
+                                      itemCount: (snapshot.data!.data
+                                          .bookingImgResponseDtoList
+                                      as List<
+                                          BookingImgResponseDtoList>)
+                                          .length),
                                 ),
                                 Container(
                                   width: size.width,
@@ -1033,7 +1063,9 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ],
                             ),
-                            (snapshot.data!.data.status == "DONE" || snapshot.data!.data.status == "WAITING_FOR_CUSTOMER_CHECK" )
+                            (snapshot.data!.data.status == "DONE" ||
+                                snapshot.data!.data.status ==
+                                    "WAITING_FOR_CUSTOMER_CHECK")
                                 ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment:
@@ -1052,37 +1084,56 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                    left: size.width * 0.06,
-                                    bottom: size.height * 0.02,
-                                  ),
-                                  child: Container(
-                                    width: size.width * 0.24,
-                                    height: size.width * 0.24,
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.only(
-                                        bottom: size.height * 0.01),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 1,
-                                      ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(((snapshot
-                                            .data!
-                                            .data
-                                            .bookingImgResponseDtoList)
-                                        as List<
-                                            BookingImgResponseDtoList>)[1]
-                                            .url),
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ),
+                                SizedBox(
+                                  height: size.height * 0.15,
+                                  child: ListView.separated(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            left: size.width * 0.06,
+                                            bottom: size.height * 0.02,
+                                          ),
+                                          child: Container(
+                                            width: size.width * 0.24,
+                                            height: size.width * 0.24,
+                                            alignment:
+                                            Alignment.bottomCenter,
+                                            padding: EdgeInsets.only(
+                                                bottom:
+                                                size.height * 0.01),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  8),
+                                              border: Border.all(
+                                                color: Colors.black,
+                                                width: 1,
+                                              ),
+                                              image: DecorationImage(
+                                                image: NetworkImage(((snapshot
+                                                    .data!
+                                                    .data
+                                                    .bookingImgResponseDtoList)
+                                                as List<
+                                                    BookingImgResponseDtoList>)[index]
+                                                    .checkOutUrl),
+                                                fit: BoxFit.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      separatorBuilder:
+                                          (context, index) => SizedBox(
+                                          width: size.width * 0.03),
+                                      itemCount: (snapshot.data!.data
+                                          .bookingImgResponseDtoList
+                                      as List<
+                                          BookingImgResponseDtoList>)
+                                          .length),
                                 ),
                                 Container(
                                   width: size.width,
@@ -1090,7 +1141,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   color: ColorConstant.gray300,
                                 ),
                               ],
-                            ) : const SizedBox(),
+                            )
+                                : const SizedBox(),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,

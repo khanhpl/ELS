@@ -49,7 +49,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đang đợi đến ngày làm việc";
     } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
       status = "Đang đợi thanh toán";
-    }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
+    } else if (booking.status == 'WAITING_FOR_CUSTOMER_CHECK') {
       status = "Đang đợi khách hàng xác nhận hoàn thành";
     } else {
       status = "Chưa biết";
@@ -242,7 +242,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => CheckOutScreen(bookingID: booking.id),));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => CheckOutScreen(bookingID: booking.id),
+            ));
       },
     );
 
@@ -342,17 +346,21 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
         ),
       ),
       onPressed: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => ReportScreen(bookingID: booking.id),));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ReportScreen(bookingID: booking.id),
+            ));
       },
     );
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: const Text(
-        "Xác Nhận Hoàn Thành Đặt Lịch",
+        "Xác Nhận Báo Cáo Đặt Lịch",
       ),
       content: const Text(
-        "Bạn xác nhận muốn hoàn thành lịch chăm sóc này",
+        "Bạn xác nhận muốn báo cáo khách hàng này",
       ),
       actions: [
         cancelButton,
@@ -400,7 +408,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Hủy"),
+                  child: const Text("Từ Chối"),
                 ),
               ),
             ),
@@ -555,12 +563,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
           Align(
             alignment: Alignment.center,
             child: Container(
-              width: size.width * 0.4,
-              margin: EdgeInsets.only(
-                  left: size.width * 0.03,
-                  right: size.width * 0.03,
-                  top: size.height * 0.02,
-                  bottom: size.height * 0.02),
+              width: size.width * 0.94,
               decoration: const BoxDecoration(
                 color: Colors.transparent,
               ),
@@ -576,7 +579,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                       fontSize: size.width * 0.045,
                     ),
                   ),
-                  child: const Text("Đánh giá"),
+                  child: const Text("Báo Cáo"),
                 ),
               ),
             ),
@@ -623,11 +626,13 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       return SizedBox();
     }
   }
+
   String processImage = "";
   late File imageFileProcess;
   XFile? pickedFileProcess;
   UploadTask? uploadTaskProcess;
   bool isProcessCheck = false;
+
   Future _getIDFrontImageFromGallery() async {
     pickedFileProcess = (await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -846,23 +851,31 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.06,
-                                bottom: size.height * 0.02,
-                              ),
-                              child: Text(
-                                convertDate(snapshot.data!.data
-                                    .workingTimeResponseDtoList[0].startDateTime
-                                    .toString()),
-                                style: const TextStyle(
-                                  height: 1.5,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+                            ListView.separated(
+                              shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                      left: size.width * 0.06,
+                                      bottom: size.height * 0.02,
+                                    ),
+                                    child: Text(
+                                      convertDate(snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].startDateTime
+                                          .toString()),
+                                      style: const TextStyle(
+                                        height: 1.5,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
+                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -881,23 +894,31 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.01,
-                                left: size.width * 0.06,
-                                bottom: size.height * 0.02,
-                              ),
-                              child: Text(
-                                convertDate(snapshot.data!.data
-                                    .workingTimeResponseDtoList[0].endDateTime
-                                    .toString()),
-                                style: const TextStyle(
-                                  height: 1.5,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ),
+                            ListView.separated(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.vertical,
+
+                                itemBuilder: (context, index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      top: size.height * 0.01,
+                                      left: size.width * 0.06,
+                                      bottom: size.height * 0.02,
+                                    ),
+                                    child: Text(
+                                      convertDate(snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].endDateTime
+                                          .toString()),
+                                      style: const TextStyle(
+                                        height: 1.5,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
+                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -1070,37 +1091,56 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                           ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          top: size.height * 0.01,
-                                          left: size.width * 0.06,
-                                          bottom: size.height * 0.02,
-                                        ),
-                                        child: Container(
-                                          width: size.width * 0.24,
-                                          height: size.width * 0.24,
-                                          alignment: Alignment.bottomCenter,
-                                          padding: EdgeInsets.only(
-                                              bottom: size.height * 0.01),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(8),
-                                            border: Border.all(
-                                              color: Colors.black,
-                                              width: 1,
-                                            ),
-                                            image: DecorationImage(
-                                              image: NetworkImage(((snapshot
-                                                          .data!
-                                                          .data
-                                                          .bookingImgResponseDtoList)
-                                                      as List<
-                                                          BookingImgResponseDtoList>)[0]
-                                                  .url),
-                                              fit: BoxFit.fill,
-                                            ),
-                                          ),
-                                        ),
+                                      SizedBox(
+                                        height: size.height * 0.15,
+                                        child: ListView.separated(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: size.height * 0.01,
+                                                  left: size.width * 0.06,
+                                                  bottom: size.height * 0.02,
+                                                ),
+                                                child: Container(
+                                                  width: size.width * 0.24,
+                                                  height: size.width * 0.24,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          size.height * 0.01),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(((snapshot
+                                                                  .data!
+                                                                  .data
+                                                                  .bookingImgResponseDtoList)
+                                                              as List<
+                                                                  BookingImgResponseDtoList>)[index]
+                                                          .checkInUrl),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                                    width: size.width * 0.03),
+                                            itemCount: (snapshot.data!.data
+                                                        .bookingImgResponseDtoList
+                                                    as List<
+                                                        BookingImgResponseDtoList>)
+                                                .length),
                                       ),
                                       Container(
                                         width: size.width,
@@ -1136,9 +1176,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                             bottom: size.height * 0.02,
                                           ),
                                           child: GestureDetector(
-                                            onTap: (){
-
-                                            },
+                                            onTap: () {},
                                             child: DottedBorder(
                                               radius: const Radius.circular(8),
                                               padding: EdgeInsets.all(
@@ -1160,65 +1198,86 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                       ),
                                     ],
                                   ),
-                            (snapshot.data!.data.status != "DONE")
-                                ? const SizedBox()
-                                : Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.02,
-                                    left: size.width * 0.03,
-                                  ),
-                                  child: const Text(
-                                    "Hình ảnh xác nhận hoàn thành:",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    top: size.height * 0.01,
-                                    left: size.width * 0.06,
-                                    bottom: size.height * 0.02,
-                                  ),
-                                  child: Container(
-                                    width: size.width * 0.24,
-                                    height: size.width * 0.24,
-                                    alignment: Alignment.bottomCenter,
-                                    padding: EdgeInsets.only(
-                                        bottom: size.height * 0.01),
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(8),
-                                      border: Border.all(
-                                        color: Colors.black,
-                                        width: 1,
+                            (snapshot.data!.data.status == "DONE" ||
+                                    snapshot.data!.data.status ==
+                                        "WAITING_FOR_CUSTOMER_CHECK")
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.02,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: const Text(
+                                          "Hình ảnh xác nhận hoàn thành:",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
-                                      image: DecorationImage(
-                                        image: NetworkImage(((snapshot
-                                            .data!
-                                            .data
-                                            .bookingImgResponseDtoList)
-                                        as List<
-                                            BookingImgResponseDtoList>)[1]
-                                            .url),
-                                        fit: BoxFit.fill,
+                                      SizedBox(
+                                        height: size.height * 0.15,
+                                        child: ListView.separated(
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.horizontal,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  top: size.height * 0.01,
+                                                  left: size.width * 0.06,
+                                                  bottom: size.height * 0.02,
+                                                ),
+                                                child: Container(
+                                                  width: size.width * 0.24,
+                                                  height: size.width * 0.24,
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          size.height * 0.01),
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8),
+                                                    border: Border.all(
+                                                      color: Colors.black,
+                                                      width: 1,
+                                                    ),
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(((snapshot
+                                                                  .data!
+                                                                  .data
+                                                                  .bookingImgResponseDtoList)
+                                                              as List<
+                                                                  BookingImgResponseDtoList>)[index]
+                                                          .checkOutUrl),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                                    width: size.width * 0.03),
+                                            itemCount: (snapshot.data!.data
+                                                        .bookingImgResponseDtoList
+                                                    as List<
+                                                        BookingImgResponseDtoList>)
+                                                .length),
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Container(
-                                  width: size.width,
-                                  height: 1,
-                                  color: ColorConstant.gray300,
-                                ),
-                              ],
-                            ),
+                                      Container(
+                                        width: size.width,
+                                        height: 1,
+                                        color: ColorConstant.gray300,
+                                      ),
+                                    ],
+                                  )
+                                : const SizedBox(),
                             Padding(
                               padding: EdgeInsets.only(
                                 top: size.height * 0.02,
@@ -1272,7 +1331,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     String date = inputDate.split("T")[0];
     String time = inputDate.split("T")[1];
     dateConverted =
-        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]}\nLúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]} Lúc: ${time.split(":")[0]}:${time.split(":")[1]}";
     return dateConverted;
   }
 
