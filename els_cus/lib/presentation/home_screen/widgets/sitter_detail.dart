@@ -899,7 +899,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                 mainAxisAlignment: MainAxisAlignment.center,
                     //                 children: [
                     //                   Padding(
-                    //                     padding: getPadding(
+                    //                     padding: EdgeInsets.only(
                     //                       left: 20,
                     //                       top: 15,
                     //                       right: 19,
@@ -919,7 +919,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                     ),
                     //                   ),
                     //                   Padding(
-                    //                     padding: getPadding(
+                    //                     padding: EdgeInsets.only(
                     //                       left: 20,
                     //                       top: 4,
                     //                       right: 20,
@@ -943,8 +943,8 @@ class SitterDetailScreen extends StatelessWidget {
                     //                 ],
                     //               ),
                     //             ),
-                    //             CommonImageView(
-                    //               svgPath: ImageConstant.imgBars,
+                    //             Image.asset(
+                    //               ImageConstant.imgBars,
                     //               height: getVerticalSize(
                     //                 83.00,
                     //               ),
@@ -957,7 +957,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //       ),
                     //     ),
                     //     Padding(
-                    //       padding: getPadding(
+                    //       padding: EdgeInsets.only(
                     //         left: 18,
                     //         top: 20,
                     //         right: 18,
@@ -980,7 +980,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //     Align(
                     //       alignment: Alignment.center,
                     //       child: Padding(
-                    //         padding: getPadding(
+                    //         padding: EdgeInsets.only(
                     //           left: 18,
                     //           top: 17,
                     //           right: 18,
@@ -991,7 +991,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //           mainAxisAlignment: MainAxisAlignment.start,
                     //           children: [
                     //             Padding(
-                    //               padding: getPadding(
+                    //               padding: EdgeInsets.only(
                     //                 right: 10,
                     //               ),
                     //               child: Row(
@@ -1031,7 +1031,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                         Align(
                     //                           alignment: Alignment.center,
                     //                           child: Padding(
-                    //                             padding: getPadding(
+                    //                             padding: EdgeInsets.only(
                     //                               left: 8,
                     //                               top: 17,
                     //                               right: 8,
@@ -1056,7 +1056,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                     ),
                     //                   ),
                     //                   Padding(
-                    //                     padding: getPadding(
+                    //                     padding: EdgeInsets.only(
                     //                       left: 9,
                     //                       top: 7,
                     //                       bottom: 1,
@@ -1067,7 +1067,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                       mainAxisAlignment: MainAxisAlignment.start,
                     //                       children: [
                     //                         Padding(
-                    //                           padding: getPadding(
+                    //                           padding: EdgeInsets.only(
                     //                             left: 1,
                     //                             right: 10,
                     //                           ),
@@ -1087,7 +1087,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                           ),
                     //                         ),
                     //                         Padding(
-                    //                           padding: getPadding(
+                    //                           padding: EdgeInsets.only(
                     //                             top: 4,
                     //                           ),
                     //                           child: Row(
@@ -1098,11 +1098,11 @@ class SitterDetailScreen extends StatelessWidget {
                     //                             mainAxisSize: MainAxisSize.max,
                     //                             children: [
                     //                               Padding(
-                    //                                 padding: getPadding(
+                    //                                 padding: EdgeInsets.only(
                     //                                   bottom: 4,
                     //                                 ),
-                    //                                 child: CommonImageView(
-                    //                                   svgPath:
+                    //                                 child: Image.asset(
+                    //                                   pngPath:
                     //                                   ImageConstant.imgMinimize,
                     //                                   height: getVerticalSize(
                     //                                     10.00,
@@ -1113,7 +1113,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //                                 ),
                     //                               ),
                     //                               Padding(
-                    //                                 padding: getPadding(
+                    //                                 padding: EdgeInsets.only(
                     //                                   left: 9,
                     //                                   top: 1,
                     //                                 ),
@@ -1171,7 +1171,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //     Align(
                     //       alignment: Alignment.center,
                     //       child: Padding(
-                    //         padding: getPadding(
+                    //         padding: EdgeInsets.only(
                     //           left: 18,
                     //           top: 25,
                     //           right: 18,
@@ -1183,11 +1183,11 @@ class SitterDetailScreen extends StatelessWidget {
                     //           mainAxisSize: MainAxisSize.min,
                     //           children: [
                     //             Padding(
-                    //               padding: getPadding(
+                    //               padding: EdgeInsets.only(
                     //                 bottom: 1,
                     //               ),
-                    //               child: CommonImageView(
-                    //                 svgPath: ImageConstant.imgPlus,
+                    //               child: Image.asset(
+                    //                 ImageConstant.imgPlus,
                     //                 height: getVerticalSize(
                     //                   13.00,
                     //                 ),
@@ -1197,7 +1197,7 @@ class SitterDetailScreen extends StatelessWidget {
                     //               ),
                     //             ),
                     //             Padding(
-                    //               padding: getPadding(
+                    //               padding: EdgeInsets.only(
                     //                 left: 5,
                     //                 top: 1,
                     //               ),

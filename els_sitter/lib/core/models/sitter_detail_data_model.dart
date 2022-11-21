@@ -6,7 +6,7 @@ class SitterDetailDataModel {
   String fullName;
   String phone;
   String address;
-  DateTime dob;
+  dynamic dob;
   String email;
   String gender;
   String idNumber;
@@ -43,7 +43,7 @@ class SitterDetailDataModel {
     fullName: json["fullName"],
     phone: json["phone"],
     address: json["address"],
-    dob: DateTime.parse(json["dob"]),
+    dob: (json["dob"] != null) ? DateTime.parse(json["dob"]) : "",
     email: json["email"],
     gender: json["gender"],
     idNumber: json["idNumber"],

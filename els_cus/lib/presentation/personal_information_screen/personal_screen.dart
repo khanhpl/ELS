@@ -747,8 +747,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
 
   save() async {
     String fullname = _fullNameController.text.trim();
-    String email = _emailController.text.trim();
-    String dob = _dobController.text.trim();
     String address = _addressController.text.trim();
     String phone = _phoneController.text.trim();
     String gender = "";

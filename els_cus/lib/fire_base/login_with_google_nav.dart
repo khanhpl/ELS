@@ -1,5 +1,6 @@
 import 'package:els_cus_mobile/presentation/bottom_bar_navigation/bottom_bar_navigation.dart';
 import 'package:els_cus_mobile/presentation/login_screen/login_screen.dart';
+import 'package:els_cus_mobile/presentation/login_screen/widget/split_role_screen.dart';
 import 'package:els_cus_mobile/presentation/onboarding_screen/onboarding_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class LoginWithGoogleNav extends StatelessWidget{
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: SplashScreen());
           } else if (snapshot.hasData) {
-            return BottomBarNavigation(selectedIndex: 0, isBottomNav: true);
+            return SplitRoleScreen(user: FirebaseAuth.instance.currentUser!);
           } else if (snapshot.hasError) {
             return const Center(child: Text('Something went wrong!'));
           } else {

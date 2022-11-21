@@ -168,4 +168,30 @@ class BookingBloc {
     } finally {}
   }
 
+  Future<bool> sitterReportCus(int bookingID, String comment) async {
+    try {
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/report");
+      final response = await http.post(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "bookingId": bookingID,
+            "comment": comment
+          },
+        ),
+      );
+      print('test report status: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }

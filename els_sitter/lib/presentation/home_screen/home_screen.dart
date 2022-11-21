@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+
             SizedBox(height: size.height*0.08),
             Container(
               width: size.width,

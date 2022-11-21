@@ -1,20 +1,24 @@
 class BookingImgResponseDtoList {
 
-  String localDateTime;
-  String url;
+  DateTime localDateTime;
+  dynamic checkOutUrl;
+  dynamic checkInUrl;
   BookingImgResponseDtoList({
     required this.localDateTime,
-    required this.url,
+    this.checkOutUrl,
+    this.checkInUrl,
   });
 
 
   factory BookingImgResponseDtoList.fromJson(Map<String, dynamic> json) => BookingImgResponseDtoList(
-    localDateTime: json["localDateTime"],
-    url: json["url"],
+    localDateTime: DateTime.parse(json["localDateTime"]),
+    checkOutUrl: json["checkOutUrl"],
+    checkInUrl: json["checkInUrl"],
   );
 
   Map<String, dynamic> toJson() => {
-    "localDateTime": localDateTime,
-    "url": url,
+    "localDateTime": localDateTime.toIso8601String(),
+    "checkOutUrl": checkOutUrl,
+    "checkInUrl": checkInUrl,
   };
 }

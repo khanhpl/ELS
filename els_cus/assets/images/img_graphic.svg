@@ -1,4 +1,4 @@
-<svg width="135" height="60" viewBox="0 0 135 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<png width="135" height="60" viewBox="0 0 135 60" fill="none" xmlns="http://www.w3.org/2000/png">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.74674 52.4625L15.2003 49.9622L26.9498 46.117L30.7753 36.4215L35.5001 26.7226L46.1903 24.1414L53.6169 15.7453L63.7283 8.88348L68.9489 0L83.2421 8.88348L87.8726 19.0989L98.1367 24.1414L100.326 32.2619L106.457 39.2006L120.537 43.4208L124.451 52.4625L135 60H0L5.74674 52.4625Z" fill="#EFEFF4"/>
 <mask id="mask0_104_3874" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="135" height="60">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M5.74674 52.4625L15.2003 49.9622L26.9498 46.117L30.7753 36.4215L35.5001 26.7226L46.1903 24.1414L53.6169 15.7453L63.7283 8.88348L68.9489 0L83.2421 8.88348L87.8726 19.0989L98.1367 24.1414L100.326 32.2619L106.457 39.2006L120.537 43.4208L124.451 52.4625L135 60H0L5.74674 52.4625Z" fill="white"/>
@@ -6,4 +6,4 @@
 <g mask="url(#mask0_104_3874)">
 <rect width="69" height="60" fill="#512678"/>
 </g>
-</svg>
+</png>
