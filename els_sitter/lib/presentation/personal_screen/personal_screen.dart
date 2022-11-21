@@ -60,7 +60,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
         // bottomOpacity: 0.0,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        backgroundColor: ColorConstant.whiteA700,
+        backgroundColor: ColorConstant.purple900,
         leading: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, '/accountScreen');
@@ -69,11 +69,12 @@ class _PersonalScreenState extends State<PersonalScreen> {
             ImageConstant.imgArrowleft,
             height: size.height * 0.024,
             width: size.width * 0.03,
+            color: ColorConstant.whiteA700,
           ),
         ),
         title: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.whiteA700,
+            color: ColorConstant.purple900,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -85,7 +86,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: ColorConstant.black900,
+                color: ColorConstant.whiteA700,
                 fontSize: 30,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,

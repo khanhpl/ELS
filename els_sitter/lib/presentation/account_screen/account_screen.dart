@@ -68,7 +68,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       // margin: EdgeInsets.only(
                       // ),
                       decoration: BoxDecoration(
-                        color: ColorConstant.gray50,
+                        color: ColorConstant.BG,
                       ),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -590,54 +590,6 @@ class _AccountScreenState extends State<AccountScreen> {
                             margin: EdgeInsets.only(
                               left: size.width * 0.015,
                               top: size.height * 0.01,
-                              right: size.width * 0.015,
-                            ),
-                            decoration: BoxDecoration(
-                              color: ColorConstant.bluegray50,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: size.width * 0.03,
-                              top: size.height * 0.02,
-                              right: size.width * 0.03,
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Text(
-                                  "Quản lý tin đăng",
-                                  overflow: TextOverflow.ellipsis,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    color: ColorConstant.black900,
-                                    fontSize: 17,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.00,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    child: Image.asset(
-                                      ImageConstant.imgArrowrightGray400,
-                                      width: size.width * 0.02,
-                                      height: size.width * 0.03,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: 1,
-                            width: size.width,
-                            margin: EdgeInsets.only(
-                              left: size.width * 0.015,
-                              top: size.height * 0.015,
                               right: size.width * 0.015,
                             ),
                             decoration: BoxDecoration(

@@ -4,6 +4,9 @@ import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:els_sitter/presentation/home_screen/widgets/banner_item_widget.dart';
 import 'package:els_sitter/presentation/home_screen/widgets/listuserpict_item_widget.dart';
 import 'package:flutter/material.dart';
+import '../../blocs/category_blocs.dart';
+import '../../core/models/category_model.dart';
+import '../../widgets/category_item_home_widget.dart';
 import '../../widgets/custom_search_view.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final Future<CategoryModel> categoryList = CategoryBloc().getAllCategory();
     var size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: ColorConstant.whiteA700,
@@ -174,70 +178,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ],
                                 ),
                               ),
-                              SingleChildScrollView(
-                                scrollDirection: Axis.horizontal,
-                                padding: EdgeInsets.only(
-                                  top: size.height*0.01,
-                                  right: size.width*0.03,
-                                  left: size.width*0.03,
-                                ),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          alignment: Alignment.center,
-                                          height: size.height*0.1,
-                                          width: size.width*0.4,
-                                          decoration: BoxDecoration(
-                                              color: Colors.grey[400],
-                                              borderRadius: const BorderRadius.all(Radius.circular(10)),
-                                          ),
-                                          child: const Text(
-                                            "Chăm sóc cá nhân",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 25),
-                                        Container(
-                                          alignment: Alignment.center,
-                                          height: size.height*0.1,
-                                          width: size.width*0.4,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[400],
-                                            borderRadius: const BorderRadius.all(Radius.circular(10)),),
-                                          child: const Text(
-                                            "Chăm sóc y tế",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(width: 25),
-                                        Container(
-                                          alignment: Alignment.center,
-                                          height: size.height*0.1,
-                                          width: size.width*0.4,
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey[400],
-                                            borderRadius: const BorderRadius.all(Radius.circular(10)),),
-                                          child: const Text(
-                                            "Trò chuyện cùng",
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                              Padding(
+                                padding:
+                                EdgeInsets.only(left: size.width * 0.03),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  height: size.height * 0.1,
+                                  child: FutureBuilder<CategoryModel>(
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasError)
+                                        print(snapshot.error);
+                                      if (snapshot.hasData) {
+                                        return ListView.separated(
+                                          physics:
+                                          const BouncingScrollPhysics(),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount: snapshot.data!.data.length,
+                                          separatorBuilder: (context, index) {
+                                            return SizedBox(
+                                              width: size.width * 0.05,
+                                            );
+                                          },
+                                          itemBuilder: (BuildContext context,
+                                              int index) {
+                                            return CategoryItemHomeWidget(
+                                                category:
+                                                snapshot.data!.data[index]);
+                                          },
+                                        );
+                                      } else {
+                                        return const CircularProgressIndicator();
+                                      }
+                                    },
+                                    future: categoryList,
+                                  ),
                                 ),
                               ),
                             ],

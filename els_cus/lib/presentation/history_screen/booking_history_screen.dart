@@ -28,7 +28,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
         // bottomOpacity: 0.0,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        backgroundColor: ColorConstant.whiteA700,
+        backgroundColor: ColorConstant.purple900,
         leading: GestureDetector(
           onTap: (){
             Navigator.pop(context);
@@ -37,11 +37,12 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
             ImageConstant.imgArrowleft,
             height: size.height * 0.024,
             width: size.width * 0.03,
+            color: ColorConstant.whiteA700,
           ),
         ),
         title: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.whiteA700,
+            color: ColorConstant.purple900,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -53,8 +54,8 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: ColorConstant.black900,
-                fontSize: 34,
+                color: ColorConstant.whiteA700,
+                fontSize: 30,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,
@@ -75,6 +76,7 @@ class _HistoryBookingScreenState extends State<HistoryBookingScreen>{
                     margin: EdgeInsets.only(
                       left: size.width*0.03,
                       right: size.width*0.03,
+                      top: size.height*0.02
                     ),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,

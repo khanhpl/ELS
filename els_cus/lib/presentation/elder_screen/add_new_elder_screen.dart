@@ -207,7 +207,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: ColorConstant.whiteA700,
-                  fontSize: 24,
+                  fontSize: 30,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   height: 1.00,
@@ -261,7 +261,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                     errorText: snapshot.hasError
                                         ? snapshot.error.toString()
                                         : null,
-                                    hintText: "",
+                                    hintText: "Họ và tên của người thân",
                                     border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color(0xffCED0D2), width: 1),
