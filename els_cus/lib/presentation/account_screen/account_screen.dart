@@ -29,8 +29,6 @@ class _AccountScreenState extends State<AccountScreen> {
   final Future<CustomerDetailModel> customer =
       PersonalInfoBloc().getCustomerDetailByEmail();
 
-
-
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;

@@ -5,7 +5,7 @@
 // import '../../core/models/service_model.dart';
 // import '../../core/utils/color_constant.dart';
 // import '../../core/utils/image_constant.dart';
-// import 'package:els_cus_mobile/widgets/service_item_by_category.dart';
+// import 'package:els_cus_mobile/widgets/category_name_by_id.dart';
 //
 // class CategoryScreen extends StatefulWidget {
 //   const CategoryScreen({super.key});

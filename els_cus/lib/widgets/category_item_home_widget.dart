@@ -1,5 +1,5 @@
 import 'package:els_cus_mobile/core/models/category_data_model.dart';
-import 'package:els_cus_mobile/widgets/service_item_by_category.dart';
+import 'package:els_cus_mobile/widgets/category_name_by_id.dart';
 import 'package:els_cus_mobile/widgets/service_item_home_widget.dart';
 import 'package:flutter/material.dart';
 
