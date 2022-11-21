@@ -190,6 +190,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _fullNameController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -231,6 +232,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _emailController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -351,6 +353,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _addressController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
@@ -391,6 +394,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                           style: TextStyle(
                               fontSize: size.width * 0.04, color: Colors.black),
                           controller: _phoneController,
+                          cursorColor: ColorConstant.purple900,
                           decoration: const InputDecoration(
                             // errorText: snapshot.hasError
                             //     ? snapshot.error.toString()
