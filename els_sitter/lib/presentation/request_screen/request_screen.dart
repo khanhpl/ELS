@@ -28,11 +28,11 @@ class _RequestScreenState extends State<RequestScreen>{
         // bottomOpacity: 0.0,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        backgroundColor: ColorConstant.whiteA700,
+        backgroundColor: ColorConstant.purple900,
 
         title: Container(
           decoration: BoxDecoration(
-            color: ColorConstant.whiteA700,
+            color: ColorConstant.purple900,
           ),
           child: Container(
             margin: EdgeInsets.only(
@@ -44,8 +44,8 @@ class _RequestScreenState extends State<RequestScreen>{
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: ColorConstant.black900,
-                fontSize: 34,
+                color: ColorConstant.whiteA700,
+                fontSize: 30,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,

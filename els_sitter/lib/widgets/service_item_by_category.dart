@@ -1,15 +1,19 @@
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/widgets/elder_detail_widget.dart';
+import 'package:els_sitter/widgets/service_detail_by_category.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-// ignore: must_be_immutable
-class ElderItemWidget extends StatelessWidget {
-  ElderDataModel elder;
+import '../core/models/service_data_model.dart';
+import '../core/utils/color_constant.dart';
 
-  ElderItemWidget({super.key, required this.elder});
+class ServiceItemByCategory extends StatelessWidget {
+  ServiceDataModel service;
+
+  ServiceItemByCategory({super.key, required this.service});
+
+  filterPrice(String money) {
+    var parts = money.split(".");
+    var prefix = parts[0].trim();
+    return prefix;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,8 @@ class ElderItemWidget extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ElderDetailWidget(elder: elder)),
+                builder: (context) =>
+                    ServiceDetailByCategory(service: service)),
           );
         },
         child: Align(
@@ -42,22 +47,6 @@ class ElderItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  padding: EdgeInsets.only(
-                    left: size.width * 0.03,
-                    top: size.height * 0.01,
-                    right: size.width * 0.03,
-                    bottom: size.height * 0.01,
-                  ),
-                  decoration: BoxDecoration(
-                    color: ColorConstant.gray400,
-                    borderRadius: BorderRadius.circular(
-                      40,
-                    ),
-                  ),
-                ),
                 Container(
                   margin: EdgeInsets.only(
                     left: size.width * 0.03,
@@ -78,19 +67,22 @@ class ElderItemWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 1,
-                              ),
-                              child: Text(
-                                elder.name,
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: ColorConstant.black900,
-                                  fontSize: 18,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w500,
+                            SizedBox(
+                              width: size.width * 0.8,
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  bottom: 1,
+                                ),
+                                child: Text(
+                                  service.name,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.black900,
+                                    fontSize: 18,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
@@ -106,12 +98,10 @@ class ElderItemWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: size.width * 0.015,
-                              ),
+                            SizedBox(
+                              width: size.width * 0.8,
                               child: Text(
-                                (elder.gender == 'Nam') ? "Nam" : "Nữ",
+                                'Giá tiền: ${filterPrice(service.price.toString())} VNĐ',
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -149,13 +139,10 @@ class ElderItemWidget extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: size.width * 0.01,
-                                bottom: size.height * 0.005,
-                              ),
+                            SizedBox(
+                              width: size.width * 0.8,
                               child: Text(
-                                getAge() + " Tuổi",
+                                'Mô tả: ${service.description}',
                                 overflow: TextOverflow.ellipsis,
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -179,16 +166,5 @@ class ElderItemWidget extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String getAge() {
-    String age = "";
-    String birthYear = elder.dob.toString().split('-')[0];
-    final now = DateTime.now();
-    String formatter = DateFormat('yMd').format(now);
-    String curYear = formatter.split('/')[2];
-    int intAge = int.parse(curYear) - int.parse(birthYear);
-    age = intAge.toString();
-    return age;
   }
 }

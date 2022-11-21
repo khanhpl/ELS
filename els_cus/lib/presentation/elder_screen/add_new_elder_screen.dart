@@ -57,6 +57,118 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
     });
   }
 
+  void showCreateAlertDialog(BuildContext context) {
+    // set up the buttons
+    Widget cancelButton = TextButton(
+      child: Text(
+        "Hủy",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        onAddNewElderClick();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: const Text(
+        "THÊM NGƯỜI THÂN",
+      ),
+      content: const Text(
+        "Xác nhận thêm mới thông tin người thân",
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/accountScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thêm thành công người thân mới",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Thêm người thân mới thất bại",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -95,7 +207,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: ColorConstant.whiteA700,
-                  fontSize: 24,
+                  fontSize: 30,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   height: 1.00,
@@ -149,7 +261,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                                     errorText: snapshot.hasError
                                         ? snapshot.error.toString()
                                         : null,
-                                    hintText: "",
+                                    hintText: "Họ và tên của người thân",
                                     border: const OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color(0xffCED0D2), width: 1),
@@ -434,7 +546,7 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
-                              onAddNewElderClick();
+                              showCreateAlertDialog(context);
                             },
                             style: ElevatedButton.styleFrom(
                               primary: ColorConstant.purple900,
@@ -476,8 +588,10 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
           name, gender, dob, statusHealth, note, isAllergy);
       if (createSuccess) {
         print('tạo được rồi');
+        showSuccessAlertDialog(context);
       } else {
         print('chưa được');
+        showFailAlertDialog(context);
       }
     } else {}
   }

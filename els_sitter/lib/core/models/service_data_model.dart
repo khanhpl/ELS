@@ -1,4 +1,4 @@
-import 'package:els_sitter/core/models/category_model.dart';
+import 'package:els_sitter/core/models/category_data_model.dart';
 
 class ServiceDataModel {
 
@@ -11,7 +11,7 @@ class ServiceDataModel {
   int duration;
   int commission;
   String status;
-  CategoryModel category;
+  CategoryDataModel category;
   ServiceDataModel({
     required this.id,
     required this.name,
@@ -36,7 +36,7 @@ class ServiceDataModel {
     duration: json["duration"],
     commission: json["commission"],
     status: json["status"],
-    category: CategoryModel.fromJson(json["category"]),
+    category: CategoryDataModel.fromJson(json["category"]),
   );
 
   Map<String, dynamic> toJson() => {

@@ -1,20 +1,25 @@
-
-import 'package:els_cus_mobile/blocs/elder_blocs.dart';
-import 'package:els_cus_mobile/core/models/elder_data_model.dart';
-import 'package:els_cus_mobile/core/models/elder_model.dart';
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
-import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:els_cus_mobile/widgets/elder_item_widget.dart';
+import 'package:els_cus_mobile/blocs/service_blocs.dart';
+import 'package:els_cus_mobile/core/models/service_model.dart';
+import 'package:els_cus_mobile/widgets/service_item_by_category.dart';
 import 'package:flutter/material.dart';
 
-class ElderScreen extends StatelessWidget{
-  const ElderScreen({super.key});
+import '../core/models/category_data_model.dart';
+import '../core/models/service_data_model.dart';
+import '../core/utils/color_constant.dart';
+import '../core/utils/image_constant.dart';
+
+class ServiceItemByCate extends StatelessWidget {
+  CategoryDataModel category;
+
+  ServiceItemByCate({super.key, required this.category});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     var size = MediaQuery.of(context).size;
-    final Future<ElderModel> elderList = ElderBlocs().getAllElder();
-    // TODO: implement build
+    final Future<ServiceModel> serviceList =
+        ServiceBlocs().getServiceByCate(category.id);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: size.height * 0.08,
@@ -23,8 +28,8 @@ class ElderScreen extends StatelessWidget{
         automaticallyImplyLeading: false,
         backgroundColor: ColorConstant.purple900,
         leading: GestureDetector(
-          onTap: (){
-            Navigator.pushNamed(context, '/accountScreen');
+          onTap: () {
+            Navigator.pushNamed(context, '/homeScreen');
           },
           child: Image.asset(
             ImageConstant.imgArrowleft,
@@ -43,12 +48,12 @@ class ElderScreen extends StatelessWidget{
               bottom: size.height * 0.01,
             ),
             child: Text(
-              "Người thân",
+              category.name,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: ColorConstant.whiteA700,
-                fontSize: 30,
+                fontSize: 26,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,
@@ -56,20 +61,10 @@ class ElderScreen extends StatelessWidget{
             ),
           ),
         ),
-
-      ),
-      floatingActionButton: FloatingActionButton(
-
-        onPressed: () {
-          Navigator.pushNamed(context, '/addNewElderScreen');
-        },
-        elevation: 0.0,
-        backgroundColor: ColorConstant.purple900,
-        child: const Icon(Icons.add),
       ),
       body: Container(
         color: ColorConstant.whiteA700,
-        child: FutureBuilder<ElderModel>(
+        child: FutureBuilder<ServiceModel>(
           builder: (context, snapshot) {
             if (snapshot.hasError) print(snapshot.error);
             if (snapshot.hasData) {
@@ -80,21 +75,22 @@ class ElderScreen extends StatelessWidget{
                 // itemCount: snapshot.data!.length,
                 itemCount: snapshot.data!.data.length,
                 separatorBuilder: (context, index) {
-                  return SizedBox(height: size.height*0.000001,);
+                  return SizedBox(
+                    height: size.height * 0.000001,
+                  );
                 },
                 itemBuilder: (BuildContext context, int index) {
-                  return ElderItemWidget(
-                      elder: snapshot.data!.data[index]);
+                  return ServiceItemByCategory(
+                      service: snapshot.data!.data[index]);
                 },
               );
             } else {
               return const CircularProgressIndicator();
             }
           },
-          future: elderList,
+          future: serviceList,
         ),
       ),
     );
   }
-
 }

@@ -57,7 +57,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               textAlign: TextAlign.left,
               style: TextStyle(
                 color: ColorConstant.whiteA700,
-                fontSize: 24,
+                fontSize: 30,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
                 height: 1.00,

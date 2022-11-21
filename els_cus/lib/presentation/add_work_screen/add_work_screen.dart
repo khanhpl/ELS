@@ -671,6 +671,36 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     var size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          toolbarHeight: size.height * 0.08,
+          // bottomOpacity: 0.0,
+          elevation: 0.0,
+          automaticallyImplyLeading: false,
+          backgroundColor: ColorConstant.purple900,
+          title: Container(
+            decoration: BoxDecoration(
+              color: ColorConstant.purple900,
+            ),
+            child: Container(
+              margin: EdgeInsets.only(
+                top: size.height * 0.01,
+                bottom: size.height * 0.01,
+              ),
+              child: Text(
+                "Tạo tin công việc",
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: ColorConstant.whiteA700,
+                  fontSize: 30,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                  height: 1.00,
+                ),
+              ),
+            ),
+          ),
+        ),
         backgroundColor: ColorConstant.whiteA700,
         body: Column(
           mainAxisSize: MainAxisSize.min,
@@ -686,24 +716,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: size.width * 0.03,
-                          top: size.height * 0.05,
-                        ),
-                        child: Text(
-                          "Tạo tin công việc",
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: ColorConstant.purple900,
-                            fontSize: 34,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                            height: 1.00,
-                          ),
-                        ),
-                      ),
                       Padding(
                         padding: EdgeInsets.only(
                           top: size.height * 0.03,

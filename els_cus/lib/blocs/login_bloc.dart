@@ -77,17 +77,11 @@ class LoginBloc {
       }
     } finally {}
   }
-  Future<bool> checkCurGmailUser(String email, String fullName, String dob, String gender) async {
+   Future<bool> checkCurGmailUser(String email, String fullName, String dob, String gender) async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/auth/login-gmail");
       final response = await http.post(
-        url,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(
-          <String, String>{
+  <String, String>{
             "email": email,
             "fullName": fullName,
             "dob": dob,
@@ -109,6 +103,24 @@ class LoginBloc {
         } else {
           return false;
         }
+  Future<bool> forgotPassword(String email) async {
+    try {
+      var url = Uri.parse("https://els12.herokuapp.com/auth/forgot-password");
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "email": email,
+          },
+        ),
+      );
+      print('Test forgotPW code: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
+        return true;
       } else {
         return false;
       }
