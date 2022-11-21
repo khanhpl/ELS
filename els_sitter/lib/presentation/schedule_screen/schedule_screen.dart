@@ -71,8 +71,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: ColorConstant.black900,
-                  fontSize: 34,
+                  color: ColorConstant.purple900,
+                  fontSize: 30,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   height: 1.00,

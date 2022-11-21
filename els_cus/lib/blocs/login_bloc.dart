@@ -77,4 +77,28 @@ class LoginBloc {
       }
     } finally {}
   }
+
+  Future<bool> forgotPassword(String email) async {
+    try {
+      var url = Uri.parse("https://els12.herokuapp.com/auth/forgot-password");
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            "email": email,
+          },
+        ),
+      );
+      print('Test forgotPW code: ${response.statusCode.toString()}');
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }

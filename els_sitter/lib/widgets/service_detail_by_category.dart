@@ -1,7 +1,7 @@
-import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 
 import '../core/models/service_data_model.dart';
+import '../core/utils/color_constant.dart';
 import '../core/utils/image_constant.dart';
 
 class ServiceDetailByCategory extends StatefulWidget {

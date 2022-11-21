@@ -4,7 +4,18 @@ import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:els_sitter/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 
-class ForgotPasswordScreen extends StatelessWidget {
+import '../../blocs/login_bloc.dart';
+
+class ForgotPasswordScreen extends StatefulWidget {
+  @override
+  State<ForgotPasswordScreen> createState() => _ForgotPasswordScreenState();
+}
+
+class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  final TextEditingController _emailController = TextEditingController();
+
+  LoginBloc bloc = LoginBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -90,7 +101,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                     bottom: size.height*0.03,
                   ),
                   child: Text(
-                    "Nhập số điện thoại hoặc email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn về cách đặt lại mật khẩu",
+                    "Nhập email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn về cách đặt lại mật khẩu",
                     maxLines: null,
                     textAlign: TextAlign.center,
                     style: TextStyle(
@@ -108,17 +119,33 @@ class ForgotPasswordScreen extends StatelessWidget {
                     left: size.width * 0.05,
                     right: size.width * 0.05,
                   ),
-                  child: TextField(
-                    style: TextStyle(
-                        fontSize: size.width * 0.04, color: Colors.black),
-                    decoration: const InputDecoration(
-                        hintText: "Nhập email/Số điện thoại",
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(
-                                color: Color(0xffCED0D2), width: 1),
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(6)))),
-                  ),
+                  child: StreamBuilder(
+                      stream: bloc.emailStream,
+                      builder: (context, snapshot) {
+                        return TextField(
+                          style: TextStyle(
+                              fontSize: size.width * 0.04, color: Colors.black),
+                          cursorColor: ColorConstant.purple900,
+                          controller: _emailController,
+                          decoration: InputDecoration(
+                            hintText: "Nhập email",
+                            errorText: snapshot.hasError
+                                ? snapshot.error.toString()
+                                : null,
+                            border: const OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Color(0xffCED0D2), width: 1),
+                                borderRadius:
+                                BorderRadius.all(Radius.circular(6))),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: ColorConstant.purple900,
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
@@ -129,8 +156,9 @@ class ForgotPasswordScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)
-                        => const VerificationCodeScreen(functionKey: "forgotPasswordScreen")));
+                        forgotClick();
+                        // Navigator.push(context, MaterialPageRoute(builder: (context)
+                        // => const VerificationCodeScreen(functionKey: "forgotPasswordScreen")));
                       },
                       style: ElevatedButton.styleFrom(
                         primary: ColorConstant.purple900,
@@ -147,6 +175,81 @@ class ForgotPasswordScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void forgotClick() async {
+    String email = _emailController.text.trim();
+    bool isSuccess = false;
+    isSuccess = await bloc.forgotPassword(email);
+    if(isSuccess) {
+      showSuccessAlertDialog(context);
+    } else {
+      showFailAlertDialog(context);
+    }
+  }
+
+  void showSuccessAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pushNamed(context, '/loginScreen');
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Mật khẩu mới đã được gửi vào email đã đăng ký của bạn. Vui lòng kiểm tra và làm theo hướng dẫn",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  void showFailAlertDialog(BuildContext context) {
+    Widget continueButton = TextButton(
+      child: Text(
+        "Xác nhận",
+        style: TextStyle(
+          color: ColorConstant.purple900,
+        ),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      content: const Text(
+        "Địa chỉ email chưa từng được đăng ký",
+      ),
+      actions: [
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

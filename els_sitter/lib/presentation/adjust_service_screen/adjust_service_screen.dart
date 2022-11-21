@@ -51,9 +51,9 @@ class _AdjustServiceScreenState extends State<AdjustServiceScreen> {
               textAlign: TextAlign.left,
               style: TextStyle(
                   color: ColorConstant.whiteA700,
-                  fontSize: 26,
+                  fontSize: 30,
                   fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w400,
+                  fontWeight: FontWeight.w700,
                   height: 1.00),
             ),
           ),

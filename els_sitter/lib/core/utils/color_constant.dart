@@ -6,6 +6,8 @@ class ColorConstant {
 
   static Color black9007e = fromHex('#7e000000');
 
+  static Color BG = fromHex('EEE2FF');
+
   static Color bluegray50 = fromHex('#efeff4');
 
   static Color whiteA7007e = fromHex('#7effffff');

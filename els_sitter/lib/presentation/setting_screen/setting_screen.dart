@@ -49,7 +49,7 @@ class _SettingScreenState extends State<SettingScreen> {
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   color: ColorConstant.whiteA700,
-                  fontSize: 28,
+                  fontSize: 30,
                   fontFamily: 'Roboto',
                   fontWeight: FontWeight.w700,
                   height: 1.00,
