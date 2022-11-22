@@ -14,6 +14,8 @@ import 'package:els_cus_mobile/presentation/personal_information_screen/personal
 import 'package:els_cus_mobile/presentation/setting_screen/setting_screen.dart';
 import 'package:els_cus_mobile/presentation/change_password_screen/change_password_screen.dart';
 import 'package:els_cus_mobile/presentation/account_screen/account_screen.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
+import 'package:els_cus_mobile/widgets/failWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
                 BottomBarNavigation(selectedIndex: 1, isBottomNav: true),
             '/accountScreen': (context) =>
                 BottomBarNavigation(selectedIndex: 4, isBottomNav: true),
+            '/addWorkScreen': (context) =>
+                BottomBarNavigation(selectedIndex: 2, isBottomNav: true),
             '/settingScreen': (context) => SettingScreen(),
           },
         ),

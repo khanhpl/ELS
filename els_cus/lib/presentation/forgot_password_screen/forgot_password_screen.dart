@@ -1,10 +1,11 @@
-
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/presentation/verification_code_screen/verification_code_screen.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/login_bloc.dart';
+import '../../widgets/failWidget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -178,78 +179,30 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
 
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/loginScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Mật khẩu mới đã được gửi vào email đã đăng ký của bạn. Vui lòng kiểm tra và làm theo hướng dẫn",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Địa chỉ email chưa từng được đăng ký",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void forgotClick() async {
     String email = _emailController.text.trim();
     bool isSuccess = false;
     isSuccess = await bloc.forgotPassword(email);
-    if(isSuccess) {
-      showSuccessAlertDialog(context);
+    if (isSuccess) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Gửi yêu cầu thành công',
+                    detail:
+                        'Yêu cầu đặt lại mật khẩu thành công, vui lòng kiểm tra email và đặt lại mật khẩu mới',
+                    buttonName: 'Hoàn tất',
+                    navigatorName: '/loginScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'THÔNG BÁO',
+                  detail: 'Địa chỉ email chưa được đăng ký',
+                  buttonName: 'quay lại',
+                  navigatorName: '/forgotPasswordScreen')));
     }
   }
 }

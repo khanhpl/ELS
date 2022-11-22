@@ -2,6 +2,9 @@ import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/failWidget.dart';
+import '../../widgets/successWidget.dart';
+
 class ReportScreen extends StatefulWidget {
   int bookingID;
 
@@ -100,78 +103,26 @@ class _ReportScreenState extends State<ReportScreen> {
         bookingID, descriptionController.text.trim());
 
     if (isReported) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Gửi phản hồi thành công',
+                    detail:
+                        'Gửi phản hồi thành công, vui lòng đợi hệ thống xem xét',
+                    buttonName: 'Trở về',
+                    navigatorName: '/homeScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Gửi phản hồi thất bại',
+                  detail: 'Phản hồi chưa được gửi, vui lòng thử lại',
+                  buttonName: 'quay lại',
+                  navigatorName: '/historyScreen')));
     }
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/homeScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   _showConfirmDialog() {

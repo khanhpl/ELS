@@ -13,10 +13,13 @@ import 'package:els_sitter/presentation/schedule_screen/widget/check_out_screen.
 import 'package:els_sitter/presentation/splash_screen/splash_screen.dart';
 import 'package:els_sitter/widgets/customer_item_on_detail_widget.dart';
 import 'package:els_sitter/widgets/elder_item_on_detail_widget.dart';
+import 'package:els_sitter/widgets/successWidget.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'failWidget.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
   BookingDataModel booking;
@@ -55,74 +58,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Chưa biết";
     }
     return status;
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/scheduleScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   void showAcceptAlertDialog(BuildContext context) {
@@ -652,7 +587,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     final snapshot = await uploadTaskProcess!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     processImage = urlDownload;
-    print('Download link processImg: ${urlDownload}');
   }
 
   @override
@@ -852,9 +786,8 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               ),
                             ),
                             ListView.separated(
-                              shrinkWrap: true,
+                                shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
-
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: EdgeInsets.only(
@@ -863,8 +796,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                       bottom: size.height * 0.02,
                                     ),
                                     child: Text(
-                                      convertDate(snapshot.data!.data
-                                          .workingTimeResponseDtoList[index].startDateTime
+                                      convertDate(snapshot
+                                          .data!
+                                          .data
+                                          .workingTimeResponseDtoList[index]
+                                          .startDateTime
                                           .toString()),
                                       style: const TextStyle(
                                         height: 1.5,
@@ -874,8 +810,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     ),
                                   );
                                 },
-                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
-                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(height: size.height * 0.01),
+                                itemCount: snapshot.data!.data
+                                    .workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -897,7 +835,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                             ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
-
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: EdgeInsets.only(
@@ -906,8 +843,11 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                       bottom: size.height * 0.02,
                                     ),
                                     child: Text(
-                                      convertDate(snapshot.data!.data
-                                          .workingTimeResponseDtoList[index].endDateTime
+                                      convertDate(snapshot
+                                          .data!
+                                          .data
+                                          .workingTimeResponseDtoList[index]
+                                          .endDateTime
                                           .toString()),
                                       style: const TextStyle(
                                         height: 1.5,
@@ -917,8 +857,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     ),
                                   );
                                 },
-                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
-                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
+                                separatorBuilder: (context, index) =>
+                                    SizedBox(height: size.height * 0.01),
+                                itemCount: snapshot.data!.data
+                                    .workingTimeResponseDtoList.length),
                             Container(
                               width: size.width,
                               height: 1,
@@ -1340,9 +1282,27 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isAccept = await _bookingBloc.sitterAcceptAction(booking.id);
 
     if (isAccept) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Nhận đơn đặt lịch\n'
+                        'thành công',
+                    detail:
+                        'Đơn đặt lịch đã được thêm vào danh sách, vui lòng đợi đến ngày làm việc',
+                    buttonName: 'Tiếp tục',
+                    navigatorName: '/scheduleScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Nhận đơn đặt lịch thất bại',
+                  detail:
+                      'Nhận đơn thất bại, vui lòng kiểm tra lại đường truyền và đợi đơn tiếp theo',
+                  buttonName: 'Tiếp tục',
+                  navigatorName: '/scheduleScreen')));
     }
   }
 
@@ -1351,9 +1311,28 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isCancel = await _bookingBloc.sitterCancelAction(booking.id);
 
     if (isCancel) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Từ chối đơn đặt lịch\n'
+                        'thành công',
+                    detail:
+                        'Đã từ chối đơn đặt lịch, ấn tiếp tục để nhận được thông báo từ đơn đặt lịch tiếp theo',
+                    buttonName: 'Tiếp tục',
+                    navigatorName: '/homeScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Từ chối đơn đặt lịch\n'
+                      'thất bại',
+                  detail:
+                      'Không thể từ chối đơn đặt lịch, vui lòng kiểm tra lại đường truyền',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/homeScreen')));
     }
   }
 }

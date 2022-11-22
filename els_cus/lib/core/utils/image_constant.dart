@@ -19,6 +19,10 @@ class ImageConstant {
 
   static String imgPlus55X55 = 'assets/images/img_plus_55X55.png';
 
+  static String imgSuccess = 'assets/images/success_action.jpg';
+
+  static String imgFail = 'assets/images/fail_action.png';
+
   static String imgArrowdown = 'assets/images/img_arrowdown.png';
 
   static String imgContrast = 'assets/images/img_contrast.png';
@@ -69,10 +73,8 @@ class ImageConstant {
 
   static String imgArrowrightGray400 =
       'assets/images/img_arrowright_gray_400.png';
-  static String imgMomo =
-      'assets/images/img_momo.png';
-  static String imgZalopay =
-      'assets/images/icon_zalopay.png';
+  static String imgMomo = 'assets/images/img_momo.png';
+  static String imgZalopay = 'assets/images/icon_zalopay.png';
 
   static String imgLightbulb = 'assets/images/img_lightbulb.png';
 
@@ -134,7 +136,6 @@ class ImageConstant {
 
   static String imgCall40X40 = 'assets/images/img_call_40X40.png';
 
-
   static String imgTicket = 'assets/images/img_ticket.png';
 
   static String imgHome24X20 = 'assets/images/img_home_24X20.png';
@@ -180,6 +181,7 @@ class ImageConstant {
 
   static String imageNotFound = 'assets/images/image_not_found.png';
   static String imgIconAdd = 'assets/images/img_icon_add.png';
+
   // static String imgArrowleft = 'assets/images/img_arrowleft.png';
 
   static String imgBubbleschat = 'assets/images/img_bubbleschat.png';
@@ -204,9 +206,9 @@ class ImageConstant {
 
   static String imgBg = 'assets/images/img_bg.png';
 
-  // static String imgCheckmark = 'assets/images/img_checkmark.png';
+// static String imgCheckmark = 'assets/images/img_checkmark.png';
 
-  // static String imgBubble = 'assets/images/img_bubble.png';
+// static String imgBubble = 'assets/images/img_bubble.png';
 
-  // static String imageNotFound = 'assets/images/image_not_found.png';
+// static String imageNotFound = 'assets/images/image_not_found.png';
 }

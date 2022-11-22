@@ -1,11 +1,13 @@
 import 'package:els_cus_mobile/core/models/elder_data_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/widgets/failWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import '../blocs/elder_blocs.dart';
 import '../core/models/elder_model.dart';
+import 'SuccessWidget.dart';
 
 class ElderDetailWidget extends StatefulWidget {
   ElderDataModel elder;
@@ -73,134 +75,6 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
       ),
       actions: [
         cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showDeleteSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Xóa thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showDeleteFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thông tin vẫn chưa được xóa",
-      ),
-      actions: [
         continueButton,
       ],
     );
@@ -778,9 +652,27 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     updateSuccess = await bloc.updateElder(
         id, fullName, gender, dob, healthStatus, note, isAllergy);
     if (updateSuccess) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                  alert: 'Cập nhật thông tin\n'
+                      'thành công',
+                  detail:
+                      "Thay đổi thông tin thành công vui lòng ấn nút quay lại",
+                  buttonName: 'quay lại',
+                  navigatorName: '/elderScreen')));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Cập nhật thông tin\n'
+                      'thất bại',
+                  detail:
+                      'Thay đổi thông tin người thân thất bại vui lòng nhấn nút quay lại để về danh sách người thân',
+                  buttonName: 'quay lại',
+                  navigatorName: '/elderScreen')));
     }
   }
 
@@ -789,9 +681,24 @@ class _ElderDetailWidgetState extends State<ElderDetailWidget> {
     bool removeSuccess = false;
     removeSuccess = await bloc.removeElderByID(id);
     if (removeSuccess) {
-      showDeleteSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                  alert: 'Xóa thông tin người thân thành công',
+                  detail: "Xóa thông tin thành công vui lòng ấn nút quay lại",
+                  buttonName: 'quay lại',
+                  navigatorName: '/elderScreen')));
     } else {
-      showDeleteFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Xóa thông tin người thân thất bại',
+                  detail:
+                      'Xóa thông tin người thân thất bại, vui lòng ấn nút quay lại để trở về danh sách người thân',
+                  buttonName: 'quay lại',
+                  navigatorName: '/elderScreen')));
     }
   }
 

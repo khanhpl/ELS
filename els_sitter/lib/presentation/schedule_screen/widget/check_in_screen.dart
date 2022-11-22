@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:els_sitter/blocs/booking_bloc.dart';
@@ -8,16 +7,22 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CheckInScreen extends StatefulWidget{
+import '../../../widgets/failWidget.dart';
+import '../../../widgets/successWidget.dart';
+
+class CheckInScreen extends StatefulWidget {
   int bookingID;
+
   CheckInScreen({super.key, required this.bookingID});
 
   @override
-  State<CheckInScreen> createState() => _CheckInScreenState(bookingID: this.bookingID);
+  State<CheckInScreen> createState() =>
+      _CheckInScreenState(bookingID: this.bookingID);
 }
 
 class _CheckInScreenState extends State<CheckInScreen> {
   int bookingID;
+
   _CheckInScreenState({required this.bookingID});
 
   BookingBloc _bookingBloc = BookingBloc();
@@ -26,6 +31,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
   XFile? pickedFileCheckIn;
   UploadTask? uploadTaskCheckIn;
   bool isCheckInCheck = false;
+
   Future _getCheckInImageFromGallery() async {
     pickedFileCheckIn = (await ImagePicker().pickImage(
       source: ImageSource.camera,
@@ -45,75 +51,8 @@ class _CheckInScreenState extends State<CheckInScreen> {
     final snapshot = await uploadTaskCheckIn!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     checkinImgImage = urlDownload;
-    print('Download link checkin: ${urlDownload}');
-  }
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/scheduleScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
   void showCheckInAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -161,6 +100,7 @@ class _CheckInScreenState extends State<CheckInScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -204,9 +144,9 @@ class _CheckInScreenState extends State<CheckInScreen> {
         ),
       ),
       floatingActionButton: Container(
-        width: size.width ,
+        width: size.width,
         padding: EdgeInsets.only(
-          left: size.width*0.08,
+          left: size.width * 0.08,
         ),
         decoration: const BoxDecoration(
           color: Colors.transparent,
@@ -234,89 +174,85 @@ class _CheckInScreenState extends State<CheckInScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: size.height*0.05),
+              SizedBox(height: size.height * 0.05),
               SizedBox(
                 width: size.width,
                 child: const Text(
                   "Để bắt đầu lịch trình này\n Hãy chụp ảnh tại nơi làm việc để xác nhận",
                   maxLines: 3,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 18
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                 ),
               ),
-              SizedBox(height: size.height*0.03),
+              SizedBox(height: size.height * 0.03),
               SizedBox(
                 child: ElevatedButton(
                   onPressed: () {
                     _getCheckInImageFromGallery();
                   },
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(ColorConstant.purple900),
+                      backgroundColor:
+                          MaterialStateProperty.all(ColorConstant.purple900),
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                           RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(18.0),
-                          )
-                      )
-                  ),
+                        borderRadius: BorderRadius.circular(18.0),
+                      ))),
                   child: const Text(
-                      "Tải lên hình ảnh",
+                    "Tải lên hình ảnh",
                   ),
                 ),
               ),
-              SizedBox(height: size.height*0.02),
+              SizedBox(height: size.height * 0.02),
               isCheckInCheck == false
                   ? const SizedBox()
                   : Container(
-                width: size.width *
-                    0.8,
-                height:
-                size.height *
-                    0.3,
-                alignment: Alignment
-                    .bottomCenter,
-                padding:
-                EdgeInsets.only(
-                    bottom: size
-                        .height *
-                        0.01),
-                decoration:
-                BoxDecoration(
-                  borderRadius:
-                  BorderRadius
-                      .circular(
-                      8),
-                  border:
-                  Border.all(
-                    color: Colors
-                        .black,
-                    width: 1,
-                  ),
-                  image:
-                  DecorationImage(
-                    image: FileImage(
-                        imageFileCheckIn),
-                    fit:
-                    BoxFit.fill,
-                  ),
-                ),
-              ),
+                      width: size.width * 0.8,
+                      height: size.height * 0.3,
+                      alignment: Alignment.bottomCenter,
+                      padding: EdgeInsets.only(bottom: size.height * 0.01),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: Colors.black,
+                          width: 1,
+                        ),
+                        image: DecorationImage(
+                          image: FileImage(imageFileCheckIn),
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
       ),
     );
   }
+
   onCheckInClick() async {
     bool isCheckIn = false;
-    isCheckIn = await _bookingBloc.sitterCheckInAction(bookingID, checkinImgImage);
+    isCheckIn =
+        await _bookingBloc.sitterCheckInAction(bookingID, checkinImgImage);
 
     if (isCheckIn) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Check in thành công',
+                    detail: 'Check in công việc thành công',
+                    buttonName: 'Tiếp tục',
+                    navigatorName: '/scheduleScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Check in không thành công',
+                  detail: 'Vui lòng check in lại lần nữa',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/scheduleScreen')));
     }
   }
 }

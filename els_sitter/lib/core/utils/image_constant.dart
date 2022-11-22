@@ -11,6 +11,10 @@ class ImageConstant {
 
   static String imgNavbars = 'assets/images/img_navbars.svg';
 
+  static String imgSuccess = 'assets/images/success_action.jpg';
+
+  static String imgFail = 'assets/images/fail_action.png';
+
   static String imgCheckmark20X20 = 'assets/images/img_checkmark_20X20.svg';
 
   static String imgPath14 = 'assets/images/img_path14.svg';

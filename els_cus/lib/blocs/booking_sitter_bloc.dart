@@ -39,7 +39,6 @@ class BookingSitterBloc{
           },
         ),
       );
-      print('Status code:'+response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return true;
       } else {

@@ -24,6 +24,5 @@ class ImageBloc{
 
     final snapshot = await uploadTask!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
-    print('Download link: ${urlDownload}');
   }
 }
