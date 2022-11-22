@@ -71,31 +71,6 @@ class BookingBloc {
     } finally {}
   }
 
-  bool isValidInput(BookingFormModel bookingFormModel) {
-    bool isValid = false;
-    bool addressValid = false;
-    bool elderIdValid = false;
-    bool placeValid = false;
-    bool emailValid = false;
-    bool workingTimeValid = false;
-    bool bookingServiceRequestValid = false;
-
-    if(bookingFormModel.address.isEmpty) {
-      _addressController.sink.addError("Vui lòng nhập địa điểm chăm sóc");
-      addressValid = false;
-    } else {
-      _addressController.sink.add("OK");
-      addressValid = true;
-    }
-
-    if(bookingFormModel.addWorkingTimesDtoList.isEmpty) {
-
-    }
-
-
-    return isValidInput(bookingFormModel);
-  }
-
   Future<BookingInfoModel> getBookingByStatusName(String statusName) async {
     try {
       var url = Uri.parse("https://els12.herokuapp.com/booking/bookings-by-customer-email/${Globals.curUser!.data.email}/$statusName");
