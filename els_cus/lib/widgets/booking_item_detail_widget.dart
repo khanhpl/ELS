@@ -12,9 +12,10 @@ import 'package:els_cus_mobile/presentation/rating_screen/rating_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:els_cus_mobile/widgets/elder_item_on_detail_widget.dart';
 import 'package:els_cus_mobile/widgets/sitter_item_on_booing_detail_widget.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
 import 'package:flutter/material.dart';
 import '../core/utils/globals.dart' as globals;
+import 'failWidget.dart';
 
 class BookingItemDetailWidget extends StatefulWidget {
   BookingDataModel booking;
@@ -55,74 +56,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đang tải";
     }
     return status;
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/scheduleScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   void showCancelAlertDialog(BuildContext context) {
@@ -571,10 +504,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     var size = MediaQuery.of(context).size;
     final Future<BookingDetailModel> bookingDetail =
         BookingBloc().getBookingDetailByBookingID(booking.id.toString());
+
     final Future<WorkingScheduleModel> doneSchedule =
         BookingBloc().getWorkingScheduke(booking.id, "DONE");
     final Future<WorkingScheduleModel> upcomingSchedule =
         BookingBloc().getWorkingScheduke(booking.id, "ACTIVATE");
+
 
     return FutureBuilder<BookingDetailModel>(
       future: bookingDetail,
@@ -765,6 +700,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               height: 1,
                               color: ColorConstant.gray300,
                             ),
+
                             (booking.status == "WAITING_FOR_SITTER" ||
                                     booking.status == "WAITING_FOR_CUS_PAYMENT")
                                 ? Column(
@@ -972,6 +908,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                   return const SizedBox();
                                 }
                               },
+
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -1338,7 +1275,33 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   }
 
   onPaymentClick() async {
-    Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen(title: "Đặt cọc", amount: int.parse(booking.deposit.ceil().toString()), bookingName: booking.name),));
+
+    bool isPaid = false;
+    isPaid = await _bookingBloc.createPayment("DirectPayment",
+        globals.curUser!.data.email, booking.totalPrice.ceil(), booking.id);
+
+    if (isPaid) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Thanh toán hoàn tất',
+                    detail:
+                        'Thanh toán hoàn tất, vui lòng đợi đến ngày bắt đầu làm việc',
+                    buttonName: 'tiếp tục',
+                    navigatorName: '/scheduleScreen',
+                  )));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Thanh toán thất bại',
+                  detail:
+                      'Thanh toán chưa thực hiện, vui lòng kiểm tra lại thông tin và số dư trong tài khoản',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/scheduleScreen')));
+    }
   }
 
   cusConfirmCheckout() async {
@@ -1346,9 +1309,26 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     isConfirm = await _bookingBloc.cusConfirmCheckOut(booking.id);
 
     if (isConfirm) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Xác nhận thành công',
+                    detail: 'Xác nhận hoàn thành công việc hoàn tất\n'
+                        'Cám ơn bạn đã tin tưởng sử dụng dịch vụ của Elderly Sitter',
+                    buttonName: 'Trở về',
+                    navigatorName: '/homeScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Xác nhận chưa thành công',
+                  detail:
+                      'Chưa xác nhận hoàn tất công việc, vui lòng xác nhận lại',
+                  buttonName: 'quay lại',
+                  navigatorName: '/homeScreen')));
     }
   }
 }

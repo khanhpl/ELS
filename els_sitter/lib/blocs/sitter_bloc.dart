@@ -5,8 +5,8 @@ import 'package:els_sitter/core/models/sitter_detail_model.dart';
 import 'package:http/http.dart' as http;
 import '../core/utils/globals.dart' as Globals;
 import '../core/validators/validations.dart';
-class SitterBlocs{
 
+class SitterBlocs {
   final StreamController _curPassController = StreamController();
   final StreamController _newPassController = StreamController();
   final StreamController _reNewPassController = StreamController();
@@ -62,7 +62,7 @@ class SitterBlocs{
   Future<bool> changePassword(String oldPass, String newPass) async {
     try {
       var url =
-      Uri.parse("https://els12.herokuapp.com/customer/change-password");
+          Uri.parse("https://els12.herokuapp.com/customer/change-password");
       final response = await http.put(
         url,
         headers: <String, String>{
@@ -76,7 +76,6 @@ class SitterBlocs{
           "newPassword": newPass
         }),
       );
-      print('Status updateInfo:' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         // Globals.curUser=UserDataModel(email: Globals.curUser!.data.email, role: Globals.curUser!.data.role, token: Globals.curUser!.data.token, address: address, dob: dob, fullName: name, gender: gender, phone: phone);
         return true;
@@ -88,13 +87,13 @@ class SitterBlocs{
 
   Future<SitterDetailModel> getSitterDetailByEmail() async {
     try {
-      var url =
-      Uri.parse("https://els12.herokuapp.com/sitter/get-by-email/${Globals.curUser!.data.email}");
+      var url = Uri.parse(
+          "https://els12.herokuapp.com/sitter/get-by-email/${Globals.curUser!.data.email}");
       final response = await http.get(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
       );
@@ -105,15 +104,16 @@ class SitterBlocs{
       }
     } finally {}
   }
-  Future<bool> updateSitterInfo(String fullname, String dob, String gender, String phone, String address, String email, String avatarImgUrl) async {
+
+  Future<bool> updateSitterInfo(String fullname, String dob, String gender,
+      String phone, String address, String email, String avatarImgUrl) async {
     try {
-      var url =
-      Uri.parse("https://els12.herokuapp.com/sitter/update");
+      var url = Uri.parse("https://els12.herokuapp.com/sitter/update");
       final response = await http.put(
         url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'Authorization' : Globals.curUser!.data.token,
+          'Authorization': Globals.curUser!.data.token,
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
@@ -128,7 +128,6 @@ class SitterBlocs{
           },
         ),
       );
-      print('Status code updateSitterInfo: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -136,5 +135,4 @@ class SitterBlocs{
       }
     } finally {}
   }
-
 }

@@ -62,9 +62,6 @@ class SignUpBloc {
 
   Future<bool> createCus(String fullname, String email, String password) async {
     try {
-      print('test fullname: ' + fullname);
-      print('test email:' + email);
-      print('Test password:' + password);
       var url = Uri.parse("https://els12.herokuapp.com/customer/add");
       final response = await http.post(
         url,

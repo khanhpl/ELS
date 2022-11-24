@@ -1,10 +1,11 @@
-
 import 'package:els_sitter/core/utils/color_constant.dart';
 import 'package:els_sitter/core/utils/image_constant.dart';
 import 'package:els_sitter/presentation/verification_code_screen/verification_code_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../blocs/login_bloc.dart';
+import '../../widgets/failWidget.dart';
+import '../../widgets/successWidget.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   @override
@@ -61,7 +62,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                               bottom: 12,
                             ),
                             child: GestureDetector(
-                              onTap: (){
+                              onTap: () {
                                 Navigator.pop(context);
                               },
                               child: Image.asset(
@@ -72,7 +73,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ),
                           Padding(
                             padding: EdgeInsets.only(
-                              left: size.width*0.3,
+                              left: size.width * 0.3,
                               top: 12,
                               bottom: 12,
                             ),
@@ -95,10 +96,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ),
                 Container(
                   margin: EdgeInsets.only(
-                    left: size.width*0.05,
-                    top: size.height*0.03,
-                    right: size.width*0.05,
-                    bottom: size.height*0.03,
+                    left: size.width * 0.05,
+                    top: size.height * 0.03,
+                    right: size.width * 0.05,
+                    bottom: size.height * 0.03,
                   ),
                   child: Text(
                     "Nhập email của bạn và chúng tôi sẽ gửi cho bạn hướng dẫn về cách đặt lại mật khẩu",
@@ -136,7 +137,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 borderSide: BorderSide(
                                     color: Color(0xffCED0D2), width: 1),
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(6))),
+                                    BorderRadius.all(Radius.circular(6))),
                             focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
                                 width: 1,
@@ -182,74 +183,28 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     String email = _emailController.text.trim();
     bool isSuccess = false;
     isSuccess = await bloc.forgotPassword(email);
-    if(isSuccess) {
-      showSuccessAlertDialog(context);
+    if (isSuccess) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Yêu cầu đặt lại\n'
+                        'mật khẩu thành công',
+                    detail:
+                        'Vui lòng kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu',
+                    buttonName: 'Trở về',
+                    navigatorName: '/loginScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Yêu cầu đặt lại\n'
+                      'mật khẩu thất bại',
+                  detail: 'Vui lòng kiểm tra lại đường truyền và thử lại',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/forgotPasswordScreen')));
     }
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/loginScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Mật khẩu mới đã được gửi vào email đã đăng ký của bạn. Vui lòng kiểm tra và làm theo hướng dẫn",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Địa chỉ email chưa từng được đăng ký",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 }

@@ -64,7 +64,6 @@ class ElderBlocs {
           'Accept': 'application/json; charset=UTF-8',
         },
       );
-      print('Response Elder Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
         return ElderModel.fromJson(json.decode(response.body));
       } else {
@@ -117,8 +116,6 @@ class ElderBlocs {
           },
         ),
       );
-      print(
-          'Test add new Elder Status code: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -130,14 +127,6 @@ class ElderBlocs {
   Future<bool> createElder(String name, String gender, String dob,
       String healthStatus, String note, bool isAllergy, String email) async {
     try {
-      print('test fullname: ' + name);
-      print('test gender:' + gender);
-      print('test dob: ' + dob);
-      print('test healthStatus:' + healthStatus);
-      print('test note: ' + note);
-      print('test Allergy:' + isAllergy.toString());
-      print('test email: ' + email);
-
       var url = Uri.parse("https://els12.herokuapp.com/elder/add");
       final response = await http.post(
         url,
@@ -158,7 +147,6 @@ class ElderBlocs {
           },
         ),
       );
-      print('Status: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -170,12 +158,6 @@ class ElderBlocs {
   Future<bool> updateElder(int id, String name, String gender, String dob,
       String healthStatus, String note, bool isAllergy) async {
     try {
-      print('test fullname: ' + name);
-      print('test gender:' + gender);
-      print('test dob: ' + dob);
-      print('test healthStatus:' + healthStatus);
-      print('test note: ' + note);
-      print('test Allergy:' + isAllergy.toString());
       var url = Uri.parse("https://els12.herokuapp.com/elder/update");
       final response = await http.put(
         url,
@@ -194,7 +176,6 @@ class ElderBlocs {
           "isAllergy": isAllergy,
         }),
       );
-      print('Status:' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -216,7 +197,6 @@ class ElderBlocs {
         },
         body: jsonEncode(<String, dynamic>{}),
       );
-      print('Status:' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return true;
       } else {

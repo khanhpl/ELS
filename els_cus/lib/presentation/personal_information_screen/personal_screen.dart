@@ -8,7 +8,14 @@ import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+
 import 'package:image_picker/image_picker.dart';
+
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
+
+import '../../core/models/customer_detail_model.dart';
+import '../../widgets/failWidget.dart';
+
 class PersonalScreen extends StatefulWidget {
   CustomerDetailDataModel cus;
 
@@ -111,70 +118,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
       ),
       actions: [
         cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thất bại",
-      ),
-      actions: [
         continueButton,
       ],
     );
@@ -850,9 +793,29 @@ class _PersonalScreenState extends State<PersonalScreen> {
     updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone,
         frontIdImgUrl, backIdImgUrl, avatarImage);
     if (updateSuccess) {
-      showSuccessAlertDialog(context);
+
+      globals.curUser!.data.setDob(dob);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Thay đổi thông tin\n'
+                        'thành công',
+                    detail:
+                        'Thông tin cá nhân đã thay đổi thành công vui lòng ấn tiếp tục để về trang cá nhân',
+                    buttonName: 'Tiếp tục',
+                    navigatorName: '/accountScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Thay đổi thông tin thất bại',
+                  detail:
+                      'Thông tin cá nhân chưa được thay đổi vui lòng nhập lại thông tin cá nhân',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/accountScreen')));
     }
   }
 }

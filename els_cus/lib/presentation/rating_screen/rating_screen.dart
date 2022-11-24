@@ -3,8 +3,12 @@ import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
+import '../../widgets/SuccessWidget.dart';
+import '../../widgets/failWidget.dart';
+
 class RatingScreen extends StatefulWidget {
   int bookingID;
+
   RatingScreen({super.key, required this.bookingID});
 
   @override
@@ -13,7 +17,9 @@ class RatingScreen extends StatefulWidget {
 
 class _RatingScreenState extends State<RatingScreen> {
   int bookingID;
+
   _RatingScreenState({required this.bookingID});
+
   double ratingStar = 0.0;
   bool isDiligent = false;
   bool isOnTime = false;
@@ -21,6 +27,7 @@ class _RatingScreenState extends State<RatingScreen> {
   bool isOther = false;
   final TextEditingController descriptionController = TextEditingController();
   BookingBloc _bookingBloc = BookingBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -245,96 +252,46 @@ class _RatingScreenState extends State<RatingScreen> {
       ),
     );
   }
+
   cusConfirmCheckout() async {
     String comment = "";
-    if(isDiligent){
+    if (isDiligent) {
       comment = "${comment}Siêng năng, ";
     }
-    if(isOnTime){
+    if (isOnTime) {
       comment = "$commentĐúng giờ, ";
     }
-    if(isEnthusiasm){
+    if (isEnthusiasm) {
       comment = "${comment}Nhiệt tình, ";
     }
-    if(isOther){
-      comment = comment+descriptionController.text.trim();
+    if (isOther) {
+      comment = comment + descriptionController.text.trim();
     }
     bool isConfirm = false;
     isConfirm = await _bookingBloc.cusRating(bookingID, ratingStar, comment);
 
     if (isConfirm) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Đánh giá thành công',
+                    detail: 'Hoàn tất đánh giá chăm sóc viên',
+                    buttonName: 'trở về',
+                    navigatorName: '/historyScreen',
+                  )));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Đánh giá chưa thành công',
+                  detail: 'Chưa hoàn tất đánh giá chăm sóc viên',
+                  buttonName: 'quay lại',
+                  navigatorName: '/historyScreen')));
     }
   }
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
 
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/homeScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
   _showConfirmDialog() {
     return showDialog(
       context: context,

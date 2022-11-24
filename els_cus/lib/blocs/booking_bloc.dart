@@ -95,8 +95,6 @@ class BookingBloc {
 
 
   Future<bool> createBooking(BookingFormModel BookingInfoModel) async {
-
-
     try {
       var url = Uri.parse("https://els12.herokuapp.com/booking/add");
       final response = await http.post(
@@ -120,8 +118,6 @@ class BookingBloc {
           },
         ),
       );
-      print('Status code createBooking:' + response.statusCode.toString());
-
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -129,7 +125,6 @@ class BookingBloc {
       }
     } finally {}
   }
-
 
   Future<BookingInfoModel> getBookingByStatusName(String statusName) async {
     try {
@@ -245,6 +240,7 @@ class BookingBloc {
       }
     } finally {}
   }
+
   Future<WorkingScheduleModel> getWorkingScheduke(int bookingId, String status) async {
     try {
       var url =
@@ -264,4 +260,5 @@ class BookingBloc {
       }
     } finally {}
   }
+
 }

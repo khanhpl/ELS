@@ -5,7 +5,10 @@ import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
 import 'package:get/get.dart';
+
+import '../../widgets/failWidget.dart';
 
 class AddNewElderScreen extends StatefulWidget {
   const AddNewElderScreen({super.key});
@@ -92,70 +95,6 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       ),
       actions: [
         cancelButton,
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thêm thành công người thân mới",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thêm người thân mới thất bại",
-      ),
-      actions: [
         continueButton,
       ],
     );
@@ -587,11 +526,25 @@ class _AddNewElderScreenState extends State<AddNewElderScreen> {
       createSuccess = await bloc.addNewElder(
           name, gender, dob, statusHealth, note, isAllergy);
       if (createSuccess) {
-        print('tạo được rồi');
-        showSuccessAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                    alert: 'Thêm thành công',
+                    detail:
+                        'Thêm mới người thân thành công vui lòng nhấn nút tiếp tục',
+                    buttonName: 'tiếp tục',
+                    navigatorName: '/elderScreen')));
       } else {
-        print('chưa được');
-        showFailAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Thêm thất bại',
+                    detail:
+                        'Thêm người thân thất bại vui lòng nhập lại thông tin người thân',
+                    buttonName: 'quay lại',
+                    navigatorName: '/elderScreen')));
       }
     } else {}
   }

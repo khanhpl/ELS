@@ -29,8 +29,7 @@ class BookingBloc {
 
   Future<BookingDetailModel> getBookingDetailByBookingID(String id) async {
     try {
-      var url =
-          Uri.parse("https://els12.herokuapp.com/booking/get-by-id/$id");
+      var url = Uri.parse("https://els12.herokuapp.com/booking/get-by-id/$id");
       final response = await http.get(
         url,
         headers: <String, String>{
@@ -70,8 +69,8 @@ class BookingBloc {
 
   Future<bool> sitterAcceptAction(int bookingID) async {
     try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/booking/accept/$bookingID");
+      var url =
+          Uri.parse("https://els12.herokuapp.com/booking/accept/$bookingID");
       final response = await http.put(
         url,
         headers: <String, String>{
@@ -83,7 +82,6 @@ class BookingBloc {
           <String, String>{},
         ),
       );
-      print('test accept status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -107,7 +105,6 @@ class BookingBloc {
           <String, String>{},
         ),
       );
-      print('test cancel status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -115,10 +112,10 @@ class BookingBloc {
       }
     } finally {}
   }
+
   Future<bool> sitterCheckInAction(int bookingID, String imgUrl) async {
     try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/booking-img/check-in");
+      var url = Uri.parse("https://els12.herokuapp.com/booking-img/check-in");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -133,7 +130,6 @@ class BookingBloc {
           },
         ),
       );
-      print('test checkin status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -141,10 +137,10 @@ class BookingBloc {
       }
     } finally {}
   }
+
   Future<bool> sitterCheckOutAction(int bookingID, String imgUrl) async {
     try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/booking-img/check-out");
+      var url = Uri.parse("https://els12.herokuapp.com/booking-img/check-out");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -159,7 +155,6 @@ class BookingBloc {
           },
         ),
       );
-      print('test checkout status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
@@ -170,8 +165,7 @@ class BookingBloc {
 
   Future<bool> sitterReportCus(int bookingID, String comment) async {
     try {
-      var url = Uri.parse(
-          "https://els12.herokuapp.com/report");
+      var url = Uri.parse("https://els12.herokuapp.com/report");
       final response = await http.post(
         url,
         headers: <String, String>{
@@ -180,13 +174,9 @@ class BookingBloc {
           'Accept': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(
-          <String, dynamic>{
-            "bookingId": bookingID,
-            "comment": comment
-          },
+          <String, dynamic>{"bookingId": bookingID, "comment": comment},
         ),
       );
-      print('test report status: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {

@@ -92,7 +92,6 @@ class LoginBloc {
           },
         ),
       );
-      print('Test forgotPW code: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
