@@ -598,6 +598,7 @@ class _AccountScreenState extends State<AccountScreen> {
                           ),
                           GestureDetector(
                             onTap: (){
+                              // Navigator.pushNamed(context, '/adjustServiceDetailWidget');
                               Navigator.pushNamed(context, '/settingScreen');
                             },
                             child: Padding(

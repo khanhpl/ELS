@@ -135,4 +135,30 @@ class SitterBlocs {
       }
     } finally {}
   }
+
+  Future<bool> upSalaryForm(String price, String id) async {
+    try {
+      var url = Uri.parse("https://els12.herokuapp.com/sitter/up-salary");
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(
+          <String, String>{
+            "sitterEmail": Globals.curUser!.data.email,
+            "serviceId": id,
+            "newPrice": price
+          },
+        ),
+      );
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }
