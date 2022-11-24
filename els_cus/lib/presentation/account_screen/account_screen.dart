@@ -1,16 +1,15 @@
-import 'dart:io';
 
-import 'package:els_cus_mobile/blocs/image_bloc.dart';
+
+import 'package:els_cus_mobile/blocs/payment_bloc.dart';
 import 'package:els_cus_mobile/fire_base/provider/google_sign_in_provider.dart';
 import 'package:els_cus_mobile/presentation/personal_information_screen/personal_screen.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../core/models/customer_detail_model.dart';
 import '../../core/utils/globals.dart' as globals;
 
@@ -364,22 +363,28 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: ColorConstant.bluegray50,
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                left: size.width * 0.03,
-                                top: size.height * 0.02,
-                                right: size.width * 0.03,
-                              ),
-                              child: Text(
-                                "Thẻ thanh toán",
-                                overflow: TextOverflow.ellipsis,
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: ColorConstant.black900,
-                                  fontSize: 17,
-                                  fontFamily: 'Roboto',
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.00,
+                            GestureDetector(
+                              onTap: (){
+                                // launchUrl(Uri.parse("https://momotest.herokuapp.com/create"));
+                                onPaymentLick();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.02,
+                                  right: size.width * 0.03,
+                                ),
+                                child: Text(
+                                  "Thẻ thanh toán",
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: ColorConstant.black900,
+                                    fontSize: 17,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w700,
+                                    height: 1.00,
+                                  ),
                                 ),
                               ),
                             ),
@@ -704,102 +709,7 @@ class _AccountScreenState extends State<AccountScreen> {
                                 color: ColorConstant.bluegray50,
                               ),
                             ),
-                            // Padding(
-                            //   padding: EdgeInsets.only(
-                            //
-                            //     left: size.width*0.03,
-                            //     top: size.height*0.01,
-                            //     right: size.width*0.03,
-                            //   ),
-                            //   child: Align(
-                            //     alignment: Alignment.center,
-                            //     child: Container(
-                            //       width: double.infinity,
-                            //       decoration: BoxDecoration(
-                            //         color: ColorConstant.whiteA700,
-                            //         borderRadius: BorderRadius.circular(
-                            //           10,
-                            //         ),
-                            //         border: Border.all(
-                            //           color: ColorConstant.gray301,
-                            //           width: 1,
-                            //         ),
-                            //       ),
-                            //       child: Column(
-                            //         mainAxisSize: MainAxisSize.min,
-                            //         crossAxisAlignment: CrossAxisAlignment.center,
-                            //         mainAxisAlignment: MainAxisAlignment.end,
-                            //         children: [
-                            //           Align(
-                            //             alignment: Alignment.centerRight,
-                            //             child: Padding(
-                            //               padding: EdgeInsets.only(
-                            //                 left: size.width*0.03,
-                            //                 top: size.height*0.01,
-                            //                 right: size.width*0.03,
-                            //               ),
-                            //               child: Image.asset(ImageConstant.imgArrowrightGray600,
-                            //                 width: size.width*0.03,
-                            //                 height: size.width*0.03,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           Align(
-                            //             alignment: Alignment.center,
-                            //             child: Text(
-                            //               "Đánh giá ứng dụng",
-                            //               overflow: TextOverflow.ellipsis,
-                            //               textAlign: TextAlign.left,
-                            //               style: TextStyle(
-                            //                 color: ColorConstant.bluegray900,
-                            //                 fontSize: 24,
-                            //                 fontFamily: 'Montserrat',
-                            //                 fontWeight: FontWeight.w600,
-                            //               ),
-                            //             ),
-                            //           ),
-                            //           Align(
-                            //             alignment: Alignment.center,
-                            //             child: Container(
-                            //               width: size.width*0.9,
-                            //               height: size.height*0.03,
-                            //               child: PinCodeTextField(
-                            //                 appContext: context,
-                            //                 length: 5,
-                            //                 obscureText: false,
-                            //                 obscuringCharacter: '*',
-                            //                 keyboardType: TextInputType.number,
-                            //                 autoDismissKeyboard: true,
-                            //                 enableActiveFill: true,
-                            //                 inputFormatters: [
-                            //                   FilteringTextInputFormatter.digitsOnly,
-                            //                 ],
-                            //                 onChanged: (value) {},
-                            //                 pinTheme: PinTheme(
-                            //                   fieldHeight: size.width*0.02,
-                            //                   fieldWidth: size.width*0.03,
-                            //                   shape: PinCodeFieldShape.circle,
-                            //                   selectedFillColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                   activeFillColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                   inactiveFillColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                   inactiveColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                   selectedColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                   activeColor:
-                            //                   ColorConstant.fromHex("#1212121D"),
-                            //                 ),
-                            //               ),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+
                           ],
                         ),
                       ),
@@ -815,5 +725,13 @@ class _AccountScreenState extends State<AccountScreen> {
         ),
       ),
     );
+  }
+
+  onPaymentLick () async{
+    String link = "";
+    link = await PaymentBloc().momoPayment();
+    if(link != ""){
+      launchUrl(Uri.parse(link));
+    }
   }
 }

@@ -1,13 +1,14 @@
+import 'dart:io';
+
 import 'package:els_cus_mobile/blocs/personal_information_bloc.dart';
 import 'package:els_cus_mobile/core/models/customer_detail_data_model.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
 import 'package:els_cus_mobile/core/utils/globals.dart' as globals;
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-
-import '../../core/models/customer_detail_model.dart';
-
+import 'package:image_picker/image_picker.dart';
 class PersonalScreen extends StatefulWidget {
   CustomerDetailDataModel cus;
 
@@ -40,6 +41,34 @@ class _PersonalScreenState extends State<PersonalScreen> {
   String phone = "";
   bool _isMale = false;
   bool _isFemale = false;
+  bool _isAddAva = false;
+  String avatarImage = "";
+  late File imageFileFace;
+  XFile? pickedFileFace;
+  UploadTask? uploadTaskFace;
+  bool isFaceCheck = false;
+
+  _getFaceImageFromGallery() async {
+    pickedFileFace = (await ImagePicker().pickImage(
+      source: ImageSource.camera,
+    ));
+    if (pickedFileFace != null) {
+      setState(() {
+        imageFileFace = File(pickedFileFace!.path);
+        isFaceCheck = true;
+      });
+    }
+    _isAddAva = true;
+    final path = 'els_images/${pickedFileFace!.name}';
+    final file = File(pickedFileFace!.path);
+    final ref = FirebaseStorage.instance.ref().child(path);
+    uploadTaskFace = ref.putFile(file);
+
+    final snapshot = await uploadTaskFace!.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+    avatarImage = urlDownload;
+    print('Download link Face: ${urlDownload}');
+  }
 
   filterDob(String dob) {
     var parts = dob.split(" ");
@@ -239,12 +268,13 @@ class _PersonalScreenState extends State<PersonalScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                (_isAddAva) ?
+            Container(
                   width: size.width * 0.3,
                   height: size.width * 0.3,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(cus.avatarUrl),
+                      image:FileImage(imageFileFace),
                       fit: BoxFit.fill,
                     ),
                     color: ColorConstant.gray400,
@@ -276,10 +306,69 @@ class _PersonalScreenState extends State<PersonalScreen> {
                               alignment: Alignment.center,
                               child: Padding(
                                 padding: EdgeInsets.all(size.width * 0.01),
-                                child: Image.asset(
-                                  ImageConstant.imgTicket14X14,
-                                  width: size.width * 0.02,
-                                  height: size.width * 0.02,
+                                child: GestureDetector(
+                                  onTap: (){
+                                    _getFaceImageFromGallery();
+                                  },
+                                  child: Image.asset(
+                                    ImageConstant.imgTicket14X14,
+                                    width: size.width * 0.02,
+                                    height: size.width * 0.02,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ) : Container(
+                  width: size.width * 0.3,
+                  height: size.width * 0.3,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image:NetworkImage(cus.avatarUrl),
+                      fit: BoxFit.fill,
+                    ),
+                    color: ColorConstant.gray400,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Card(
+                      clipBehavior: Clip.antiAlias,
+                      elevation: 0,
+                      margin: EdgeInsets.only(
+                        left: size.width * 0.03,
+                        top: size.height * 0.1,
+                      ),
+                      color: ColorConstant.purple900,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Container(
+                        height: size.width * 0.06,
+                        width: size.width * 0.06,
+                        decoration: BoxDecoration(
+                          color: ColorConstant.purple900,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Stack(
+                          children: [
+                            Align(
+                              alignment: Alignment.center,
+                              child: Padding(
+                                padding: EdgeInsets.all(size.width * 0.01),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    _getFaceImageFromGallery();
+                                  },
+                                  child: Image.asset(
+                                    ImageConstant.imgTicket14X14,
+                                    width: size.width * 0.02,
+                                    height: size.width * 0.02,
+                                  ),
                                 ),
                               ),
                             ),
@@ -757,12 +846,10 @@ class _PersonalScreenState extends State<PersonalScreen> {
     }
     String frontIdImgUrl = "";
     String backIdImgUrl = "";
-    String avatarImgUrl = "";
     bool updateSuccess = false;
     updateSuccess = await bloc.updateInfo(fullname, gender, dob, address, phone,
-        frontIdImgUrl, backIdImgUrl, avatarImgUrl);
+        frontIdImgUrl, backIdImgUrl, avatarImage);
     if (updateSuccess) {
-      globals.curUser!.data.setDob(dob);
       showSuccessAlertDialog(context);
     } else {
       showFailAlertDialog(context);

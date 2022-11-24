@@ -1,13 +1,33 @@
 
+import 'package:els_cus_mobile/presentation/bottom_bar_navigation/bottom_bar_navigation.dart';
 import 'package:els_cus_mobile/presentation/onboarding_screen/widgets/onboarding_bottomsheet.dart';
 import 'package:els_cus_mobile/presentation/onboarding_screen/widgets/render_boarding_button.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_slider/intro_slider.dart';
 
-class OnboardingScreen extends StatelessWidget {
-  List<Slide> slides = [];
+import '../../fire_base/login_with_google_nav.dart';
+
+class OnboardingScreen extends StatefulWidget {
+
   OnboardingScreen({super.key});
+
+  @override
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingScreen> {
+  List<Slide> slides = [];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    FirebaseMessaging.instance.getInitialMessage().then((value){
+      (value != null) ? Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginWithGoogleNav())) : print('cccccccccccccccccc');
+    });
+  }
   Widget inputContent(index) {
     if (index == 0) {
       return OnboardingBottomsheet(
@@ -23,7 +43,6 @@ class OnboardingScreen extends StatelessWidget {
   List<Widget> renderListCustomTabs() {
     return List.generate(3, (index) => inputContent(index));
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +60,6 @@ class OnboardingScreen extends StatelessWidget {
       ),
     );
   }
-
-
 }
 
 
