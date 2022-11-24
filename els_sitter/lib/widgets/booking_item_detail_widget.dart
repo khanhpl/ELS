@@ -38,24 +38,26 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
 
   final BookingBloc _bookingBloc = BookingBloc();
 
-  String getStatus() {
+  String getStatus(){
     String status = "";
-    if (booking.status == 'WAITING_FOR_SITTER') {
-      status = "Đang đợi chăm xóc viên xác nhận";
-    } else if (booking.status == 'STARTING') {
+    if(booking.status == 'WAITING_FOR_SITTER'){
+      status = "Đang đợi csv";
+    }else if(booking.status == 'STARTING'){
       status = "Đang thực hiện";
-    } else if (booking.status == 'DONE') {
+    }else if(booking.status == 'DONE'){
       status = "Đã xong";
-    } else if (booking.status == 'CANCEL') {
+    }else if(booking.status == 'CANCEL'){
       status = "Đã hủy";
-    } else if (booking.status == 'WAITING_FOR_DATE') {
+    }else if(booking.status == 'WAITING_FOR_DATE'){
       status = "Đang đợi đến ngày làm việc";
-    } else if (booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT') {
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT'){
       status = "Đang đợi thanh toán";
-    } else if (booking.status == 'WAITING_FOR_CUSTOMER_CHECK') {
-      status = "Đang đợi khách hàng xác nhận hoàn thành";
-    } else {
-      status = "Chưa biết";
+    }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
+      status = "Đang đợi xác nhận hoàn thành";
+    }else if(booking.status == 'SITTER_NOT_FOUND'){
+      status = "Không tìm thấy csv phù hợp";
+    }else{
+      status = "Đang tải";
     }
     return status;
   }
@@ -778,7 +780,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 left: size.width * 0.03,
                               ),
                               child: const Text(
-                                "Thời gian bắt đầu:",
+                                "Lịch trình thực hiện(dự kiến):",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
@@ -786,6 +788,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               ),
                             ),
                             ListView.separated(
+                                padding: EdgeInsets.only(
+                                  top: size.height*0.01,
+                                  bottom: size.height*0.02,
+
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context, index) {
@@ -829,25 +835,22 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
+
                                 ),
-                              ),
-                            ),
-                            ListView.separated(
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context, index) {
                                   return Padding(
                                     padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
                                       left: size.width * 0.06,
-                                      bottom: size.height * 0.02,
                                     ),
                                     child: Text(
-                                      convertDate(snapshot
-                                          .data!
-                                          .data
-                                          .workingTimeResponseDtoList[index]
-                                          .endDateTime
+
+                                      convertDate(snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].startDateTime
+                                          .toString(), snapshot.data!.data
+                                          .workingTimeResponseDtoList[index].endDateTime
+
                                           .toString()),
                                       style: const TextStyle(
                                         height: 1.5,
@@ -857,10 +860,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                     ),
                                   );
                                 },
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(height: size.height * 0.01),
-                                itemCount: snapshot.data!.data
-                                    .workingTimeResponseDtoList.length),
+                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
+                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
+
+
                             Container(
                               width: size.width,
                               height: 1,
@@ -1268,12 +1271,14 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
-  String convertDate(String inputDate) {
+  String convertDate(String startDate, endDate) {
     String dateConverted = "";
-    String date = inputDate.split("T")[0];
-    String time = inputDate.split("T")[1];
+    String dateStart = startDate.split("T")[0];
+    String timeStart = startDate.split("T")[1];
+    String dateEnd = endDate.split("T")[0];
+    String timeEnd = endDate.split("T")[1];
     dateConverted =
-        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]} Lúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+    "Ngày: ${dateStart.split("-")[2]}-${dateStart.split("-")[1]}-${dateStart.split("-")[0]}\n   Bắt đầu: ${timeStart.split(":")[0]}h${timeStart.split(":")[1]}   Kết thúc: ${timeEnd.split(":")[0]}h${timeEnd.split(":")[1]}";
     return dateConverted;
   }
 

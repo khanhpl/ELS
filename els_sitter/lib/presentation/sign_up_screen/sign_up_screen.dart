@@ -817,23 +817,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   exp: int.parse(_workExpController.text),
                                   id: service.id);
 
-                          // if (listSitterService.isNotEmpty) {
-                          //   for (ServiceDataModel service
-                          //       in listSelectedService) {
-                          //     bool addedService = false;
-                          //     for (SitterServiceRequestModel sitterService
-                          //         in listSitterService) {
-                          //       if (service.id == sitterService.id) {
-                          //         addedService = true;
-                          //       }
-                          //     }
-                          //     if (!addedService) {
-                          //       listSelectedService.remove(service);
-                          //     }
-                          //   }
-                          // } else {
-                          //   listSelectedService.clear();
-                          // }
+
                           Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
