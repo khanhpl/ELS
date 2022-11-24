@@ -762,7 +762,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                       color: Colors.black),
                                   decoration: InputDecoration(
                                     hintText: "Địa chỉ",
-                                    errorText: (snapshot.hasError) ? snapshot.error.toString() : null,
+                                    errorText: (snapshot.hasError)
+                                        ? snapshot.error.toString()
+                                        : null,
                                     prefixIcon: SizedBox(
                                       width: size.width * 0.05,
                                       child: Image.asset(
@@ -801,27 +803,25 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                               ),
                             ),
                             Padding(
-                              padding:  EdgeInsets.only(
-                                left: size.width*0.03,
-                                top: size.height*0.01
-                              ),
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.01),
                               child: StreamBuilder(
-                                stream: bloc.workScheduleStream,
-                                builder: (context, snapshot) {
-                                  if(snapshot.hasError){
-                                    return Text(
-                                      snapshot.error.toString(),
-                                      style: const TextStyle(
-                                        color: Colors.red,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    );
-                                  }else{
-                                    return const SizedBox();
-                                  }
-                                }
-                              ),
+                                  stream: bloc.workScheduleStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text(
+                                        snapshot.error.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  }),
                             ),
                             Row(
                               children: [
@@ -953,14 +953,14 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(
-                          left: size.width*0.06,
-                          top: size.height*0.01,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.06,
+                          top: size.height * 0.01,
                         ),
                         child: StreamBuilder(
                             stream: bloc.serviceListStream,
                             builder: (context, snapshot) {
-                              if(snapshot.hasError){
+                              if (snapshot.hasError) {
                                 return Text(
                                   snapshot.error.toString(),
                                   style: const TextStyle(
@@ -969,11 +969,10 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     fontWeight: FontWeight.w400,
                                   ),
                                 );
-                              }else{
+                              } else {
                                 return const SizedBox();
                               }
-                            }
-                        ),
+                            }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -1173,7 +1172,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                               StreamBuilder(
                                   stream: bloc.workExpStream,
                                   builder: (context, snapshot) {
-                                    if(snapshot.hasError){
+                                    if (snapshot.hasError) {
                                       return Text(
                                         snapshot.error.toString(),
                                         style: const TextStyle(
@@ -1182,11 +1181,10 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                           fontWeight: FontWeight.w400,
                                         ),
                                       );
-                                    }else{
+                                    } else {
                                       return const SizedBox();
                                     }
-                                  }
-                              ),
+                                  }),
                               Padding(
                                 padding: EdgeInsets.only(
                                   top: size.height * 0.02,
@@ -1428,14 +1426,14 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                         ),
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(
-                          left: size.width*0.06,
-                          top: size.width*0.01,
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.06,
+                          top: size.width * 0.01,
                         ),
                         child: StreamBuilder(
                             stream: bloc.elderStream,
                             builder: (context, snapshot) {
-                              if(snapshot.hasError){
+                              if (snapshot.hasError) {
                                 return Text(
                                   snapshot.error.toString(),
                                   style: const TextStyle(
@@ -1444,11 +1442,10 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                     fontWeight: FontWeight.w400,
                                   ),
                                 );
-                              }else{
+                              } else {
                                 return const SizedBox();
                               }
-                            }
-                        ),
+                            }),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -1701,8 +1698,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     }
     bool isValidBooking = false;
     print('test list service ${addBookingServiceRequestDtos.length}');
-    isValidBooking = bloc.isValidInput(address, addWorkingTimesDtoList.length, addBookingServiceRequestDtos.length, chooseElderID);
-    if(isValidBooking){
+    isValidBooking = bloc.isValidInput(address, addWorkingTimesDtoList.length,
+        addBookingServiceRequestDtos.length, chooseElderID);
+    if (isValidBooking) {
       bool isBooking = false;
       BookingFormModel booking = BookingFormModel(
           address: address,
@@ -1716,30 +1714,27 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
       isBooking = await bloc.createBooking(booking);
       isBooking = await bloc.createBooking(booking);
-    if (isBooking) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SuccessScreen(
-                  alert: 'Tạo yêu cầu thành công',
-                  detail:
-                      'Tạo yêu cầu thành công vui lòng nhấn nút tiếp tục, đợi phản hồi từ chăm sóc viên',
-                  buttonName: 'tiếp tục',
-                  navigatorName: '/scheduleScreen')));
-    } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FailScreen(
-                  alert: 'Yêu cầu chưa được tạo',
-                  detail:
-                      'Tạo yêu cầu thất bại vui lòng điều chỉnh đơn đặt lịch',
-                  buttonName: 'quay lại',
-                  navigatorName: '/addWorkScreen')));
-
-    }
-    }else{
-
-   
+      if (isBooking) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                    alert: 'Tạo yêu cầu thành công',
+                    detail:
+                        'Tạo yêu cầu thành công vui lòng nhấn nút tiếp tục, đợi phản hồi từ chăm sóc viên',
+                    buttonName: 'tiếp tục',
+                    navigatorName: '/scheduleScreen')));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Yêu cầu chưa được tạo',
+                    detail:
+                        'Tạo yêu cầu thất bại vui lòng điều chỉnh đơn đặt lịch',
+                    buttonName: 'quay lại',
+                    navigatorName: '/addWorkScreen')));
+      }
+    } else {}
   }
 }

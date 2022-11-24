@@ -791,7 +791,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                 padding: EdgeInsets.only(
                                   top: size.height*0.01,
                                   bottom: size.height*0.02,
-
+                                ),
                                 shrinkWrap: true,
                                 scrollDirection: Axis.vertical,
                                 itemBuilder: (context, index) {
@@ -802,12 +802,22 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                                       bottom: size.height * 0.02,
                                     ),
                                     child: Text(
-                                      convertDate(snapshot
-                                          .data!
-                                          .data
-                                          .workingTimeResponseDtoList[index]
-                                          .startDateTime
-                                          .toString()),
+                                      convertDate(
+                                          snapshot
+                                              .data!
+                                              .data
+                                              .workingTimeResponseDtoList[
+                                          index]
+                                              .startDateTime
+                                              .toString(),
+                                          snapshot
+                                              .data!
+                                              .data
+                                              .workingTimeResponseDtoList
+                                          [
+                                          index]
+                                              .endDateTime
+                                              .toString()),
                                       style: const TextStyle(
                                         height: 1.5,
                                         fontSize: 14,
@@ -825,44 +835,6 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               height: 1,
                               color: ColorConstant.gray300,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.02,
-                                left: size.width * 0.03,
-                              ),
-                              child: const Text(
-                                "Thời gian kết thúc:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-
-                                ),
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      left: size.width * 0.06,
-                                    ),
-                                    child: Text(
-
-                                      convertDate(snapshot.data!.data
-                                          .workingTimeResponseDtoList[index].startDateTime
-                                          .toString(), snapshot.data!.data
-                                          .workingTimeResponseDtoList[index].endDateTime
-
-                                          .toString()),
-                                      style: const TextStyle(
-                                        height: 1.5,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) => SizedBox(height: size.height*0.01),
-                                itemCount: snapshot.data!.data.workingTimeResponseDtoList.length),
-
 
                             Container(
                               width: size.width,
@@ -1275,7 +1247,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     String dateConverted = "";
     String dateStart = startDate.split("T")[0];
     String timeStart = startDate.split("T")[1];
-    String dateEnd = endDate.split("T")[0];
+    String  dateEnd = endDate.split("T")[0];
     String timeEnd = endDate.split("T")[1];
     dateConverted =
     "Ngày: ${dateStart.split("-")[2]}-${dateStart.split("-")[1]}-${dateStart.split("-")[0]}\n   Bắt đầu: ${timeStart.split(":")[0]}h${timeStart.split(":")[1]}   Kết thúc: ${timeEnd.split(":")[0]}h${timeEnd.split(":")[1]}";
