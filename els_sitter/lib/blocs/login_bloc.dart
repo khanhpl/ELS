@@ -56,12 +56,21 @@ class LoginBloc {
           <String, String>{
             'email': email,
             'password': password,
+            "token": Globals.DeviceToken!,
           },
         ),
       );
       if (response.statusCode.toString() == '200') {
-        Globals.curUser = UserModel.fromJson(json.decode(response.body));
-        return true;
+        if (UserModel.fromJson(json.decode(response.body))
+                .data
+                .role
+                .toUpperCase() ==
+            "SITTER") {
+          Globals.curUser = UserModel.fromJson(json.decode(response.body));
+          return true;
+        } else {
+          return false;
+        }
       } else {
         return false;
       }

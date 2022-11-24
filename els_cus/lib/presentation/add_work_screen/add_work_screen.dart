@@ -396,12 +396,44 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                 ],
               ),
             ),
+            SizedBox(
+              height: size.height * 0.01,
+            ),
             ListView.separated(
                 scrollDirection: Axis.vertical,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return Text(convertDate(startMultiDateTimeList[index]));
+                  return Row(
+                    children: [
+                      SizedBox(width: size.width * 0.03),
+                      Text(
+                        convertDate(startMultiDateTimeList[index]),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14,
+                        ),
+                      ),
+                      SizedBox(width: size.width * 0.06),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            startMultiDateTimeList
+                                .remove(startMultiDateTimeList[index]);
+                          });
+                        },
+                        child: Text(
+                          "Xoá",
+                          style: TextStyle(
+                            color: ColorConstant.purple900,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
                 },
                 separatorBuilder: (context, index) =>
                     SizedBox(height: size.height * 0.01),
@@ -621,7 +653,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                 bottom: size.height * 0.01,
               ),
               child: Text(
-                "Tạo tin công việc",
+                "Tạo yêu cầu",
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -730,6 +762,9 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                       color: Colors.black),
                                   decoration: InputDecoration(
                                     hintText: "Địa chỉ",
+                                    errorText: (snapshot.hasError)
+                                        ? snapshot.error.toString()
+                                        : null,
                                     prefixIcon: SizedBox(
                                       width: size.width * 0.05,
                                       child: Image.asset(
@@ -766,6 +801,27 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  left: size.width * 0.03,
+                                  top: size.height * 0.01),
+                              child: StreamBuilder(
+                                  stream: bloc.workScheduleStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text(
+                                        snapshot.error.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  }),
                             ),
                             Row(
                               children: [
@@ -895,6 +951,28 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.06,
+                          top: size.height * 0.01,
+                        ),
+                        child: StreamBuilder(
+                            stream: bloc.serviceListStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text(
+                                  snapshot.error.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
                       ),
                       Padding(
                         padding: EdgeInsets.only(
@@ -1091,6 +1169,22 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              StreamBuilder(
+                                  stream: bloc.workExpStream,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasError) {
+                                      return Text(
+                                        snapshot.error.toString(),
+                                        style: const TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      );
+                                    } else {
+                                      return const SizedBox();
+                                    }
+                                  }),
                               Padding(
                                 padding: EdgeInsets.only(
                                   top: size.height * 0.02,
@@ -1330,6 +1424,28 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: size.width * 0.06,
+                          top: size.width * 0.01,
+                        ),
+                        child: StreamBuilder(
+                            stream: bloc.elderStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasError) {
+                                return Text(
+                                  snapshot.error.toString(),
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                );
+                              } else {
+                                return const SizedBox();
+                              }
+                            }),
                       ),
                       Align(
                         alignment: Alignment.centerLeft,
@@ -1580,38 +1696,45 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         addWorkingTimesDtoList.add(addWorkingTimesDto);
       }
     }
-    bool isBooking = false;
-    BookingFormModel booking = BookingFormModel(
-        address: address,
-        description: description,
-        elderId: int.parse(chooseElderID),
-        place: place,
-        email: Globals.curUser!.data.email,
-        totalPrice: total,
-        addWorkingTimesDtoList: addWorkingTimesDtoList,
-        addBookingServiceRequestDtos: addBookingServiceRequestDtos);
+    bool isValidBooking = false;
+    print('test list service ${addBookingServiceRequestDtos.length}');
+    isValidBooking = bloc.isValidInput(address, addWorkingTimesDtoList.length,
+        addBookingServiceRequestDtos.length, chooseElderID);
+    if (isValidBooking) {
+      bool isBooking = false;
+      BookingFormModel booking = BookingFormModel(
+          address: address,
+          description: description,
+          elderId: int.parse(chooseElderID),
+          place: place,
+          email: Globals.curUser!.data.email,
+          totalPrice: total,
+          addWorkingTimesDtoList: addWorkingTimesDtoList,
+          addBookingServiceRequestDtos: addBookingServiceRequestDtos);
 
-    isBooking = await bloc.createBooking(booking);
-    if (isBooking) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => SuccessScreen(
-                  alert: 'Tạo yêu cầu thành công',
-                  detail:
-                      'Tạo yêu cầu thành công vui lòng nhấn nút tiếp tục, đợi phản hồi từ chăm sóc viên',
-                  buttonName: 'tiếp tục',
-                  navigatorName: '/scheduleScreen')));
-    } else {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => FailScreen(
-                  alert: 'Yêu cầu chưa được tạo',
-                  detail:
-                      'Tạo yêu cầu thất bại vui lòng điều chỉnh đơn đặt lịch',
-                  buttonName: 'quay lại',
-                  navigatorName: '/addWorkScreen')));
-    }
+      isBooking = await bloc.createBooking(booking);
+      isBooking = await bloc.createBooking(booking);
+      if (isBooking) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                    alert: 'Tạo yêu cầu thành công',
+                    detail:
+                        'Tạo yêu cầu thành công vui lòng nhấn nút tiếp tục, đợi phản hồi từ chăm sóc viên',
+                    buttonName: 'tiếp tục',
+                    navigatorName: '/scheduleScreen')));
+      } else {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Yêu cầu chưa được tạo',
+                    detail:
+                        'Tạo yêu cầu thất bại vui lòng điều chỉnh đơn đặt lịch',
+                    buttonName: 'quay lại',
+                    navigatorName: '/addWorkScreen')));
+      }
+    } else {}
   }
 }

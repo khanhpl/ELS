@@ -1,11 +1,13 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/blocs/sitter_blocs.dart';
+import 'package:els_cus_mobile/core/models/WorkingScheduleModel.dart';
 import 'package:els_cus_mobile/core/models/booking_data_model.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
 import 'package:els_cus_mobile/core/models/booking_img_response_dto.dart';
 import 'package:els_cus_mobile/core/models/single_sitter_model.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/presentation/payment_screen/payment_screen.dart';
 import 'package:els_cus_mobile/presentation/rating_screen/rating_screen.dart';
 import 'package:els_cus_mobile/presentation/splash_screen/splash_screen.dart';
 import 'package:els_cus_mobile/widgets/elder_item_on_detail_widget.dart';
@@ -35,7 +37,7 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
   String getStatus() {
     String status = "";
     if (booking.status == 'WAITING_FOR_SITTER') {
-      status = "Đang đợi chăm xóc viên xác nhận";
+      status = "Đang đợi csv";
     } else if (booking.status == 'STARTING') {
       status = "Đang thực hiện";
     } else if (booking.status == 'DONE') {
@@ -48,8 +50,10 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
       status = "Đang đợi thanh toán";
     } else if (booking.status == 'WAITING_FOR_CUSTOMER_CHECK') {
       status = "Đang đợi xác nhận hoàn thành";
+    } else if (booking.status == 'SITTER_NOT_FOUND') {
+      status = "Không tìm thấy csv phù hợp";
     } else {
-      status = "Chưa biết";
+      status = "Đang tải";
     }
     return status;
   }
@@ -501,6 +505,12 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     final Future<BookingDetailModel> bookingDetail =
         BookingBloc().getBookingDetailByBookingID(booking.id.toString());
 
+    final Future<WorkingScheduleModel> doneSchedule =
+        BookingBloc().getWorkingScheduke(booking.id, "DONE");
+    final Future<WorkingScheduleModel> upcomingSchedule =
+        BookingBloc().getWorkingScheduke(booking.id, "ACTIVATE");
+
+
     return FutureBuilder<BookingDetailModel>(
       future: bookingDetail,
       builder: (context, snapshot) {
@@ -690,99 +700,215 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
                               height: 1,
                               color: ColorConstant.gray300,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.02,
-                                left: size.width * 0.03,
-                              ),
-                              child: const Text(
-                                "Thời gian bắt đầu:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                      left: size.width * 0.06,
-                                      bottom: size.height * 0.02,
-                                    ),
-                                    child: Text(
-                                      convertDate(snapshot
-                                          .data!
-                                          .data
-                                          .workingTimeResponseDtoList[index]
-                                          .startDateTime
-                                          .toString()),
-                                      style: const TextStyle(
-                                        height: 1.5,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
+
+                            (booking.status == "WAITING_FOR_SITTER" ||
+                                    booking.status == "WAITING_FOR_CUS_PAYMENT")
+                                ? Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          top: size.height * 0.02,
+                                          left: size.width * 0.03,
+                                        ),
+                                        child: const Text(
+                                          "Lịch trình thực hiện(dự kiến):",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(height: size.height * 0.01),
-                                itemCount: snapshot.data!.data
-                                    .workingTimeResponseDtoList.length),
-                            Container(
-                              width: size.width,
-                              height: 1,
-                              color: ColorConstant.gray300,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: size.height * 0.02,
-                                left: size.width * 0.03,
-                              ),
-                              child: const Text(
-                                "Thời gian kết thúc:",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            ListView.separated(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.vertical,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      top: size.height * 0.01,
-                                      left: size.width * 0.06,
-                                      bottom: size.height * 0.02,
-                                    ),
-                                    child: Text(
-                                      convertDate(snapshot
-                                          .data!
-                                          .data
-                                          .workingTimeResponseDtoList[index]
-                                          .endDateTime
-                                          .toString()),
-                                      style: const TextStyle(
-                                        height: 1.5,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
+                                      ListView.separated(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.01,
+                                            bottom: size.height * 0.02,
+                                          ),
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.vertical,
+                                          itemBuilder: (context, index) {
+                                            return Padding(
+                                              padding: EdgeInsets.only(
+                                                left: size.width * 0.06,
+                                              ),
+                                              child: Text(
+                                                convertDate(
+                                                    snapshot
+                                                        .data!
+                                                        .data
+                                                        .workingTimeResponseDtoList[
+                                                            index]
+                                                        .startDateTime
+                                                        .toString(),
+                                                    snapshot
+                                                        .data!
+                                                        .data
+                                                        .workingTimeResponseDtoList[
+                                                            index]
+                                                        .endDateTime
+                                                        .toString()),
+                                                style: const TextStyle(
+                                                  height: 1.5,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                          separatorBuilder: (context, index) =>
+                                              SizedBox(
+                                                  height: size.height * 0.01),
+                                          itemCount: snapshot
+                                              .data!
+                                              .data
+                                              .workingTimeResponseDtoList
+                                              .length),
+                                      Container(
+                                        width: size.width,
+                                        height: 1,
+                                        color: ColorConstant.gray300,
                                       ),
-                                    ),
-                                  );
-                                },
-                                separatorBuilder: (context, index) =>
-                                    SizedBox(height: size.height * 0.01),
-                                itemCount: snapshot.data!.data
-                                    .workingTimeResponseDtoList.length),
-                            Container(
-                              width: size.width,
-                              height: 1,
-                              color: ColorConstant.gray300,
+                                    ],
+                                  )
+                                : const SizedBox(),
+                            FutureBuilder<WorkingScheduleModel>(
+                              future: doneSchedule,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) print(snapshot.error);
+                                if (snapshot.hasData) {
+                                  if (snapshot.data!.errorCode == "") {
+                                    return Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.02,
+                                            left: size.width * 0.03,
+                                          ),
+                                          child: const Text(
+                                            "Lịch trình đã thực hiện:",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        ListView.separated(
+                                            padding: EdgeInsets.only(
+                                              top: size.height * 0.01,
+                                              bottom: size.height * 0.02,
+                                            ),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: size.width * 0.06,
+                                                ),
+                                                child: Text(
+                                                  snapshot
+                                                      .data!.data[index].date,
+                                                  style: const TextStyle(
+                                                    height: 1.5,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                                    height: size.height * 0.01),
+                                            itemCount:
+                                                snapshot.data!.data.length),
+                                        Container(
+                                          width: size.width,
+                                          height: 1,
+                                          color: ColorConstant.gray300,
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+                            ),
+                            FutureBuilder<WorkingScheduleModel>(
+                              future: upcomingSchedule,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasError) print(snapshot.error);
+                                if (snapshot.hasData) {
+                                  if (snapshot.data!.errorCode == "") {
+                                    return Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                            top: size.height * 0.02,
+                                            left: size.width * 0.03,
+                                          ),
+                                          child: const Text(
+                                            "Lịch trình sắp thực hiện:",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        ListView.separated(
+                                            padding: EdgeInsets.only(
+                                              top: size.height * 0.01,
+                                              bottom: size.height * 0.02,
+                                            ),
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            itemBuilder: (context, index) {
+                                              return Padding(
+                                                padding: EdgeInsets.only(
+                                                  left: size.width * 0.06,
+                                                ),
+                                                child: Text(
+                                                  snapshot
+                                                      .data!.data[index].date,
+                                                  style: const TextStyle(
+                                                    height: 1.5,
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w400,
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                            separatorBuilder:
+                                                (context, index) => SizedBox(
+                                                height: size.height * 0.01),
+                                            itemCount:
+                                            snapshot.data!.data.length),
+                                        Container(
+                                          width: size.width,
+                                          height: 1,
+                                          color: ColorConstant.gray300,
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return const SizedBox();
+                                  }
+                                } else {
+                                  return const SizedBox();
+                                }
+                              },
+
                             ),
                             Padding(
                               padding: EdgeInsets.only(
@@ -1137,16 +1263,19 @@ class _BookingItemDetailWidgetState extends State<BookingItemDetailWidget> {
     );
   }
 
-  String convertDate(String inputDate) {
+  String convertDate(String startDate, endDate) {
     String dateConverted = "";
-    String date = inputDate.split("T")[0];
-    String time = inputDate.split("T")[1];
+    String dateStart = startDate.split("T")[0];
+    String timeStart = startDate.split("T")[1];
+    String dateEnd = endDate.split("T")[0];
+    String timeEnd = endDate.split("T")[1];
     dateConverted =
-        "Ngày: ${date.split("-")[2]}-${date.split("-")[1]}-${date.split("-")[0]}\nLúc: ${time.split(":")[0]}:${time.split(":")[1]}";
+        "Ngày: ${dateStart.split("-")[2]}-${dateStart.split("-")[1]}-${dateStart.split("-")[0]}\n   Bắt đầu: ${timeStart.split(":")[0]}h${timeStart.split(":")[1]}   Kết thúc: ${timeEnd.split(":")[0]}h${timeEnd.split(":")[1]}";
     return dateConverted;
   }
 
   onPaymentClick() async {
+
     bool isPaid = false;
     isPaid = await _bookingBloc.createPayment("DirectPayment",
         globals.curUser!.data.email, booking.totalPrice.ceil(), booking.id);

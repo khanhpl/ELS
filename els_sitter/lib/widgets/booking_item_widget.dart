@@ -11,7 +11,6 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
     String status = "";
     if(booking.status == 'WAITING_FOR_SITTER'){
       status = "Đang đợi csv";
-      color = "blue";
     }else if(booking.status == 'STARTING'){
       status = "Đang thực hiện";
     }else if(booking.status == 'DONE'){
@@ -23,7 +22,9 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
     }else if(booking.status == 'WAITING_FOR_CUSTOMER_PAYMENT'){
       status = "Đang đợi thanh toán";
     }else if(booking.status == 'WAITING_FOR_CUSTOMER_CHECK'){
-      status = "Đang đợi khách hàng xác nhận hoàn thành";
+      status = "Đang đợi xác nhận hoàn thành";
+    }else if(booking.status == 'SITTER_NOT_FOUND'){
+      status = "Không tìm thấy csv phù hợp";
     }else{
       status = "Đang tải";
     }

@@ -55,6 +55,7 @@ class LoginBloc {
           <String, String>{
             'email': email,
             'password': password,
+            "token": Globals.DeviceToken!,
           },
         ),
       );

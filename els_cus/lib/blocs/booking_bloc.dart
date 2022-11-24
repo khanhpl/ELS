@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:els_cus_mobile/core/models/WorkingScheduleModel.dart';
 import 'package:els_cus_mobile/core/models/add_booking_service_request_dto.dart';
 import 'package:els_cus_mobile/core/models/add_working_times_dto_list.dart';
 import 'package:els_cus_mobile/core/models/booking_detail_model.dart';
@@ -13,11 +14,65 @@ import 'package:http/http.dart' as http;
 class BookingBloc {
   final StreamController _addressController = StreamController();
   final StreamController _descriptionController = StreamController();
+  final StreamController _workScheduleController = StreamController();
+  final StreamController _serviceListController = StreamController();
+  final StreamController _workExpController = StreamController();
+  final StreamController _elderController = StreamController();
 
   Stream get addressStream => _addressController.stream;
-
   Stream get descriptionStream => _descriptionController.stream;
+  Stream get workScheduleStream => _workScheduleController.stream;
+  Stream get serviceListStream => _serviceListController.stream;
+  Stream get workExpStream => _workExpController.stream;
+  Stream get elderStream => _elderController.stream;
 
+  bool isValidInput(String address, int workScheduleList, int serviceList, String chooseElderID) {
+    bool isValid = false;
+    bool addressValid = false;
+    bool workScheduleListValid = false;
+    bool validServiceList = false;
+    bool elderValid = false;
+    if (address.isEmpty) {
+      addressValid = false;
+      _addressController.sink.addError("*Địa chỉ không được để trống");
+    } else {
+      addressValid = true;
+      _addressController.sink.add("OK");
+    }
+    if (workScheduleList < 1) {
+      workScheduleListValid = false;
+      _workScheduleController.sink.addError(
+          "*Vui lòng chọn thời gian thực hiện");
+    } else {
+      workScheduleListValid = true;
+      _workScheduleController.sink.add("OK");
+    }
+    if (serviceList < 1) {
+      validServiceList = false;
+      _serviceListController.sink.addError(
+          "*Vui lòng chọn dịch vụ thực hiện");
+    } else {
+      validServiceList = true;
+      _serviceListController.sink.add("OK");
+    }
+
+    if (chooseElderID == "") {
+      elderValid = false;
+      _elderController.sink.addError(
+          "*Vui lòng chọn thân nhân được chăm sóc");
+    } else {
+      elderValid = true;
+      _elderController.sink.add("OK");
+    }
+
+    if (addressValid && workScheduleListValid && validServiceList && elderValid) {
+      isValid = true;
+    } else {
+      isValid = false;
+    }
+
+    return isValid;
+  }
   double calTotal(List<ServiceDataModel> listSelectedService) {
     double totalPrice = 0;
     if (listSelectedService.isNotEmpty) {
@@ -185,4 +240,25 @@ class BookingBloc {
       }
     } finally {}
   }
+
+  Future<WorkingScheduleModel> getWorkingScheduke(int bookingId, String status) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/time/get-all-by-booking-id/$bookingId/$status");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return WorkingScheduleModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to get WorkingScheduleModel from the REST API');
+      }
+    } finally {}
+  }
+
 }
