@@ -173,16 +173,6 @@ class SignupBloc {
       List<CertificateModel> listCert,
       String description) async {
     try {
-      print('test fullname: ' + fullname);
-      print('test email:' + email);
-      print('test dob:' + dob);
-      print('test phone:' + phone);
-      print('test id:' + id);
-      print('test address:' + address);
-      print('test listSitterService' + listSitterService.length.toString());
-      print('test userIDImage ' + userIDImage.fontIdImgUrl.toString());
-      print('test gender:' + gender);
-      print('test cert' + listCert.length.toString());
       var url = Uri.parse("https://els12.herokuapp.com/candidate/add");
       final response = await http.post(
         url,
@@ -208,10 +198,10 @@ class SignupBloc {
           },
         ),
       );
-      print('statusCode register: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         if (json.decode(response.body)['errorCode'] == "ADD_CANDIDATE_FAIL") {
-          print('Error code regisger: ${json.decode(response.body)['errorCode']}');
+          print(
+              'Error code regisger: ${json.decode(response.body)['errorCode']}');
           return false;
         } else {
           return true;

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
-
+import '../../widgets/failWidget.dart';
+import '../../widgets/successWidget.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -83,10 +84,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(
-                          top: size.height*0.03,
-                          right: size.width*0.05,
-                          left: size.width*0.05,
-                          bottom: size.height*0.03,
+                          top: size.height * 0.03,
+                          right: size.width * 0.05,
+                          left: size.width * 0.05,
+                          bottom: size.height * 0.03,
                         ),
                         child: Stack(
                           alignment: AlignmentDirectional.centerEnd,
@@ -127,7 +128,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -189,7 +190,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -209,7 +210,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ],
                         ),
                       ),
-
                       Padding(
                         padding: EdgeInsets.fromLTRB(size.width * 0.05, 0,
                             size.width * 0.05, size.height * 0.03),
@@ -252,7 +252,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 }),
                             Padding(
                               padding:
-                              EdgeInsets.only(right: size.height * 0.02),
+                                  EdgeInsets.only(right: size.height * 0.02),
                               child: GestureDetector(
                                 onTap: () {
                                   setState(() {
@@ -272,7 +272,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           ],
                         ),
                       ),
-
                       Container(
                         height: 1,
                         width: size.width,
@@ -285,7 +284,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                           color: ColorConstant.bluegray50,
                         ),
                       ),
-
                       Padding(
                         padding: EdgeInsets.only(
                           left: size.width * 0.05,
@@ -325,70 +323,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     });
   }
 
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/settingScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi mật khẩu thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi mật khẩu thất bại, vui lòng nhập lại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void changePw() async {
     String curPass = _curPassController.text.trim();
     String newPass = _passController.text.trim();
@@ -399,9 +333,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     if (isValidAcc) {
       createSuccess = await bloc.changePassword(curPass, newPass);
       if (createSuccess) {
-        showSuccessAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                      alert: 'Đổi mật khẩu thành công',
+                      detail:
+                          'Đổi mật khẩu thành công, ấn nút quay lại để trở về trang chủ',
+                      buttonName: 'quay lại',
+                      navigatorName: '/homeScreen',
+                    )));
       } else {
-        showFailAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Đổi mật khẩu thất bại',
+                    detail: 'Vui lòng nhập lại mật khẩu và thử lại',
+                    buttonName: 'Quay lại',
+                    navigatorName: '/changePasswordScreen')));
       }
     }
   }

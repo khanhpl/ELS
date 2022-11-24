@@ -9,6 +9,9 @@ import '../../core/utils/color_constant.dart';
 import '../../core/utils/image_constant.dart';
 import 'package:els_sitter/core/utils/globals.dart' as globals;
 
+import '../../widgets/failWidget.dart';
+import '../../widgets/successWidget.dart';
+
 class PersonalScreen extends StatefulWidget {
   SitterDetailDataModel sitter;
 
@@ -167,7 +170,7 @@ class _PersonalScreenState extends State<PersonalScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(
-                        top: size.height*0.03,
+                        top: size.height * 0.03,
                       ),
                       child: Text(
                         "Họ và Tên",
@@ -227,7 +230,6 @@ class _PersonalScreenState extends State<PersonalScreen> {
                         bottom: size.height * 0.015,
                       ),
                       child: StreamBuilder(
-
                         stream: null,
                         builder: (context, snapshot) => TextField(
                           style: TextStyle(
@@ -428,35 +430,36 @@ class _PersonalScreenState extends State<PersonalScreen> {
                     ),
                     ListView.separated(
                       padding: EdgeInsets.only(
-                        top: size.width*0.03,
-                        left: size.width*0.03,
+                        top: size.width * 0.03,
+                        left: size.width * 0.03,
                       ),
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: sitter.sitterServicesResponseDtos.length,
                       scrollDirection: Axis.vertical,
                       separatorBuilder: (context, index) {
-                        return SizedBox(
-                            height: size.height * 0.02);
+                        return SizedBox(height: size.height * 0.02);
                       },
                       itemBuilder: (context, index) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('*${sitter.sitterServicesResponseDtos[index].name}'),
+                            Text(
+                                '*${sitter.sitterServicesResponseDtos[index].name}'),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Giá tiền: ${sitter.sitterServicesResponseDtos[index].price.ceil()} VNĐ/ phút'),
+                              child: Text(
+                                  'Giá tiền: ${sitter.sitterServicesResponseDtos[index].price.ceil()} VNĐ/ phút'),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
-                              child: Text('Kinh nghiệm làm việc: ${sitter.sitterServicesResponseDtos[index].exp} năm'),
+                              child: Text(
+                                  'Kinh nghiệm làm việc: ${sitter.sitterServicesResponseDtos[index].exp} năm'),
                             ),
                           ],
                         );
                       },
-
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -497,86 +500,32 @@ class _PersonalScreenState extends State<PersonalScreen> {
     String gender = _genderController.text.trim();
     String address = _addressController.text.trim();
     String phone = _phoneController.text.trim();
-    print('test fullname: ${fullname}');
-    print('test dob: ${dob}');
-    print('test gender: ${gender}');
-    print('test phone: ${phone}');
-    print('test address: ${address}');
-    print('test email: ${email}');
-    print('test avatar: ${sitter.avatarUrl}');
 
     bool isSave = false;
-    isSave = await blocs.updateSitterInfo(fullname, dob, gender, phone, address, email, sitter.avatarUrl);
-    if(isSave){
-      print('Thành công');
-      showSuccessAlertDialog(context);
-    }else{
-      print('Thất bại');
-      showFailAlertDialog(context);
+    isSave = await blocs.updateSitterInfo(
+        fullname, dob, gender, phone, address, email, sitter.avatarUrl);
+    if (isSave) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                    alert: 'Thay đổi thông tin\n'
+                        'thành công',
+                    detail:
+                        'Thông tin cá nhân đã thay đổi thành công vui lòng ấn tiếp tục để về trang cá nhân',
+                    buttonName: 'Tiếp tục',
+                    navigatorName: '/accountScreen',
+                  )));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Thay đổi thông tin thất bại',
+                  detail:
+                      'Thông tin cá nhân chưa được thay đổi vui lòng nhập lại thông tin cá nhân',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/accountScreen')));
     }
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/accountScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thay đổi thông tin thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 }

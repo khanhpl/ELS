@@ -58,7 +58,6 @@ class LoginBloc {
           },
         ),
       );
-      print('Response Login Code: ${response.statusCode.toString()} ');
       if (response.statusCode.toString() == '200') {
         if (UserModel.fromJson(json.decode(response.body))
                 .data
@@ -94,7 +93,6 @@ class LoginBloc {
         },
       ),
     );
-    print('Response Login Gmail Code: ${response.statusCode.toString()} ');
     if (response.statusCode.toString() == '200') {
       if (UserModel.fromJson(json.decode(response.body))
               .data
@@ -126,7 +124,6 @@ class LoginBloc {
           },
         ),
       );
-      print('Test forgotPW code: ${response.statusCode.toString()}');
       if (response.statusCode.toString() == '200') {
         return true;
       } else {

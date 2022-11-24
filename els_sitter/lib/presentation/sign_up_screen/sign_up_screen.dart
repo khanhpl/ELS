@@ -21,6 +21,9 @@ import '../../core/utils/globals.dart' as globals;
 
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
+import '../../widgets/failWidget.dart';
+import '../../widgets/successWidget.dart';
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -914,10 +917,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           }
                                         }
                                         if (chkOccur) {
-                                          print(
-                                              'Test list s1 ${listSelectedService.length}');
-                                          print(
-                                              'Test list ss1 ${listSitterService.length}');
                                           listSitterService.removeWhere(
                                               (element) =>
                                                   element.id ==
@@ -925,11 +924,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                                       .data!.data[index].id);
                                           listSelectedService.remove(
                                               snapshot.data!.data[index]);
-                                          print(
-                                              'Test list s ${listSelectedService.length}');
-                                          print(
-                                              'Test list ss ${listSitterService.length}');
-
                                           _setState = setState;
                                           Navigator.pop(context);
                                         } else {
@@ -1029,7 +1023,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final snapshot = await uploadTaskCert!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     certURL = urlDownload;
-    print('Download link Cert: ${urlDownload}');
   }
 
   _getIDFrontImageFromGallery() async {
@@ -1051,7 +1044,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final snapshot = await uploadTaskFrontID!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     frontIDImage = urlDownload;
-    print('Download link frontID: ${urlDownload}');
   }
 
   _getIDBackImageFromGallery() async {
@@ -1072,7 +1064,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final snapshot = await uploadTaskBackID!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     backIDImage = urlDownload;
-    print('Download link BackID: ${urlDownload}');
   }
 
   _getFaceImageFromGallery() async {
@@ -1093,7 +1084,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     final snapshot = await uploadTaskFace!.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
     avatarImage = urlDownload;
-    print('Download link Face: ${urlDownload}');
   }
 
   @override
@@ -2248,76 +2238,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (createSuccess) {
         // ignore: use_build_context_synchronously
 
-        showSuccessAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                      alert: 'Đăng ký tài khoản thành công',
+                      detail: 'Vui lòng đợi phản hồi từ email',
+                      buttonName: 'Tiếp tục',
+                      navigatorName: '/loginScreen',
+                    )));
       } else {
         // ignore: use_build_context_synchronously
-        showFailAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Đăng ký tài khoản thất bại',
+                    detail:
+                        'Tài khoản chưa được đăng ký, vui lòng nhập lại email',
+                    buttonName: 'Quay lại',
+                    navigatorName: '/signUpScreen')));
       }
     }
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/loginScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Tài khoản đăng ký thành công, vui lòng đợi phản hồi từ email.",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Đăng ký tài khoản thất bại, vui lòng nhập lại.",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   void showDupAlertDialog(BuildContext context) {

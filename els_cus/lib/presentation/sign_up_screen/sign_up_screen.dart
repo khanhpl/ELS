@@ -3,6 +3,8 @@ import 'package:els_cus_mobile/presentation/verification_code_screen/verificatio
 import 'package:flutter/material.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
 import 'package:els_cus_mobile/core/utils/image_constant.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
+import '../../widgets/failWidget.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -465,70 +467,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
   }
 
-  void showSuccessAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/loginWithGoogleNav');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Tài khoản thành công xác nhận để về trang chủ",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Tài khoản thất bại vui lòng nhập lại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   void onSignUpClick() async {
     String fullname = _fullnameController.text.trim();
     String email = _emailController.text.trim();
@@ -545,9 +483,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
       //             const VerificationCodeScreen(functionKey: "signUpScreen")));
       createSuccess = await bloc.createCus(fullname, email, pass);
       if (createSuccess) {
-        showSuccessAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => SuccessScreen(
+                      alert: 'Đăng ký tài khoản thành công',
+                      detail:
+                          'Tài khoản đăng ký thành công, vui lòng ấn tiếp tục để đăng nhập',
+                      buttonName: 'Tiếp tục',
+                      navigatorName: '/loginScreen',
+                    )));
       } else {
-        showFailAlertDialog(context);
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => FailScreen(
+                    alert: 'Đăng ký tài khoản không thành công',
+                    detail:
+                        'Tài khoản đăng ký không thành công, vui lòng nhập lại',
+                    buttonName: 'quay lại',
+                    navigatorName: '/signUpScreen')));
       }
     }
   }

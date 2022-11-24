@@ -1,4 +1,5 @@
 import 'package:els_cus_mobile/blocs/booking_bloc.dart';
+import 'package:els_cus_mobile/widgets/SuccessWidget.dart';
 import 'package:els_cus_mobile/blocs/elder_blocs.dart';
 import 'package:els_cus_mobile/blocs/service_blocs.dart';
 import 'package:els_cus_mobile/core/models/add_booking_service_request_dto.dart';
@@ -16,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../../core/utils/globals.dart' as Globals;
+import '../../widgets/failWidget.dart';
 import '../../widgets/update_service_button.dart';
 
 class AddWorkScreen extends StatefulWidget {
@@ -243,74 +245,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     );
 
     // set up the AlertDialog
-  }
-
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/scheduleScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Đặt Lịch Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Đặt Lịch Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
   }
 
   Widget getPickDateWidget(BuildContext context) {
@@ -1659,9 +1593,25 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
 
     isBooking = await bloc.createBooking(booking);
     if (isBooking) {
-      showSuccessAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                  alert: 'Tạo yêu cầu thành công',
+                  detail:
+                      'Tạo yêu cầu thành công vui lòng nhấn nút tiếp tục, đợi phản hồi từ chăm sóc viên',
+                  buttonName: 'tiếp tục',
+                  navigatorName: '/scheduleScreen')));
     } else {
-      showFailAlertDialog(context);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Yêu cầu chưa được tạo',
+                  detail:
+                      'Tạo yêu cầu thất bại vui lòng điều chỉnh đơn đặt lịch',
+                  buttonName: 'quay lại',
+                  navigatorName: '/addWorkScreen')));
     }
   }
 }
