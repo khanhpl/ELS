@@ -154,6 +154,7 @@ class SitterBlocs {
           },
         ),
       );
+      print('Test upSalary: ' + response.statusCode.toString());
       if (response.statusCode.toString() == '200') {
         return true;
       } else {
