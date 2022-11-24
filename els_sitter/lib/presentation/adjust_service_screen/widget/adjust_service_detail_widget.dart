@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../../../blocs/sitter_bloc.dart';
 import '../../../core/models/sitter_detail_data_model.dart';
 import '../../../core/models/sitter_service_response_dto.dart';
+import '../../../widgets/failWidget.dart';
+import '../../../widgets/successWidget.dart';
 
 class AdjustServiceDetailWidget extends StatefulWidget {
   SitterServicesResponseDto service;
@@ -204,16 +206,16 @@ class _AdjustServiceDetailWidgetState extends State<AdjustServiceDetailWidget> {
                             style: ButtonStyle(
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        ColorConstant.purple900),
+                                        ColorConstant.whiteA700),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        ColorConstant.BG),
+                                        ColorConstant.redFail),
                                 shape: MaterialStateProperty.all<
                                         RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(30),
                                         side: BorderSide(
-                                            color: ColorConstant.BG)))),
+                                            color: ColorConstant.redFail)))),
                             onPressed: () => Navigator.pushNamed(context, "/accountScreen"),
                             child: const Text("HỦY",
                                 style: TextStyle(
@@ -267,5 +269,27 @@ class _AdjustServiceDetailWidgetState extends State<AdjustServiceDetailWidget> {
     String id = service.id.toString();
     bool isRequest = false;
     isRequest = await blocs.upSalaryForm(newPrice, id);
+    if(isRequest) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                alert: 'Thành công',
+                detail:
+                'Yêu cầu điều chỉnh giá dịch vụ đã được gửi, vui lòng đợi phê duyệt từ hệ thống',
+                buttonName: 'Trở về',
+                navigatorName: '/accountScreen',
+              )));
+    } else {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => FailScreen(
+                  alert: 'Thất bại',
+                  detail:
+                  'Yêu cầu điều chỉnh giá dịch vụ chưa được gửi, vui lòng thử lại',
+                  buttonName: 'Quay lại',
+                  navigatorName: '/accountScreen')));
+    }
   }
 }
