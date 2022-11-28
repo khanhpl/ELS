@@ -1541,7 +1541,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
                           right: size.width * 0.03,
                         ),
                         child: Text(
-                          "Tổng giá tiền đặt lịch(Dự tính)",
+                          "Tổng giá tiền đặt lịch mỗi ngày(Dự tính)",
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -1708,7 +1708,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
           elderId: int.parse(chooseElderID),
           place: place,
           email: Globals.curUser!.data.email,
-          totalPrice: total,
+          totalPrice: total*addWorkingTimesDtoList.length,
           addWorkingTimesDtoList: addWorkingTimesDtoList,
           addBookingServiceRequestDtos: addBookingServiceRequestDtos);
 

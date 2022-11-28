@@ -26,6 +26,8 @@ Widget bookingItemWidget(BuildContext context, BookingDataModel booking){
       status = "Đang đợi xác nhận hoàn thành";
     }else if(booking.status == 'SITTER_NOT_FOUND'){
       status = "Không tìm thấy csv phù hợp";
+    }else if(booking.status == 'WAITING_FOR_NEXT_DATE'){
+      status = "Đợi đến ngày làm việc tiếp theo";
     }else{
       status = "Đang tải";
     }

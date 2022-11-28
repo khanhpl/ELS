@@ -82,7 +82,7 @@ class _FailScreenState extends State<FailScreen> {
                         ),
                       ),
                       Text(
-                        "Đặt lịch thất bại",
+                        alert,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: ColorConstant.redFail,
@@ -96,7 +96,7 @@ class _FailScreenState extends State<FailScreen> {
                             right: size.width * 0.1,
                             left: size.width * 0.1),
                         child: Text(
-                          "Đặt lịch thất bại vui lòng ấn quay lại để trở về trang chủ",
+                          detail,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.clip,
                           style: TextStyle(
@@ -115,7 +115,7 @@ class _FailScreenState extends State<FailScreen> {
                         child: SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
-                                child: Text("Quay lại".toUpperCase(),
+                                child: Text(buttonName.toUpperCase(),
                                     style: TextStyle(fontSize: 14)),
                                 style: ButtonStyle(
                                     foregroundColor:
@@ -130,7 +130,7 @@ class _FailScreenState extends State<FailScreen> {
                                                 BorderRadius.circular(30),
                                             side: BorderSide(
                                                 color: ColorConstant.purple900)))),
-                                onPressed: () => null)),
+                                onPressed: () => Navigator.pushNamed(context, navigatorName))),
                       ),
                     ],
                   ),

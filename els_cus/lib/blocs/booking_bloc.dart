@@ -260,5 +260,35 @@ class BookingBloc {
       }
     } finally {}
   }
-
+  Future<bool> reduceDate(int bookingId, String date) async {
+    List<String> listDate = [];
+    listDate.add(date);
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/time/reduce");
+      final response = await http.put(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+        body:jsonEncode(
+            <String, dynamic>{
+              "bookingId": bookingId,
+              "dateList": listDate,
+            }
+        ),
+      );
+      print('Test bookingid reduceDate: $bookingId');
+      print('Test date reduceDate: $date');
+      print('Test response code reduceDate: ${response.statusCode}');
+      print('Test errorCode');
+      if (response.statusCode.toString() == '200') {
+        return true;
+      } else {
+        return false;
+      }
+    } finally {}
+  }
 }

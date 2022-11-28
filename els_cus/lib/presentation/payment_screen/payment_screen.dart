@@ -1,7 +1,8 @@
-
 import 'dart:io';
 
+import 'package:els_cus_mobile/blocs/booking_bloc.dart';
 import 'package:els_cus_mobile/core/utils/color_constant.dart';
+import 'package:els_cus_mobile/widgets/failWidget.dart';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,27 +10,47 @@ import 'package:momo_vn/momo_vn.dart';
 
 import '../../core/utils/image_constant.dart';
 import '../../core/utils/globals.dart' as globals;
-class PaymentScreen extends StatefulWidget{
+import '../../widgets/SuccessWidget.dart';
+
+class PaymentScreen extends StatefulWidget {
   String title;
   int amount;
   String bookingName;
-  PaymentScreen({super.key, required this.title, required this.amount, required this.bookingName});
+  int bookingId;
+
+  PaymentScreen(
+      {super.key,
+      required this.title,
+      required this.amount,
+      required this.bookingName,
+      required this.bookingId});
 
   @override
-  State<PaymentScreen> createState() => _PaymentScreenState(title: this.title, amount: this.amount, bookingName: this.bookingName);
+  State<PaymentScreen> createState() => _PaymentScreenState(
+      title: this.title,
+      amount: this.amount,
+      bookingName: this.bookingName,
+      bookingId: this.bookingId);
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String title;
   int amount;
   String bookingName;
+  int bookingId;
 
-  _PaymentScreenState({required this.title, required this.amount, required this.bookingName});
+  _PaymentScreenState(
+      {required this.title,
+      required this.amount,
+      required this.bookingName,
+      required this.bookingId});
 
   late MomoVn _momoPay;
   late PaymentResponse _momoPaymentResult;
+
   // ignore: non_constant_identifier_names
   late String _paymentStatus;
+
   @override
   void initState() {
     super.initState();
@@ -39,78 +60,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     _paymentStatus = "";
     initPlatformState();
   }
+
   Future<void> initPlatformState() async {
     if (!mounted) return;
-    setState(() {
-    });
-  }
-  void showSuccessAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pushNamed(context, '/homeScreen');
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thành công",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+    setState(() {});
   }
 
-  void showFailAlertDialog(BuildContext context) {
-    // set up the buttons
-
-    Widget continueButton = TextButton(
-      child: Text(
-        "Xác nhận",
-        style: TextStyle(
-          color: ColorConstant.purple900,
-        ),
-      ),
-      onPressed: () {
-        Navigator.pop(context);
-      },
-    );
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      content: const Text(
-        "Thất bại",
-      ),
-      actions: [
-        continueButton,
-      ],
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
   void showPaymentAlertDialog(BuildContext context) {
     // set up the buttons
     Widget cancelButton = TextButton(
@@ -158,6 +113,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -201,9 +157,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ),
       ),
       floatingActionButton: Container(
-        width: size.width ,
+        width: size.width,
         padding: EdgeInsets.only(
-          left: size.width*0.08,
+          left: size.width * 0.08,
         ),
         decoration: const BoxDecoration(
           color: Colors.transparent,
@@ -231,26 +187,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(height: size.height*0.05),
+              SizedBox(height: size.height * 0.05),
               SizedBox(
                 width: size.width,
                 child: const Text(
-                  "Để tiến hành đặt cọc\nChọn phương thức thanh toán",
+                  "Để tiến hành đặt cọc\n",
                   maxLines: 3,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 18
-                  ),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),
                 ),
               ),
-
             ],
           ),
         ),
       ),
     );
   }
+
   onPaymentClick() async {
     MomoPaymentInfo options = MomoPaymentInfo(
         merchantName: "DNMTV",
@@ -266,40 +219,57 @@ class _PaymentScreenState extends State<PaymentScreen> {
         username: globals.curUser!.data.email,
         partner: 'merchant',
         extra: "{\"key1\":\"value1\",\"key2\":\"value2\"}",
-        isTestMode: true
-    );
+        isTestMode: true);
     try {
       _momoPay.open(options);
     } catch (e) {
       debugPrint(e.toString());
     }
   }
+
   @override
   void dispose() {
     super.dispose();
     _momoPay.clear();
   }
+
   void _setState() {
     _paymentStatus = 'Đã chuyển thanh toán';
     if (_momoPaymentResult.isSuccess == true) {
       _paymentStatus += "\nTình trạng: Thành công.";
-      _paymentStatus += "\nSố điện thoại: " + _momoPaymentResult.phoneNumber.toString();
+      _paymentStatus +=
+          "\nSố điện thoại: " + _momoPaymentResult.phoneNumber.toString();
       _paymentStatus += "\nExtra: " + _momoPaymentResult.extra!;
       _paymentStatus += "\nToken: " + _momoPaymentResult.token.toString();
-    }
-    else {
+    } else {
       _paymentStatus += "\nTình trạng: Thất bại.";
       _paymentStatus += "\nExtra: " + _momoPaymentResult.extra.toString();
       _paymentStatus += "\nMã lỗi: " + _momoPaymentResult.status.toString();
     }
   }
-  void _handlePaymentSuccess(PaymentResponse response) {
+
+  Future<void> _handlePaymentSuccess(PaymentResponse response) async {
     setState(() {
       _momoPaymentResult = response;
       _setState();
     });
-    Fluttertoast.showToast(msg: "THÀNH CÔNG: " + response.phoneNumber.toString(), toastLength: Toast.LENGTH_SHORT);
-    showSuccessAlertDialog(context);
+    Fluttertoast.showToast(
+        msg: "THÀNH CÔNG: " + response.phoneNumber.toString(),
+        toastLength: Toast.LENGTH_SHORT);
+    bool isPayment = false;
+    isPayment = await BookingBloc()
+        .createPayment("Momo", globals.curUser!.data.email, amount, bookingId);
+    if (isPayment) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuccessScreen(
+                  alert: 'Thanh toán thành công',
+                  detail:
+                      'Thanh toán thành công,\nVui lòng đợi đến ngày để thực hiện đặt lịch',
+                  buttonName: 'tiếp tục',
+                  navigatorName: '/scheduleScreen')));
+    } else {}
   }
 
   void _handlePaymentError(PaymentResponse response) {
@@ -307,7 +277,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
       _momoPaymentResult = response;
       _setState();
     });
-    Fluttertoast.showToast(msg: "THẤT BẠI: " + response.message.toString(), toastLength: Toast.LENGTH_SHORT);
-    showFailAlertDialog(context);
+    Fluttertoast.showToast(
+        msg: "THẤT BẠI: " + response.message.toString(),
+        toastLength: Toast.LENGTH_SHORT);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => FailScreen(
+                alert: 'Thanh toán thất bại',
+                detail: 'Vui lòng thực hiện lại thanh toán',
+                buttonName: 'quay lại',
+                navigatorName: '/homeScreen')));
   }
 }
