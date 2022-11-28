@@ -33,7 +33,7 @@ class ServiceDataModel {
     name: json["name"],
     price: json["price"],
     description: json["description"],
-    url: json["url"],
+    url: (json["url"] != null) ? json["url"] : "",
     sitterRequirement: (json["sitterRequirement"] != null)?json["sitterRequirement"]:"",
     duration: json["duration"],
     commission: json["commission"],

@@ -3,6 +3,7 @@ import 'package:els_sitter/core/models/booking_detail_model.dart';
 import 'package:els_sitter/core/models/booking_info_model.dart';
 import 'package:els_sitter/core/models/booking_model.dart';
 
+import '../core/models/WorkingScheduleModel.dart';
 import '../core/utils/globals.dart' as Globals;
 import 'package:http/http.dart' as http;
 
@@ -181,6 +182,25 @@ class BookingBloc {
         return true;
       } else {
         return false;
+      }
+    } finally {}
+  }
+  Future<WorkingScheduleModel> getWorkingScheduke(int bookingId, String status) async {
+    try {
+      var url =
+      Uri.parse("https://els12.herokuapp.com/time/get-all-by-booking-id/$bookingId/$status");
+      final response = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': Globals.curUser!.data.token,
+          'Accept': 'application/json; charset=UTF-8',
+        },
+      );
+      if (response.statusCode.toString() == '200') {
+        return WorkingScheduleModel.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Unable to get WorkingScheduleModel from the REST API');
       }
     } finally {}
   }

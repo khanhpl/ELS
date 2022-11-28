@@ -1,4 +1,3 @@
-
 import 'package:els_sitter/blocs/booking_bloc.dart';
 import 'package:els_sitter/core/models/booking_info_model.dart';
 import 'package:els_sitter/core/models/booking_model.dart';
@@ -11,14 +10,20 @@ import 'package:flutter/material.dart';
 // ignore_for_file: must_be_immutable
 class UpcommingWidget extends StatefulWidget {
   const UpcommingWidget({super.key});
+
   @override
   State<UpcommingWidget> createState() => _UpcommingWidgetState();
 }
 
 class _UpcommingWidgetState extends State<UpcommingWidget> {
-  final Future<BookingInfoModel> dateList = BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
-  final Future<BookingInfoModel> paymentList = BookingBloc().getBookingByStatusName('WAITING_FOR_CUSTOMER_PAYMENT');
+  final Future<BookingInfoModel> dateList =
+      BookingBloc().getBookingByStatusName('WAITING_FOR_DATE');
+  final Future<BookingInfoModel> paymentList =
+      BookingBloc().getBookingByStatusName('WAITING_FOR_CUSTOMER_PAYMENT');
+  final Future<BookingInfoModel> nextdayList =
+      BookingBloc().getBookingByStatusName('WAITING_FOR_NEXT_DATE');
   BookingBloc bloc = BookingBloc();
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -31,8 +36,8 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
               child: Container(
                 width: size.width,
                 margin: EdgeInsets.only(
-                  left: size.width*0.03,
-                  right: size.width*0.03,
+                  left: size.width * 0.03,
+                  right: size.width * 0.03,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -51,19 +56,18 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               // itemCount: snapshot.data!.length,
                               itemCount: snapshot.data!.data.length,
                               separatorBuilder: (context, index) {
-                                return SizedBox(height: size.height*0.02);
+                                return SizedBox(height: size.height * 0.02);
                               },
-                              itemBuilder: (BuildContext context,
-                                  int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
+                                      Navigator.push(
+                                          context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   BookingItemDetailWidget(
                                                       booking: snapshot
-                                                          .data!
-                                                          .data[index])));
+                                                          .data!.data[index])));
                                     },
                                     child: bookingItemWidget(
                                         context, snapshot.data!.data[index]));
@@ -76,8 +80,7 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                         future: dateList,
                       ),
                     ),
-
-                    SizedBox(height: size.height*0.02),
+                    SizedBox(height: size.height * 0.02),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: FutureBuilder<BookingInfoModel>(
@@ -91,19 +94,56 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                               // itemCount: snapshot.data!.length,
                               itemCount: snapshot.data!.data.length,
                               separatorBuilder: (context, index) {
-                                return SizedBox(height: size.height*0.02);
+                                return SizedBox(height: size.height * 0.02);
                               },
-                              itemBuilder: (BuildContext context,
-                                  int index) {
+                              itemBuilder: (BuildContext context, int index) {
                                 return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(context,
+                                      Navigator.push(
+                                          context,
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   BookingItemDetailWidget(
                                                       booking: snapshot
-                                                          .data!
-                                                          .data[index])));
+                                                          .data!.data[index])));
+                                    },
+                                    child: bookingItemWidget(
+                                        context, snapshot.data!.data[index]));
+                              },
+                            );
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                        future: nextdayList,
+                      ),
+                    ),
+                    SizedBox(height: size.height * 0.02),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: FutureBuilder<BookingInfoModel>(
+                        builder: (context, snapshot) {
+                          if (snapshot.hasError) print(snapshot.error);
+                          if (snapshot.hasData) {
+                            return ListView.separated(
+                              physics: const BouncingScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              // itemCount: snapshot.data!.length,
+                              itemCount: snapshot.data!.data.length,
+                              separatorBuilder: (context, index) {
+                                return SizedBox(height: size.height * 0.02);
+                              },
+                              itemBuilder: (BuildContext context, int index) {
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BookingItemDetailWidget(
+                                                      booking: snapshot
+                                                          .data!.data[index])));
                                     },
                                     child: bookingItemWidget(
                                         context, snapshot.data!.data[index]));
@@ -116,7 +156,6 @@ class _UpcommingWidgetState extends State<UpcommingWidget> {
                         future: paymentList,
                       ),
                     ),
-
                   ],
                 ),
               ),
