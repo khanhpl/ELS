@@ -1,5 +1,6 @@
 
 import 'package:els_sitter/fire_base/login_with_google_nav.dart';
+import 'package:els_sitter/presentation/adjust_service_screen/widget/adjust_service_detail_widget.dart';
 import 'package:els_sitter/presentation/bottom_bar_navigation/bottom_bar_navigation.dart';
 import 'package:els_sitter/presentation/forgot_password_screen/change_password_screen.dart';
 import 'package:els_sitter/presentation/forgot_password_screen/forgot_password_screen.dart';
